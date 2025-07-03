@@ -9,6 +9,11 @@ on:
   push:
     branches: ['develop', 'main']
 
+# Permission settings
+permissions:
+  contents: read
+  pull-requests: write
+
 # List of jobs
 jobs:
   chromatic:
