@@ -5,18 +5,16 @@ run-name: ${{ github.actor }}의 스토리북 배포
 # Event for the workflow
 on:
   pull_request:
-    branches: ['main']
+    branches: ['main', 'develop']
   push:
-    branches: ['main']
+    branches: ['main', 'develop']
 
 # List of jobs
 jobs:
   chromatic:
-    # Operating System
     runs-on: ubuntu-latest
     outputs:
       status: ${{ job.status }}
-    # Job steps
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,5 +52,3 @@ jobs:
           message: |
             ### 🎨 Storybook 배포 완료
             👉 [스토리북 보러가기](${{ steps.chromatic.outputs.storybookUrl }})
-
-            변경사항을 확인해주세요!
