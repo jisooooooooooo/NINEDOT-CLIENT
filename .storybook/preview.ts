@@ -1,7 +1,10 @@
-import type { Preview } from '@storybook/react-vite';
+import type { Preview } from '@storybook/react';
+import '../src/style/reset.css';
+import '../src/style/global.css';
 
 const preview: Preview = {
   parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
