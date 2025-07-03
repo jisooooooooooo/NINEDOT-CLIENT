@@ -11,7 +11,7 @@
 |임지수</br>[@jisooooooooooo](https://github.com/jisooooooooooo)|권새봄</br>[@kwonsaebom](https://github.com/kwonsaebom)|신지수</br>[@shinjigu](https://github.com/shinjigu)|이윤지</br>[@Leeyoonji23](https://github.com/Leeyoonji23)|
 |:---:|:---:|:---:|:---:|
 |<img src = "https://github.com/user-attachments/assets/99ee54a2-eae0-4ccd-94a3-419d6266000c" width ="250">|<img src = "https://avatars.githubusercontent.com/u/94830364?v=4" width ="250">|<img src = "https://avatars.githubusercontent.com/u/130023628?v=4" width ="250">|<img src = "https://avatars.githubusercontent.com/u/90778858?v=4" width ="250">|
-|`뷰1`</br>`뷰2`|`뷰1`</br>`뷰2`|`뷰1`</br>`뷰2`|`뷰1`</br>`뷰2`|
+|`전체 목표 작성`</br>`만다르트 상위 목표 작성`|`로그인`</br>`나의 히스토리`|`만다르트 하위 목표 작성`</br>`나의 할 일`|`나의 만다르트`</br>`나의 만다르트 수정`|
 
 ## 📘 Tech Stack
 | Category | Stack |
@@ -117,5 +117,5 @@
 ```
 
 ## ⚪️ 나인도트 웨비들의 자세한 컨벤션은?
-[![image](https://github.com/user-attachments/assets/9c24badf-6cd2-4c9b-9195-d1b14109539f)](https://fantastic-kumquat-2d3.notion.site/216f2c0149da81aa86ebf5a8c6ceb628)
+[![KakaoTalk_Photo_2025-07-03-15-15-32](https://github.com/user-attachments/assets/55c401f9-22cc-4f3c-a32a-32c57d192d16)](https://fantastic-kumquat-2d3.notion.site/216f2c0149da81aa86ebf5a8c6ceb628)
 
