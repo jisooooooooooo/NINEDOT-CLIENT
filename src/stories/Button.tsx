@@ -1,4 +1,3 @@
-import React from 'react';
 import { buttonVariants, buttonSizes } from './button.css.ts';
 
 export interface ButtonProps {
