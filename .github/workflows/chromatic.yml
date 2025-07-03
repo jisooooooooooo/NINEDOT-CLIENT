@@ -1,0 +1,58 @@
+# Workflow name
+name: 'Chromatic Deployment'
+run-name: ${{ github.actor }}의 스토리북 배포
+
+# Event for the workflow
+on:
+  pull_request:
+    branches: ['main']
+  push:
+    branches: ['main']
+
+# List of jobs
+jobs:
+  chromatic:
+    # Operating System
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ job.status }}
+    # Job steps
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          onlyChanged: true
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            ### 🎨 Storybook 배포 완료
+            👉 [스토리북 보러가기](${{ steps.chromatic.outputs.storybookUrl }})
+
+            변경사항을 확인해주세요!
