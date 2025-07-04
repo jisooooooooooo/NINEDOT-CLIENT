@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+
 import { PATH } from '@/route';
 
 const Mandal = () => {
