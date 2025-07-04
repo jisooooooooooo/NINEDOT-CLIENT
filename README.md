@@ -1,13 +1,17 @@
+![image](https://github.com/user-attachments/assets/23f8c862-ffe7-4b7a-8f42-962cc218f2a5)
+
 # NiNE Dot˙ 
 
-## 📍 서비스 소개
-
+**목표 관리를 시스템화하세요. 생각은 우리가 도와드릴게요.**
+- 만다르트 작성
+- AI 할 일 추천
+- 진척도 및 주간 회고
 
 ## ⚒️ FE Developer
 |임지수</br>[@jisooooooooooo](https://github.com/jisooooooooooo)|권새봄</br>[@kwonsaebom](https://github.com/kwonsaebom)|신지수</br>[@shinjigu](https://github.com/shinjigu)|이윤지</br>[@Leeyoonji23](https://github.com/Leeyoonji23)|
 |:---:|:---:|:---:|:---:|
 |<img src = "https://github.com/user-attachments/assets/99ee54a2-eae0-4ccd-94a3-419d6266000c" width ="250">|<img src = "https://avatars.githubusercontent.com/u/94830364?v=4" width ="250">|<img src = "https://avatars.githubusercontent.com/u/130023628?v=4" width ="250">|<img src = "https://avatars.githubusercontent.com/u/90778858?v=4" width ="250">|
-|`뷰1`</br>`뷰2`|`뷰1`</br>`뷰2`|`뷰1`</br>`뷰2`|`뷰1`</br>`뷰2`|
+|`전체 목표 작성`</br>`만다르트 상위 목표 작성`|`로그인`</br>`나의 히스토리`|`만다르트 하위 목표 작성`</br>`나의 할 일`|`나의 만다르트`</br>`나의 만다르트 수정`|
 
 ## 📘 Tech Stack
 | Category | Stack |
@@ -29,7 +33,7 @@
 
 **보조 브랜치**
 - **`feat/#issue/기능명`**: feature 브랜치. 새로운 기능 개발
-- **`fix/#issue`**:feature 브랜치 생성 후 버그가 생겼을 때 수정하는 브랜치
+- **`fix/#issue`**: feature 브랜치 생성 후 버그가 생겼을 때 수정하는 브랜치
 
 ### Commit Convention
 | 태그 | 설명 |
@@ -46,3 +50,72 @@
 | `rename` | 파일명 혹은 폴더명 수정 |
 | `remove` | 파일 혹은 코드 제거 |
 | `!hotfix` | 긴급한 버그 수정 |
+
+## 📂 Foldering
+```
+📂 Foldering
+├── 📁 public
+├── 📁 src
+│   ├── 📁 asset
+│   │   ├── 📁 svg
+│   │   └── 📁 image
+│   ├── 📁 api
+│   ├── 📁 domain
+│   │   └── 📁 auth
+│   ├── 📁 common
+│   │   ├── 📁 component
+│   │   ├── 📁 util
+│   │   ├── 📁 hook
+│   │   └── 📁 service
+│   ├── 📁 shared
+│   │   ├── 📁 component
+│   │   ├── 📁 util
+│   │   ├── 📁 hook
+│   │   └── 📁 storage
+│   ├── 📁 store
+│   ├── 📁 constant
+│   ├── 📁 style
+│   ├── 📁 page
+│   │   ├── 📁 main
+│   │   ├── 📁 user
+│   │   │   ├── 📁 component
+│   │   │   ├── 📁 constant
+│   │   │   ├── 📁 type
+│   │   │   ├── 📁 hook
+│   │   │   ├── 📁 util
+│   │   │   ├── 📜 User.tsx
+│   │   │   └── 📜 User.css.ts
+│   │   ├── 📁 shared
+│   │   │   ├── 📁 component
+│   │   │   ├── 📁 constant
+│   │   │   ├── 📁 hook
+│   │   │   └── 📁 util
+│   │   ├── 📁 index
+│   │   │   ├── 📁 component
+│   │   │   ├── 📁 constant
+│   │   │   ├── 📁 type
+│   │   │   ├── 📁 hook
+│   │   │   ├── 📁 util
+│   │   │   ├── 📜 Main.tsx
+│   │   │   └── 📜 Main.css.ts
+│   │   ├── 📁 admin
+│   │   └── 📁 mypage
+│   ├── 📁 style
+│   ├── 📁 type
+│   └── 📁 route
+│       └── 📜 Router.tsx
+├── 📜 App.tsx
+├── 📜 main.tsx
+├── 📜 eslint.config.js
+├── 📜 .gitignore
+├── 📜 .prettierrc.json
+├── 📜 .stylelintrc.json
+├── 📜 README.md
+├── 📜 package.json
+├── 📜 tsconfig.json
+└── 📜 pnpm-lock.yml
+```
+
+## ⚪️ 나인도트 웨비들의 자세한 컨벤션은?
+[![KakaoTalk_Photo_2025-07-03-15-15-32](https://github.com/user-attachments/assets/55c401f9-22cc-4f3c-a32a-32c57d192d16)](https://fantastic-kumquat-2d3.notion.site/216f2c0149da81aa86ebf5a8c6ceb628)
+

@@ -33,11 +33,11 @@ export default tseslint.config({
   extends: [
     js.configs.recommended,
     ...tseslint.configs.recommended,
-    'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended',
     prettierConfig,
   ],
   rules: {
+    ...reactHooks.configs.recommended.rules,
+    ...jsxA11y.configs.recommended.rules,
     'react/react-in-jsx-scope': 'off',
     'no-console': 'warn',
     'no-unused-vars': 'off',
