@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
-import { PATH } from './path';
+
 import { Home, Todo, Mandal, History } from '@/page';
+import { PATH } from './path';
 
 export const mainRoutes: RouteObject[] = [
   {
@@ -14,9 +15,6 @@ export const mainRoutes: RouteObject[] = [
   {
     path: PATH.MANDAL,
     element: <Mandal />,
-  },
-  {
-    path: PATH.EDIT,
   },
   {
     path: PATH.HISTORY,
