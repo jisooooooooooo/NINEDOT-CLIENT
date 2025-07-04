@@ -11,9 +11,20 @@ const Mandal = () => {
 
   return (
     <div>
-      <h1 onClick={handleClick} style={{ cursor: 'pointer' }}>
+      <button
+        onClick={handleClick}
+        style={{
+          fontSize: '2em',
+          fontWeight: 'bold',
+          border: 'none',
+          background: 'none',
+          cursor: 'pointer',
+          padding: 0,
+          margin: 0,
+        }}
+      >
         만다라트
-      </h1>
+      </button>
     </div>
   );
 };
