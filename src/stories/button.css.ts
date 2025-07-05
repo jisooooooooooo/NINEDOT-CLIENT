@@ -1,58 +1,43 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
-import { colors } from '../style/token/color.css.ts';
-import { fonts } from '../style/token/typography.css.ts';
-
 const baseButton = style({
-  display: 'inline-block',
-  cursor: 'pointer',
+  fontFamily: 'sans-serif',
   border: 0,
   borderRadius: '3em',
-  fontFamily: "'Pretendard', sans-serif",
-  transition: 'all 0.2s ease-in-out',
-
-  ':hover': {
-    transform: 'translateY(-2px)',
-  },
+  cursor: 'pointer',
+  display: 'inline-block',
+  lineHeight: 1,
 });
 
 export const buttonVariants = styleVariants({
   primary: [
     baseButton,
     {
-      backgroundColor: colors.blue05,
-      color: colors.white01,
-
-      ':hover': {
-        backgroundColor: colors.blue01,
-      },
+      color: 'white',
+      backgroundColor: '#1ea7fd',
     },
   ],
   secondary: [
     baseButton,
     {
-      boxShadow: `${colors.black01}15 0px 0px 0px 1px inset`,
+      color: '#333',
       backgroundColor: 'transparent',
-      color: colors.black01,
-
-      ':hover': {
-        backgroundColor: colors.blue01,
-      },
+      boxShadow: 'rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset',
     },
   ],
 });
 
 export const buttonSizes = styleVariants({
   small: {
-    ...fonts.caption01,
-    padding: '1rem 1.6rem',
+    fontSize: '12px',
+    padding: '10px 16px',
   },
   medium: {
-    ...fonts.body03,
-    padding: '1.1rem 2rem',
+    fontSize: '14px',
+    padding: '11px 20px',
   },
   large: {
-    ...fonts.body01,
-    padding: '1.2rem 2.4rem',
+    fontSize: '16px',
+    padding: '12px 24px',
   },
 });
