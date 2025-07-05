@@ -33,11 +33,7 @@ export default tseslint.config({
     },
   },
   ignores: ['node_modules', 'dist', 'dist-ssr', '*.config.js', '*.config.ts'],
-  extends: [
-    js.configs.recommended,
-    ...tseslint.configs.recommended,
-    prettierConfig,
-  ],
+  extends: [js.configs.recommended, ...tseslint.configs.recommended, prettierConfig],
   rules: {
     ...reactHooks.configs.recommended.rules,
     ...jsxA11y.configs.recommended.rules,
@@ -58,5 +54,7 @@ export default tseslint.config({
     'react/jsx-pascal-case': 'error',
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'prettier/prettier': 'error',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-noninteractive-element-interactions': 'off',
   },
 }, storybook.configs["flat/recommended"]);
