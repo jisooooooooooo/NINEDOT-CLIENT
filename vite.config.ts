@@ -22,6 +22,19 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@api': path.resolve(__dirname, './src/api'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@common': path.resolve(__dirname, './src/common'),
+      '@page': path.resolve(__dirname, './src/page'),
+      '@route': path.resolve(__dirname, './src/route'),
+      '@shared': path.resolve(__dirname, './src/shared'),
+      '@style': path.resolve(__dirname, './src/style'),
+      '@type': path.resolve(__dirname, './src/type'),
+    },
+  },
   test: {
     projects: [
       {
