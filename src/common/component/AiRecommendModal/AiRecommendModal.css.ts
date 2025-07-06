@@ -9,7 +9,7 @@ export const container = style({
   flexDirection: 'column',
   alignItems: 'center',
   borderRadius: '16px',
-  background: '#282C33',
+  background: colors.grey3,
 });
 
 export const contentWrapper = style({
@@ -37,7 +37,7 @@ export const title = style({
 });
 
 export const subtitle = style({
-  color: '#5A5E66',
+  color: colors.grey6,
   textAlign: 'center',
   ...fonts.subtitle06,
   marginTop: '0.5625rem',
