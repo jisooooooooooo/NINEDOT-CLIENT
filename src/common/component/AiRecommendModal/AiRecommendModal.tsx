@@ -6,6 +6,10 @@ import CloseIcon from '@/assets/svg/modal_delete.svg';
 import CheckboxDefault from '@/assets/svg/checkbox_default.svg';
 import CheckboxChecked from '@/assets/svg/checkbox_checked.svg';
 
+interface AiRecommendModalProps {
+  onClose: () => void;
+}
+
 const options = [
   '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜1',
   '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜2',
@@ -17,7 +21,7 @@ const options = [
   '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜8',
 ];
 
-const AiRecommendModal = () => {
+const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const toggleOption = (option: string) => {
@@ -30,7 +34,7 @@ const AiRecommendModal = () => {
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
         <div className={styles.iconWrapper}>
-          <img src={CloseIcon} alt="닫기 아이콘" className={styles.closeIcon} />
+          <img src={CloseIcon} alt="닫기 아이콘" className={styles.closeIcon} onClick={onClose} />
         </div>
         <p className={styles.title}>AI가 추천해 준 할 일이에요!</p>
         <p className={styles.subtitle}>
