@@ -12,8 +12,8 @@ export const header = style({
 
 export const headerInner = style({
   width: '100%',
-  maxWidth: '90rem',
-  padding: '0.94rem 5rem',
+  maxWidth: '128rem',
+  padding: '1.5rem 8rem',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -26,16 +26,16 @@ export const logo = style({
 
 export const navWrapper = style({
   display: 'flex',
-  gap: '1.25rem',
+  gap: '2rem',
 });
 
 export const navItem = style({
   display: 'flex',
-  padding: '0.75rem 1.25rem',
+  padding: '1.2rem 2rem',
   justifyContent: 'center',
   alignItems: 'center',
   flexShrink: 0,
-  color: '#5A5E66', // 추후 토큰 색상으로 변경
+  color: colors.grey6,
   textAlign: 'center',
   ...fonts.subtitle05,
   background: 'transparent',
@@ -46,13 +46,13 @@ export const navItem = style({
 });
 
 export const active = style({
-  color: '#FDFDFD',
+  color: colors.grey11,
 });
 
 export const profilePlaceholder = style({
-  width: '3.125rem',
-  height: '3.125rem',
+  width: '5rem',
+  height: '5rem',
   borderRadius: '50%',
-  backgroundColor: '#5A5E66', // 추후 토큰 색상으로 변경
+  backgroundColor: colors.grey6,
   flexShrink: 0,
 });
