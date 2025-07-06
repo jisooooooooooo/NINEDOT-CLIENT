@@ -8,6 +8,7 @@ export const goButtonContainer = recipe({
     padding: '2rem',
     border: 'none',
     borderRadius: '1.2rem',
+    margin: '2rem',
   },
   variants: {
     state: {
@@ -33,6 +34,9 @@ export const goIcon = recipe({
       disabled: {
         color: colors.grey6,
       },
+    },
+    defaultVariants: {
+      state: 'disabled',
     },
   },
 });
