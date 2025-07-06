@@ -1,17 +1,17 @@
 import { IcBigNext } from '@/assets/svg';
-import { goButtonContainer } from '@/common/component/GoButton/GoButton.css';
+import { goButtonContainer, goIcon } from '@/common/component/GoButton/GoButton.css';
 
 type GoButtonProps = {
   isActive: boolean;
 };
 
 const GoButton = ({ isActive = true }: GoButtonProps) => {
+  const state = isActive ? 'active' : 'disabled';
+
   return (
-    isActive && (
-      <button className={goButtonContainer}>
-        <IcBigNext />
-      </button>
-    )
+    <button className={goButtonContainer({ state })}>
+      <IcBigNext className={goIcon({ state })} />
+    </button>
   );
 };
 

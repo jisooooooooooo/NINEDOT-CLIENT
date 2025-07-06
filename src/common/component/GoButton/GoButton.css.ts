@@ -23,3 +23,16 @@ export const goButtonContainer = recipe({
     state: 'disabled',
   },
 });
+
+export const goIcon = recipe({
+  variants: {
+    state: {
+      active: {
+        color: colors.grey10,
+      },
+      disabled: {
+        color: colors.grey6,
+      },
+    },
+  },
+});
