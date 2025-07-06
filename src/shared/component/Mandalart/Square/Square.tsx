@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import * as styles from './Square.css.ts';
 
 interface SquareProps {
@@ -34,7 +33,7 @@ const Sub = ({ content = '세부 목표를 입력하세요', onClick, isComplete
 };
 
 const Root = ({ children }: SquareProps) => {
-  return <div className={styles.wrapper}>{children}</div>;
+  return <div className={styles.squareContainer}>{children}</div>;
 };
 
 export const Square = {

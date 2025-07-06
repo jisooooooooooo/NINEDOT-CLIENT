@@ -8,25 +8,23 @@ export const squareContainer = style({
   margin: '0 auto',
 });
 
-const baseCell = style([
-  fonts.title03,
-  {
-    color: colors.white01,
-    borderRadius: '0.8rem',
-    padding: '1.6rem',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    width: '19.6rem',
-    height: '19.6rem',
-    boxSizing: 'border-box',
-  },
-]);
+const baseCell = style({
+  color: colors.white01,
+  borderRadius: '0.8rem',
+  padding: '1.6rem',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  width: '19.6rem',
+  height: '19.6rem',
+  boxSizing: 'border-box',
+});
 
 export const mainCell = style([
   baseCell,
+  fonts.title03,
   {
     backgroundImage: colors.gradient04,
   },
@@ -34,6 +32,7 @@ export const mainCell = style([
 
 export const subCell = style([
   baseCell,
+  fonts.subtitle01,
   {
     background: colors.grey2,
     ':hover': {
@@ -47,8 +46,3 @@ export const subCell = style([
     },
   },
 ]);
-
-export const wrapper = style({
-  display: 'flex',
-  gap: '1.6rem',
-});
