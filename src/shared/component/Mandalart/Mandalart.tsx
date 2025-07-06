@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { Square } from './Square/Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
@@ -33,7 +34,9 @@ const Mandalart = ({
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const handleClick = (index: number) => {
-    if (index === 4) return;
+    if (index === 4) {
+      return;
+    }
     const newSelectedIndex = selectedIndex === index ? null : index;
     setSelectedIndex(newSelectedIndex);
 
