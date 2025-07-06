@@ -1,13 +1,11 @@
 import { Outlet } from 'react-router-dom';
 
+import Header from './Header/Header';
+
 const Layout = () => {
   return (
     <div>
-      {/* TODO: Header 컴포넌트 추가 */}
-      <header>
-        {/* 임시 헤더 */}
-        <h1>NINEDOT</h1>
-      </header>
+      <Header />
 
       <main>
         <Outlet />
