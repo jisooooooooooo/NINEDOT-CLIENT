@@ -50,7 +50,7 @@ export const highlight = style({
 export const listWrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   gap: '1.25rem',
   marginTop: '2.44rem',
   marginBottom: '3.12rem',
@@ -63,6 +63,7 @@ export const listItem = style({
   color: colors.white01,
   ...fonts.body02,
   cursor: 'pointer',
+  whiteSpace: 'nowrap',
 });
 
 export const checkboxIcon = style({
