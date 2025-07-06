@@ -3,7 +3,7 @@ import { globalStyle } from '@vanilla-extract/css';
 import './reset.css.ts';
 
 globalStyle('html', {
-  fontSize: '100%',
+  fontSize: '62.5%',
 });
 
 globalStyle('body', {
