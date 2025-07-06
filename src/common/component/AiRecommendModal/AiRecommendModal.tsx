@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import * as styles from './AiRecommendModal.css';
 
-import CloseIcon from '@/assets/svg/modal_delete.svg';
-import CheckboxDefault from '@/assets/svg/checkbox_default.svg';
-import CheckboxChecked from '@/assets/svg/checkbox_checked.svg';
+import CloseIcon from '@/assets/svg/modal_delete.svg?react';
+import CheckboxDefault from '@/assets/svg/checkbox_default.svg?react';
+import CheckboxChecked from '@/assets/svg/checkbox_checked.svg?react';
 
 interface AiRecommendModalProps {
   onClose: () => void;
@@ -34,7 +34,7 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
         <div className={styles.iconWrapper}>
-          <img src={CloseIcon} alt="닫기 아이콘" className={styles.closeIcon} onClick={onClose} />
+          <CloseIcon className={styles.closeIcon} onClick={onClose} />
         </div>
         <p className={styles.title}>AI가 추천해 준 할 일이에요!</p>
         <p className={styles.subtitle}>
@@ -51,11 +51,11 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
                 tabIndex={0}
                 onClick={() => toggleOption(option)}
               >
-                <img
-                  src={isChecked ? CheckboxChecked : CheckboxDefault}
-                  alt={isChecked ? '선택됨' : '미선택'}
-                  className={styles.checkboxIcon}
-                />
+                {isChecked ? (
+                  <CheckboxChecked className={styles.checkboxIcon} />
+                ) : (
+                  <CheckboxDefault className={styles.checkboxIcon} />
+                )}
                 <span>{option}</span>
               </div>
             );
