@@ -5,7 +5,7 @@ import { fonts } from '@/style/token/typography.css';
 
 export const container = style({
   display: 'inline-flex',
-  padding: '2.5rem',
+  padding: '4rem',
   flexDirection: 'column',
   alignItems: 'center',
   borderRadius: '16px',
@@ -13,7 +13,7 @@ export const container = style({
 });
 
 export const contentWrapper = style({
-  width: '34.75rem',
+  width: '55.6rem',
   display: 'flex',
   flexDirection: 'column',
 });
@@ -25,8 +25,8 @@ export const iconWrapper = style({
 });
 
 export const closeIcon = style({
-  width: '2rem',
-  height: '2rem',
+  width: '3.2rem',
+  height: '3.2rem',
   cursor: 'pointer',
 });
 
@@ -40,7 +40,7 @@ export const subtitle = style({
   color: colors.grey6,
   textAlign: 'center',
   ...fonts.subtitle06,
-  marginTop: '0.5625rem',
+  marginTop: '0.9rem',
 });
 
 export const highlight = style({
@@ -51,15 +51,15 @@ export const listWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '1.25rem',
-  marginTop: '2.44rem',
-  marginBottom: '3.12rem',
+  gap: '2rem',
+  marginTop: '3.9rem',
+  marginBottom: '5rem',
 });
 
 export const listItem = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.38rem',
+  gap: '0.6rem',
   color: colors.white01,
   ...fonts.body02,
   cursor: 'pointer',
@@ -67,6 +67,6 @@ export const listItem = style({
 });
 
 export const checkboxIcon = style({
-  width: '1.5rem',
-  height: '1.5rem',
+  width: '2.4rem',
+  height: '2.4rem',
 });
