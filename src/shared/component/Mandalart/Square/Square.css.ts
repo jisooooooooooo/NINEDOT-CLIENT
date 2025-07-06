@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { colors, fonts } from '@/style/token';
 
-export const mandalartContainer = style({
+export const squareContainer = style({
   display: 'grid',
   gap: '1rem',
   padding: '1rem',
@@ -19,9 +19,9 @@ const baseCell = style([
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    transition: 'all 0.2s ease-in-out',
     width: '19.6rem',
     height: '19.6rem',
+    boxSizing: 'border-box',
   },
 ]);
 
@@ -35,13 +35,13 @@ export const mainCell = style([
 export const subCell = style([
   baseCell,
   {
-    background: colors.grey3,
+    background: colors.grey2,
     ':hover': {
-      background: colors.grey2,
+      background: colors.grey3,
     },
     selectors: {
       '&[data-completed="true"]': {
-        border: `4px solid #305088}`,
+        border: '0.4rem solid #305088',
         background: colors.grey2,
       },
     },
@@ -50,5 +50,5 @@ export const subCell = style([
 
 export const wrapper = style({
   display: 'flex',
-  gap: '16px',
+  gap: '1.6rem',
 });
