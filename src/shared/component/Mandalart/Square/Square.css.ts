@@ -10,8 +10,7 @@ export const squareContainer = style({
 
 const baseCell = style({
   color: colors.white01,
-  borderRadius: '0.8rem',
-  padding: '1.6rem',
+  borderRadius: '8px',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
