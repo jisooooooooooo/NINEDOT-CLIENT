@@ -19,18 +19,11 @@ const Main = ({ content = '목표를 입력하세요', onClick }: Omit<CellProps
   );
 };
 
-const Sub = ({ content = '세부 목표를 입력하세요', onClick }: Omit<CellProps, 'isCompleted'>) => {
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  const handleClick = () => {
-    setIsCompleted((prev) => !prev);
-    onClick?.();
-  };
-
+const Sub = ({ content = '세부 목표를 입력하세요', onClick, isCompleted = false }: CellProps) => {
   return (
     <div
       className={styles.subCell}
-      onClick={handleClick}
+      onClick={onClick}
       role="button"
       tabIndex={0}
       data-completed={isCompleted}
