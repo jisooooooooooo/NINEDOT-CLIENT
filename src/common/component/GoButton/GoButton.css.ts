@@ -1,4 +1,5 @@
 import { recipe } from '@vanilla-extract/recipes';
+
 import { colors } from '@/style/token';
 
 export const goButtonContainer = recipe({
