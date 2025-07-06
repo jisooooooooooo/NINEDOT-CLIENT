@@ -1,6 +1,6 @@
 export const colors = {
   black01: '#121212',
-  black01_70: 'rgba(18, 18, 18, 0.70))',
+  black01_70: 'rgba(18, 18, 18, 0.70)',
   white01: '#ffffff',
   bg_black01: '#02050B',
 
