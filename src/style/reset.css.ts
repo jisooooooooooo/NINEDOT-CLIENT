@@ -64,3 +64,9 @@ globalStyle('*::before', {
 globalStyle('*::after', {
   boxSizing: 'border-box',
 });
+
+globalStyle('button', {
+  all: 'unset',
+  boxSizing: 'border-box',
+  cursor: 'pointer',
+});
