@@ -9,6 +9,7 @@ export const goButtonContainer = recipe({
     padding: '2rem',
     border: 'none',
     borderRadius: '1.2rem',
+    cursor: 'pointer',
   },
   variants: {
     state: {
