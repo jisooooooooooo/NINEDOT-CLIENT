@@ -9,8 +9,8 @@ export const listContainer = style({
   width: '13.2rem',
   backgroundColor: colors.grey2,
   borderRadius: '8px',
-  cursor: 'pointer',
   overflow: 'hidden',
+  cursor: 'pointer',
 });
 
 export const listItem = style({
@@ -43,8 +43,8 @@ export const listText = recipe({
         color: '#58595D',
       },
     },
-    defaultVariants: {
-      state: 'default',
-    },
+  },
+  defaultVariants: {
+    state: 'default',
   },
 });
