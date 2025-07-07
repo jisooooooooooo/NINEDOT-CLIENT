@@ -8,7 +8,6 @@ export const tooltipContainer = style({
   gap: '0.4rem',
   position: 'relative',
   width: '24.5rem',
-  height: '4.5rem',
   padding: '1rem 1.6rem',
   borderRadius: '8px',
   whiteSpace: 'nowrap',

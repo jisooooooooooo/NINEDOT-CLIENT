@@ -1,4 +1,4 @@
-import { IcClose, IcTriangle } from '@/assets/svg';
+import { IcTooltipDelete, IcTriangle } from '@/assets/svg';
 import {
   tooltipContainer,
   tooltipText,
@@ -12,7 +12,7 @@ const Tooltip = () => {
   return (
     <div className={tooltipContainer}>
       <span className={tooltipText}>{TOOLTIP_TEXT}</span>
-      <IcClose className={closeIcon} />
+      <IcTooltipDelete className={closeIcon} />
       <IcTriangle className={triangleIcon} />
     </div>
   );
