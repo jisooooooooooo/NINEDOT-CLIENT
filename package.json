@@ -11,7 +11,8 @@
     "svgr": "npx @svgr/cli -d src/assets/svg --ignore-existing --typescript --no-dimensions public/svg",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "generate-types": "openapi-typescript https://api.ninedot.p-e.kr/v3/api-docs/v1 -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
