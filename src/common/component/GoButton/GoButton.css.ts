@@ -9,12 +9,12 @@ export const goButtonContainer = recipe({
     padding: '2rem',
     border: 'none',
     borderRadius: '1.2rem',
-    cursor: 'pointer',
   },
   variants: {
     state: {
       active: {
         backgroundImage: colors.gradient04,
+        cursor: 'pointer',
       },
       disabled: {
         backgroundColor: colors.grey4,
