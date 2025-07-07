@@ -9,8 +9,8 @@ export const buttonContainer = style({
   backgroundColor: colors.blue07,
   border: 'none',
   borderRadius: '8px',
-
   color: colors.grey11,
   ...fonts.subtitle05,
   textAlign: 'center',
+  cursor: 'pointer',
 });
