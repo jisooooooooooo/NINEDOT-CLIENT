@@ -4,4 +4,5 @@ export { default as IcCheckboxDefault } from './IcCheckboxDefault';
 export { default as IcClose } from './IcClose';
 export { default as IcDropdown } from './IcDropdown';
 export { default as IcModalDelete } from './IcModalDelete';
+export { default as IcTriangle } from './IcTriangle';
 export { default as Vite } from './Vite';
