@@ -4,8 +4,8 @@ import { useEffect, useState, useRef } from 'react';
 import * as styles from './Todo.css';
 
 const TYPING_DURATION = 4000;
-const fullText = '66일 간 달성할 목표를 입력하고\n만다르트를 시작해보세요!';
-const charArray = Array.from(fullText);
+const FULL_TEXT = '66일 간 달성할 목표를 입력하고\n만다르트를 시작해보세요!';
+const CHARARRAY = Array.from(FULL_TEXT);
 
 const Todo = () => {
   const [displayedText, setDisplayedText] = useState('');
@@ -13,11 +13,11 @@ const Todo = () => {
   const textRef = useRef('');
 
   useEffect(() => {
-    const intervalTime = TYPING_DURATION / charArray.length;
+    const intervalTime = TYPING_DURATION / CHARARRAY.length;
 
     const interval = setInterval(() => {
-      if (indexRef.current < charArray.length) {
-        textRef.current += charArray[indexRef.current];
+      if (indexRef.current < CHARARRAY.length) {
+        textRef.current += CHARARRAY[indexRef.current];
         setDisplayedText(textRef.current);
         indexRef.current += 1;
       } else {
@@ -28,16 +28,20 @@ const Todo = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const renderTextWithLineBreaks = () =>
+    displayedText.split('\n').map((line, idx) => (
+      <span key={idx}>
+        {line}
+        <br />
+      </span>
+    ));
+
   return (
     <div className={styles.todoContainer}>
-      <h1 className={styles.todoTitle}>
-        {displayedText.split('\n').map((line, idx) => (
-          <span key={idx}>
-            {line}
-            <br />
-          </span>
-        ))}
-      </h1>
+      <div className={styles.gradientCircleTopRight} />
+      <div className={styles.gradientCircleBottomLeft1} />
+      <div className={styles.gradientCircleBottomLeft2} />
+      <h1 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h1>
       <Outlet />
     </div>
   );
