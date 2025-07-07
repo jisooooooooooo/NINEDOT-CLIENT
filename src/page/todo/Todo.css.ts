@@ -62,3 +62,11 @@ export const gradientCircleBottomLeft2 = style({
   flexShrink: 0,
   zIndex: 0,
 });
+
+export const todoInputContainer = style({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: '2rem',
+  position: 'relative',
+});

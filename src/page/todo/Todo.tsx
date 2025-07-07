@@ -1,7 +1,8 @@
-import { Outlet } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 
 import * as styles from './Todo.css';
+
+import GoButton from '@/common/component/GoButton/GoButton';
 
 const TYPING_DURATION = 4000;
 const FULL_TEXT = '66일 간 달성할 목표를 입력하고\n만다르트를 시작해보세요!';
@@ -42,7 +43,10 @@ const Todo = () => {
       <div className={styles.gradientCircleBottomLeft1} />
       <div className={styles.gradientCircleBottomLeft2} />
       <h1 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h1>
-      <Outlet />
+      <div className={styles.todoInputContainer}>
+        <div>여기 텍스트 필드</div>
+        <GoButton isActive={false} />
+      </div>
     </div>
   );
 };
