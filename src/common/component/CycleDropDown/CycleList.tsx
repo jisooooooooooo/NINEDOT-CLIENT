@@ -16,7 +16,7 @@ const CycleList = ({ selectedType, onSelect }: CycleProps) => {
 
         return (
           <button key={type} className={listItem} onClick={() => onSelect(type)}>
-            <p className={listText({ state })}>{type}</p>
+            <span className={listText({ state })}>{type}</span>
           </button>
         );
       })}

@@ -29,7 +29,7 @@ const CycleDropDown = () => {
   return (
     <>
       <button className={cycleContainer} onClick={toggleDropdown}>
-        <p className={cycleText({ state })}>{selectedType}</p>
+        <span className={cycleText({ state })}>{selectedType}</span>
         <IcDropdown className={dropdownIcon({ state })} />
       </button>
 
