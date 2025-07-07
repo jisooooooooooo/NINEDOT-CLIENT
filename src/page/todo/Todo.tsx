@@ -44,12 +44,12 @@ const Todo = () => {
     ));
 
   return (
-    <div className={styles.todoContainer}>
+    <main className={styles.todoContainer}>
       <div className={styles.gradientCircleTopRight} />
       <div className={styles.gradientCircleBottomLeft1} />
       <div className={styles.gradientCircleBottomLeft2} />
-      <h1 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h1>
-      <div className={styles.todoInputContainer}>
+      <h2 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h2>
+      <section className={styles.todoInputContainer}>
         <input
           type="text"
           value={inputText}
@@ -59,8 +59,8 @@ const Todo = () => {
         <Link to="/todo/upper">
           <GoButton isActive={inputText.length > 0} />
         </Link>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
