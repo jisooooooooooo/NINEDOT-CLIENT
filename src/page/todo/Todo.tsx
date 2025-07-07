@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 
 import * as styles from './Todo.css';
 
+import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import GoButton from '@/common/component/GoButton/GoButton';
+import { PATH } from '@/route';
 
 const TYPING_DURATION = 4000;
-const FULL_TEXT = '66일 간 달성할 목표를 입력하고\n만다르트를 시작해보세요!';
+const FULL_TEXT = '66일 간 달성할 목표를 입력하고\n만다라트를 시작해보세요!';
 const CHARARRAY = Array.from(FULL_TEXT);
 
 const Todo = () => {
@@ -20,19 +22,32 @@ const Todo = () => {
   };
 
   useEffect(() => {
-    const intervalTime = TYPING_DURATION / CHARARRAY.length;
+    let startTime: number | null = null;
+    const totalDuration = TYPING_DURATION;
+    const totalChars = CHARARRAY.length;
 
-    const interval = setInterval(() => {
-      if (indexRef.current < CHARARRAY.length) {
-        textRef.current += CHARARRAY[indexRef.current];
-        setDisplayedText(textRef.current);
-        indexRef.current += 1;
-      } else {
-        clearInterval(interval);
+    const step = (timestamp: number) => {
+      if (startTime === null) {
+        startTime = timestamp;
       }
-    }, intervalTime);
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / totalDuration, 1);
+      const charsToShow = Math.floor(progress * totalChars);
 
-    return () => clearInterval(interval);
+      if (charsToShow > indexRef.current) {
+        textRef.current = CHARARRAY.slice(0, charsToShow).join('');
+        setDisplayedText(textRef.current);
+        indexRef.current = charsToShow;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    const rafId = requestAnimationFrame(step);
+
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   const renderTextWithLineBreaks = () =>
@@ -45,9 +60,9 @@ const Todo = () => {
 
   return (
     <main className={styles.todoContainer}>
-      <div className={styles.gradientCircle.topRight} />
-      <div className={styles.gradientCircle.bottomLeft1} />
-      <div className={styles.gradientCircle.bottomLeft2} />
+      <GradientCircle variant="topRight" />
+      <GradientCircle variant="bottomLeft1" />
+      <GradientCircle variant="bottomLeft2" />
       <h2 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h2>
       <section className={styles.todoInputContainer}>
         <input
@@ -56,7 +71,7 @@ const Todo = () => {
           onChange={handleInputChange}
           placeholder="이루고 싶은 목표를 작성하세요."
         />
-        <Link to="/todo/upper">
+        <Link to={PATH.TODO_UPPER}>
           <GoButton isActive={inputText.length > 0} />
         </Link>
       </section>
