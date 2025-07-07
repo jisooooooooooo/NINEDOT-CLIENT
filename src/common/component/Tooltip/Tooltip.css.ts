@@ -4,15 +4,16 @@ import { colors, fonts } from '@/style/token';
 
 export const tooltipContainer = style({
   display: 'flex',
-  justifyContent: 'space-between',
   alignItems: 'center',
   gap: '0.4rem',
+  position: 'relative',
   width: '24.5rem',
   height: '4.5rem',
   padding: '1rem 1.6rem',
-  backgroundColor: colors.blue07,
   borderRadius: '8px',
-  position: 'relative',
+  whiteSpace: 'nowrap',
+  backgroundColor: colors.blue07,
+  boxShadow: `0px 0px 16px 0px ${colors.blue07}`,
 });
 
 export const tooltipText = style({
@@ -29,7 +30,7 @@ export const triangleIcon = style({
   width: '1.4rem',
   height: '1.3rem',
   position: 'absolute',
-  bottom: '1%',
+  bottom: '0.1rem',
   left: '50%',
   transform: 'translate(-50%, 100%)',
 });
