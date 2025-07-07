@@ -70,3 +70,9 @@ export const checkboxIcon = style({
   width: '2.4rem',
   height: '2.4rem',
 });
+
+export const buttonWrapper = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});

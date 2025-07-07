@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import * as styles from './AiRecommendModal.css';
+import MandalButton from '../MandalButton/MandalButton';
 
 import { IcModalDelete } from '@/assets/svg';
 import { IcCheckboxDefault } from '@/assets/svg';
@@ -60,6 +61,9 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
               </div>
             );
           })}
+        </div>
+        <div className={styles.buttonWrapper}>
+          <MandalButton />
         </div>
       </div>
     </div>
