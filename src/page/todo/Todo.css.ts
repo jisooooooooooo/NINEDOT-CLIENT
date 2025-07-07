@@ -21,6 +21,7 @@ export const todoTitle = style({
   marginBottom: '5.6rem',
   position: 'relative',
   zIndex: 1,
+  height: '15.2rem',
 });
 
 export const todoInputContainer = style({
