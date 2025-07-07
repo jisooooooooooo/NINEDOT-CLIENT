@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+
 import { fonts, colors } from '@/style/token';
 
 export const cycleContainer = style({

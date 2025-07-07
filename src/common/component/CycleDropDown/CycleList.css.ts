@@ -41,7 +41,7 @@ export const listText = recipe({
       },
       default: {
         ...fonts.subtitle03,
-        color: '#58595D',
+        color: colors.grey6,
       },
     },
   },
