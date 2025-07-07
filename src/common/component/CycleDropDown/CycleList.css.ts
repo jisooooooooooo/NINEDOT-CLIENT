@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { colors, fonts } from '@/style/token';
+import { colors, fonts, zIndex } from '@/style/token';
 
 export const listContainer = style({
   display: 'flex',
@@ -11,6 +11,7 @@ export const listContainer = style({
   borderRadius: '8px',
   overflow: 'hidden',
   cursor: 'pointer',
+  zIndex: zIndex.dropdown,
 });
 
 export const listItem = style({
