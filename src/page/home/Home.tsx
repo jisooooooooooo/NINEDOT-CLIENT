@@ -1,9 +1,7 @@
-import { Todo } from '../todo';
-
 const Home = () => {
   return (
     <div>
-      <Todo />
+      <h1>홈</h1>
     </div>
   );
 };
