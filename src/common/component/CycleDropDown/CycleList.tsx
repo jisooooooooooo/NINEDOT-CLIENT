@@ -1,26 +1,22 @@
-import { useState } from 'react';
-
 import { listContainer, listItem, listText } from '@/common/component/CycleDropDown/CycleList.css';
 
 const CYCLE_TYPE = ['매일', '매주', '한 번'] as const;
-
 type CycleType = (typeof CYCLE_TYPE)[number];
 
-const CycleList = () => {
-  const [selectedType, setSelectedType] = useState<CycleType>(CYCLE_TYPE[0]);
+type CycleProps = {
+  selectedType: CycleType;
+  onSelect: (type: CycleType) => void;
+};
 
-  const handleType = (currentType: CycleType) => {
-    setSelectedType(currentType);
-  };
-
+const CycleList = ({ selectedType, onSelect }: CycleProps) => {
   return (
     <div className={listContainer}>
-      {CYCLE_TYPE.map((cycle) => {
-        const state = selectedType === cycle ? 'selected' : 'default';
+      {CYCLE_TYPE.map((type) => {
+        const state = selectedType === type ? 'selected' : 'default';
 
         return (
-          <button key={cycle} className={listItem} onClick={() => handleType(cycle)}>
-            <p className={listText({ state })}>{cycle}</p>
+          <button key={type} className={listItem} onClick={() => onSelect(type)}>
+            <p className={listText({ state })}>{type}</p>
           </button>
         );
       })}
