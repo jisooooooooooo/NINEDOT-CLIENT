@@ -45,9 +45,9 @@ const Todo = () => {
 
   return (
     <main className={styles.todoContainer}>
-      <div className={styles.gradientCircleTopRight} />
-      <div className={styles.gradientCircleBottomLeft1} />
-      <div className={styles.gradientCircleBottomLeft2} />
+      <div className={styles.gradientCircle.topRight} />
+      <div className={styles.gradientCircle.bottomLeft1} />
+      <div className={styles.gradientCircle.bottomLeft2} />
       <h2 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h2>
       <section className={styles.todoInputContainer}>
         <input
