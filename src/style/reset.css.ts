@@ -52,3 +52,13 @@ globalStyle('table', {
   borderCollapse: 'collapse',
   borderSpacing: 0,
 });
+
+globalStyle('*, *::before, *::after', {
+  boxSizing: 'border-box',
+});
+
+globalStyle('button', {
+  all: 'unset',
+  boxSizing: 'border-box',
+  cursor: 'pointer',
+});
