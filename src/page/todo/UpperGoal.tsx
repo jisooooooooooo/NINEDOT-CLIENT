@@ -1,9 +1,14 @@
+import * as styles from './UpperGoal.css';
+
+import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
+
 const UpperGoal = () => {
   return (
-    <div>
-      <h2>상위 목표 설정</h2>
-      {/* TODO: 상위 목표 입력 폼 */}
-    </div>
+    <main className={styles.upperGoalContainer}>
+      <GradientCircle variant="topRight" />
+      <GradientCircle variant="bottomLeft1" />
+      <GradientCircle variant="bottomLeft2" />
+    </main>
   );
 };
 
