@@ -32,12 +32,14 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div className={styles.contentWrapper}>
         <div className={styles.iconWrapper}>
           <IcModalDelete className={styles.closeIcon} onClick={onClose} />
         </div>
-        <p className={styles.title}>AI가 추천해 준 할 일이에요!</p>
+        <h2 id="modal-title" className={styles.title}>
+          AI가 추천해 준 할 일이에요!
+        </h2>
         <p className={styles.subtitle}>
           최대 <span className={styles.highlight}>7개</span>까지 선택할 수 있어요
         </p>
