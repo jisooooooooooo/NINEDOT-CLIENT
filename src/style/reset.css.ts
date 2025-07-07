@@ -52,3 +52,15 @@ globalStyle('table', {
   borderCollapse: 'collapse',
   borderSpacing: 0,
 });
+
+globalStyle('*', {
+  boxSizing: 'border-box',
+});
+
+globalStyle('*::before', {
+  boxSizing: 'border-box',
+});
+
+globalStyle('*::after', {
+  boxSizing: 'border-box',
+});
