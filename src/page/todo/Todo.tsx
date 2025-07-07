@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 import * as styles from './Todo.css';
 
@@ -10,8 +11,13 @@ const CHARARRAY = Array.from(FULL_TEXT);
 
 const Todo = () => {
   const [displayedText, setDisplayedText] = useState('');
+  const [inputText, setInputText] = useState('');
   const indexRef = useRef(0);
   const textRef = useRef('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+  };
 
   useEffect(() => {
     const intervalTime = TYPING_DURATION / CHARARRAY.length;
@@ -44,8 +50,15 @@ const Todo = () => {
       <div className={styles.gradientCircleBottomLeft2} />
       <h1 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h1>
       <div className={styles.todoInputContainer}>
-        <div>여기 텍스트 필드</div>
-        <GoButton isActive={false} />
+        <input
+          type="text"
+          value={inputText}
+          onChange={handleInputChange}
+          placeholder="이루고 싶은 목표를 작성하세요."
+        />
+        <Link to="/todo/upper">
+          <GoButton isActive={inputText.length > 0} />
+        </Link>
       </div>
     </div>
   );
