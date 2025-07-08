@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useReducer, useRef } from 'react';
 
 import type { TextFieldProps, TextFieldVariant } from './MandalartTextField.types';
 import * as styles from './MandalartTextField.css';
@@ -13,6 +13,41 @@ const DEFAULT_PLACEHOLDER = {
 
 const BIG_GOAL_MAX_LENGTH = 30;
 type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
+
+// 상태 타입 및 액션 타입 정의
+
+type State = {
+  isFocused: boolean;
+  isHovered: boolean;
+  isComposing: boolean;
+};
+
+type Action =
+  | { type: 'FOCUS' }
+  | { type: 'BLUR' }
+  | { type: 'HOVER_ENTER' }
+  | { type: 'HOVER_LEAVE' }
+  | { type: 'COMPOSE_START' }
+  | { type: 'COMPOSE_END' };
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'FOCUS':
+      return { ...state, isFocused: true };
+    case 'BLUR':
+      return { ...state, isFocused: false };
+    case 'HOVER_ENTER':
+      return { ...state, isHovered: true };
+    case 'HOVER_LEAVE':
+      return { ...state, isHovered: false };
+    case 'COMPOSE_START':
+      return { ...state, isComposing: true };
+    case 'COMPOSE_END':
+      return { ...state, isComposing: false };
+    default:
+      return state;
+  }
+};
 
 const getFieldState = (isFocused: boolean, isHovered: boolean, hasValue: boolean): FieldState => {
   if (isFocused) {
@@ -53,7 +88,7 @@ const TextField = ({
   maxLength,
   disabled = false,
 }: TextFieldProps) => {
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer(reducer, {
     isFocused: false,
     isHovered: false,
     isComposing: false,
@@ -107,8 +142,8 @@ const TextField = ({
   return (
     <div
       className={wrapperClass}
-      onMouseEnter={() => !disabled && setState({ ...state, isHovered: true })}
-      onMouseLeave={() => setState({ ...state, isHovered: false })}
+      onMouseEnter={() => !disabled && dispatch({ type: 'HOVER_ENTER' })}
+      onMouseLeave={() => dispatch({ type: 'HOVER_LEAVE' })}
       onClick={handleContainerClick}
       onKeyDown={handleWrapperKeyDown}
       role="button"
@@ -116,23 +151,16 @@ const TextField = ({
     >
       <input
         ref={inputRef}
-        className={[
-          styles.inputBase,
-          variant === 'bigGoal'
-            ? styles.inputBigGoal
-            : variant === 'subGoal'
-              ? styles.inputSubGoal
-              : styles.inputTodo,
-        ].join(' ')}
+        className={styles.inputVariants[variant]}
         value={value}
         onChange={handleInputChange}
         placeholder={effectivePlaceholder}
         disabled={disabled}
-        onFocus={() => setState({ ...state, isFocused: true })}
-        onBlur={() => setState({ ...state, isFocused: false })}
+        onFocus={() => dispatch({ type: 'FOCUS' })}
+        onBlur={() => dispatch({ type: 'BLUR' })}
         onKeyDown={handleKeyDown}
-        onCompositionStart={() => setState({ ...state, isComposing: true })}
-        onCompositionEnd={() => setState({ ...state, isComposing: false })}
+        onCompositionStart={() => dispatch({ type: 'COMPOSE_START' })}
+        onCompositionEnd={() => dispatch({ type: 'COMPOSE_END' })}
         maxLength={effectiveMaxLength}
       />
       {fieldState === 'typing' && (
