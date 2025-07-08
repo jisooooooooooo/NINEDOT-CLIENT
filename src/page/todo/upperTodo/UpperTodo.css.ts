@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { colors } from '@/style/token';
 import { zIndex } from '@/style/token';
 
-export const upperGoalContainer = style({
+export const upperTodoContainer = style({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -14,7 +14,7 @@ export const upperGoalContainer = style({
   overflow: 'hidden',
 });
 
-export const upperGoalBox = style({
+export const upperTodoBox = style({
   width: '128rem',
   height: '67.2rem',
   flexShrink: 0,
