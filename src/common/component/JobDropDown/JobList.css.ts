@@ -21,7 +21,7 @@ export const listItem = style({
   justifyContent: 'flex-start',
   alignItems: 'center',
   height: '5rem',
-  padding: '1.4em 2rem',
+  padding: '1.4rem 2rem',
   borderBottom: `solid 1px ${colors.grey3}`,
 
   selectors: {
