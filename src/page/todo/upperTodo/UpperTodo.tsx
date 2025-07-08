@@ -3,6 +3,8 @@ import * as styles from './UpperTodo.css';
 import { IcSmallNext } from '@/assets/svg';
 import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
+import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
 
 interface UpperTodoProps {
   userName?: string;
@@ -10,6 +12,11 @@ interface UpperTodoProps {
 }
 
 const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: UpperTodoProps) => {
+  const mandalartMainGoal: MainGoal = {
+    title: mainGoal,
+    position: 0,
+  };
+
   return (
     <main className={styles.upperTodoContainer}>
       <GradientCircle variant="topRight" />
@@ -35,7 +42,14 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           </div>
         </header>
 
-        <div className={styles.upperTodoBox} />
+        <div className={styles.upperTodoBox}>
+          <Mandalart mainGoal={mandalartMainGoal} />
+          <div className={styles.textFieldColumn}>
+            {[...Array(8)].map((_, index) => (
+              <TextField key={index} variant="subGoal" value="" onChange={() => {}} />
+            ))}
+          </div>
+        </div>
 
         <button className={styles.mandalCompleteBox} type="button" aria-label="만다르트 완성하기">
           <span className={styles.mandalCompleteText}>만다르트를 완성했어요</span>

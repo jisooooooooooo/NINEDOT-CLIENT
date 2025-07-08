@@ -5,5 +5,4 @@ export const grid = style({
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: '1.6rem',
   width: 'fit-content',
-  margin: '0 auto',
 });

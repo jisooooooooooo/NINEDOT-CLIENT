@@ -82,10 +82,15 @@ export const aiAssistButton = style({
 export const upperTodoBox = style({
   width: '128rem',
   height: '67.2rem',
+  padding: '2.6rem',
   flexShrink: 0,
   borderRadius: '12px',
   background: 'rgba(65, 69, 76, 0.32)',
   zIndex: Number(zIndex.modal),
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: '2rem',
 });
 
 // 만다르트 완성 버튼
@@ -111,4 +116,12 @@ export const mandalCompleteIcon = style({
   width: '2.4rem',
   height: '2.4rem',
   flexShrink: 0,
+});
+
+export const textFieldColumn = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2.4rem',
+  flexShrink: 0,
+  justifyContent: 'center',
 });
