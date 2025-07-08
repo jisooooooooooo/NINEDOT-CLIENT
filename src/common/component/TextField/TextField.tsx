@@ -1,8 +1,6 @@
-import { useState, useMemo, useRef } from 'react';
-
+import { useState, useRef, useCallback } from 'react';
 import type { TextFieldProps, TextFieldVariant } from './TextField.types';
 import * as styles from './TextField.css';
-
 import IcTextdelete from '@/assets/svg/IcTextdelete';
 import { fonts } from '@/style/token/typography.css';
 import { colors } from '@/style/token/color.css';
@@ -15,210 +13,160 @@ const DEFAULT_PLACEHOLDER = {
 
 const BIG_GOAL_MAX_LENGTH = 30;
 
-export type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
+type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
 
-function determineTextFieldState({
-  isFocused,
-  isHovered,
-  hasValue,
-}: {
-  isFocused: boolean;
-  isHovered: boolean;
-  hasValue: boolean;
-}): FieldState {
-  if (isFocused) {
-    return hasValue ? 'typing' : 'clicked';
-  }
-  if (hasValue && !isFocused) {
-    return 'filled';
-  }
-  if (isHovered) {
-    return 'hover';
-  }
+const getFieldState = (isFocused: boolean, isHovered: boolean, hasValue: boolean): FieldState => {
+  if (isFocused) return hasValue ? 'typing' : 'clicked';
+  if (hasValue) return 'filled';
+  if (isHovered) return 'hover';
   return 'default';
-}
+};
 
-function getWrapperStyleClass(variant: TextFieldVariant, state: FieldState) {
-  switch (variant) {
-    case 'bigGoal':
-      return styles.bigGoalVariants[state];
-    case 'subGoal':
-      return styles.subGoalVariants[state];
-    case 'todo':
-      return styles.todoVariants[state];
-    default:
-      return styles.bigGoalVariants[state];
-  }
-}
-
-function getInputFontStyle(variant: TextFieldVariant, state: FieldState) {
-  if (variant === 'bigGoal') {
-    return fonts.title01;
-  }
-  if (variant === 'subGoal' || variant === 'todo') {
-    if (state === 'filled') {
-      return { ...fonts.subtitle03, fontWeight: fonts.subtitle02.fontWeight };
-    }
-    return fonts.subtitle03;
-  }
-  return {};
-}
-
-function getTextColor(state: FieldState) {
-  return state === 'filled' || state === 'typing' ? colors.grey10 : colors.grey6;
-}
-
-function getEffectiveMaxLength(variant: TextFieldVariant, maxLength?: number) {
-  return variant === 'bigGoal' ? (maxLength ?? BIG_GOAL_MAX_LENGTH) : undefined;
-}
-
-function getEffectivePlaceholder(variant: TextFieldVariant, placeholder?: string) {
-  return placeholder ?? DEFAULT_PLACEHOLDER[variant];
-}
-
-function getClearButtonStyle(variant: TextFieldVariant) {
-  return variant === 'bigGoal' ? styles.clearButton : styles.clearButtonSmall;
-}
-
-function createInputChangeHandler(onChange: (value: string) => void, maxLength?: number) {
-  return (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    if (maxLength && newValue.length > maxLength) {
-      return;
-    }
-    onChange(newValue);
+const getWrapperClass = (variant: TextFieldVariant, state: FieldState) => {
+  const variantStyles: Record<TextFieldVariant, Record<FieldState, string>> = {
+    bigGoal: styles.bigGoalVariants,
+    subGoal: styles.subGoalVariants,
+    todo: styles.todoVariants,
   };
-}
+  return variantStyles[variant][state];
+};
 
-function createEnterKeyHandler(isComposing: boolean) {
-  return (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isComposing) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.currentTarget.blur();
-    }
-  };
-}
+const getInputFont = (variant: TextFieldVariant, state: FieldState) => {
+  if (variant === 'bigGoal') return fonts.title01;
+  const baseFont = fonts.subtitle03;
+  return state === 'filled' ? { ...baseFont, fontWeight: fonts.subtitle02.fontWeight } : baseFont;
+};
 
-function createClearButtonHandler(
-  onChange: (value: string) => void,
-  inputRef: React.RefObject<HTMLInputElement | null>,
-) {
-  return (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onChange('');
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
-  };
-}
+const getTextColor = (state: FieldState) =>
+  state === 'filled' || state === 'typing' ? colors.grey10 : colors.grey6;
 
-function createContainerClickHandler(
-  disabled: boolean,
-  inputRef: React.RefObject<HTMLInputElement | null>,
-) {
-  return () => {
-    if (!disabled) {
-      inputRef.current?.focus();
-    }
-  };
-}
+const getClearButtonClass = (variant: TextFieldVariant) =>
+  variant === 'bigGoal' ? styles.clearButton : styles.clearButtonSmall;
 
-// 메인 컴포넌트
-const TextField = (props: TextFieldProps) => {
-  const { variant = 'bigGoal', value, onChange, placeholder, maxLength, disabled = false } = props;
+const getMaxLength = (variant: TextFieldVariant, maxLength?: number) =>
+  variant === 'bigGoal' ? maxLength ?? BIG_GOAL_MAX_LENGTH : undefined;
 
-  // 상태 관리
+const getPlaceholder = (variant: TextFieldVariant, placeholder?: string) =>
+  placeholder ?? DEFAULT_PLACEHOLDER[variant];
+
+// rafce 패턴 적용, fragment 사용
+const TextField = ({
+  variant = 'bigGoal',
+  value,
+  onChange,
+  placeholder,
+  maxLength,
+  disabled = false,
+}: TextFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isComposing, setIsComposing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const hasValue = Boolean(value);
-  const currentState = useMemo(
-    () => determineTextFieldState({ isFocused, isHovered, hasValue }),
-    [isFocused, isHovered, hasValue],
+  const fieldState = getFieldState(isFocused, isHovered, hasValue);
+
+  const wrapperClass = getWrapperClass(variant, fieldState);
+  const inputFont = getInputFont(variant, fieldState);
+  const textColor = getTextColor(fieldState);
+  const clearButtonClass = getClearButtonClass(variant);
+  const effectiveMaxLength = getMaxLength(variant, maxLength);
+  const effectivePlaceholder = getPlaceholder(variant, placeholder);
+
+  // 이벤트 핸들러 네이밍 컨벤션 적용
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
+      if (effectiveMaxLength && newValue.length > effectiveMaxLength) return;
+      onChange(newValue);
+    },
+    [onChange, effectiveMaxLength]
   );
 
-  const wrapperClass = useMemo(
-    () => getWrapperStyleClass(variant, currentState),
-    [variant, currentState],
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter' && !isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.currentTarget.blur();
+      }
+    },
+    [isComposing]
   );
-  const inputFont = getInputFontStyle(variant, currentState);
-  const textColor = getTextColor(currentState);
-  const effectiveMaxLength = getEffectiveMaxLength(variant, maxLength);
-  const effectivePlaceholder = getEffectivePlaceholder(variant, placeholder);
-  const clearButtonClass = getClearButtonStyle(variant);
 
-  const handleInputChange = createInputChangeHandler(onChange, effectiveMaxLength);
-  const handleKeyDown = createEnterKeyHandler(isComposing);
-  const handleClear = createClearButtonHandler(onChange, inputRef);
-  const handleContainerClick = createContainerClickHandler(disabled, inputRef);
-
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
-
-  const handleCompositionStart = () => setIsComposing(true);
-  const handleCompositionEnd = () => setIsComposing(false);
-
-  const handleMouseEnter = () => !disabled && setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
-
-  const handleWrapperKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+  const handleClearClick = useCallback(
+    (e: React.MouseEvent) => {
       e.preventDefault();
-      handleContainerClick();
-    }
-  };
+      e.stopPropagation();
+      onChange('');
+      setTimeout(() => inputRef.current?.focus(), 0);
+    },
+    [onChange]
+  );
+
+  const handleContainerClick = useCallback(() => {
+    if (!disabled) inputRef.current?.focus();
+  }, [disabled]);
+
+  const handleWrapperKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleContainerClick();
+      }
+    },
+    [handleContainerClick]
+  );
 
   return (
-    <div
-      className={wrapperClass}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleContainerClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={handleWrapperKeyDown}
-    >
-      <input
-        ref={inputRef}
-        className={styles.inputBase}
-        value={value}
-        onChange={handleInputChange}
-        placeholder={effectivePlaceholder}
-        disabled={disabled}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        onCompositionStart={handleCompositionStart}
-        onCompositionEnd={handleCompositionEnd}
-        maxLength={effectiveMaxLength}
-        style={{
-          ...inputFont,
-          color: textColor,
-          textAlign: 'left',
-          width: '100%',
-          height: '100%',
-          flex: 1,
-          background: 'transparent',
-          border: 'none',
-          outline: 'none',
-        }}
-      />
-      {currentState === 'typing' && (
-        <button
-          type="button"
-          onClick={handleClear}
-          onMouseDown={(e) => e.preventDefault()}
-          aria-label="입력값 삭제"
-          className={clearButtonClass}
-        >
-          <IcTextdelete />
-        </button>
-      )}
-    </div>
+    <>
+      <div
+        className={wrapperClass}
+        onMouseEnter={() => !disabled && setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleContainerClick}
+        onKeyDown={handleWrapperKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        <input
+          ref={inputRef}
+          className={styles.inputBase}
+          value={value}
+          onChange={handleInputChange}
+          placeholder={effectivePlaceholder}
+          disabled={disabled}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onKeyDown={handleKeyDown}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
+          maxLength={effectiveMaxLength}
+          style={{
+            ...inputFont,
+            color: textColor,
+            textAlign: 'left',
+            width: '100%',
+            height: '100%',
+            flex: 1,
+            background: 'transparent',
+            border: 'none',
+            outline: 'none',
+          }}
+        />
+        {fieldState === 'typing' && (
+          <button
+            type="button"
+            onClick={handleClearClick}
+            onMouseDown={(e) => e.preventDefault()}
+            aria-label="입력값 삭제"
+            className={clearButtonClass}
+          >
+            <IcTextdelete />
+          </button>
+        )}
+      </div>
+    </>
   );
 };
 

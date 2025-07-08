@@ -1,142 +1,76 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-
 import { colors } from '@/style/token/color.css';
 import { fonts } from '@/style/token/typography.css';
 
-// 상위목표 기본 스타일
-export const textFieldBase = style({
+// ====== 공통 베이스 스타일 ======
+const textFieldBase = style({
   display: 'flex',
-  width: '57.1rem',
-  height: '8rem',
   alignItems: 'center',
   flexShrink: 0,
-  borderRadius: '1.2rem',
-  ...fonts.title01,
+  boxSizing: 'border-box',
 });
 
-// 하위목표 기본 스타일
-export const subGoalBase = style({
-  display: 'flex',
-  alignItems: 'center',
-  borderRadius: '0.8rem',
-  ...fonts.subtitle03,
-  width: '57.1rem',
-  height: '5.6rem',
-});
+const textFieldBigGoalBase = style([
+  textFieldBase,
+  {
+    width: '57.1rem',
+    height: '8rem',
+    borderRadius: '1.2rem',
+  },
+]);
 
-// 할 일 기본 스타일
-export const todoBase = style([subGoalBase, { width: '43.6rem' }]);
+const textFieldSubGoalBase = style([
+  textFieldBase,
+  {
+    width: '57.1rem',
+    height: '5.6rem',
+    borderRadius: '0.8rem',
+    ...fonts.subtitle03,
+  },
+]);
 
-// 상위목표 상태별 스타일
+const textFieldTodoBase = style([
+  textFieldSubGoalBase,
+  { width: '43.6rem' },
+]);
+
+// ====== 상태별 스타일 ======
+const getStateStyle = (base: string, border: string, background: string, color: string, padding: string, extra?: object) => [
+  base,
+  {
+    border,
+    background,
+    color,
+    padding,
+    ...extra,
+  },
+];
+
 export const bigGoalVariants = styleVariants({
-  default: [
-    textFieldBase,
-    {
-      background: colors.grey4,
-      color: colors.grey6,
-      padding: '2rem 3rem',
-    },
-  ],
-  clicked: [
-    textFieldBase,
-    {
-      border: `0.3rem solid ${colors.grey5}`,
-      background: colors.grey3,
-      color: colors.grey6,
-      padding: '2rem 3rem',
-    },
-  ],
-  typing: [
-    textFieldBase,
-    {
-      border: `0.3rem solid ${colors.grey5}`,
-      background: colors.grey3,
-      color: colors.grey10,
-      justifyContent: 'space-between',
-      padding: '2rem 3rem',
-    },
-  ],
-  filled: [
-    textFieldBase,
-    {
-      background: colors.grey4,
-      color: colors.grey10,
-      padding: '2rem 3rem',
-    },
-  ],
-  hover: [
-    textFieldBase,
-    {
-      background: colors.grey3,
-      color: colors.grey6,
-      padding: '2rem 3rem',
-    },
-  ],
+  default: getStateStyle(textFieldBigGoalBase, '0.3rem solid transparent', colors.grey4, colors.grey6, '2rem 3rem'),
+  clicked: getStateStyle(textFieldBigGoalBase, `0.3rem solid ${colors.grey5}`, colors.grey3, colors.grey6, '2rem 3rem'),
+  typing: getStateStyle(textFieldBigGoalBase, `0.3rem solid ${colors.grey5}`, colors.grey3, colors.grey10, '2rem 3rem', { justifyContent: 'space-between' }),
+  filled: getStateStyle(textFieldBigGoalBase, '0.3rem solid transparent', colors.grey4, colors.grey10, '2rem 3rem'),
+  hover: getStateStyle(textFieldBigGoalBase, '0.3rem solid transparent', colors.grey3, colors.grey6, '2rem 3rem'),
 });
 
-// 하위목표 상태별 스타일
 export const subGoalVariants = styleVariants({
-  default: [
-    subGoalBase,
-    {
-      background: colors.grey4,
-      color: colors.grey6,
-      textAlign: 'left',
-      padding: '1.4rem 2rem',
-    },
-  ],
-  clicked: [
-    subGoalBase,
-    {
-      border: `0.2rem solid ${colors.blue06}`,
-      background: colors.grey3,
-      color: colors.grey6,
-      textAlign: 'left',
-      padding: '1.4rem 2rem',
-    },
-  ],
-  typing: [
-    subGoalBase,
-    {
-      border: `0.2rem solid ${colors.blue06}`,
-      background: colors.grey3,
-      color: colors.grey10,
-      justifyContent: 'space-between',
-      textAlign: 'left',
-      padding: '1.4rem 2rem',
-    },
-  ],
-  filled: [
-    subGoalBase,
-    {
-      background: colors.grey4,
-      color: colors.grey10,
-      textAlign: 'left',
-      ...fonts.subtitle02,
-      padding: '1.4rem 2rem',
-    },
-  ],
-  hover: [
-    subGoalBase,
-    {
-      background: colors.grey3,
-      color: colors.grey6,
-      textAlign: 'left',
-      padding: '1.4rem 2rem',
-    },
-  ],
+  default: getStateStyle(textFieldSubGoalBase, '0.2rem solid transparent', colors.grey4, colors.grey6, '1.4rem 2rem', { textAlign: 'left' }),
+  clicked: getStateStyle(textFieldSubGoalBase, `0.2rem solid ${colors.blue06}`, colors.grey3, colors.grey6, '1.4rem 2rem', { textAlign: 'left' }),
+  typing: getStateStyle(textFieldSubGoalBase, `0.2rem solid ${colors.blue06}`, colors.grey3, colors.grey10, '1.4rem 2rem', { textAlign: 'left', justifyContent: 'space-between' }),
+  filled: getStateStyle(textFieldSubGoalBase, '0.2rem solid transparent', colors.grey4, colors.grey10, '1.4rem 2rem', { textAlign: 'left', ...fonts.subtitle02 }),
+  hover: getStateStyle(textFieldSubGoalBase, '0.2rem solid transparent', colors.grey3, colors.grey6, '1.4rem 2rem', { textAlign: 'left' }),
 });
 
-// 할 일 상태별 스타일
 export const todoVariants = styleVariants({
-  default: [todoBase, subGoalVariants.default],
-  clicked: [todoBase, subGoalVariants.clicked],
-  typing: [todoBase, subGoalVariants.typing],
-  filled: [todoBase, subGoalVariants.filled],
-  hover: [todoBase, subGoalVariants.hover],
+  default: [textFieldTodoBase, subGoalVariants.default],
+  clicked: [textFieldTodoBase, subGoalVariants.clicked],
+  typing: [textFieldTodoBase, subGoalVariants.typing],
+  filled: [textFieldTodoBase, subGoalVariants.filled],
+  hover: [textFieldTodoBase, subGoalVariants.hover],
 });
 
-// 입력 필드 기본 스타일
+// ====== 입력 필드 스타일 ======
 export const inputBase = style({
   background: 'transparent',
   border: 'none',
@@ -153,10 +87,13 @@ export const inputBase = style({
   },
 });
 
-// 삭제 버튼 스타일
+// ====== 삭제 버튼 스타일 ======
+const CLEAR_BUTTON_SIZE = '3.2rem';
+const CLEAR_BUTTON_SMALL_SIZE = '2.4rem';
+
 export const clearButton = style({
-  width: '3.2rem',
-  height: '3.2rem',
+  width: CLEAR_BUTTON_SIZE,
+  height: CLEAR_BUTTON_SIZE,
   aspectRatio: '1/1',
   display: 'flex',
   alignItems: 'center',
@@ -168,8 +105,8 @@ export const clearButton = style({
 });
 
 export const clearButtonSmall = style({
-  width: '2.4rem',
-  height: '2.4rem',
+  width: CLEAR_BUTTON_SMALL_SIZE,
+  height: CLEAR_BUTTON_SMALL_SIZE,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
