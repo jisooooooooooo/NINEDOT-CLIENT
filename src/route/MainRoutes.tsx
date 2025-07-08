@@ -17,16 +17,14 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.TODO,
         element: <Todo />,
-        children: [
-          {
-            path: 'upper',
-            element: <UpperGoal />,
-          },
-          {
-            path: 'lower',
-            element: <LowerGoal />,
-          },
-        ],
+      },
+      {
+        path: PATH.TODO_UPPER,
+        element: <UpperGoal />,
+      },
+      {
+        path: PATH.TODO_LOWER,
+        element: <LowerGoal />,
       },
       {
         path: PATH.MANDAL,
