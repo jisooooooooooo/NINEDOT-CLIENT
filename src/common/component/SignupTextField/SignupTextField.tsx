@@ -13,7 +13,7 @@ const ERROR_MESSAGES = {
   birth: '정확한 생년월일을 입력해주세요',
 } as const;
 
-const INPUT_VARIANTS_WITH_CONTENT = ['typing', 'locked', 'error', 'completed'] as const;
+const INPUT_VARIANTS_WITH_CONTENT = ['locked'] as const;
 
 const getFieldState = (
   isFocused: boolean,
@@ -170,7 +170,9 @@ export default function SignupTextField({
   const handleWrapperClick = useCallback(() => {
     if (!isLocked && fieldState === 'completed') {
       dispatch({ type: 'FOCUS' });
-      setShouldFocus(true);
+      inputRef.current?.focus();
+      const len = inputRef.current?.value.length ?? 0;
+      inputRef.current?.setSelectionRange(len, len);
     } else if (!isLocked) {
       inputRef.current?.focus();
       const len = inputRef.current?.value.length ?? 0;
@@ -231,10 +233,10 @@ export default function SignupTextField({
         className={[styles.baseClass, styles.fieldVariants[fieldState]].join(' ')}
         {...wrapperProps}
       >
-        {needsInputContent ? (
-          <div className={styles.inputContent}>
+        {(fieldState === 'typing' || fieldState === 'error') ? (
+          <>
             <input {...inputProps} />
-            {fieldState === 'typing' && value && !isLocked && (
+            {value && !isLocked && (
               <button
                 type="button"
                 onClick={handleClearClick}
@@ -246,6 +248,10 @@ export default function SignupTextField({
                 <IcSmallTextdelete className={styles.iconClass} />
               </button>
             )}
+          </>
+        ) : needsInputContent ? (
+          <div className={styles.inputContent}>
+            <input {...inputProps} />
             {fieldState === 'locked' && <IcLock className={styles.lockIconClass} />}
           </div>
         ) : (
