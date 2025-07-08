@@ -11,12 +11,15 @@
     "svgr": "npx @svgr/cli -d src/assets/svg --ignore-existing --typescript --no-dimensions public/svg",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "generate-types": "openapi-typescript https://api.ninedot.p-e.kr/v3/api-docs/v1 -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.81.5",
     "@reduxjs/toolkit": "^2.8.2",
+    "@tanstack/react-query": "^5.81.5",
+    "@vanilla-extract/recipes": "^0.5.7",
     "axios": "^1.10.0",
+    "openapi-typescript": "^7.8.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-redux": "^9.2.0",
@@ -25,7 +28,6 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
     "@eslint/js": "^9.29.0",
-    "@tanstack/react-query-devtools": "^5.81.5",
     "@storybook/addon-a11y": "^9.0.15",
     "@storybook/addon-docs": "^9.0.15",
     "@storybook/addon-essentials": "^8.6.14",
@@ -33,6 +35,7 @@
     "@storybook/blocks": "^8.6.14",
     "@storybook/react": "^9.0.15",
     "@storybook/react-vite": "^9.0.15",
+    "@tanstack/react-query-devtools": "^5.81.5",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vanilla-extract/css": "^1.17.4",
