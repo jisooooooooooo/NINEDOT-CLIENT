@@ -1,5 +1,3 @@
-import { useState, type ReactNode } from 'react';
-
 import {
   checkedIcon,
   defaultIcon,
@@ -7,18 +5,23 @@ import {
   itemText,
 } from '@/page/signup/component/SurveyItem/SurveyItem.css';
 import { IcRadioDefault, IcRadioChecked } from '@/assets/svg';
+import type { OptionType } from '@/page/signup/component/type/optionType';
 
-const SurveyItem = ({ children }: { children: ReactNode }) => {
-  const [isChecked, setIsChecked] = useState(false);
+type itemProps = {
+  item: OptionType;
+  isChecked: boolean;
+  onClick: () => void;
+};
 
+const SurveyItem = ({ item, isChecked, onClick }: itemProps) => {
   return (
-    <div className={itemContainer}>
+    <div className={itemContainer} onClick={onClick}>
       {isChecked ? (
-        <IcRadioDefault className={defaultIcon} />
-      ) : (
         <IcRadioChecked className={checkedIcon} />
+      ) : (
+        <IcRadioDefault className={defaultIcon} />
       )}
-      <p className={itemText}>{children}</p>
+      <p className={itemText}>{item.content}</p>
     </div>
   );
 };
