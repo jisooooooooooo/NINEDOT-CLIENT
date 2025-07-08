@@ -10,7 +10,6 @@ export const JOB_LIST = [
 ] as const;
 
 export const PLACE_HOLDER = '직업을 선택하세요' as const;
-export const ETC_JOB = '기타 (직접 작성)' as const;
 
 export type JobType = {
   id: number;

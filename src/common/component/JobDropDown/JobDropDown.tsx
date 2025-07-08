@@ -8,12 +8,11 @@ import {
   dropdownIcon,
   textContainer,
 } from '@/common/component/JobDropDown/JobDropDown.css';
-import { PLACE_HOLDER, ETC_JOB } from '@/common/component/JobDropDown/constants/job';
+import { PLACE_HOLDER, JOB_LIST } from '@/common/component/JobDropDown/constants/job';
 import type { JobType, JobValue } from '@/common/component/JobDropDown/constants/job';
 
 const JobDropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [textOpen, setTextOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<JobValue>(PLACE_HOLDER);
 
   const toggleDropdown = () => {
@@ -23,10 +22,11 @@ const JobDropDown = () => {
   const handleJob = (job: JobType) => {
     setSelectedJob(job);
     setIsOpen(false);
-    setTextOpen(job.job === ETC_JOB);
   };
 
   const state = isOpen ? 'clicked' : 'default';
+  const isTextOpen =
+    typeof selectedJob !== 'string' && selectedJob.id === JOB_LIST[JOB_LIST.length - 1].id;
 
   return (
     <>
@@ -38,7 +38,7 @@ const JobDropDown = () => {
       </button>
 
       {isOpen && <JobList selectedJob={selectedJob} onSelect={handleJob} />}
-      {textOpen && <input placeholder="정보를 입력해주세요" className={textContainer} />}
+      {isTextOpen && <input placeholder="정보를 입력해주세요" className={textContainer} />}
     </>
   );
 };
