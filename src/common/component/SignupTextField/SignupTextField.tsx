@@ -1,6 +1,8 @@
 import { useReducer, useRef, useState, useEffect, useCallback } from 'react';
+
 import type { SignupTextFieldProps } from './SignupTextField.types';
 import * as styles from './SignupTextField.css';
+
 import IcSmallTextdelete from '@/assets/svg/IcSmallTextdelete';
 import IcLock from '@/assets/svg/IcLock';
 
@@ -18,14 +20,26 @@ const getFieldState = (
   hasValue: boolean,
   isHovered: boolean,
   error: boolean,
-  isLocked: boolean
+  isLocked: boolean,
 ): keyof typeof styles.fieldVariants => {
-  if (isLocked) return 'locked';
-  if (error) return 'error';
-  if (isFocused && hasValue) return 'typing';
-  if (isFocused && !hasValue) return 'clicked';
-  if (!isFocused && hasValue) return 'completed';
-  if (isHovered) return 'clicked';
+  if (isLocked) {
+    return 'locked';
+  }
+  if (error) {
+    return 'error';
+  }
+  if (isFocused && hasValue) {
+    return 'typing';
+  }
+  if (isFocused && !hasValue) {
+    return 'clicked';
+  }
+  if (!isFocused && hasValue) {
+    return 'completed';
+  }
+  if (isHovered) {
+    return 'clicked';
+  }
   return 'default';
 };
 
@@ -82,13 +96,15 @@ const createInputProps = (
   dispatch: React.Dispatch<Action>,
   onFocus: (() => void) | undefined,
   onBlur: (() => void) | undefined,
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
 ) => ({
   ref: inputRef,
   type: 'text' as const,
   value,
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isLocked) onChange(e.target.value);
+    if (!isLocked) {
+      onChange(e.target.value);
+    }
   },
   onFocus: () => {
     dispatch({ type: 'FOCUS' });
@@ -113,7 +129,6 @@ export default function SignupTextField({
   onChange,
   placeholder,
   error: externalError,
-  disabled,
   onBlur,
   onFocus,
   maxLength,
@@ -131,20 +146,26 @@ export default function SignupTextField({
   const hasValue = Boolean(value);
   const fieldState = getFieldState(state.isFocused, hasValue, state.isHovered, !!error, isLocked);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !state.isComposing) {
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter' && !state.isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.currentTarget.blur();
+      }
+    },
+    [state.isComposing],
+  );
+
+  const handleClearClick = useCallback(
+    (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      e.currentTarget.blur();
-    }
-  }, [state.isComposing]);
-
-  const handleClearClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onChange('');
-    setTimeout(() => inputRef.current?.focus(), 0);
-  }, [onChange]);
+      onChange('');
+      setTimeout(() => inputRef.current?.focus(), 0);
+    },
+    [onChange],
+  );
 
   const handleWrapperClick = useCallback(() => {
     if (!isLocked && fieldState === 'completed') {
@@ -157,12 +178,15 @@ export default function SignupTextField({
     }
   }, [isLocked, fieldState]);
 
-  const handleWrapperKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (!isLocked && e.key === 'Enter') {
-      e.preventDefault();
-      handleWrapperClick();
-    }
-  }, [isLocked, fieldState]);
+  const handleWrapperKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (!isLocked && e.key === 'Enter') {
+        e.preventDefault();
+        handleWrapperClick();
+      }
+    },
+    [isLocked, fieldState],
+  );
 
   useEffect(() => {
     if (shouldFocus && inputRef.current) {
@@ -194,10 +218,12 @@ export default function SignupTextField({
     dispatch,
     onFocus,
     onBlur,
-    handleKeyDown
+    handleKeyDown,
   );
 
-  const needsInputContent = INPUT_VARIANTS_WITH_CONTENT.includes(fieldState as typeof INPUT_VARIANTS_WITH_CONTENT[number]);
+  const needsInputContent = INPUT_VARIANTS_WITH_CONTENT.includes(
+    fieldState as (typeof INPUT_VARIANTS_WITH_CONTENT)[number],
+  );
 
   return (
     <div className={error ? styles.errorMessageWrapper : undefined}>
@@ -212,7 +238,7 @@ export default function SignupTextField({
               <button
                 type="button"
                 onClick={handleClearClick}
-                onMouseDown={e => e.preventDefault()}
+                onMouseDown={(e) => e.preventDefault()}
                 tabIndex={-1}
                 className={styles.clearButton}
                 aria-label="입력값 삭제"
@@ -229,4 +255,4 @@ export default function SignupTextField({
       {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
   );
-} 
+}

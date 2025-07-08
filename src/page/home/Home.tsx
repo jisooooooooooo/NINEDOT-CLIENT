@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import SignupTextField from '@/common/component/SignupTextField';
 import { MOCK_SIGNUP_DATA } from '@/common/component/SignupTextField/SignupTextField.mock';
 
@@ -9,7 +10,15 @@ const Home = () => {
   const [birth, setBirth] = useState(MOCK_SIGNUP_DATA.birth);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '52.2rem', margin: '2rem auto' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2rem',
+        width: '52.2rem',
+        margin: '2rem auto',
+      }}
+    >
       <SignupTextField
         type="name"
         value={name}

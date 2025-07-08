@@ -1,2 +1,2 @@
 export { default } from './SignupTextField';
-export * from './SignupTextField.types'; 
+export * from './SignupTextField.types';

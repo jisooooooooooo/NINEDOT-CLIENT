@@ -10,4 +10,4 @@ export interface SignupTextFieldProps {
   onBlur?: () => void;
   onFocus?: () => void;
   maxLength?: number;
-} 
+}

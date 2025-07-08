@@ -1,4 +1,5 @@
 import { styleVariants, style } from '@vanilla-extract/css';
+
 import { colors } from '@/style/token/color.css';
 import { fonts } from '@/style/token/typography.css';
 
@@ -105,7 +106,7 @@ export const inputBase = style({
   color: 'inherit',
 });
 
-const makeInputStyle = (font: any) =>
+const makeInputStyle = (font: typeof fonts.body03) =>
   style({
     ...font,
     '::placeholder': {
@@ -120,4 +121,4 @@ export const errorMessage = style({
   alignSelf: 'stretch',
   color: colors.error01,
   ...fonts.caption02,
-}); 
+});
