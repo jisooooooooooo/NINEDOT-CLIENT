@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Square } from '.';
+
 import { colors } from '@/style/token';
 
 const meta = {
