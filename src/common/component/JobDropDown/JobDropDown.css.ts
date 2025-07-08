@@ -57,3 +57,24 @@ export const dropdownIcon = recipe({
     state: 'default',
   },
 });
+
+export const textContainer = style({
+  width: '52.2rem',
+  height: '5rem',
+  padding: '1.4rem 2rem',
+  marginTop: '1.6rem',
+  backgroundColor: colors.grey4,
+  border: 'none',
+  borderRadius: '8px',
+  color: colors.grey10,
+  ...fonts.body03,
+
+  selectors: {
+    '&::placeholder': {
+      color: colors.grey6,
+    },
+    '&:focus': {
+      outline: 'none',
+    },
+  },
+});
