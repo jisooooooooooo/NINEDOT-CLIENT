@@ -16,6 +16,10 @@ const allResetElements = `
   time, mark, audio, video
 `;
 
+globalStyle('*, *::before, *::after', {
+  boxSizing: 'border-box',
+});
+
 globalStyle(allResetElements, {
   margin: 0,
   padding: 0,
