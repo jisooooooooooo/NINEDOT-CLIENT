@@ -21,7 +21,6 @@ const Tooltip = () => {
     isOpen && (
       <div className={tooltipContainer}>
         <span className={tooltipText}>{TOOLTIP_TEXT}</span>
-
         <button onClick={handleDelete}>
           <IcTooltipDelete className={closeIcon} />
         </button>

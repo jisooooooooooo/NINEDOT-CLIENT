@@ -1,5 +1,6 @@
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import Tooltip from '@/common/component/Tooltip/Tooltip';
 
 const Home = () => {
   const { openModal, ModalWrapper, closeModal } = useModal();
@@ -7,6 +8,7 @@ const Home = () => {
   return (
     <div>
       <h1>홈</h1>
+      <Tooltip />
       <button onClick={() => openModal(<AiRecommendModal onClose={closeModal} />)}>
         AI 추천 모달 열기
       </button>
