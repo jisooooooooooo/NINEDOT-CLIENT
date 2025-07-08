@@ -1,16 +1,12 @@
 import { style } from '@vanilla-extract/css';
-
 import { colors, fonts } from '@/style/token';
 
 export const squareContainer = style({
   display: 'grid',
-  gap: '1rem',
-  padding: '1rem',
   margin: '0 auto',
 });
 
-const baseCell = style({
-  color: colors.white01,
+const baseCellDefault = style({
   borderRadius: '8px',
   cursor: 'pointer',
   display: 'flex',
@@ -22,18 +18,42 @@ const baseCell = style({
   boxSizing: 'border-box',
 });
 
-export const mainCell = style([
-  baseCell,
+const baseCellSmall = style({
+  borderRadius: '8px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  width: '16rem',
+  height: '16rem',
+  boxSizing: 'border-box',
+});
+
+export const mainCellDefault = style([
+  baseCellDefault,
   fonts.title03,
   {
+    color: colors.white01,
     backgroundImage: colors.gradient04,
   },
 ]);
 
-export const subCell = style([
-  baseCell,
+export const mainCellSmall = style([
+  baseCellSmall,
   fonts.subtitle01,
   {
+    color: colors.white01,
+    backgroundImage: colors.gradient04,
+    padding: '1.4rem',
+  },
+]);
+
+export const subCellDefault = style([
+  baseCellDefault,
+  fonts.subtitle01,
+  {
+    color: colors.grey8,
     background: colors.grey2,
     ':hover': {
       background: colors.grey3,
@@ -41,6 +61,24 @@ export const subCell = style([
     selectors: {
       '&[data-completed="true"]': {
         border: '0.4rem solid #305088',
+        background: colors.grey2,
+      },
+    },
+  },
+]);
+
+export const subCellSmall = style([
+  baseCellSmall,
+  fonts.subtitle05,
+  {
+    color: colors.grey8,
+    background: colors.grey2,
+    ':hover': {
+      background: colors.grey3,
+    },
+    selectors: {
+      '&[data-completed="true"]': {
+        border: '0.3rem solid #305088',
         background: colors.grey2,
       },
     },

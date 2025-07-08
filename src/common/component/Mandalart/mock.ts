@@ -1,10 +1,7 @@
-import type { MainGoal, SubGoal } from './Mandalart';
+import type { SubGoal } from './Mandalart';
 
-export const MOCK_MANDALART_DATA: { mainGoal: MainGoal; subGoals: SubGoal[] } = {
-  mainGoal: {
-    title: '나인도트 1등하기',
-    position: 4,
-  },
+export const MOCK_MANDALART_DATA = {
+  mainGoal: '나인도트 1등하기',
   subGoals: [
     {
       title: '이현준 갈구기',
@@ -46,5 +43,6 @@ export const MOCK_MANDALART_DATA: { mainGoal: MainGoal; subGoals: SubGoal[] } = 
       position: 7,
       cycle: 'DAILY',
     },
-  ],
+  ] as SubGoal[],
+  completedGoals: [],
 };
