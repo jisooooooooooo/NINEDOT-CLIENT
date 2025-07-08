@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { IcTooltipDelete, IcTriangle } from '@/assets/svg';
 import {
   tooltipContainer,
@@ -9,12 +11,23 @@ import {
 const TOOLTIP_TEXT = '한 번만 도움받을 수 있어요';
 
 const Tooltip = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleDelete = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <div className={tooltipContainer}>
-      <span className={tooltipText}>{TOOLTIP_TEXT}</span>
-      <IcTooltipDelete className={closeIcon} />
-      <IcTriangle className={triangleIcon} />
-    </div>
+    isOpen && (
+      <div className={tooltipContainer}>
+        <span className={tooltipText}>{TOOLTIP_TEXT}</span>
+
+        <button onClick={handleDelete}>
+          <IcTooltipDelete className={closeIcon} />
+        </button>
+        <IcTriangle className={triangleIcon} />
+      </div>
+    )
   );
 };
 
