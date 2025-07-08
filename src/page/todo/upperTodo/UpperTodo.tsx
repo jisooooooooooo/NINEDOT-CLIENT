@@ -1,10 +1,11 @@
+import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
+
 import * as styles from './UpperTodo.css';
 
 import { IcSmallNext } from '@/assets/svg';
 import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
-import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
 
 interface UpperTodoProps {
   userName?: string;
