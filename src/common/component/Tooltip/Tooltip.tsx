@@ -10,7 +10,11 @@ import {
 
 const TOOLTIP_TEXT = '한 번만 도움받을 수 있어요';
 
-const Tooltip = () => {
+interface TooltipProps {
+  className?: string;
+}
+
+const Tooltip = ({ className }: TooltipProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleDelete = () => {
@@ -19,7 +23,7 @@ const Tooltip = () => {
 
   return (
     isOpen && (
-      <div className={tooltipContainer}>
+      <div className={`${tooltipContainer} ${className ?? ''}`}>
         <span className={tooltipText}>{TOOLTIP_TEXT}</span>
         <button onClick={handleDelete}>
           <IcTooltipDelete className={closeIcon} />
