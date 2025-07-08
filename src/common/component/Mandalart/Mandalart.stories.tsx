@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import type { Cycle } from './Mandalart';
-import Mandalart from './Mandalart';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
+import Mandalart, { type Cycle } from './Mandalart';
+import { MOCK_MANDALART_DATA } from './mock';
 
 const meta = {
   title: 'Components/Mandalart',
@@ -67,9 +68,20 @@ const CUSTOM_GOALS = {
 export const Default: Story = {
   args: {
     mainGoal: '메인 목표를 입력하세요',
-    subGoals: CUSTOM_GOALS.subGoals,
+    subGoals: MOCK_MANDALART_DATA.subGoals,
   },
-  render: (args) => <Mandalart {...args} />,
+  render: (args) => (
+    <div style={{ display: 'flex', gap: '2rem' }}>
+      <div>
+        <h3 style={{ color: 'white', marginBottom: '1rem' }}>Default 사이즈</h3>
+        <Mandalart {...args} />
+      </div>
+      <div>
+        <h3 style={{ color: 'white', marginBottom: '1rem' }}>Small 사이즈</h3>
+        <Mandalart {...args} size="small" />
+      </div>
+    </div>
+  ),
 };
 
 export const Small: Story = {

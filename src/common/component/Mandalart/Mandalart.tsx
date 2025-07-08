@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { Square } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
