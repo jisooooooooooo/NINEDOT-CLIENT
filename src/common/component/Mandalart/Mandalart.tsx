@@ -1,10 +1,10 @@
 import { useState } from 'react';
-
 import { Square } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
+export type MandalartSize = 'small' | 'default';
 
 export interface SubGoal {
   title: string;
@@ -12,46 +12,28 @@ export interface SubGoal {
   cycle: Cycle;
 }
 
-export interface MainGoal {
-  title: string;
-  position: number;
-}
-
 interface MandalartProps {
-  mainGoal?: MainGoal;
+  mainGoal?: string;
   subGoals?: SubGoal[];
-  onSubGoalSelect?: (position: number) => void;
+  size?: MandalartSize;
 }
-
-const DEFAULT_MAIN_GOAL: MainGoal = MOCK_MANDALART_DATA.mainGoal;
-const DEFAULT_SUB_GOALS: SubGoal[] = MOCK_MANDALART_DATA.subGoals;
 
 const CENTER_INDEX = 4;
 
 const Mandalart = ({
-  mainGoal = DEFAULT_MAIN_GOAL,
-  subGoals = DEFAULT_SUB_GOALS,
-  onSubGoalSelect,
+  mainGoal = MOCK_MANDALART_DATA.mainGoal,
+  subGoals = MOCK_MANDALART_DATA.subGoals,
+  size = 'default',
 }: MandalartProps) => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
-  const handleClick = (index: number) => {
-    if (index === CENTER_INDEX) {
-      return;
-    }
-    const newSelectedIndex = selectedIndex === index ? null : index;
-    setSelectedIndex(newSelectedIndex);
-
-    if (newSelectedIndex !== null) {
-      const subGoalIndex =
-        newSelectedIndex > CENTER_INDEX ? newSelectedIndex - 1 : newSelectedIndex;
-      onSubGoalSelect?.(subGoalIndex);
-    }
+  const handleGoalClick = (position: number) => {
+    setSelectedGoal(selectedGoal === position ? null : position);
   };
 
   const renderSquare = (index: number) => {
     if (index === CENTER_INDEX) {
-      return <Square.Main key={index} content={mainGoal.title} />;
+      return <Square.Main key={index} content={mainGoal} size={size} />;
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
@@ -61,8 +43,9 @@ const Mandalart = ({
       <Square.Sub
         key={index}
         content={subGoal.title}
-        isCompleted={selectedIndex === index}
-        onClick={() => handleClick(index)}
+        isCompleted={selectedGoal === subGoalIndex}
+        onClick={() => handleGoalClick(subGoalIndex)}
+        size={size}
       />
     );
   };
@@ -71,7 +54,7 @@ const Mandalart = ({
     .fill(null)
     .map((_, index) => renderSquare(index));
 
-  return <div className={styles.grid}>{squares}</div>;
+  return <div className={size === 'small' ? styles.gridSmall : styles.gridDefault}>{squares}</div>;
 };
 
 export default Mandalart;
