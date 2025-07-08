@@ -1,8 +1,17 @@
-import { useReducer, useRef, useState, useEffect } from 'react';
+import { useReducer, useRef, useState, useEffect, useCallback } from 'react';
 import type { SignupTextFieldProps } from './SignupTextField.types';
 import * as styles from './SignupTextField.css';
 import IcSmallTextdelete from '@/assets/svg/IcSmallTextdelete';
 import IcLock from '@/assets/svg/IcLock';
+
+const NAME_MAX_LENGTH = 10;
+const BIRTH_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const ERROR_MESSAGES = {
+  name: '한글/영문 10자 이하로 입력해주세요',
+  birth: '정확한 생년월일을 입력해주세요',
+} as const;
+
+const INPUT_VARIANTS_WITH_CONTENT = ['typing', 'locked', 'error', 'completed'] as const;
 
 const getFieldState = (
   isFocused: boolean,
@@ -10,7 +19,7 @@ const getFieldState = (
   isHovered: boolean,
   error: boolean,
   isLocked: boolean
-) => {
+): keyof typeof styles.fieldVariants => {
   if (isLocked) return 'locked';
   if (error) return 'error';
   if (isFocused && hasValue) return 'typing';
@@ -25,6 +34,7 @@ interface State {
   isHovered: boolean;
   isComposing: boolean;
 }
+
 type Action =
   | { type: 'FOCUS' }
   | { type: 'BLUR' }
@@ -32,6 +42,7 @@ type Action =
   | { type: 'HOVER_LEAVE' }
   | { type: 'COMPOSE_START' }
   | { type: 'COMPOSE_END' };
+
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'FOCUS':
@@ -50,6 +61,51 @@ const reducer = (state: State, action: Action): State => {
       return state;
   }
 };
+
+const validateField = (type: SignupTextFieldProps['type'], value: string): string | undefined => {
+  if (type === 'name' && value.length > NAME_MAX_LENGTH) {
+    return ERROR_MESSAGES.name;
+  }
+  if (type === 'birth' && !BIRTH_REGEX.test(value)) {
+    return ERROR_MESSAGES.birth;
+  }
+  return undefined;
+};
+
+const createInputProps = (
+  inputRef: React.RefObject<HTMLInputElement | null>,
+  value: string,
+  onChange: (value: string) => void,
+  placeholder: string | undefined,
+  maxLength: number | undefined,
+  isLocked: boolean,
+  dispatch: React.Dispatch<Action>,
+  onFocus: (() => void) | undefined,
+  onBlur: (() => void) | undefined,
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
+) => ({
+  ref: inputRef,
+  type: 'text' as const,
+  value,
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isLocked) onChange(e.target.value);
+  },
+  onFocus: () => {
+    dispatch({ type: 'FOCUS' });
+    onFocus?.();
+  },
+  onBlur: () => {
+    dispatch({ type: 'BLUR' });
+    onBlur?.();
+  },
+  onKeyDown: handleKeyDown,
+  onCompositionStart: () => dispatch({ type: 'COMPOSE_START' }),
+  onCompositionEnd: () => dispatch({ type: 'COMPOSE_END' }),
+  placeholder,
+  maxLength,
+  disabled: isLocked,
+  className: [styles.inputBase, styles.inputStyle].join(' '),
+});
 
 export default function SignupTextField({
   type,
@@ -71,37 +127,27 @@ export default function SignupTextField({
   const [shouldFocus, setShouldFocus] = useState(false);
 
   const isLocked = type === 'email';
-
-  let error: string | undefined = externalError;
-  if (type === 'name') {
-    if (value.length > 10) error = '한글/영문 10자 이하로 입력해주세요';
-  }
-  if (type === 'birth') {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) error = '정확한 생년월일을 입력해주세요';
-  }
-
+  const error = externalError || validateField(type, value);
   const hasValue = Boolean(value);
   const fieldState = getFieldState(state.isFocused, hasValue, state.isHovered, !!error, isLocked);
-  const variant: keyof typeof styles.fieldVariants = fieldState as any;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isLocked) onChange(e.target.value);
-  };
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !state.isComposing) {
       e.preventDefault();
       e.stopPropagation();
       e.currentTarget.blur();
     }
-  };
-  const handleClearClick = (e: React.MouseEvent) => {
+  }, [state.isComposing]);
+
+  const handleClearClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     onChange('');
     setTimeout(() => inputRef.current?.focus(), 0);
-  };
-  const handleWrapperClick = () => {
-    if (!isLocked && variant === 'completed') {
+  }, [onChange]);
+
+  const handleWrapperClick = useCallback(() => {
+    if (!isLocked && fieldState === 'completed') {
       dispatch({ type: 'FOCUS' });
       setShouldFocus(true);
     } else if (!isLocked) {
@@ -109,13 +155,14 @@ export default function SignupTextField({
       const len = inputRef.current?.value.length ?? 0;
       inputRef.current?.setSelectionRange(len, len);
     }
-  };
-  const handleWrapperKeyDown = (e: React.KeyboardEvent) => {
+  }, [isLocked, fieldState]);
+
+  const handleWrapperKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (!isLocked && e.key === 'Enter') {
       e.preventDefault();
       handleWrapperClick();
     }
-  };
+  }, [isLocked, fieldState]);
 
   useEffect(() => {
     if (shouldFocus && inputRef.current) {
@@ -137,36 +184,31 @@ export default function SignupTextField({
         onMouseLeave: () => dispatch({ type: 'HOVER_LEAVE' }),
       };
 
+  const inputProps = createInputProps(
+    inputRef,
+    value,
+    onChange,
+    placeholder,
+    maxLength,
+    isLocked,
+    dispatch,
+    onFocus,
+    onBlur,
+    handleKeyDown
+  );
+
+  const needsInputContent = INPUT_VARIANTS_WITH_CONTENT.includes(fieldState as typeof INPUT_VARIANTS_WITH_CONTENT[number]);
+
   return (
     <div className={error ? styles.errorMessageWrapper : undefined}>
       <div
-        className={[styles.baseClass, styles.fieldVariants[variant]].join(' ')}
+        className={[styles.baseClass, styles.fieldVariants[fieldState]].join(' ')}
         {...wrapperProps}
       >
-        {['typing', 'locked', 'error', 'completed'].includes(variant) ? (
+        {needsInputContent ? (
           <div className={styles.inputContent}>
-            <input
-              ref={inputRef}
-              type={type === 'birth' ? 'text' : 'text'}
-              value={value}
-              onChange={handleInputChange}
-              onFocus={() => {
-                dispatch({ type: 'FOCUS' });
-                onFocus?.();
-              }}
-              onBlur={e => {
-                dispatch({ type: 'BLUR' });
-                onBlur?.();
-              }}
-              onKeyDown={handleKeyDown}
-              onCompositionStart={() => dispatch({ type: 'COMPOSE_START' })}
-              onCompositionEnd={() => dispatch({ type: 'COMPOSE_END' })}
-              placeholder={placeholder}
-              maxLength={maxLength}
-              disabled={isLocked}
-              className={[styles.inputBase, styles.inputStyle].join(' ')}
-            />
-            {variant === 'typing' && value && !isLocked && (
+            <input {...inputProps} />
+            {fieldState === 'typing' && value && !isLocked && (
               <button
                 type="button"
                 onClick={handleClearClick}
@@ -178,30 +220,10 @@ export default function SignupTextField({
                 <IcSmallTextdelete className={styles.iconClass} />
               </button>
             )}
-            {variant === 'locked' && <IcLock className={styles.lockIconClass} />}
+            {fieldState === 'locked' && <IcLock className={styles.lockIconClass} />}
           </div>
         ) : (
-          <input
-            ref={inputRef}
-            type={type === 'birth' ? 'text' : 'text'}
-            value={value}
-            onChange={handleInputChange}
-            onFocus={() => {
-              dispatch({ type: 'FOCUS' });
-              onFocus?.();
-            }}
-            onBlur={e => {
-              dispatch({ type: 'BLUR' });
-              onBlur?.();
-            }}
-            onKeyDown={handleKeyDown}
-            onCompositionStart={() => dispatch({ type: 'COMPOSE_START' })}
-            onCompositionEnd={() => dispatch({ type: 'COMPOSE_END' })}
-            placeholder={placeholder}
-            maxLength={maxLength}
-            disabled={isLocked}
-            className={[styles.inputBase, styles.inputStyle].join(' ')}
-          />
+          <input {...inputProps} />
         )}
       </div>
       {error && <div className={styles.errorMessage}>{error}</div>}
