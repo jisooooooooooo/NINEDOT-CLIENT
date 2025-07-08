@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import TextField from './TextField';
+import MandalartTextField from './MandalartTextField';
 
-const meta: Meta<typeof TextField> = {
-  title: 'Common/TextField',
-  component: TextField,
+const meta: Meta<typeof MandalartTextField> = {
+  title: 'Common/MandalartTextField',
+  component: MandalartTextField,
   parameters: {
     layout: 'centered',
     docs: {
@@ -44,7 +44,7 @@ export const Interactive: Story = {
   },
   render: (args) => {
     const [value, setValue] = useState('');
-    return <TextField {...args} value={value} onChange={setValue} />;
+    return <MandalartTextField {...args} value={value} onChange={setValue} />;
   },
   parameters: {
     docs: {
@@ -69,7 +69,7 @@ export const Variants: Story = {
         {variants.map(({ variant, label }, idx) => (
           <div key={variant}>
             <div style={{ marginBottom: '0.5rem', fontWeight: 600 }}>{label}</div>
-            <TextField
+            <MandalartTextField
               variant={variant}
               value={values[idx]}
               onChange={(v) => setValues((vals) => vals.map((val, i) => (i === idx ? v : val)))}
@@ -95,7 +95,7 @@ export const Disabled: Story = {
     onChange: () => {},
     disabled: true,
   },
-  render: (args) => <TextField {...args} />,
+  render: (args) => <MandalartTextField {...args} />,
   parameters: {
     docs: {
       description: {
