@@ -53,13 +53,15 @@ const TextField = ({
   maxLength,
   disabled = false,
 }: TextFieldProps) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isComposing, setIsComposing] = useState(false);
+  const [state, setState] = useState({
+    isFocused: false,
+    isHovered: false,
+    isComposing: false,
+  });
   const inputRef = useRef<HTMLInputElement>(null);
 
   const hasValue = Boolean(value);
-  const fieldState = getFieldState(isFocused, isHovered, hasValue);
+  const fieldState = getFieldState(state.isFocused, state.isHovered, hasValue);
 
   const wrapperClass = getWrapperClass(variant, fieldState);
   const clearButtonClass = getClearButtonClass(variant);
@@ -75,7 +77,7 @@ const TextField = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isComposing) {
+    if (e.key === 'Enter' && !state.isComposing) {
       e.preventDefault();
       e.stopPropagation();
       e.currentTarget.blur();
@@ -96,7 +98,7 @@ const TextField = ({
   };
 
   const handleWrapperKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleContainerClick();
     }
@@ -105,8 +107,8 @@ const TextField = ({
   return (
     <div
       className={wrapperClass}
-      onMouseEnter={() => !disabled && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !disabled && setState({ ...state, isHovered: true })}
+      onMouseLeave={() => setState({ ...state, isHovered: false })}
       onClick={handleContainerClick}
       onKeyDown={handleWrapperKeyDown}
       role="button"
@@ -126,13 +128,12 @@ const TextField = ({
         onChange={handleInputChange}
         placeholder={effectivePlaceholder}
         disabled={disabled}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={() => setState({ ...state, isFocused: true })}
+        onBlur={() => setState({ ...state, isFocused: false })}
         onKeyDown={handleKeyDown}
-        onCompositionStart={() => setIsComposing(true)}
-        onCompositionEnd={() => setIsComposing(false)}
+        onCompositionStart={() => setState({ ...state, isComposing: true })}
+        onCompositionEnd={() => setState({ ...state, isComposing: false })}
         maxLength={effectiveMaxLength}
-        style={{ flex: 1 }}
       />
       {fieldState === 'typing' && (
         <button
