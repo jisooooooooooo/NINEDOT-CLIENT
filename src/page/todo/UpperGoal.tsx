@@ -8,6 +8,7 @@ const UpperGoal = () => {
       <GradientCircle variant="topRight" />
       <GradientCircle variant="bottomLeft1" />
       <GradientCircle variant="bottomLeft2" />
+      <div className={styles.upperGoalBox} />
     </main>
   );
 };
