@@ -7,9 +7,11 @@ export const listContainer = style({
   display: 'flex',
   flexDirection: 'column',
   width: '52.2rem',
+  height: '24rem',
   backgroundColor: colors.grey2,
   borderRadius: '8px',
-  overflow: 'hidden',
+  overflowY: 'auto',
+  overflowX: 'hidden',
   cursor: 'pointer',
   zIndex: zIndex.dropdown,
 });
