@@ -20,10 +20,10 @@ const JobDropDown = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleJob = (type: JobType) => {
-    setSelectedJob(type);
+  const handleJob = (job: JobType) => {
+    setSelectedJob(job);
     setIsOpen(false);
-    setTextOpen(type === ETC_JOB);
+    setTextOpen(job.job === ETC_JOB);
   };
 
   const state = isOpen ? 'clicked' : 'default';
@@ -31,7 +31,9 @@ const JobDropDown = () => {
   return (
     <>
       <button className={jobContainer} onClick={toggleDropdown}>
-        <span className={jobText({ state })}>{selectedJob}</span>
+        <span className={jobText({ state })}>
+          {typeof selectedJob === 'string' ? selectedJob : selectedJob.job}
+        </span>
         <IcDropdown className={dropdownIcon({ state })} />
       </button>
 
