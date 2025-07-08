@@ -36,7 +36,7 @@ const JobDropDown = () => {
         <IcDropdown className={dropdownIcon({ state })} />
       </button>
 
-      {isOpen && <JobList selectedJob={selectedJob} onSelect={handleJob} />}
+      {isOpen && <JobList jobList={JOB_LIST} selectedJob={selectedJob} onSelect={handleJob} />}
       {isTextOpen && <input placeholder="정보를 입력해주세요" className={textContainer} />}
     </>
   );
