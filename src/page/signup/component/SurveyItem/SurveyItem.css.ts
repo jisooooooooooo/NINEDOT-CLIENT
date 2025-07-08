@@ -5,6 +5,7 @@ import { colors, fonts } from '@/style/token';
 export const itemContainer = style({
   display: 'flex',
   gap: '1.2rem',
+  cursor: 'pointer',
 });
 
 export const itemText = style({
