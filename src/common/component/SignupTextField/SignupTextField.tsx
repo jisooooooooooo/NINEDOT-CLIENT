@@ -233,7 +233,7 @@ export default function SignupTextField({
         className={[styles.baseClass, styles.fieldVariants[fieldState]].join(' ')}
         {...wrapperProps}
       >
-        {(fieldState === 'typing' || fieldState === 'error') ? (
+        {fieldState === 'typing' || fieldState === 'error' ? (
           <>
             <input {...inputProps} />
             {value && !isLocked && (
