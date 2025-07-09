@@ -5,6 +5,7 @@ import * as styles from './SignupTextField.css';
 
 import IcSmallTextdelete from '@/assets/svg/IcSmallTextdelete';
 import IcLock from '@/assets/svg/IcLock';
+import { formatBirthDate } from '@/common/util/format';
 
 const NAME_MAX_LENGTH = 10;
 const BIRTH_REGEX = /^\d{4}-\d{2}-\d{2}$/;
@@ -13,7 +14,7 @@ const ERROR_MESSAGES = {
   birth: '정확한 생년월일을 입력해주세요',
 } as const;
 
-const INPUT_VARIANTS_WITH_CONTENT = ['locked'] as const;
+const INPUT_VARIANTS_WITH_CONTENT = new Set<keyof typeof styles.fieldVariants>(['locked']);
 
 const getFieldState = (
   isFocused: boolean,
@@ -97,13 +98,18 @@ const createInputProps = (
   onFocus: (() => void) | undefined,
   onBlur: (() => void) | undefined,
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
+  type: SignupTextFieldProps['type'],
 ) => ({
   ref: inputRef,
   type: 'text' as const,
   value,
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isLocked) {
-      onChange(e.target.value);
+      if (type === 'birth') {
+        onChange(formatBirthDate(e.target.value));
+      } else {
+        onChange(e.target.value);
+      }
     }
   },
   onFocus: () => {
@@ -122,6 +128,51 @@ const createInputProps = (
   disabled: isLocked,
   className: [styles.inputBase, styles.inputStyle].join(' '),
 });
+
+function renderInputContent({
+  fieldState,
+  inputProps,
+  value,
+  isLocked,
+  handleClearClick,
+  styles,
+}: {
+  fieldState: string;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  value: string;
+  isLocked: boolean;
+  handleClearClick: (e: React.MouseEvent) => void;
+  styles: typeof import('./SignupTextField.css');
+}) {
+  if (fieldState === 'typing' || fieldState === 'error') {
+    return (
+      <>
+        <input {...inputProps} />
+        {value && !isLocked && (
+          <button
+            type="button"
+            onClick={handleClearClick}
+            onMouseDown={(e) => e.preventDefault()}
+            tabIndex={-1}
+            className={styles.clearButton}
+            aria-label="입력값 삭제"
+          >
+            <IcSmallTextdelete className={styles.iconClass} />
+          </button>
+        )}
+      </>
+    );
+  }
+  if (fieldState === 'locked') {
+    return (
+      <div className={styles.inputContent}>
+        <input {...inputProps} />
+        <IcLock className={styles.lockIconClass} />
+      </div>
+    );
+  }
+  return <input {...inputProps} />;
+}
 
 export default function SignupTextField({
   type,
@@ -221,11 +272,10 @@ export default function SignupTextField({
     onFocus,
     onBlur,
     handleKeyDown,
+    type,
   );
 
-  const needsInputContent = INPUT_VARIANTS_WITH_CONTENT.includes(
-    fieldState as (typeof INPUT_VARIANTS_WITH_CONTENT)[number],
-  );
+  const needsInputContent = INPUT_VARIANTS_WITH_CONTENT.has(fieldState);
 
   return (
     <div className={error ? styles.errorMessageWrapper : undefined}>
@@ -233,30 +283,14 @@ export default function SignupTextField({
         className={[styles.baseClass, styles.fieldVariants[fieldState]].join(' ')}
         {...wrapperProps}
       >
-        {fieldState === 'typing' || fieldState === 'error' ? (
-          <>
-            <input {...inputProps} />
-            {value && !isLocked && (
-              <button
-                type="button"
-                onClick={handleClearClick}
-                onMouseDown={(e) => e.preventDefault()}
-                tabIndex={-1}
-                className={styles.clearButton}
-                aria-label="입력값 삭제"
-              >
-                <IcSmallTextdelete className={styles.iconClass} />
-              </button>
-            )}
-          </>
-        ) : needsInputContent ? (
-          <div className={styles.inputContent}>
-            <input {...inputProps} />
-            {fieldState === 'locked' && <IcLock className={styles.lockIconClass} />}
-          </div>
-        ) : (
-          <input {...inputProps} />
-        )}
+        {renderInputContent({
+          fieldState,
+          inputProps,
+          value,
+          isLocked,
+          handleClearClick,
+          styles,
+        })}
       </div>
       {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
