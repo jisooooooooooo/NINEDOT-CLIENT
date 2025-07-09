@@ -8,6 +8,7 @@ export const PATH = {
   HISTORY: '/history',
   TERMS: '/terms',
   PRIVACY: '/privacy',
+  SIGNUP: '/signup',
 } as const;
 
 export type PathType = (typeof PATH)[keyof typeof PATH];
