@@ -7,81 +7,152 @@ export const squareContainer = style({
   margin: '0 auto',
 });
 
-const baseCellDefault = style({
-  borderRadius: '8px',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  textAlign: 'center',
-  width: '19.6rem',
-  height: '19.6rem',
-  boxSizing: 'border-box',
-});
-
-const baseCellSmall = style({
-  borderRadius: '8px',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  textAlign: 'center',
-  width: '16rem',
-  height: '16rem',
-  boxSizing: 'border-box',
-});
-
-export const mainCellDefault = style([
-  baseCellDefault,
-  fonts.title03,
-  {
-    color: colors.white01,
-    backgroundImage: colors.gradient04,
+const SQUARE_SIZES = {
+  TODO_SUB: {
+    width: '9.6rem',
+    height: '9.6rem',
+    mainFont: fonts.body04,
+    subFont: fonts.caption01,
+    borderWidth: '0.8rem',
   },
-]);
-
-export const mainCellSmall = style([
-  baseCellSmall,
-  fonts.subtitle01,
-  {
-    color: colors.white01,
-    backgroundImage: colors.gradient04,
-    padding: '1.4rem',
+  TODO_MAIN: {
+    width: '19.6rem',
+    height: '19.6rem',
+    mainFont: fonts.title03,
+    subFont: fonts.subtitle01,
+    borderWidth: '0.8rem',
   },
-]);
+  TODO_EDIT: {
+    width: '16rem',
+    height: '16rem',
+    mainFont: fonts.subtitle01,
+    subFont: fonts.subtitle05,
+    borderWidth: '0.8rem',
+  },
+  MY_MANDAL: {
+    width: '29.8rem',
+    height: '29.8rem',
+    mainFont: fonts.display02,
+    subFont: fonts.title01,
+    borderWidth: '0.8rem',
+  },
+} as const;
 
-export const subCellDefault = style([
-  baseCellDefault,
-  fonts.subtitle01,
-  {
-    color: colors.grey8,
-    background: colors.grey2,
-    ':hover': {
-      background: colors.grey3,
+const createBaseCell = (size: keyof typeof SQUARE_SIZES) =>
+  style({
+    borderRadius: '8px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    width: SQUARE_SIZES[size].width,
+    height: SQUARE_SIZES[size].height,
+    boxSizing: 'border-box',
+  });
+
+export const mainCell = {
+  TODO_SUB: style([
+    createBaseCell('TODO_SUB'),
+    SQUARE_SIZES.TODO_SUB.mainFont,
+    {
+      color: colors.white01,
+      backgroundImage: colors.gradient04,
     },
-    selectors: {
-      '&[data-completed="true"]': {
-        border: '0.4rem solid #305088',
-        background: colors.grey2,
+  ]),
+  TODO_MAIN: style([
+    createBaseCell('TODO_MAIN'),
+    SQUARE_SIZES.TODO_MAIN.mainFont,
+    {
+      color: colors.white01,
+      backgroundImage: colors.gradient04,
+    },
+  ]),
+  TODO_EDIT: style([
+    createBaseCell('TODO_EDIT'),
+    SQUARE_SIZES.TODO_EDIT.mainFont,
+    {
+      color: colors.white01,
+      backgroundImage: colors.gradient04,
+    },
+  ]),
+  MY_MANDAL: style([
+    createBaseCell('MY_MANDAL'),
+    SQUARE_SIZES.MY_MANDAL.mainFont,
+    {
+      color: colors.white01,
+      backgroundImage: colors.gradient04,
+    },
+  ]),
+};
+
+export const subCell = {
+  TODO_SUB: style([
+    createBaseCell('TODO_SUB'),
+    SQUARE_SIZES.TODO_SUB.subFont,
+    {
+      color: colors.grey8,
+      background: colors.grey2,
+      ':hover': {
+        background: colors.grey3,
+      },
+      selectors: {
+        '&[data-completed="true"]': {
+          border: `${SQUARE_SIZES.TODO_SUB.borderWidth} solid #305088`,
+          background: colors.grey2,
+        },
       },
     },
-  },
-]);
-
-export const subCellSmall = style([
-  baseCellSmall,
-  fonts.subtitle05,
-  {
-    color: colors.grey8,
-    background: colors.grey2,
-    ':hover': {
-      background: colors.grey3,
-    },
-    selectors: {
-      '&[data-completed="true"]': {
-        border: '0.3rem solid #305088',
-        background: colors.grey2,
+  ]),
+  TODO_MAIN: style([
+    createBaseCell('TODO_MAIN'),
+    SQUARE_SIZES.TODO_MAIN.subFont,
+    {
+      color: colors.grey8,
+      background: colors.grey2,
+      ':hover': {
+        background: colors.grey3,
+      },
+      selectors: {
+        '&[data-completed="true"]': {
+          border: `${SQUARE_SIZES.TODO_MAIN.borderWidth} solid #305088`,
+          background: colors.grey2,
+        },
       },
     },
-  },
-]);
+  ]),
+  TODO_EDIT: style([
+    createBaseCell('TODO_EDIT'),
+    SQUARE_SIZES.TODO_EDIT.subFont,
+    {
+      color: colors.grey8,
+      background: colors.grey2,
+      ':hover': {
+        background: colors.grey3,
+      },
+      selectors: {
+        '&[data-completed="true"]': {
+          border: `${SQUARE_SIZES.TODO_EDIT.borderWidth} solid #305088`,
+          background: colors.grey2,
+        },
+      },
+    },
+  ]),
+  MY_MANDAL: style([
+    createBaseCell('MY_MANDAL'),
+    SQUARE_SIZES.MY_MANDAL.subFont,
+    {
+      color: colors.grey8,
+      background: colors.grey2,
+      ':hover': {
+        background: colors.grey3,
+      },
+      selectors: {
+        '&[data-completed="true"]': {
+          border: `${SQUARE_SIZES.MY_MANDAL.borderWidth} solid #305088`,
+          background: colors.grey2,
+        },
+      },
+    },
+  ]),
+};

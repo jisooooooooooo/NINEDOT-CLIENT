@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Square } from '.';
+import { Main, Sub } from '.';
 
 import { colors } from '@/style/token';
 
 const meta = {
   title: 'Components/Square',
-  component: Square.Main,
+  component: Main,
   parameters: {
     layout: 'centered',
     backgrounds: {
@@ -14,7 +14,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Square.Main>;
+} satisfies Meta<typeof Main>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -25,26 +25,38 @@ export const Default: Story = {
   args: {
     content: '상위 목표',
   },
-  render: (args) => (
-    <div style={{ display: 'flex', gap: '2rem' }}>
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
       <div>
-        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>Default 사이즈</h3>
-        <p style={{ color: colors.white01, marginBottom: '1rem' }}>
-          메인: title03 / 서브: subtitle01
-        </p>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_SUB (96px)</h3>
         <div style={{ display: 'flex', gap: '2rem' }}>
-          <Square.Main {...args} />
-          <Square.Sub content="세부 목표" isCompleted={false} onClick={handleClick} />
+          <Main content="상위 목표" size="TODO_SUB" />
+          <Sub content="세부 목표" isCompleted={false} onClick={handleClick} size="TODO_SUB" />
+          <Sub content="완료된 목표" isCompleted={true} onClick={handleClick} size="TODO_SUB" />
         </div>
       </div>
       <div>
-        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>Small 사이즈</h3>
-        <p style={{ color: colors.white01, marginBottom: '1rem' }}>
-          메인: body04 / 서브: subtitle05
-        </p>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_MAIN (196px)</h3>
         <div style={{ display: 'flex', gap: '2rem' }}>
-          <Square.Main content="상위 목표" size="small" />
-          <Square.Sub content="세부 목표" isCompleted={false} onClick={handleClick} size="small" />
+          <Main content="상위 목표" size="TODO_MAIN" />
+          <Sub content="세부 목표" isCompleted={false} onClick={handleClick} size="TODO_MAIN" />
+          <Sub content="완료된 목표" isCompleted={true} onClick={handleClick} size="TODO_MAIN" />
+        </div>
+      </div>
+      <div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <Main content="상위 목표" size="TODO_EDIT" />
+          <Sub content="세부 목표" isCompleted={false} onClick={handleClick} size="TODO_EDIT" />
+          <Sub content="완료된 목표" isCompleted={true} onClick={handleClick} size="TODO_EDIT" />
+        </div>
+      </div>
+      <div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <Main content="상위 목표" size="MY_MANDAL" />
+          <Sub content="세부 목표" isCompleted={false} onClick={handleClick} size="MY_MANDAL" />
+          <Sub content="완료된 목표" isCompleted={true} onClick={handleClick} size="MY_MANDAL" />
         </div>
       </div>
     </div>
@@ -55,15 +67,23 @@ export const MainGoal: Story = {
   args: {
     content: '메인 목표를 입력하세요',
   },
-  render: (args) => (
-    <div style={{ display: 'flex', gap: '2rem' }}>
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
       <div>
-        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>Default 사이즈 (title03)</h3>
-        <Square.Main {...args} />
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_SUB (96px)</h3>
+        <Main content="메인 목표를 입력하세요" size="TODO_SUB" />
       </div>
       <div>
-        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>Small 사이즈 (body04)</h3>
-        <Square.Main content="메인 목표를 입력하세요" size="small" />
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_MAIN (196px)</h3>
+        <Main content="메인 목표를 입력하세요" size="TODO_MAIN" />
+      </div>
+      <div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
+        <Main content="메인 목표를 입력하세요" size="TODO_EDIT" />
+      </div>
+      <div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
+        <Main content="메인 목표를 입력하세요" size="MY_MANDAL" />
       </div>
     </div>
   ),
@@ -73,42 +93,74 @@ export const SubGoalStates: Story = {
   args: {
     content: '세부 목표를 입력하세요',
   },
-  render: (args) => (
-    <div style={{ display: 'flex', gap: '2rem' }}>
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
       <div>
-        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>Default 사이즈 (subtitle01)</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          <div>
-            <h4 style={{ color: colors.white01, marginBottom: '1rem' }}>기본 상태</h4>
-            <Square.Sub content={args.content} isCompleted={false} onClick={handleClick} />
-          </div>
-          <div>
-            <h4 style={{ color: colors.white01, marginBottom: '1rem' }}>완료 상태</h4>
-            <Square.Sub content="완료된 목표입니다" isCompleted={true} onClick={handleClick} />
-          </div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_SUB (96px)</h3>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <Sub
+            content="세부 목표를 입력하세요"
+            isCompleted={false}
+            onClick={handleClick}
+            size="TODO_SUB"
+          />
+          <Sub
+            content="완료된 목표입니다"
+            isCompleted={true}
+            onClick={handleClick}
+            size="TODO_SUB"
+          />
         </div>
       </div>
       <div>
-        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>Small 사이즈 (subtitle05)</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          <div>
-            <h4 style={{ color: colors.white01, marginBottom: '1rem' }}>기본 상태</h4>
-            <Square.Sub
-              content={args.content}
-              isCompleted={false}
-              onClick={handleClick}
-              size="small"
-            />
-          </div>
-          <div>
-            <h4 style={{ color: colors.white01, marginBottom: '1rem' }}>완료 상태</h4>
-            <Square.Sub
-              content="완료된 목표입니다"
-              isCompleted={true}
-              onClick={handleClick}
-              size="small"
-            />
-          </div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_MAIN (196px)</h3>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <Sub
+            content="세부 목표를 입력하세요"
+            isCompleted={false}
+            onClick={handleClick}
+            size="TODO_MAIN"
+          />
+          <Sub
+            content="완료된 목표입니다"
+            isCompleted={true}
+            onClick={handleClick}
+            size="TODO_MAIN"
+          />
+        </div>
+      </div>
+      <div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <Sub
+            content="세부 목표를 입력하세요"
+            isCompleted={false}
+            onClick={handleClick}
+            size="TODO_EDIT"
+          />
+          <Sub
+            content="완료된 목표입니다"
+            isCompleted={true}
+            onClick={handleClick}
+            size="TODO_EDIT"
+          />
+        </div>
+      </div>
+      <div>
+        <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <Sub
+            content="세부 목표를 입력하세요"
+            isCompleted={false}
+            onClick={handleClick}
+            size="MY_MANDAL"
+          />
+          <Sub
+            content="완료된 목표입니다"
+            isCompleted={true}
+            onClick={handleClick}
+            size="MY_MANDAL"
+          />
         </div>
       </div>
     </div>

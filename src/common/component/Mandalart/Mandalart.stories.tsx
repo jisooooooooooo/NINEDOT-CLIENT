@@ -62,46 +62,81 @@ const CUSTOM_GOALS = {
       cycle: 'DAILY' as Cycle,
     },
   ],
-  completedGoals: [1, 3, 5],
+  completedGoals: [],
 };
 
 export const Default: Story = {
   args: {
     mainGoal: '메인 목표를 입력하세요',
     subGoals: MOCK_MANDALART_DATA.subGoals,
+    size: 'TODO_MAIN',
   },
-  render: (args) => (
-    <div style={{ display: 'flex', gap: '2rem' }}>
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
       <div>
-        <h3 style={{ color: 'white', marginBottom: '1rem' }}>Default 사이즈</h3>
-        <Mandalart {...args} />
+        <h3 style={{ color: 'white', marginBottom: '1rem' }}>TODO_SUB (96px)</h3>
+        <Mandalart
+          mainGoal="메인 목표를 입력하세요"
+          subGoals={MOCK_MANDALART_DATA.subGoals}
+          size="TODO_SUB"
+        />
       </div>
       <div>
-        <h3 style={{ color: 'white', marginBottom: '1rem' }}>Small 사이즈</h3>
-        <Mandalart {...args} size="small" />
+        <h3 style={{ color: 'white', marginBottom: '1rem' }}>TODO_MAIN (196px)</h3>
+        <Mandalart
+          mainGoal="메인 목표를 입력하세요"
+          subGoals={MOCK_MANDALART_DATA.subGoals}
+          size="TODO_MAIN"
+        />
+      </div>
+      <div>
+        <h3 style={{ color: 'white', marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
+        <Mandalart
+          mainGoal="메인 목표를 입력하세요"
+          subGoals={MOCK_MANDALART_DATA.subGoals}
+          size="TODO_EDIT"
+        />
+      </div>
+      <div>
+        <h3 style={{ color: 'white', marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
+        <Mandalart
+          mainGoal="메인 목표를 입력하세요"
+          subGoals={MOCK_MANDALART_DATA.subGoals}
+          size="MY_MANDAL"
+        />
       </div>
     </div>
   ),
 };
 
-export const Small: Story = {
+export const TodoSub: Story = {
   args: {
-    mainGoal: '메인 목표를 입력하세요',
-    subGoals: CUSTOM_GOALS.subGoals,
-    size: 'small',
+    ...CUSTOM_GOALS,
+    size: 'TODO_SUB',
   },
   render: (args) => <Mandalart {...args} />,
 };
 
-export const WithCustomGoals: Story = {
-  args: CUSTOM_GOALS,
+export const TodoMain: Story = {
+  args: {
+    ...CUSTOM_GOALS,
+    size: 'TODO_MAIN',
+  },
   render: (args) => <Mandalart {...args} />,
 };
 
-export const WithCustomGoalsSmall: Story = {
+export const TodoEdit: Story = {
   args: {
     ...CUSTOM_GOALS,
-    size: 'small',
+    size: 'TODO_EDIT',
+  },
+  render: (args) => <Mandalart {...args} />,
+};
+
+export const MyMandal: Story = {
+  args: {
+    ...CUSTOM_GOALS,
+    size: 'MY_MANDAL',
   },
   render: (args) => <Mandalart {...args} />,
 };
