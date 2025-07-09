@@ -15,10 +15,10 @@ const Footer = () => {
           개인정보처리방침
         </Link>
       </nav>
-      <div className={styles.infoWrapper}>
+      <address className={styles.infoWrapper}>
         <p className={styles.infoText}>대표: 이현준</p>
         <p className={styles.infoText}>이메일: 999inedot@gmail.com</p>
-      </div>
+      </address>
     </footer>
   );
 };
