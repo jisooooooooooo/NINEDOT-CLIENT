@@ -1,5 +1,5 @@
 import * as styles from './Square.css';
-import type { MandalartSize } from '../Mandalart';
+import type { MandalartType } from '../Mandalart';
 
 export interface SquareProps {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ export interface SquareProps {
 
 export interface CellProps {
   content: string;
-  size: MandalartSize;
+  type: MandalartType;
 }
 
 export interface SubCellProps extends CellProps {
@@ -19,18 +19,18 @@ export const Root = ({ children }: SquareProps) => {
   return <div className={styles.squareContainer}>{children}</div>;
 };
 
-export const Main = ({ content, size }: CellProps) => {
+export const Main = ({ content, type }: CellProps) => {
   return (
     <div className={styles.squareContainer}>
-      <div className={styles.mainCell[size]}>{content}</div>
+      <div className={styles.mainCell[type]}>{content}</div>
     </div>
   );
 };
 
-export const Sub = ({ content, isCompleted, onClick, size }: SubCellProps) => {
+export const Sub = ({ content, isCompleted, onClick, type }: SubCellProps) => {
   return (
     <div className={styles.squareContainer}>
-      <div className={styles.subCell[size]} data-completed={isCompleted} onClick={onClick}>
+      <div className={styles.subCell[type]} data-completed={isCompleted} onClick={onClick}>
         {content}
       </div>
     </div>

@@ -7,7 +7,7 @@ export const squareContainer = style({
   margin: '0 auto',
 });
 
-const SQUARE_SIZES = {
+const SQUARE_TYPES = {
   TODO_SUB: {
     width: '9.6rem',
     height: '9.6rem',
@@ -34,7 +34,7 @@ const SQUARE_SIZES = {
   },
 } as const;
 
-const createBaseCell = (size: keyof typeof SQUARE_SIZES) =>
+const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
   style({
     borderRadius: '8px',
     cursor: 'pointer',
@@ -42,15 +42,15 @@ const createBaseCell = (size: keyof typeof SQUARE_SIZES) =>
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    width: SQUARE_SIZES[size].width,
-    height: SQUARE_SIZES[size].height,
+    width: SQUARE_TYPES[type].width,
+    height: SQUARE_TYPES[type].height,
     boxSizing: 'border-box',
   });
 
 export const mainCell = {
   TODO_SUB: style([
     createBaseCell('TODO_SUB'),
-    SQUARE_SIZES.TODO_SUB.mainFont,
+    SQUARE_TYPES.TODO_SUB.mainFont,
     {
       color: colors.white01,
       backgroundImage: colors.gradient04,
@@ -58,7 +58,7 @@ export const mainCell = {
   ]),
   TODO_MAIN: style([
     createBaseCell('TODO_MAIN'),
-    SQUARE_SIZES.TODO_MAIN.mainFont,
+    SQUARE_TYPES.TODO_MAIN.mainFont,
     {
       color: colors.white01,
       backgroundImage: colors.gradient04,
@@ -66,7 +66,7 @@ export const mainCell = {
   ]),
   TODO_EDIT: style([
     createBaseCell('TODO_EDIT'),
-    SQUARE_SIZES.TODO_EDIT.mainFont,
+    SQUARE_TYPES.TODO_EDIT.mainFont,
     {
       color: colors.white01,
       backgroundImage: colors.gradient04,
@@ -74,7 +74,7 @@ export const mainCell = {
   ]),
   MY_MANDAL: style([
     createBaseCell('MY_MANDAL'),
-    SQUARE_SIZES.MY_MANDAL.mainFont,
+    SQUARE_TYPES.MY_MANDAL.mainFont,
     {
       color: colors.white01,
       backgroundImage: colors.gradient05,
@@ -85,7 +85,7 @@ export const mainCell = {
 export const subCell = {
   TODO_SUB: style([
     createBaseCell('TODO_SUB'),
-    SQUARE_SIZES.TODO_SUB.subFont,
+    SQUARE_TYPES.TODO_SUB.subFont,
     {
       color: colors.grey8,
       background: colors.grey2,
@@ -93,7 +93,7 @@ export const subCell = {
   ]),
   TODO_MAIN: style([
     createBaseCell('TODO_MAIN'),
-    SQUARE_SIZES.TODO_MAIN.subFont,
+    SQUARE_TYPES.TODO_MAIN.subFont,
     {
       color: colors.grey8,
       background: colors.grey2,
@@ -102,7 +102,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: `0.4rem solid #305088`,
+          border: '0.4rem solid #305088',
           background: colors.grey2,
         },
       },
@@ -110,7 +110,7 @@ export const subCell = {
   ]),
   TODO_EDIT: style([
     createBaseCell('TODO_EDIT'),
-    SQUARE_SIZES.TODO_EDIT.subFont,
+    SQUARE_TYPES.TODO_EDIT.subFont,
     {
       color: colors.grey8,
       background: colors.grey2,
@@ -119,7 +119,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: `0.3rem solid #305088`,
+          border: '0.3rem solid #305088',
           background: colors.grey2,
         },
       },
@@ -127,7 +127,7 @@ export const subCell = {
   ]),
   MY_MANDAL: style([
     createBaseCell('MY_MANDAL'),
-    SQUARE_SIZES.MY_MANDAL.subFont,
+    SQUARE_TYPES.MY_MANDAL.subFont,
     {
       color: colors.white01,
       backgroundImage: colors.gradient04,

@@ -5,7 +5,7 @@ import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
-export type MandalartSize = 'TODO_SUB' | 'TODO_MAIN' | 'TODO_EDIT' | 'MY_MANDAL';
+export type MandalartType = 'TODO_SUB' | 'TODO_MAIN' | 'TODO_EDIT' | 'MY_MANDAL';
 
 export interface SubGoal {
   title: string;
@@ -16,7 +16,7 @@ export interface SubGoal {
 interface MandalartProps {
   mainGoal?: string;
   subGoals?: SubGoal[];
-  size: MandalartSize;
+  type: MandalartType;
   onGoalClick?: (position: number) => void;
 }
 
@@ -25,7 +25,7 @@ const CENTER_INDEX = 4;
 const Mandalart = ({
   mainGoal = MOCK_MANDALART_DATA.mainGoal,
   subGoals = MOCK_MANDALART_DATA.subGoals,
-  size,
+  type,
   onGoalClick,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
@@ -37,7 +37,7 @@ const Mandalart = ({
 
   const renderSquare = (index: number) => {
     if (index === CENTER_INDEX) {
-      return <Main key={index} content={mainGoal} size={size} />;
+      return <Main key={index} content={mainGoal} type={type} />;
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
@@ -49,7 +49,7 @@ const Mandalart = ({
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        size={size}
+        type={type}
       />
     );
   };
@@ -58,7 +58,7 @@ const Mandalart = ({
     .fill(null)
     .map((_, index) => renderSquare(index));
 
-  return <div className={styles.grid[size]}>{squares}</div>;
+  return <div className={styles.grid[type]}>{squares}</div>;
 };
 
 export default Mandalart;
