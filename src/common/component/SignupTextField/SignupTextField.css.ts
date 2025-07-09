@@ -11,6 +11,7 @@ export const baseClass = style({
   alignItems: 'center',
   flexShrink: 0,
   borderRadius: '8px',
+  border: '2px solid transparent',
   ...fonts.body03,
 });
 
