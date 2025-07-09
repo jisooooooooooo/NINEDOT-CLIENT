@@ -38,12 +38,7 @@ const Home = () => {
         onChange={setBirth}
         placeholder="생년월일을 입력해주세요"
       />
-      <SignupTextField
-        type="job"
-        value={job}
-        onChange={setJob}
-        placeholder="정보를 입력해주세요"
-      />
+      <SignupTextField type="job" value={job} onChange={setJob} placeholder="정보를 입력해주세요" />
     </div>
   );
 };
