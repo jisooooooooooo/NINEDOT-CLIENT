@@ -8,6 +8,7 @@ const Home = () => {
   const [name, setName] = useState(MOCK_SIGNUP_DATA.name);
   const [email, setEmail] = useState(MOCK_SIGNUP_DATA.email);
   const [birth, setBirth] = useState(MOCK_SIGNUP_DATA.birth);
+  const [job, setJob] = useState('');
 
   return (
     <div
@@ -36,6 +37,12 @@ const Home = () => {
         value={birth}
         onChange={setBirth}
         placeholder="생년월일을 입력해주세요"
+      />
+      <SignupTextField
+        type="job"
+        value={job}
+        onChange={setJob}
+        placeholder="정보를 입력해주세요"
       />
     </div>
   );
