@@ -2,6 +2,8 @@ import { style } from '@vanilla-extract/css';
 
 export const layoutContainer = style({
   height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
   overflow: 'auto',
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
@@ -13,12 +15,5 @@ export const layoutContainer = style({
 });
 
 export const layoutMain = style({
-  minHeight: 'calc(100vh - 200px)',
-});
-
-export const footer = style({
-  padding: '2rem',
-  backgroundColor: '#f5f5f5',
-  textAlign: 'center',
-  borderTop: '1px solid #e0e0e0',
+  flex: 1,
 });
