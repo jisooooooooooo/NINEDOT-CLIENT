@@ -20,7 +20,7 @@ const SurveyItem = ({ item, isChecked, onClick }: itemProps) => {
       <button onClick={onClick}>
         <RadioIcon className={radioIcon} />
       </button>
-      <p className={itemText}>{item.content}</p>
+      <span className={itemText}>{item.content}</span>
     </div>
   );
 };
