@@ -13,12 +13,7 @@ export const itemText = style({
   ...fonts.body03,
 });
 
-export const defaultIcon = style({
-  width: '2rem',
-  height: '2rem',
-});
-
-export const checkedIcon = style({
+export const radioIcon = style({
   width: '2rem',
   height: '2rem',
 });
