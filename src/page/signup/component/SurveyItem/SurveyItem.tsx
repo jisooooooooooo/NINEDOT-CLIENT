@@ -16,8 +16,10 @@ const SurveyItem = ({ item, isChecked, onClick }: itemProps) => {
   const RadioIcon = isChecked ? IcRadioChecked : IcRadioDefault;
 
   return (
-    <div className={itemContainer} onClick={onClick}>
-      <RadioIcon className={radioIcon} />
+    <div className={itemContainer}>
+      <button onClick={onClick}>
+        <RadioIcon className={radioIcon} />
+      </button>
       <p className={itemText}>{item.content}</p>
     </div>
   );

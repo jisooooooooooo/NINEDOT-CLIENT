@@ -5,7 +5,6 @@ import { colors, fonts } from '@/style/token';
 export const itemContainer = style({
   display: 'flex',
   gap: '1.2rem',
-  cursor: 'pointer',
 });
 
 export const itemText = style({
@@ -16,4 +15,6 @@ export const itemText = style({
 export const radioIcon = style({
   width: '2rem',
   height: '2rem',
+
+  cursor: 'pointer',
 });
