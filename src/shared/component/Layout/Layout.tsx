@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import Header from './Header/Header';
 import * as styles from './Layout.css';
+import Header from './header/Header';
+import Footer from './footer/Footer';
 
 const Layout = () => {
   return (
@@ -11,11 +12,7 @@ const Layout = () => {
         <Outlet />
       </main>
 
-      {/* TODO: Footer 컴포넌트 추가 */}
-      <footer>
-        {/* 임시 푸터 */}
-        <p>© 2024 NINEDOT</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
