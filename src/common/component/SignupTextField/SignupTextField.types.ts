@@ -1,4 +1,4 @@
-export type SignupTextFieldType = 'name' | 'email' | 'birth';
+export type SignupTextFieldType = 'name' | 'email' | 'birth' | 'job';
 
 export interface SignupTextFieldProps {
   type: SignupTextFieldType;

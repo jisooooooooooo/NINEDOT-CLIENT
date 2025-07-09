@@ -8,10 +8,14 @@ import IcLock from '@/assets/svg/IcLock';
 import { formatBirthDate } from '@/common/util/format';
 
 const NAME_MAX_LENGTH = 10;
+const NAME_REGEX = /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\s]*$/;
 const BIRTH_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const JOB_MAX_LENGTH = 15;
+const JOB_REGEX = /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\s]*$/;
 const ERROR_MESSAGES = {
   name: '한글/영문 10자 이하로 입력해주세요',
   birth: '정확한 생년월일을 입력해주세요',
+  job: '한글/영문 15자 이하로 입력해주세요',
 } as const;
 
 const INPUT_VARIANTS_WITH_CONTENT = new Set<keyof typeof styles.fieldVariants>(['locked']);
@@ -78,11 +82,23 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const validateField = (type: SignupTextFieldProps['type'], value: string): string | undefined => {
-  if (type === 'name' && value.length > NAME_MAX_LENGTH) {
-    return ERROR_MESSAGES.name;
+  if (type === 'name') {
+    if (!NAME_REGEX.test(value) || value.length > NAME_MAX_LENGTH) {
+      return ERROR_MESSAGES.name;
+    }
+    return undefined;
   }
-  if (type === 'birth' && !BIRTH_REGEX.test(value)) {
-    return ERROR_MESSAGES.birth;
+  if (type === 'birth') {
+    if (!BIRTH_REGEX.test(value)) {
+      return ERROR_MESSAGES.birth;
+    }
+    return undefined;
+  }
+  if (type === 'job') {
+    if (!JOB_REGEX.test(value) || value.length > JOB_MAX_LENGTH) {
+      return ERROR_MESSAGES.job;
+    }
+    return undefined;
   }
   return undefined;
 };
@@ -99,6 +115,7 @@ const createInputProps = (
   onBlur: (() => void) | undefined,
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
   type: SignupTextFieldProps['type'],
+  isComposing: boolean,
 ) => ({
   ref: inputRef,
   type: 'text' as const,
@@ -108,6 +125,7 @@ const createInputProps = (
       if (type === 'birth') {
         onChange(formatBirthDate(e.target.value));
       } else {
+        // 이름/직업 모두 조합 중에는 그대로, 조합 끝나면 onCompositionEnd에서만 필터링
         onChange(e.target.value);
       }
     }
@@ -122,9 +140,15 @@ const createInputProps = (
   },
   onKeyDown: handleKeyDown,
   onCompositionStart: () => dispatch({ type: 'COMPOSE_START' }),
-  onCompositionEnd: () => dispatch({ type: 'COMPOSE_END' }),
-  placeholder,
-  maxLength,
+  onCompositionEnd: (e: React.CompositionEvent<HTMLInputElement>) => {
+    dispatch({ type: 'COMPOSE_END' });
+    if (type === 'name' || type === 'job') {
+      const filtered = e.currentTarget.value.replace(/[^a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\s]/g, '');
+      onChange(filtered);
+    }
+  },
+  placeholder: placeholder ?? (type === 'job' ? '정보를 입력해주세요' : placeholder),
+  maxLength: maxLength ?? (type === 'job' ? JOB_MAX_LENGTH : type === 'name' ? NAME_MAX_LENGTH : undefined),
   disabled: isLocked,
   className: [styles.inputBase, styles.inputStyle].join(' '),
 });
@@ -273,6 +297,7 @@ export default function SignupTextField({
     onBlur,
     handleKeyDown,
     type,
+    state.isComposing,
   );
 
   const needsInputContent = INPUT_VARIANTS_WITH_CONTENT.has(fieldState);
@@ -295,4 +320,4 @@ export default function SignupTextField({
       {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
   );
-}
+} 
