@@ -1,7 +1,7 @@
 import { IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
+import SurveySection from '@/page/signup/SurveySection/SurveySection';
 import * as styles from '@/page/signup/SignUp.css';
-import { Survey } from '@/page/signup/component/Survey/Survey';
 
 const SIGNUP_MESSAGE = '회원가입 NINEDOPT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
@@ -29,7 +29,7 @@ const SignUp = () => {
           <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
         </div>
         <div className={styles.surveySection}>
-          <Survey />
+          <SurveySection />
         </div>
       </div>
     </main>
