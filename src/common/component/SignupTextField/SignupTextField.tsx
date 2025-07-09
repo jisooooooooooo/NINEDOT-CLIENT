@@ -1,9 +1,10 @@
 import type { SignupTextFieldProps } from './SignupTextField.types';
 import * as styles from './SignupTextField.css';
 import { validateField } from './validation';
-import { formatBirthDate } from '@/common/util/format';
 import { useSignupTextFieldState } from './useSignupTextFieldState';
 import { RenderInputContent } from './RenderInputContent';
+
+import { formatBirthDate } from '@/common/util/format';
 
 function getFieldState(
   isFocused: boolean,

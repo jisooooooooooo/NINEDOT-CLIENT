@@ -31,4 +31,4 @@ export function validateField(type: 'name' | 'birth' | 'job', value: string): st
     return undefined;
   }
   return undefined;
-} 
+}
