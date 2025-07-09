@@ -1,6 +1,7 @@
 import type { SignupTextFieldProps } from './SignupTextField.types';
 import * as styles from './SignupTextField.css';
-import { validateField, formatBirthDate } from './utils';
+import { validateField } from './validation';
+import { formatBirthDate } from '@/common/util/format';
 import { useSignupTextFieldState } from './useSignupTextFieldState';
 import { RenderInputContent } from './RenderInputContent';
 

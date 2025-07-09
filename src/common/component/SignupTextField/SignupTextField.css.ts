@@ -10,7 +10,7 @@ export const baseClass = style({
   padding: '1.4rem 2rem',
   alignItems: 'center',
   flexShrink: 0,
-  borderRadius: '0.8rem',
+  borderRadius: '8px',
   ...fonts.body03,
 });
 
@@ -49,7 +49,6 @@ export const fieldVariants = styleVariants({
     border: `2px solid ${colors.error01}`,
     background: colors.grey4,
     color: colors.grey10,
-    gap: '1rem',
   },
 });
 
@@ -67,7 +66,6 @@ export const clearButton = style({
   justifyContent: 'center',
   width: '2rem',
   height: '2rem',
-  aspectRatio: '1/1',
   background: 'none',
   border: 'none',
   padding: 0,
@@ -84,7 +82,6 @@ export const lockIconClass = style({
   width: '2rem',
   height: '2rem',
   flexShrink: 0,
-  aspectRatio: '1/1',
 });
 
 export const errorMessageWrapper = style({
