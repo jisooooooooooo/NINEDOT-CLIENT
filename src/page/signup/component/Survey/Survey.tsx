@@ -22,7 +22,7 @@ export const Survey = () => {
     <div className={surveyWrapper}>
       {questionList.map((question) => (
         <div key={question.id} className={surveyContainer}>
-          <p className={surveyTitle}>{question.content}</p>
+          <h3 className={surveyTitle}>{question.content}</h3>
           {question.optionList.map((option) => (
             <SurveyItem
               key={option.id}
