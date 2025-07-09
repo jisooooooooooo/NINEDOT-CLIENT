@@ -2,11 +2,12 @@ import { style } from '@vanilla-extract/css';
 
 import { colors } from '@/style/token/color.css';
 import { fonts } from '@/style/token/typography.css';
+import { zIndex } from '@/style/token/zIndex.css';
 
 export const header = style({
   position: 'sticky',
   top: 0,
-  zIndex: 100,
+  zIndex: zIndex.header,
   width: '100%',
   backgroundColor: colors.bg_black01,
   display: 'flex',
@@ -54,10 +55,10 @@ export const navItem = style({
 });
 
 export const navItemActive = style({
-  color: `${colors.grey11} !important`,
+  color: `${colors.grey11}`,
   selectors: {
     '&:hover': {
-      color: `${colors.grey11} !important`,
+      color: `${colors.grey11}`,
     },
   },
 });
