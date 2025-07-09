@@ -56,7 +56,7 @@ export const inputBase = style({
   color: 'inherit',
 });
 
-const makeInputStyle = (font: any) =>
+const makeInputStyle = (font: Record<string, string | number>) =>
   style({
     fontFamily: 'Pretendard',
     ...font,

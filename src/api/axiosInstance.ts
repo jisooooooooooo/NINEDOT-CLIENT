@@ -16,12 +16,11 @@ axiosInstance.interceptors.response.use(
       const { status } = error.response;
 
       if (status === 401) {
-        console.warn('인증 실패');
-        // 로그아웃 처리나 리다이렉트 로직 추가 예정
+        // 인증 실패 - 로그아웃 처리나 리다이렉트 로직 추가 예정
       }
 
       if (status === 500) {
-        console.error('서버 오류 발생');
+        // 서버 오류 발생
       }
     }
     return Promise.reject(error);
