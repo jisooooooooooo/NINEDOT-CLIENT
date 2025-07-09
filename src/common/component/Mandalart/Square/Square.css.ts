@@ -13,28 +13,24 @@ const SQUARE_SIZES = {
     height: '9.6rem',
     mainFont: fonts.body04,
     subFont: fonts.caption01,
-    borderWidth: '0.8rem',
   },
   TODO_MAIN: {
     width: '19.6rem',
     height: '19.6rem',
     mainFont: fonts.title03,
     subFont: fonts.subtitle01,
-    borderWidth: '0.8rem',
   },
   TODO_EDIT: {
     width: '16rem',
     height: '16rem',
     mainFont: fonts.subtitle01,
     subFont: fonts.subtitle05,
-    borderWidth: '0.8rem',
   },
   MY_MANDAL: {
     width: '29.8rem',
     height: '29.8rem',
     mainFont: fonts.display02,
     subFont: fonts.title01,
-    borderWidth: '0.8rem',
   },
 } as const;
 
@@ -81,7 +77,7 @@ export const mainCell = {
     SQUARE_SIZES.MY_MANDAL.mainFont,
     {
       color: colors.white01,
-      backgroundImage: colors.gradient04,
+      backgroundImage: colors.gradient05,
     },
   ]),
 };
@@ -93,15 +89,6 @@ export const subCell = {
     {
       color: colors.grey8,
       background: colors.grey2,
-      ':hover': {
-        background: colors.grey3,
-      },
-      selectors: {
-        '&[data-completed="true"]': {
-          border: `${SQUARE_SIZES.TODO_SUB.borderWidth} solid #305088`,
-          background: colors.grey2,
-        },
-      },
     },
   ]),
   TODO_MAIN: style([
@@ -115,7 +102,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: `${SQUARE_SIZES.TODO_MAIN.borderWidth} solid #305088`,
+          border: `0.4rem solid #305088`,
           background: colors.grey2,
         },
       },
@@ -132,7 +119,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: `${SQUARE_SIZES.TODO_EDIT.borderWidth} solid #305088`,
+          border: `0.3rem solid #305088`,
           background: colors.grey2,
         },
       },
@@ -142,17 +129,8 @@ export const subCell = {
     createBaseCell('MY_MANDAL'),
     SQUARE_SIZES.MY_MANDAL.subFont,
     {
-      color: colors.grey8,
-      background: colors.grey2,
-      ':hover': {
-        background: colors.grey3,
-      },
-      selectors: {
-        '&[data-completed="true"]': {
-          border: `${SQUARE_SIZES.MY_MANDAL.borderWidth} solid #305088`,
-          background: colors.grey2,
-        },
-      },
+      color: colors.white01,
+      backgroundImage: colors.gradient04,
     },
   ]),
 };

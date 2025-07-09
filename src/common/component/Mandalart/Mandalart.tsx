@@ -17,6 +17,7 @@ interface MandalartProps {
   mainGoal?: string;
   subGoals?: SubGoal[];
   size: MandalartSize;
+  onGoalClick?: (position: number) => void;
 }
 
 const CENTER_INDEX = 4;
@@ -25,11 +26,13 @@ const Mandalart = ({
   mainGoal = MOCK_MANDALART_DATA.mainGoal,
   subGoals = MOCK_MANDALART_DATA.subGoals,
   size,
+  onGoalClick,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
   const handleGoalClick = (position: number) => {
     setSelectedGoal(selectedGoal === position ? null : position);
+    onGoalClick?.(position);
   };
 
   const renderSquare = (index: number) => {
