@@ -34,5 +34,4 @@ export const infoWrapper = style({
 export const infoText = style({
   color: colors.grey11,
   ...fonts.caption02,
-  margin: 0,
 });
