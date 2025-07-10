@@ -38,7 +38,7 @@ const Todo = () => {
   return (
     <main className={styles.todoContainer}>
       <GradientBackground />
-      <h2 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h2>
+      <h1 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h1>
       <section className={styles.todoInputContainer}>
         <TextField
           variant="bigGoal"
