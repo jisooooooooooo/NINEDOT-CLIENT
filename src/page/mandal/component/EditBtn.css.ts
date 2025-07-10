@@ -12,7 +12,7 @@ export const editBtnWrapper = style({
   gap: '1rem',
   flexShrink: 0,
   borderRadius: '50%',
-  backgroundColor: '#1E1E1E',
+  backgroundColor: colors.grey3,
   cursor: 'pointer',
 });
 
