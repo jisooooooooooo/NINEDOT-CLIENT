@@ -1,3 +1,4 @@
+import { BrowserRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import EditBtn from './EditBtn';
@@ -11,6 +12,13 @@ const meta = {
       default: 'dark',
     },
   },
+  decorators: [
+    (Story) => (
+      <BrowserRouter>
+        <Story />
+      </BrowserRouter>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' },
@@ -20,8 +28,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  name: '기본',
+};
+
 export const Hover: Story = {
-  name: '수정하기 버튼',
+  name: '호버 시',
   parameters: {
     pseudo: { hover: true },
   },
