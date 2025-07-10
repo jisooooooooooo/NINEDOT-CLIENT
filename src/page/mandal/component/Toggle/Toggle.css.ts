@@ -26,12 +26,20 @@ export const toggleButton = style([
   },
 ]);
 
-export const leftActiveButton = style({
+const activeButtonBase = style({
   backgroundImage: colors.gradient05,
-  borderRadius: '0.8rem 0 0 0.8rem',
 });
 
-export const rightActiveButton = style({
-  backgroundImage: colors.gradient05,
-  borderRadius: '0 0.8rem 0.8rem 0',
-});
+export const leftActiveButton = style([
+  activeButtonBase,
+  {
+    borderRadius: '8px 0 0 8px',
+  },
+]);
+
+export const rightActiveButton = style([
+  activeButtonBase,
+  {
+    borderRadius: '0 8px 8px 0',
+  },
+]);
