@@ -3,13 +3,14 @@ import { goButtonContainer, goIcon } from '@/common/component/GoButton/GoButton.
 
 type GoButtonProps = {
   isActive: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const GoButton = ({ isActive = true }: GoButtonProps) => {
+const GoButton = ({ isActive = true, onClick }: GoButtonProps) => {
   const state = isActive ? 'active' : 'disabled';
 
   return (
-    <button className={goButtonContainer({ state })}>
+    <button className={goButtonContainer({ state })} onClick={onClick}>
       <IcBigNext className={goIcon({ state })} />
     </button>
   );
