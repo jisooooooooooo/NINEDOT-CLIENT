@@ -72,3 +72,31 @@ export const fitInfoText = style({
 export const surveySection = style({
   padding: '3.2rem 0 11.4rem 0',
 });
+
+export const agreementContainer = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '0.8rem',
+});
+
+export const checkboxIcon = style({
+  height: '2.4rem',
+  width: '2.4rem',
+});
+
+export const agreeText = style({
+  color: colors.grey11,
+  ...fonts.body04,
+});
+
+export const seeText = style({
+  color: colors.grey6,
+  ...fonts.body05,
+  textDecorationLine: 'underline',
+  textDecorationStyle: 'solid',
+  textDecorationSkipInk: 'auto',
+  textDecorationThickness: 'auto',
+  textUnderlineOffset: 'auto',
+  textUnderlinePosition: 'from-font',
+});

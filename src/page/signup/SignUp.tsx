@@ -1,12 +1,15 @@
-import { IcEssentialDot } from '@/assets/svg';
+import { IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
 import SurveySection from '@/page/signup/SurveySection/SurveySection';
 import * as styles from '@/page/signup/SignUp.css';
+import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
 
 const SIGNUP_MESSAGE = '회원가입 NINEDOPT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
+const PERSONAL_INFO_AGREEMENT = '(필수) 개인정보 수집 및 이용약관 동의';
 
 const SignUp = () => {
+  const handleSignUp = () => {};
   return (
     <main className={styles.mainContainer}>
       <div className={styles.layoutContainer}>
@@ -31,6 +34,14 @@ const SignUp = () => {
         <div className={styles.surveySection}>
           <SurveySection />
         </div>
+        <div className={styles.agreementContainer}>
+          <IcCheckboxDefault className={styles.checkboxIcon} />
+          <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
+          <span className={styles.seeText}>보기</span>
+        </div>
+        <SignUpButton onClick={handleSignUp} disabled>
+          가입하기
+        </SignUpButton>
       </div>
     </main>
   );
