@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import * as styles from './Todo.css';
 import { FULL_TEXT, TYPING_DURATION } from './constant/constants';
+import * as styles from './Todo.css';
 
 import useTypingEffect from '@/common/hook/useTypingEffect';
-import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import GoButton from '@/common/component/GoButton/GoButton';
-import { PATH } from '@/route';
+import GradientBackground from '@/common/component/\bBackground/GradientBackground';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import { PATH } from '@/route';
 
 const Todo = () => {
   const [inputText, setInputText] = useState('');
@@ -24,9 +24,7 @@ const Todo = () => {
 
   return (
     <main className={styles.todoContainer}>
-      <GradientCircle variant="topRight" />
-      <GradientCircle variant="bottomLeft1" />
-      <GradientCircle variant="bottomLeft2" />
+      <GradientBackground />
       <h2 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h2>
       <section className={styles.todoInputContainer}>
         <TextField
