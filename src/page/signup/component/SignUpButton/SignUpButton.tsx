@@ -1,0 +1,19 @@
+import type { ReactNode } from 'react';
+
+import { signUpContainer } from '@/page/signup/component/SignUpButton/SignUpButton.css';
+
+type SignUpProps = {
+  children: ReactNode;
+  onClick: () => void;
+  disabled: boolean;
+};
+
+const SignUpButton = ({ children, onClick, disabled }: SignUpProps) => {
+  return (
+    <button className={signUpContainer} onClick={onClick} disabled>
+      {children}
+    </button>
+  );
+};
+
+export default SignUpButton;
