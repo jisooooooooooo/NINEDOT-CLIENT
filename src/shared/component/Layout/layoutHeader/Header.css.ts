@@ -21,6 +21,7 @@ export const headerInner = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  minHeight: '8rem',
 });
 
 export const logo = style({

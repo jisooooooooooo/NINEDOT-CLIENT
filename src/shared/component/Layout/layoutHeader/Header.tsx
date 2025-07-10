@@ -31,21 +31,22 @@ const Header = () => {
       <div className={styles.headerInner}>
         <h1 className={styles.logo}>NINEDOT</h1>
 
-        <nav className={styles.navWrapper}>
-          {MENUS.map((menu) => (
-            <button
-              key={menu.label}
-              className={`${styles.navItem} ${activeMenu === menu.label ? styles.navItemActive : ''}`}
-              onClick={() => handleMenuClick(menu.label, menu.path)}
-              aria-current={activeMenu === menu.label ? 'page' : undefined}
-            >
-              {menu.label}
-            </button>
-          ))}
-        </nav>
-
         {isLoggedIn ? (
-          <div className={styles.profilePlaceholder} />
+          <>
+            <nav className={styles.navWrapper}>
+              {MENUS.map((menu) => (
+                <button
+                  key={menu.label}
+                  className={`${styles.navItem} ${activeMenu === menu.label ? styles.navItemActive : ''}`}
+                  onClick={() => handleMenuClick(menu.label, menu.path)}
+                  aria-current={activeMenu === menu.label ? 'page' : undefined}
+                >
+                  {menu.label}
+                </button>
+              ))}
+            </nav>
+            <div className={styles.profilePlaceholder} />
+          </>
         ) : (
           <button className={styles.loginButton} onClick={handleLogin}>
             로그인
