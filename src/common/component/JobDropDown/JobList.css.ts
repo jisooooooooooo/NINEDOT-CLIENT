@@ -4,6 +4,7 @@ import { recipe } from '@vanilla-extract/recipes';
 import { colors, fonts, zIndex } from '@/style/token';
 
 export const listContainer = style({
+  position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
   width: '52.2rem',
@@ -14,6 +15,7 @@ export const listContainer = style({
   overflowX: 'hidden',
   cursor: 'pointer',
   zIndex: zIndex.dropdown,
+  top: '5rem',
 });
 
 export const listItem = style({

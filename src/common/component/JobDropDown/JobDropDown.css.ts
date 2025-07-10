@@ -4,9 +4,12 @@ import { recipe } from '@vanilla-extract/recipes';
 import { fonts, colors } from '@/style/token';
 
 export const dropdownContainer = style({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
+  gap: '1.6rem',
 });
+
 export const jobContainer = style({
   display: 'flex',
   justifyContent: 'space-between',
