@@ -20,4 +20,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Hover: Story = {
+  name: '수정하기 버튼',
+  parameters: {
+    pseudo: { hover: true },
+  },
+};

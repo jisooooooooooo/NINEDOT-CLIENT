@@ -9,7 +9,10 @@ interface EditBtnProps {
 const EditBtn = ({ onClick }: EditBtnProps) => {
   return (
     <button type="button" className={styles.editBtnWrapper} onClick={onClick}>
-      <IcPencil className={styles.editIcon} />
+      <span className={styles.editText}>수정하기</span>
+      <div className={styles.editIcon}>
+        <IcPencil className={styles.iconSvg} />
+      </div>
     </button>
   );
 };
