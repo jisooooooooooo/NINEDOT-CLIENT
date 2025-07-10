@@ -6,6 +6,7 @@ import * as styles from './Todo.css';
 import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import GoButton from '@/common/component/GoButton/GoButton';
 import { PATH } from '@/route';
+import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 
 const TYPING_DURATION = 3000;
 const FULL_TEXT = '66일간 달성할 목표를 입력하고\n만다라트를 시작해보세요!';
@@ -16,10 +17,6 @@ const Todo = () => {
   const [inputText, setInputText] = useState('');
   const indexRef = useRef(0);
   const textRef = useRef('');
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
-  };
 
   useEffect(() => {
     let startTime: number | null = null;
@@ -72,10 +69,10 @@ const Todo = () => {
       <GradientCircle variant="bottomLeft2" />
       <h2 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h2>
       <section className={styles.todoInputContainer}>
-        <input
-          type="text"
+        <TextField
+          variant="bigGoal"
           value={inputText}
-          onChange={handleInputChange}
+          onChange={setInputText}
           placeholder="이루고 싶은 목표를 작성하세요."
         />
         <Link to={PATH.TODO_UPPER}>
