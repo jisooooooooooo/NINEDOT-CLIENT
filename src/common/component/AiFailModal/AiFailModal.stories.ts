@@ -5,6 +5,7 @@ import AiFailModal from './AiFailModal';
 const meta: Meta<typeof AiFailModal> = {
   title: 'Common/AiFailModal',
   component: AiFailModal,
+  tags: ['autodocs'],
 };
 
 export default meta;
