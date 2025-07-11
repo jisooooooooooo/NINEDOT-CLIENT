@@ -14,16 +14,14 @@ const ORDER_LABELS = [
   '여덟번째',
 ];
 
-interface Props {
+interface SubGoalFieldsProps {
   values: string[];
   onChange: (values: string[]) => void;
 }
 
-const SubGoalFields = ({ values, onChange }: Props) => {
+const SubGoalFields = ({ values, onChange }: SubGoalFieldsProps) => {
   const handleChange = (index: number, newValue: string) => {
-    const updated = [...values];
-    updated[index] = newValue;
-    onChange(updated);
+    onChange(values.map((v, i) => (i === index ? newValue : v)));
   };
 
   return (

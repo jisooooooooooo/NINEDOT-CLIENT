@@ -1,27 +1,16 @@
+import { useState } from 'react';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 import { useNavigate } from 'react-router-dom';
 
 import * as styles from './UpperTodo.css';
+import SubGoalFields from './component/SubGoalFields';
 
 import { PATH } from '@/route';
 import { IcSmallNext } from '@/assets/svg';
-import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
+import GradientBackground from '@/common/component/\bBackground/GradientBackground';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
-import TextField from '@/common/component/MandalartTextField/MandalartTextField';
-import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
-
-const ORDER_PREFIX = [
-  '첫번째',
-  '두번째',
-  '세번째',
-  '네번째',
-  '다섯번째',
-  '여섯번째',
-  '일곱번째',
-  '여덟번째',
-];
 
 interface UpperTodoProps {
   userName?: string;
@@ -31,6 +20,7 @@ interface UpperTodoProps {
 const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: UpperTodoProps) => {
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
+  const [subGoals, setSubGoals] = useState(Array(8).fill(''));
 
   const handleNavigateLower = () => {
     navigate(PATH.TODO_LOWER);
@@ -38,9 +28,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
 
   return (
     <main className={styles.upperTodoContainer}>
-      <GradientCircle variant="topRight" />
-      <GradientCircle variant="bottomLeft1" />
-      <GradientCircle variant="bottomLeft2" />
+      <GradientBackground />
 
       <section className={styles.upperTodoBoxWrapper}>
         <header className={styles.upperTodoHeader}>
@@ -67,18 +55,16 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
         </header>
 
         <div className={styles.upperTodoBox}>
-          <Mandalart type="TODO_MAIN" mainGoal={mainGoal} />
-          <div className={styles.textFieldColumn}>
-            {[...Array(8)].map((_, index) => (
-              <TextField
-                key={index}
-                variant="subGoal"
-                value=""
-                onChange={() => {}}
-                placeholder={`${ORDER_PREFIX[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
-              />
-            ))}
-          </div>
+          <Mandalart
+            type="TODO_MAIN"
+            mainGoal={mainGoal}
+            subGoals={subGoals.map((v, i) => ({
+              title: v,
+              position: i,
+              cycle: 'ONCE' as const,
+            }))}
+          />
+          <SubGoalFields values={subGoals} onChange={setSubGoals} />
         </div>
 
         <button
