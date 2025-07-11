@@ -1,7 +1,9 @@
 import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
+import { useNavigate } from 'react-router-dom';
 
 import * as styles from './UpperTodo.css';
 
+import { PATH } from '@/route';
 import { IcSmallNext } from '@/assets/svg';
 import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
@@ -33,6 +35,11 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   };
 
   const { openModal, ModalWrapper, closeModal } = useModal();
+  const navigate = useNavigate();
+
+  const handleNavigateLower = () => {
+    navigate(PATH.TODO_LOWER);
+  };
 
   return (
     <main className={styles.upperTodoContainer}>
@@ -79,7 +86,12 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           </div>
         </div>
 
-        <button className={styles.mandalCompleteBox} type="button" aria-label="만다르트 완성하기">
+        <button
+          className={styles.mandalCompleteBox}
+          type="button"
+          aria-label="만다르트 완성하기"
+          onClick={handleNavigateLower}
+        >
           <span className={styles.mandalCompleteText}>만다르트를 완성했어요</span>
           <IcSmallNext className={styles.mandalCompleteIcon} />
         </button>
