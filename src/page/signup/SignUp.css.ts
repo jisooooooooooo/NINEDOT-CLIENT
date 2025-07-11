@@ -105,5 +105,5 @@ export const seeText = style({
 export const buttonContainer = style({
   display: 'flex',
   justifyContent: 'center',
-  padding: '3.4rem 0 10rem  0',
+  padding: '3.4rem 0 10rem 0',
 });
