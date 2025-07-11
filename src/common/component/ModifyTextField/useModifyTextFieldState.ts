@@ -6,7 +6,7 @@ interface State {
   isComposing: boolean;
 }
 
-type Action =
+export type Action =
   | { type: 'FOCUS' }
   | { type: 'BLUR' }
   | { type: 'HOVER_ENTER' }
@@ -96,4 +96,4 @@ export function useModifyTextFieldState({ onChange }: { onChange: (value: string
     handleWrapperClick,
     handleWrapperKeyDown,
   };
-} 
+}

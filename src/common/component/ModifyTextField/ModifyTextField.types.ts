@@ -8,4 +8,4 @@ export interface ModifyTextFieldProps {
   disabled?: boolean;
   onBlur?: () => void;
   onFocus?: () => void;
-} 
+}

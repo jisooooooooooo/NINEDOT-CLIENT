@@ -1,24 +1,16 @@
 import React from 'react';
-import { IcMediumTextdelete } from '@/assets/svg';
+
 import type { ModifyTextFieldProps, ModifyTextFieldVariant } from './ModifyTextField.types';
 import * as styles from './ModifyTextField.css';
-import { useModifyTextFieldState } from './useModifyTextFieldState';
+import { useModifyTextFieldState, type Action } from './useModifyTextFieldState';
 
-// ====== 상수 정의 ======
+import { IcMediumTextdelete } from '@/assets/svg';
+
 const DEFAULT_PLACEHOLDER = {
   subGoal: '세부 목표를 입력해주세요',
   todo: '할 일을 입력해주세요',
 } as const;
 
-const TODO_FIELD_STATES = new Set([
-  'modify_empty',
-  'modify_hover',
-  'modify_clicked',
-  'modify_typing',
-  'modify_filled',
-] as const);
-
-// ====== 타입 정의 ======
 type FieldState =
   | 'filled'
   | 'empty'
@@ -28,19 +20,28 @@ type FieldState =
   | 'modify_typing'
   | 'modify_filled';
 
-// ====== 상태 결정 함수 ======
-function getFieldState(variant: ModifyTextFieldVariant, isFocused: boolean, isHovered: boolean, hasValue: boolean): FieldState {
+function getFieldState(
+  variant: ModifyTextFieldVariant,
+  isFocused: boolean,
+  isHovered: boolean,
+  hasValue: boolean,
+): FieldState {
   if (variant === 'subGoal') {
     return hasValue ? 'filled' : 'empty';
   }
   // todo
-  if (isFocused) return hasValue ? 'modify_typing' : 'modify_clicked';
-  if (hasValue) return 'modify_filled';
-  if (isHovered) return 'modify_hover';
+  if (isFocused) {
+    return hasValue ? 'modify_typing' : 'modify_clicked';
+  }
+  if (hasValue) {
+    return 'modify_filled';
+  }
+  if (isHovered) {
+    return 'modify_hover';
+  }
   return 'modify_empty';
 }
 
-// ====== 스타일 결정 함수 ======
 function getWrapperClass(variant: ModifyTextFieldVariant, fieldState: FieldState) {
   if (variant === 'subGoal') {
     return styles.subGoalVariants[fieldState as 'filled' | 'empty'];
@@ -48,12 +49,10 @@ function getWrapperClass(variant: ModifyTextFieldVariant, fieldState: FieldState
   return styles.todoVariants[fieldState as keyof typeof styles.todoVariants];
 }
 
-// ====== 플레이스홀더 결정 함수 ======
 function getPlaceholder(variant: ModifyTextFieldVariant, placeholder?: string) {
   return placeholder ?? DEFAULT_PLACEHOLDER[variant];
 }
 
-// ====== 입력 필드 속성 생성 함수 ======
 function getInputProps({
   value,
   onChange,
@@ -69,7 +68,7 @@ function getInputProps({
   onFocus?: () => void;
   onBlur?: () => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  dispatch: (action: any) => void;
+  dispatch: (action: Action) => void;
   placeholder?: string;
   disabled?: boolean;
 }) {
@@ -94,7 +93,6 @@ function getInputProps({
   };
 }
 
-// ====== 래퍼 속성 생성 함수 ======
 function getWrapperProps({
   disabled,
   handleWrapperClick,
@@ -105,7 +103,7 @@ function getWrapperProps({
   disabled?: boolean;
   handleWrapperClick: () => void;
   handleWrapperKeyDown: (e: React.KeyboardEvent) => void;
-  dispatch: (action: any) => void;
+  dispatch: (action: Action) => void;
   isFocused: boolean;
 }) {
   return disabled
@@ -120,7 +118,6 @@ function getWrapperProps({
       };
 }
 
-// ====== 삭제 버튼 컴포넌트 ======
 function ClearButton({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
   return (
     <button
@@ -135,7 +132,6 @@ function ClearButton({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
   );
 }
 
-// ====== 메인 컴포넌트 ======
 export default function ModifyTextField({
   variant = 'todo',
   value,
@@ -186,4 +182,4 @@ export default function ModifyTextField({
       </div>
     </div>
   );
-} 
+}
