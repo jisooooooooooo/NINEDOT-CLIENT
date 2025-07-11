@@ -13,8 +13,8 @@ type BasicInfoProps = {
   setEmail: (value: string) => void;
   setBirth: (value: string) => void;
   selectedJob: JobValue;
-  setSelectedJob: (job: JobValue) => void;
   inputJob: string;
+  setSelectedJob: (job: JobValue) => void;
   setInputJob: (value: string) => void;
 };
 
@@ -26,8 +26,8 @@ const BasicInfoSection = ({
   setEmail,
   setBirth,
   selectedJob,
-  setSelectedJob,
   inputJob,
+  setSelectedJob,
   setInputJob,
 }: BasicInfoProps) => {
   return (
