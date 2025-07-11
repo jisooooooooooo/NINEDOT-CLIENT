@@ -13,7 +13,10 @@ const subGoalBase = {
   flexShrink: 0,
   borderRadius: '8px',
   border: '3px solid transparent',
-  ...fonts.subtitle03,
+  fontSize: '2.2rem',
+  fontWeight: 600,
+  lineHeight: '140%',
+  fontFamily: 'Pretendard',
   ...leftAligned,
 };
 
@@ -89,12 +92,12 @@ export const todoVariants = styleVariants({
     background: colors.grey3,
     color: colors.grey10,
     justifyContent: 'space-between',
-    cursor: 'text',
   },
   modify_filled: {
     ...todoBase,
     background: colors.grey4,
     color: colors.grey10,
+    fontWeight: 600,
     cursor: 'pointer',
   },
 });
