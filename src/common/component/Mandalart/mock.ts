@@ -1,48 +1,52 @@
-import type { SubGoal } from './Mandalart';
+import type { Cycle, SubGoal } from './Mandalart';
 
-export const MOCK_MANDALART_DATA = {
-  mainGoal: '나인도트 1등하기',
+interface MockMandalartData {
+  mainGoal: string;
+  subGoals: SubGoal[];
+}
+
+export const MOCK_MANDALART_DATA: MockMandalartData = {
+  mainGoal: '메인 목표를 입력하세요',
   subGoals: [
     {
-      title: '이현준 갈구기',
+      title: '세부 목표를 입력하세요',
       position: 0,
-      cycle: 'DAILY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '매일 운동하기',
+      title: '세부 목표를 입력하세요',
       position: 1,
-      cycle: 'DAILY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '일찍 일어나기',
+      title: '세부 목표를 입력하세요',
       position: 2,
-      cycle: 'DAILY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '계획 세우기',
+      title: '세부 목표를 입력하세요',
       position: 3,
-      cycle: 'WEEKLY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '시간 관리하기',
+      title: '세부 목표를 입력하세요',
       position: 4,
-      cycle: 'WEEKLY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '건강 관리하기',
+      title: '세부 목표를 입력하세요',
       position: 5,
-      cycle: 'DAILY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '긍정적으로 생각하기',
+      title: '세부 목표를 입력하세요',
       position: 6,
-      cycle: 'DAILY',
+      cycle: 'DAILY' as Cycle,
     },
     {
-      title: '꾸준히 노력하기',
+      title: '세부 목표를 입력하세요',
       position: 7,
-      cycle: 'DAILY',
+      cycle: 'DAILY' as Cycle,
     },
-  ] as SubGoal[],
-  completedGoals: [],
+  ],
 };
