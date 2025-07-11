@@ -8,6 +8,7 @@ import {
   iconActive,
   iconInactive,
 } from './DatePicker.css';
+
 import { IcYesterday, IcTomorrow } from '@/assets/svg';
 import { formatDateDot } from '@/common/util/format';
 
@@ -27,14 +28,18 @@ const DatePicker = ({
   className,
 }: DatePickerProps) => {
   const handleYesterdayClick = () => {
-    if (!hasPrev) return;
+    if (!hasPrev) {
+      return;
+    }
     const yesterday = new Date(currentDate);
     yesterday.setDate(yesterday.getDate() - 1);
     onDateChange(yesterday);
   };
 
   const handleTomorrowClick = () => {
-    if (!hasNext) return;
+    if (!hasNext) {
+      return;
+    }
     const tomorrow = new Date(currentDate);
     tomorrow.setDate(tomorrow.getDate() + 1);
     onDateChange(tomorrow);
@@ -47,25 +52,21 @@ const DatePicker = ({
           <button
             className={iconButton}
             onClick={handleYesterdayClick}
-            aria-label="이전 날짜"
+            aria-label=" 어제 날짜"
             disabled={!hasPrev}
             type="button"
           >
-            <IcYesterday
-              className={`${yesterdayIcon} ${hasPrev ? iconActive : iconInactive}`}
-            />
+            <IcYesterday className={`${yesterdayIcon} ${hasPrev ? iconActive : iconInactive}`} />
           </button>
           <span className={dateText}>{formatDateDot(currentDate)}</span>
           <button
             className={iconButton}
             onClick={handleTomorrowClick}
-            aria-label="다음 날짜"
+            aria-label="내일 날짜"
             disabled={!hasNext}
             type="button"
           >
-            <IcTomorrow
-              className={`${tomorrowIcon} ${hasNext ? iconActive : iconInactive}`}
-            />
+            <IcTomorrow className={`${tomorrowIcon} ${hasNext ? iconActive : iconInactive}`} />
           </button>
         </div>
       </div>
