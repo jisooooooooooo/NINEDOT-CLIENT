@@ -79,12 +79,12 @@ export function useModifyTextFieldState({ onChange }: { onChange: (value: string
 
   const handleWrapperKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && !state.isFocused) {
         e.preventDefault();
         handleWrapperClick();
       }
     },
-    [handleWrapperClick],
+    [handleWrapperClick, state.isFocused],
   );
 
   return {

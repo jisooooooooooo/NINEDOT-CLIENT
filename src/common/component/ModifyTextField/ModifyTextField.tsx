@@ -1,52 +1,41 @@
-import React from 'react';
-
 import type { ModifyTextFieldProps, ModifyTextFieldVariant } from './ModifyTextField.types';
 import * as styles from './ModifyTextField.css';
 import { useModifyTextFieldState, type Action } from './useModifyTextFieldState';
 
 import { IcMediumTextdelete } from '@/assets/svg';
 
-const DEFAULT_PLACEHOLDER = {
+const DEFAULT_PLACEHOLDER: Record<ModifyTextFieldVariant, string> = {
   subGoal: '세부 목표를 입력해주세요',
   todo: '할 일을 입력해주세요',
-} as const;
+};
 
-type FieldState =
-  | 'filled'
-  | 'empty'
+// ====== 타입 정의 ======
+type SubGoalFieldState = 'filled' | 'empty';
+type TodoFieldState =
   | 'modify_empty'
   | 'modify_hover'
   | 'modify_clicked'
   | 'modify_typing'
   | 'modify_filled';
 
-function getFieldState(
-  variant: ModifyTextFieldVariant,
-  isFocused: boolean,
-  isHovered: boolean,
-  hasValue: boolean,
-): FieldState {
-  if (variant === 'subGoal') {
-    return hasValue ? 'filled' : 'empty';
-  }
-  // todo
-  if (isFocused) {
-    return hasValue ? 'modify_typing' : 'modify_clicked';
-  }
-  if (hasValue) {
-    return 'modify_filled';
-  }
-  if (isHovered) {
-    return 'modify_hover';
-  }
+// ====== 상태 결정 함수 분리 ======
+function getSubGoalFieldState(hasValue: boolean): SubGoalFieldState {
+  return hasValue ? 'filled' : 'empty';
+}
+
+function getTodoFieldState(isFocused: boolean, isHovered: boolean, hasValue: boolean): TodoFieldState {
+  if (isFocused) return hasValue ? 'modify_typing' : 'modify_clicked';
+  if (hasValue) return 'modify_filled';
+  if (isHovered) return 'modify_hover';
   return 'modify_empty';
 }
 
-function getWrapperClass(variant: ModifyTextFieldVariant, fieldState: FieldState) {
+// ====== 스타일 결정 함수 ======
+function getWrapperClass(variant: ModifyTextFieldVariant, fieldState: SubGoalFieldState | TodoFieldState) {
   if (variant === 'subGoal') {
-    return styles.subGoalVariants[fieldState as 'filled' | 'empty'];
+    return styles.subGoalVariants[fieldState as SubGoalFieldState];
   }
-  return styles.todoVariants[fieldState as keyof typeof styles.todoVariants];
+  return styles.todoVariants[fieldState as TodoFieldState];
 }
 
 function getPlaceholder(variant: ModifyTextFieldVariant, placeholder?: string) {
@@ -73,7 +62,7 @@ function getInputProps({
   disabled?: boolean;
 }) {
   return {
-    type: 'text' as const,
+    type: 'text',
     value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
     onFocus: () => {
@@ -152,7 +141,9 @@ export default function ModifyTextField({
   } = useModifyTextFieldState({ onChange });
 
   const hasValue = Boolean(value);
-  const fieldState = getFieldState(variant, state.isFocused, state.isHovered, hasValue);
+  const fieldState = variant === 'subGoal'
+    ? getSubGoalFieldState(hasValue)
+    : getTodoFieldState(state.isFocused, state.isHovered, hasValue);
   const wrapperClass = getWrapperClass(variant, fieldState);
   const effectivePlaceholder = getPlaceholder(variant, placeholder);
   const inputProps = getInputProps({
