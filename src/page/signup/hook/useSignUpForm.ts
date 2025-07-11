@@ -14,14 +14,22 @@ export const useSignUpForm = () => {
   const [inputJob, setInputJob] = useState('');
   const [isChecked, setIsChecked] = useState(false);
 
-  const isOtherSelected =
-    typeof selectedJob !== 'string' && selectedJob.id === JOB_LIST[JOB_LIST.length - 1].id;
+  const isPlaceholder = (job: JobValue): job is typeof PLACE_HOLDER => job === PLACE_HOLDER;
 
-  const finalJob =
-    typeof selectedJob === 'string' ? '' : isOtherSelected ? inputJob.trim() : selectedJob.job;
+  const isOtherJob = (job: JobValue): boolean =>
+    !isPlaceholder(job) && job.id === JOB_LIST[JOB_LIST.length - 1].id;
 
-  const isJobValid =
-    typeof selectedJob === 'string' ? false : !isOtherSelected || inputJob.trim().length > 0;
+  const isOtherSelected = isOtherJob(selectedJob);
+
+  const finalJob = isPlaceholder(selectedJob)
+    ? ''
+    : isOtherSelected
+      ? inputJob.trim()
+      : selectedJob.job;
+
+  const isJobValid = isPlaceholder(selectedJob)
+    ? false
+    : !isOtherSelected || inputJob.trim().length > 0;
 
   const isValid =
     name.trim() !== '' && email.trim() !== '' && birth.trim() !== '' && isJobValid && isChecked;
