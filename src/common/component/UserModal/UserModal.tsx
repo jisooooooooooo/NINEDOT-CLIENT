@@ -25,8 +25,8 @@ const UserModal = ({ onClose }: UserModalProps) => {
   }, []);
 
   return (
-    <div className={styles.modalContainer}>
-      <div className={styles.profileContainer} ref={modalRef}>
+    <div className={styles.modalContainer} ref={modalRef}>
+      <div className={styles.profileContainer}>
         <img src={userData.profileImageUrl} className={styles.profileImage} />
         <div className={styles.textContainer}>
           <strong className={styles.nameText}> {userData.name}</strong>
