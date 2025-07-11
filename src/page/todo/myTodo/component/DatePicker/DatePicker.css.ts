@@ -35,23 +35,15 @@ export const iconButton = style({
   justifyContent: 'center',
   width: '2.8rem',
   height: '2.8rem',
-  aspectRatio: '1/1',
   background: 'none',
   border: 'none',
   padding: 0,
   cursor: 'pointer',
 });
 
-export const yesterdayIcon = style({
+export const iconBase = style({
   width: '2.8rem',
   height: '2.8rem',
-  aspectRatio: '1/1',
-});
-
-export const tomorrowIcon = style({
-  width: '2.8rem',
-  height: '2.8rem',
-  aspectRatio: '1/1',
 });
 
 export const iconActive = style({

@@ -3,8 +3,7 @@ import {
   datePickerContent,
   dateText,
   iconButton,
-  yesterdayIcon,
-  tomorrowIcon,
+  iconBase,
   iconActive,
   iconInactive,
 } from './DatePicker.css';
@@ -52,11 +51,11 @@ const DatePicker = ({
           <button
             className={iconButton}
             onClick={handleYesterdayClick}
-            aria-label=" 어제 날짜"
+            aria-label="어제 날짜"
             disabled={!hasPrev}
             type="button"
           >
-            <IcYesterday className={`${yesterdayIcon} ${hasPrev ? iconActive : iconInactive}`} />
+            <IcYesterday className={`${iconBase} ${hasPrev ? iconActive : iconInactive}`} />
           </button>
           <span className={dateText}>{formatDateDot(currentDate)}</span>
           <button
@@ -66,7 +65,7 @@ const DatePicker = ({
             disabled={!hasNext}
             type="button"
           >
-            <IcTomorrow className={`${tomorrowIcon} ${hasNext ? iconActive : iconInactive}`} />
+            <IcTomorrow className={`${iconBase} ${hasNext ? iconActive : iconInactive}`} />
           </button>
         </div>
       </div>
