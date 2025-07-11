@@ -1,49 +1,25 @@
-import { useState } from 'react';
-
-import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
-import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
 import SurveySection from '@/page/signup/SurveySection/SurveySection';
 import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
 import * as styles from '@/page/signup/SignUp.css';
+import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 
 const SIGNUP_MESSAGE = '회원가입 후 NiNEDOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
 const PERSONAL_INFO_AGREEMENT = '(필수) 개인정보 수집 및 이용약관 동의';
 
 const SignUp = () => {
-  const [name, setName] = useState('새봄');
-  const [email, setEmail] = useState('spring180@naver.com');
-  const [birth, setBirth] = useState('2002-02-14');
+  const { formState, actions, computed } = useSignUpForm();
 
-  const [selectedJob, setSelectedJob] = useState<JobValue>('직업을 선택하세요');
-  const [inputJob, setInputJob] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
+  const { name, email, birth, selectedJob, inputJob, isChecked } = formState;
+  const { setName, setEmail, setBirth, setSelectedJob, setInputJob, setIsChecked } = actions;
+  const { isValid, finalJob } = computed;
 
   const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
 
-  const isOtherSelected =
-    typeof selectedJob !== 'string' && selectedJob.id === JOB_LIST[JOB_LIST.length - 1].id;
-
-  const finalJob =
-    typeof selectedJob === 'string' ? '' : isOtherSelected ? inputJob.trim() : selectedJob.job;
-
-  const isJobValid =
-    typeof selectedJob === 'string' ? false : !isOtherSelected || inputJob.trim().length > 0;
-
-  const isValid =
-    name.trim() !== '' && email.trim() !== '' && birth.trim() !== '' && isJobValid && isChecked;
-
-  const handleCheck = () => setIsChecked((prev) => !prev);
   const handleSignUp = () => {
-    // 테스트용 코드
-    console.log({
-      name,
-      email,
-      birth,
-      job: finalJob,
-    });
+    console.log({ name, email, birth, job: finalJob });
   };
 
   return (
@@ -83,13 +59,11 @@ const SignUp = () => {
             <span className={styles.InfoText}>맞춤 정보</span>
             <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
           </div>
-          <div className={styles.surveySection}>
-            <SurveySection />
-          </div>
+          <SurveySection />
         </section>
 
         <div className={styles.agreementContainer}>
-          <CheckIcon className={styles.checkboxIcon} onClick={handleCheck} />
+          <CheckIcon className={styles.checkboxIcon} onClick={() => setIsChecked(!isChecked)} />
           <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
           <button className={styles.seeText}>보기</button>
         </div>
