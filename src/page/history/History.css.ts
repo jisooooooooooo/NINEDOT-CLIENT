@@ -12,7 +12,8 @@ export const layoutContainer = style({
 });
 
 export const streakTrackerWrapper = style({
-  padding: '8rem 0 9.8rem 0',
+  paddingTop: '8rem',
+  paddingBottom: '9.8rem',
 });
 
 export const streakTitle = style({
