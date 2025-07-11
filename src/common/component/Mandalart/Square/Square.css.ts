@@ -88,7 +88,10 @@ export const subCell = {
     SQUARE_TYPES.TODO_SUB.subFont,
     {
       color: colors.grey8,
-      background: colors.grey2,
+      background: colors.grey3,
+      ':hover': {
+        background: colors.grey2,
+      },
     },
   ]),
   TODO_MAIN: style([
@@ -96,9 +99,9 @@ export const subCell = {
     SQUARE_TYPES.TODO_MAIN.subFont,
     {
       color: colors.grey8,
-      background: colors.grey2,
+      background: colors.grey3,
       ':hover': {
-        background: colors.grey3,
+        background: colors.grey2,
       },
       selectors: {
         '&[data-completed="true"]': {
@@ -113,9 +116,9 @@ export const subCell = {
     SQUARE_TYPES.TODO_EDIT.subFont,
     {
       color: colors.grey8,
-      background: colors.grey2,
+      background: colors.grey3,
       ':hover': {
-        background: colors.grey3,
+        background: colors.grey2,
       },
       selectors: {
         '&[data-completed="true"]': {
