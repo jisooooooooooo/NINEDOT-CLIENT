@@ -9,6 +9,11 @@ export const fonts = {
     fontWeight: '700',
     lineHeight: '140%',
   },
+  display03: {
+    fontSize: '3.2rem',
+    fontWeight: '600',
+    lineHeight: '140%',
+  },
   title01: {
     fontSize: '2.8rem',
     fontWeight: '600',
@@ -27,6 +32,11 @@ export const fonts = {
   title04: {
     fontSize: '2.4rem',
     fontWeight: '600',
+    lineHeight: '140%',
+  },
+  title05: {
+    fontSize: '2.4rem',
+    fontWeight: '400',
     lineHeight: '140%',
   },
   subtitle01: {
