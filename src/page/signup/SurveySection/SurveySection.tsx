@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import SurveyItem from '@/page/signup/component/SurveyItem/SurveyItem';
-import { questionList } from '@/page/signup/data';
+import { questionList } from '@/page/signup/surveyData';
 import {
   surveyWrapper,
   surveyContainer,
