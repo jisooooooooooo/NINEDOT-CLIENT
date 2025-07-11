@@ -11,8 +11,8 @@ const AiFailModal = ({ onClose }: AiFailModalProps) => {
   return (
     <div className={styles.modalContainer}>
       <div className={styles.contentWrapper}>
-        <button type="button" className={styles.iconWrapper}>
-          <IcModalDelete className={styles.closeIcon} onClick={onClose} />
+        <button type="button" className={styles.iconWrapper} onClick={onClose}>
+          <IcModalDelete className={styles.closeIcon} />
         </button>
         <div className={styles.textWrapper}>
           <h2 className={styles.title}>AI 추천 실패</h2>

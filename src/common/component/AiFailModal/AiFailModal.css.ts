@@ -19,9 +19,7 @@ export const contentWrapper = style({
 });
 
 export const iconWrapper = style({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
+  marginLeft: 'auto',
 });
 
 export const closeIcon = style({
