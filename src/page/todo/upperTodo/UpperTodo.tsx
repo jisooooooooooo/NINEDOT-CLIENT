@@ -6,6 +6,18 @@ import { IcSmallNext } from '@/assets/svg';
 import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
+
+const ORDER_PREFIX = [
+  '첫번째',
+  '두번째',
+  '세번째',
+  '네번째',
+  '다섯번째',
+  '여섯번째',
+  '일곱번째',
+  '여덟번째',
+];
 
 interface UpperTodoProps {
   userName?: string;
@@ -47,7 +59,13 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           <Mandalart mainGoal={mandalartMainGoal} />
           <div className={styles.textFieldColumn}>
             {[...Array(8)].map((_, index) => (
-              <TextField key={index} variant="subGoal" value="" onChange={() => {}} />
+              <TextField
+                key={index}
+                variant="subGoal"
+                value=""
+                onChange={() => {}}
+                placeholder={`${ORDER_PREFIX[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
+              />
             ))}
           </div>
         </div>
