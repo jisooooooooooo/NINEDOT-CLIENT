@@ -1,6 +1,7 @@
-import Mandalart from '@/common/component/Mandalart/Mandalart';
 import * as styles from './Mandal.css';
 import Toggle from './component/Toggle/Toggle';
+
+import Mandalart from '@/common/component/Mandalart/Mandalart';
 
 const Mandal = () => {
   return (
