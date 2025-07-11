@@ -83,6 +83,7 @@ export const agreementContainer = style({
 export const checkboxIcon = style({
   height: '2.4rem',
   width: '2.4rem',
+  cursor: 'pointer',
 });
 
 export const agreeText = style({
@@ -99,4 +100,10 @@ export const seeText = style({
   textDecorationThickness: 'auto',
   textUnderlineOffset: 'auto',
   textUnderlinePosition: 'from-font',
+});
+
+export const buttonContainer = style({
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '3.4rem 0 10rem  0',
 });
