@@ -1,4 +1,4 @@
-import type { OptionType } from '@/page/signup/component/type/optionType';
+import type { OptionType } from '@/page/signup/type/optionType';
 
 export type QuestionType = {
   id: number;
