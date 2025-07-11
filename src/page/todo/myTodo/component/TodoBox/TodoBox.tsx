@@ -1,6 +1,6 @@
 import React from 'react';
-import type { TodoBoxProps, TodoItemTypes } from './TodoBox.types';
 
+import type { TodoBoxProps, TodoItemTypes } from './TodoBox.types';
 import {
   recommendContainer,
   recommendItem,
@@ -11,6 +11,7 @@ import {
   checkboxButton,
   checkboxIcon,
 } from './TodoBox.css';
+
 import { IcCheckboxChecked, IcCheckboxDefault } from '@/assets/svg';
 
 interface Props extends TodoBoxProps {
