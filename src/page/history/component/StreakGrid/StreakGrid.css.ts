@@ -25,7 +25,6 @@ export const dotIcon = recipe({
       true: {
         cursor: 'pointer',
       },
-      false: {},
     },
   },
   defaultVariants: {
