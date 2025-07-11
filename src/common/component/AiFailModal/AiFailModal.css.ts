@@ -48,3 +48,10 @@ export const description = style({
   textAlign: 'center',
   ...fonts.subtitle06,
 });
+
+export const buttonWrapper = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '5rem',
+});

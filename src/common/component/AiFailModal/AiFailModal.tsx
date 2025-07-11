@@ -17,6 +17,8 @@ const AiFailModal = ({ onClose }: AiFailModalProps) => {
         <div className={styles.textWrapper}>
           <h2 className={styles.title}>AI 추천 실패</h2>
           <p className={styles.description}>다시 한 번 시도해주세요.</p>
+        </div>
+        <div className={styles.buttonWrapper}>
           <MandalButton text="다시 시도" />
         </div>
       </div>
