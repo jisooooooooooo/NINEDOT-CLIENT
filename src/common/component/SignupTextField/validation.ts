@@ -17,9 +17,13 @@ export function validateField(type: 'name' | 'birth' | 'job', value: string): st
     if (!BIRTH_REGEX.test(value)) {
       return ERROR_MESSAGES.birth;
     }
-    const [, , month] = value.split('-');
+    const [year, month, day] = value.split('-');
     const monthNum = parseInt(month, 10);
     if (monthNum < 1 || monthNum > 12) {
+      return ERROR_MESSAGES.birth;
+    }
+    const dayNum = parseInt(day, 10);
+    if (dayNum < 1 || dayNum > 31) {
       return ERROR_MESSAGES.birth;
     }
     return undefined;
