@@ -11,24 +11,28 @@ const SQUARE_TYPES = {
   TODO_SUB: {
     width: '9.6rem',
     height: '9.6rem',
+    padding: '0.6rem',
     mainFont: fonts.body04,
     subFont: fonts.caption01,
   },
   TODO_MAIN: {
     width: '19.6rem',
     height: '19.6rem',
+    padding: '1.4rem',
     mainFont: fonts.title03,
     subFont: fonts.subtitle01,
   },
   TODO_EDIT: {
     width: '16rem',
     height: '16rem',
+    padding: '1.2rem',
     mainFont: fonts.subtitle01,
     subFont: fonts.subtitle05,
   },
   MY_MANDAL: {
     width: '29.8rem',
     height: '29.8rem',
+    padding: '4.4rem',
     mainFont: fonts.display02,
     subFont: fonts.title01,
   },
@@ -44,6 +48,7 @@ const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
     textAlign: 'center',
     width: SQUARE_TYPES[type].width,
     height: SQUARE_TYPES[type].height,
+    padding: SQUARE_TYPES[type].padding,
     boxSizing: 'border-box',
   });
 
