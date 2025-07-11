@@ -6,4 +6,6 @@ export const viewContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   marginTop: '8.7rem',
+  marginBottom: '10.8rem',
+  gap: '7.3rem',
 });
