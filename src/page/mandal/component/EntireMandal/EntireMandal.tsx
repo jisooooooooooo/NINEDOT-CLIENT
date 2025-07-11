@@ -2,6 +2,7 @@ import * as styles from './EntireMandal.css';
 import type { CoreGoal } from '../../types/mandal';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
+import MandalartGrid from '@/common/component/Mandalart/MandalartGrid/MandalartGrid';
 
 const CENTER_INDEX = 4;
 
@@ -10,13 +11,16 @@ interface EntireMandalProps {
 }
 
 const EntireMandal = ({ coreGoals }: EntireMandalProps) => {
-  return (
-    <div className={styles.entireContainer}>
-      {coreGoals.map((goal: CoreGoal, index: number) => (
-        <Mandalart key={goal.id} type="TODO_SUB" data={goal} isCenter={index === CENTER_INDEX} />
-      ))}
-    </div>
+  const renderMandalart = (index: number) => (
+    <Mandalart
+      key={coreGoals[index].id}
+      type="TODO_SUB"
+      data={coreGoals[index]}
+      isCenter={index === CENTER_INDEX}
+    />
   );
+
+  return <MandalartGrid className={styles.entireContainer}>{renderMandalart}</MandalartGrid>;
 };
 
 export default EntireMandal;

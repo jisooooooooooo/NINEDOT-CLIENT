@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
+import MandalartGrid from './MandalartGrid/MandalartGrid';
 
 import type { CoreGoal } from '@/page/mandal/types/mandal';
 
@@ -54,11 +55,7 @@ const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps
     );
   };
 
-  const squares = Array(9)
-    .fill(null)
-    .map((_, index) => renderSquare(index));
-
-  return <div className={styles.grid[type]}>{squares}</div>;
+  return <MandalartGrid className={styles.grid[type]}>{renderSquare}</MandalartGrid>;
 };
 
 export default Mandalart;
