@@ -3,7 +3,7 @@ import * as styles from '../UpperTodo.css';
 import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 
-const ORDER_PREFIX = [
+const ORDER_LABELS = [
   '첫번째',
   '두번째',
   '세번째',
@@ -14,16 +14,27 @@ const ORDER_PREFIX = [
   '여덟번째',
 ];
 
-const SubGoalFields = () => {
+interface Props {
+  values: string[];
+  onChange: (values: string[]) => void;
+}
+
+const SubGoalFields = ({ values, onChange }: Props) => {
+  const handleChange = (index: number, newValue: string) => {
+    const updated = [...values];
+    updated[index] = newValue;
+    onChange(updated);
+  };
+
   return (
     <div className={styles.textFieldColumn}>
-      {[...Array(8)].map((_, index) => (
+      {values.map((value, index) => (
         <TextField
           key={index}
           variant="subGoal"
-          value=""
-          onChange={() => {}}
-          placeholder={`${ORDER_PREFIX[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
+          value={value}
+          onChange={(val) => handleChange(index, val)}
+          placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
         />
       ))}
     </div>

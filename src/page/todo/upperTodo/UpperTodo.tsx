@@ -1,8 +1,9 @@
-import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
 
-import * as styles from './UpperTodo.css';
 import SubGoalFields from './component/SubGoalFields';
+import * as styles from './UpperTodo.css';
 
 import { PATH } from '@/route';
 import { IcSmallNext } from '@/assets/svg';
@@ -17,13 +18,15 @@ interface UpperTodoProps {
 }
 
 const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: UpperTodoProps) => {
+  const navigate = useNavigate();
+  const { openModal, ModalWrapper, closeModal } = useModal();
+
   const mandalartMainGoal: MainGoal = {
     title: mainGoal,
     position: 0,
   };
 
-  const { openModal, ModalWrapper, closeModal } = useModal();
-  const navigate = useNavigate();
+  const [subGoals, setSubGoals] = useState<string[]>(Array(8).fill(''));
 
   const handleNavigateLower = () => {
     navigate(PATH.TODO_LOWER);
@@ -60,8 +63,8 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
         </header>
 
         <div className={styles.upperTodoBox}>
-          <Mandalart mainGoal={mandalartMainGoal} />
-          <SubGoalFields />
+          <Mandalart mainGoal={mandalartMainGoal} subGoals={subGoals} />
+          <SubGoalFields values={subGoals} onChange={setSubGoals} />
         </div>
 
         <button
@@ -73,6 +76,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           <span className={styles.mandalCompleteText}>만다르트를 완성했어요</span>
           <IcSmallNext className={styles.mandalCompleteIcon} />
         </button>
+
         {ModalWrapper}
       </section>
     </main>
