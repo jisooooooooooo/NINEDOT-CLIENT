@@ -5,7 +5,6 @@ const SvgIcStreakerDot = (props: SVGProps<SVGSVGElement>) => (
       <rect width={36} height={36} fill="url(#ic_streaker_dot_svg__b)" rx={18} />
       <foreignObject width={44} height={44} x={-4} y={-4}>
         <div
-          xmlns="http://www.w3.org/1999/xhtml"
           style={{
             backdropFilter: 'blur(2px)',
             clipPath: 'url(#ic_streaker_dot_svg__c)',
