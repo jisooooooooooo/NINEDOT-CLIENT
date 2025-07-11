@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import {
   todoBoxContainer,
   todoItemContainer,
@@ -22,7 +24,7 @@ interface TodoItemProps {
 }
 
 const TodoBox = ({ type, items, onItemClick, className }: TodoBoxProps) => (
-  <div className={`${todoBoxContainer[type]}${className ? ` ${className}` : ''}`}>
+  <div className={clsx(todoBoxContainer[type], className)}>
     {items.map((item) => (
       <TodoItem key={item.id} item={item} type={type} onItemClick={onItemClick} />
     ))}
@@ -49,11 +51,10 @@ const TodoItem = ({
         onClick={handleClick}
         aria-label={item.completed ? '완료 취소하기' : '완료하기'}
       >
-        {item.completed ? (
-          <IcCheckboxChecked className={checkboxIcon} />
-        ) : (
-          <IcCheckboxDefault className={checkboxIcon} />
-        )}
+        {(() => {
+          const CheckIcon = item.completed ? IcCheckboxChecked : IcCheckboxDefault;
+          return <CheckIcon className={checkboxIcon} />;
+        })()}
       </button>
     </div>
   );

@@ -43,10 +43,8 @@ export const todoItemContainer = styleVariants({
 
 export const todoText = styleVariants({
   recommend: {
-    display: '-webkit-box',
     width: '33.3rem',
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: 1,
+    whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     color: colors.white01,
@@ -65,7 +63,6 @@ export const checkboxButton = style({
   justifyContent: 'center',
   width: '2.4rem',
   height: '2.4rem',
-  aspectRatio: '1/1',
   background: 'none',
   border: 'none',
   padding: 0,
@@ -75,5 +72,4 @@ export const checkboxButton = style({
 export const checkboxIcon = style({
   width: '2.4rem',
   height: '2.4rem',
-  aspectRatio: '1/1',
 });
