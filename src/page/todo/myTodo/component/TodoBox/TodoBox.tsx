@@ -18,11 +18,13 @@ interface Props extends TodoBoxProps {
   type: 'recommend' | 'todo';
 }
 
-const TodoItem: React.FC<{
+interface TodoItemProps {
   item: TodoItemTypes;
   type: 'recommend' | 'todo';
   onItemClick?: (item: TodoItemTypes) => void;
-}> = ({ item, type, onItemClick }) => {
+}
+
+function TodoItem({ item, type, onItemClick }: TodoItemProps): React.JSX.Element {
   const handleClick = () => {
     onItemClick?.(item);
   };
@@ -43,9 +45,9 @@ const TodoItem: React.FC<{
       </button>
     </div>
   );
-};
+}
 
-const TodoBox: React.FC<Props> = ({ type, items, onItemClick, className }) => {
+function TodoBox({ type, items, onItemClick, className }: Props): React.JSX.Element {
   const containerClass = type === 'recommend' ? recommendContainer : todoContainer;
   return (
     <div className={`${containerClass} ${className || ''}`}>
@@ -54,6 +56,6 @@ const TodoBox: React.FC<Props> = ({ type, items, onItemClick, className }) => {
       ))}
     </div>
   );
-};
+}
 
 export default TodoBox;
