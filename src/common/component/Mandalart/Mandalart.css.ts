@@ -25,4 +25,8 @@ export const grid = {
     ...baseGrid,
     gap: '3rem',
   }),
+  MY_MANDAL_CENTER: style({
+    ...baseGrid,
+    gap: '1rem',
+  }),
 };

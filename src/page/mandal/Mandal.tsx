@@ -6,6 +6,8 @@ import type { CoreGoal } from './types/mandal';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 
+const CENTER_INDEX = 4;
+
 const Mandal = () => {
   const { viewType, handleViewChange } = useMandalView();
   const { coreGoals } = mockMandalartData.data;
@@ -17,8 +19,13 @@ const Mandal = () => {
         <Mandalart type="MY_MANDAL" />
       ) : (
         <div className={styles.entireContainer}>
-          {coreGoals.map((goal: CoreGoal) => (
-            <Mandalart key={goal.id} type="TODO_SUB" data={goal} />
+          {coreGoals.map((goal: CoreGoal, index: number) => (
+            <Mandalart
+              key={goal.id}
+              type="TODO_SUB"
+              data={goal}
+              isCenter={index === CENTER_INDEX}
+            />
           ))}
         </div>
       )}

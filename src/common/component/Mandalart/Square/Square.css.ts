@@ -36,6 +36,13 @@ const SQUARE_TYPES = {
     mainFont: fonts.display02,
     subFont: fonts.title01,
   },
+  MY_MANDAL_CENTER: {
+    width: '9.6rem',
+    height: '9.6rem',
+    padding: '0.6rem',
+    mainFont: fonts.body04,
+    subFont: fonts.caption01,
+  },
 } as const;
 
 const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
@@ -85,6 +92,14 @@ export const mainCell = {
       backgroundImage: colors.gradient05,
     },
   ]),
+  MY_MANDAL_CENTER: style([
+    createBaseCell('MY_MANDAL_CENTER'),
+    SQUARE_TYPES.MY_MANDAL_CENTER.mainFont,
+    {
+      color: colors.white01,
+      backgroundImage: colors.gradient05,
+    },
+  ]),
 };
 
 export const subCell = {
@@ -110,7 +125,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: '0.4rem solid #305088',
+          border: `0.4rem solid ${colors.blue08}`,
           background: colors.grey2,
         },
       },
@@ -127,7 +142,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: '0.3rem solid #305088',
+          border: `0.3rem solid ${colors.blue08}`,
           background: colors.grey2,
         },
       },
@@ -136,6 +151,14 @@ export const subCell = {
   MY_MANDAL: style([
     createBaseCell('MY_MANDAL'),
     SQUARE_TYPES.MY_MANDAL.subFont,
+    {
+      color: colors.white01,
+      backgroundImage: colors.gradient04,
+    },
+  ]),
+  MY_MANDAL_CENTER: style([
+    createBaseCell('MY_MANDAL_CENTER'),
+    SQUARE_TYPES.MY_MANDAL_CENTER.subFont,
     {
       color: colors.white01,
       backgroundImage: colors.gradient04,
