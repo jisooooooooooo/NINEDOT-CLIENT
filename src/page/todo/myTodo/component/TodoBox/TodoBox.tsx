@@ -1,12 +1,6 @@
-import React from 'react';
-
-import type { TodoBoxProps, TodoItemTypes } from './TodoBox.types';
 import {
-  recommendContainer,
-  recommendItem,
-  recommendText,
-  todoContainer,
-  todoItem,
+  todoBoxContainer,
+  todoItemContainer,
   todoText,
   checkboxButton,
   checkboxIcon,
@@ -14,27 +8,45 @@ import {
 
 import { IcCheckboxChecked, IcCheckboxDefault } from '@/assets/svg';
 
-interface Props extends TodoBoxProps {
+interface TodoBoxProps {
   type: 'recommend' | 'todo';
+  items: TodoItemProps[];
+  onItemClick?: (item: TodoItemProps) => void;
+  className?: string;
 }
 
 interface TodoItemProps {
-  item: TodoItemTypes;
-  type: 'recommend' | 'todo';
-  onItemClick?: (item: TodoItemTypes) => void;
+  id: string;
+  content: string;
+  completed?: boolean;
 }
 
-function TodoItem({ item, type, onItemClick }: TodoItemProps): React.JSX.Element {
+const TodoBox = ({ type, items, onItemClick, className }: TodoBoxProps) => (
+  <div className={`${todoBoxContainer[type]}${className ? ` ${className}` : ''}`}>
+    {items.map((item) => (
+      <TodoItem key={item.id} item={item} type={type} onItemClick={onItemClick} />
+    ))}
+  </div>
+);
+
+const TodoItem = ({
+  item,
+  type,
+  onItemClick,
+}: {
+  item: TodoItemProps;
+  type: 'recommend' | 'todo';
+  onItemClick?: (item: TodoItemProps) => void;
+}) => {
   const handleClick = () => {
     onItemClick?.(item);
   };
   return (
-    <div className={type === 'recommend' ? recommendItem : todoItem}>
-      <span className={type === 'recommend' ? recommendText : todoText}>{item.content}</span>
+    <div className={todoItemContainer[type]}>
+      <span className={todoText[type]}>{item.content}</span>
       <button
         className={checkboxButton}
         onClick={handleClick}
-        type="button"
         aria-label={item.completed ? '완료 취소하기' : '완료하기'}
       >
         {item.completed ? (
@@ -45,17 +57,6 @@ function TodoItem({ item, type, onItemClick }: TodoItemProps): React.JSX.Element
       </button>
     </div>
   );
-}
-
-function TodoBox({ type, items, onItemClick, className }: Props): React.JSX.Element {
-  const containerClass = type === 'recommend' ? recommendContainer : todoContainer;
-  return (
-    <div className={`${containerClass} ${className || ''}`}>
-      {items.map((item) => (
-        <TodoItem key={item.id} item={item} type={type} onItemClick={onItemClick} />
-      ))}
-    </div>
-  );
-}
+};
 
 export default TodoBox;

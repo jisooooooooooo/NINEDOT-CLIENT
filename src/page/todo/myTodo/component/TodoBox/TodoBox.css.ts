@@ -1,62 +1,62 @@
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 import { colors } from '@/style/token/color.css';
 import { fonts } from '@/style/token/typography.css';
 
-export const recommendContainer = style({
-  display: 'flex',
-  width: '40.6rem',
-  padding: '2.4rem 2rem',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '1rem',
-  borderRadius: '10px',
-  background: colors.grey4,
+export const todoBoxContainer = styleVariants({
+  recommend: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '1rem', // 10px
+    background: colors.grey4,
+    borderRadius: '10px',
+    width: '40.6rem',
+    padding: '2.4rem 2rem',
+  },
+  todo: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: colors.grey4,
+    borderRadius: '8px',
+    width: '43.6rem',
+    padding: '1.4rem 2rem',
+  },
 });
 
-export const recommendItem = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  alignSelf: 'stretch',
+export const todoItemContainer = styleVariants({
+  recommend: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
+  todo: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: '1 0 0',
+  },
 });
 
-export const recommendText = style({
-  display: '-webkit-box',
-  width: '33.3rem',
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 1,
-  overflow: 'hidden',
-  color: colors.white01,
-  textOverflow: 'ellipsis',
-  fontFamily: 'Pretendard',
-  fontStyle: 'normal',
-  ...fonts.subtitle05,
-});
-
-export const todoContainer = style({
-  display: 'flex',
-  width: '43.6rem',
-  padding: '1.4rem 2rem',
-  alignItems: 'center',
-  borderRadius: '8px',
-  background: colors.grey4,
-});
-
-export const todoItem = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  flex: '1 0 0',
-});
-
-export const todoText = style({
-  color: colors.grey10,
-  textAlign: 'center',
-  fontFamily: 'Pretendard',
-  fontStyle: 'normal',
-  ...fonts.subtitle02,
+export const todoText = styleVariants({
+  recommend: {
+    display: '-webkit-box',
+    width: '33.3rem',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 1,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    color: colors.white01,
+    ...fonts.subtitle05,
+  },
+  todo: {
+    color: colors.grey10,
+    textAlign: 'center',
+    ...fonts.subtitle02,
+  },
 });
 
 export const checkboxButton = style({
