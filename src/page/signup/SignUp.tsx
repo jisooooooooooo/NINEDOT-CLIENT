@@ -59,7 +59,9 @@ const SignUp = () => {
             <span className={styles.InfoText}>맞춤 정보</span>
             <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
           </div>
-          <SurveySection />
+          <div className={styles.surveySection}>
+            <SurveySection />
+          </div>
         </section>
 
         <div className={styles.agreementContainer}>
