@@ -9,8 +9,9 @@ type SignUpProps = {
 };
 
 const SignUpButton = ({ children, onClick, disabled }: SignUpProps) => {
+  const state = disabled ? 'disabled' : 'active';
   return (
-    <button className={signUpContainer} onClick={onClick} disabled>
+    <button className={signUpContainer({ state })} onClick={onClick} disabled>
       {children}
     </button>
   );
