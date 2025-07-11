@@ -35,6 +35,7 @@ function getFieldState(
 }
 
 export default function SignupTextField({
+  id,
   type,
   value,
   onChange,
@@ -73,6 +74,7 @@ export default function SignupTextField({
 
   function createInputProps() {
     return {
+      id,
       ref: inputRef,
       type: 'text' as const,
       value,

@@ -38,6 +38,7 @@ const BasicInfoSection = ({
           <IcEssentialDot className={essentialIcon} />
         </label>
         <SignupTextField
+          id="name-input"
           type="name"
           value={name}
           onChange={setName}
@@ -50,7 +51,7 @@ const BasicInfoSection = ({
           이메일
           <IcEssentialDot className={essentialIcon} />
         </label>
-        <SignupTextField type="email" value={email} onChange={setEmail} disabled />
+        <SignupTextField id="email-input" type="email" value={email} onChange={setEmail} disabled />
       </div>
 
       <div className={styles.inputContainer}>
@@ -59,6 +60,7 @@ const BasicInfoSection = ({
           <IcEssentialDot className={essentialIcon} />
         </label>
         <SignupTextField
+          id="birth-input"
           type="birth"
           value={birth}
           onChange={setBirth}
@@ -72,6 +74,7 @@ const BasicInfoSection = ({
           <IcEssentialDot className={essentialIcon} />
         </label>
         <JobDropDown
+          id="job-input"
           selectedJob={selectedJob}
           setSelectedJob={setSelectedJob}
           inputJob={inputJob}
