@@ -1,0 +1,31 @@
+import { style } from '@vanilla-extract/css';
+
+import { colors, fonts } from '@/style/token';
+
+export const historyContainer = style({
+  backgroundColor: colors.bg_black01,
+});
+
+export const layoutContainer = style({
+  maxWidth: '128rem',
+  margin: '0 auto',
+});
+
+export const streakTrackerWrapper = style({
+  padding: '8rem 0 9.8rem 0',
+});
+export const streakTitle = style({
+  marginBottom: '0.4rem',
+  color: colors.white01,
+  ...fonts.title01,
+});
+
+export const streakDescription = style({
+  marginBottom: '2.8rem',
+  color: colors.grey6,
+  ...fonts.subtitle04,
+});
+
+export const streakTrackerContainer = style({
+  display: 'flex',
+});
