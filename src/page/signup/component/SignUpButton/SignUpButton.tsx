@@ -11,7 +11,12 @@ type SignUpProps = {
 const SignUpButton = ({ children, onClick, disabled }: SignUpProps) => {
   const state = disabled ? 'disabled' : 'active';
   return (
-    <button className={signUpContainer({ state })} onClick={onClick} disabled={disabled}>
+    <button
+      className={signUpContainer({ state })}
+      onClick={onClick}
+      disabled={disabled}
+      type="submit"
+    >
       {children}
     </button>
   );
