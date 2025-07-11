@@ -23,15 +23,28 @@ function getSubGoalFieldState(hasValue: boolean): SubGoalFieldState {
   return hasValue ? 'filled' : 'empty';
 }
 
-function getTodoFieldState(isFocused: boolean, isHovered: boolean, hasValue: boolean): TodoFieldState {
-  if (isFocused) return hasValue ? 'modify_typing' : 'modify_clicked';
-  if (hasValue) return 'modify_filled';
-  if (isHovered) return 'modify_hover';
+function getTodoFieldState(
+  isFocused: boolean,
+  isHovered: boolean,
+  hasValue: boolean,
+): TodoFieldState {
+  if (isFocused) {
+    return hasValue ? 'modify_typing' : 'modify_clicked';
+  }
+  if (hasValue) {
+    return 'modify_filled';
+  }
+  if (isHovered) {
+    return 'modify_hover';
+  }
   return 'modify_empty';
 }
 
 // ====== 스타일 결정 함수 ======
-function getWrapperClass(variant: ModifyTextFieldVariant, fieldState: SubGoalFieldState | TodoFieldState) {
+function getWrapperClass(
+  variant: ModifyTextFieldVariant,
+  fieldState: SubGoalFieldState | TodoFieldState,
+) {
   if (variant === 'subGoal') {
     return styles.subGoalVariants[fieldState as SubGoalFieldState];
   }
@@ -141,9 +154,10 @@ export default function ModifyTextField({
   } = useModifyTextFieldState({ onChange });
 
   const hasValue = Boolean(value);
-  const fieldState = variant === 'subGoal'
-    ? getSubGoalFieldState(hasValue)
-    : getTodoFieldState(state.isFocused, state.isHovered, hasValue);
+  const fieldState =
+    variant === 'subGoal'
+      ? getSubGoalFieldState(hasValue)
+      : getTodoFieldState(state.isFocused, state.isHovered, hasValue);
   const wrapperClass = getWrapperClass(variant, fieldState);
   const effectivePlaceholder = getPlaceholder(variant, placeholder);
   const inputProps = getInputProps({
