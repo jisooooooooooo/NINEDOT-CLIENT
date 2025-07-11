@@ -7,8 +7,10 @@ const Example = () => {
   useEffect(() => {
     const getToken = async () => {
       const code = getGoogleAuthCode();
-      console.log(code);
-      if (!code) return;
+
+      if (!code) {
+        return;
+      }
 
       try {
         const data = await getAccessToken(code);
