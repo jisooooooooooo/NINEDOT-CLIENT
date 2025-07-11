@@ -9,7 +9,7 @@ import {
 } from './DatePicker.css';
 
 import { IcYesterday, IcTomorrow } from '@/assets/svg';
-import { formatDateDot } from '@/common/util/format';
+import { formatDateDot, getYesterday, getTomorrow } from '@/common/util/format';
 
 interface DatePickerProps {
   currentDate: Date;
@@ -30,46 +30,40 @@ const DatePicker = ({
     if (!hasPrev) {
       return;
     }
-    const yesterday = new Date(currentDate);
-    yesterday.setDate(yesterday.getDate() - 1);
-    onDateChange(yesterday);
+    onDateChange(getYesterday(currentDate));
   };
 
   const handleTomorrowClick = () => {
     if (!hasNext) {
       return;
     }
-    const tomorrow = new Date(currentDate);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    onDateChange(tomorrow);
+    onDateChange(getTomorrow(currentDate));
   };
 
   return (
-    <>
-      <div className={`${datePickerContainer}${className ? ` ${className}` : ''}`}>
-        <div className={datePickerContent}>
-          <button
-            className={iconButton}
-            onClick={handleYesterdayClick}
-            aria-label="어제 날짜"
-            disabled={!hasPrev}
-            type="button"
-          >
-            <IcYesterday className={`${iconBase} ${hasPrev ? iconActive : iconInactive}`} />
-          </button>
-          <span className={dateText}>{formatDateDot(currentDate)}</span>
-          <button
-            className={iconButton}
-            onClick={handleTomorrowClick}
-            aria-label="내일 날짜"
-            disabled={!hasNext}
-            type="button"
-          >
-            <IcTomorrow className={`${iconBase} ${hasNext ? iconActive : iconInactive}`} />
-          </button>
-        </div>
+    <div className={`${datePickerContainer}${className ? ` ${className}` : ''}`}>
+      <div className={datePickerContent}>
+        <button
+          className={iconButton}
+          onClick={handleYesterdayClick}
+          aria-label="어제 날짜"
+          disabled={!hasPrev}
+          type="button"
+        >
+          <IcYesterday className={`${iconBase} ${hasPrev ? iconActive : iconInactive}`} />
+        </button>
+        <span className={dateText}>{formatDateDot(currentDate)}</span>
+        <button
+          className={iconButton}
+          onClick={handleTomorrowClick}
+          aria-label="내일 날짜"
+          disabled={!hasNext}
+          type="button"
+        >
+          <IcTomorrow className={`${iconBase} ${hasNext ? iconActive : iconInactive}`} />
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 

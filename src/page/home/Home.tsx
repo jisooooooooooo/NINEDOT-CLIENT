@@ -2,12 +2,13 @@ import { useState } from 'react';
 
 import { DatePicker } from '../todo/myTodo/component/DatePicker';
 
-// month는 0부터 시작해서 6 = 7월입니다 !!
-const MIN_DATE = new Date(2025, 6, 10);
-const MAX_DATE = new Date(2025, 6, 20);
+import { createDate } from '@/common/util/format';
+
+const MIN_DATE = createDate(2025, 7, 10);
+const MAX_DATE = createDate(2025, 7, 20);
 
 const Home = () => {
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 6, 15));
+  const [currentDate, setCurrentDate] = useState(createDate(2025, 7, 15));
 
   const hasPrev = currentDate > MIN_DATE;
   const hasNext = currentDate < MAX_DATE;
