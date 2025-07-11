@@ -7,4 +7,5 @@ export interface TextFieldProps {
   placeholder?: string;
   maxLength?: number;
   disabled?: boolean;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }

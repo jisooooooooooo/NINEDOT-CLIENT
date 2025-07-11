@@ -2,7 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
-import { Home, Todo, Mandal, History, SignUp } from '@/page';
+import { Home, Todo, Mandal, History, SignUp, Edit } from '@/page';
 import { UpperGoal, LowerGoal } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
 
@@ -37,6 +37,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.SIGNUP,
         element: <SignUp />,
+      },
+      {
+        path: PATH.EDIT,
+        element: <Edit />,
       },
     ],
   },

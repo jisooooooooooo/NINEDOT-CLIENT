@@ -1,17 +1,28 @@
 import { style } from '@vanilla-extract/css';
 
-export const gridDefault = style({
+const baseGrid = {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '1.6rem',
-  width: 'fit-content',
+  gap: '1.2rem',
   margin: '0 auto',
-});
+  width: 'fit-content',
+};
 
-export const gridSmall = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '2rem',
-  width: 'fit-content',
-  margin: '0 auto',
-});
+export const grid = {
+  TODO_SUB: style({
+    ...baseGrid,
+    gap: '1rem',
+  }),
+  TODO_MAIN: style({
+    ...baseGrid,
+    gap: '1.6rem',
+  }),
+  TODO_EDIT: style({
+    ...baseGrid,
+    gap: '2rem',
+  }),
+  MY_MANDAL: style({
+    ...baseGrid,
+    gap: '3rem',
+  }),
+};
