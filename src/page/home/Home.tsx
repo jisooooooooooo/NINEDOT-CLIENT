@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
+import type { TodoItemTypes } from '../todo/myTodo/component/TodoBox/TodoBox.types';
 import { TodoBox } from '../todo/myTodo/component';
-import type { TodoItemTypes } from '../todo/myTodo/component/TodoBox.types';
 
 const Home = () => {
   const [recommendItems, setRecommendItems] = useState<TodoItemTypes[]>([
