@@ -1,6 +1,6 @@
 import type { StreakData } from '@/page/history/type/StreakDataType';
 
-export const data: StreakData = {
+export const todoData: StreakData = {
   streaks: [
     {
       streakDay: 1,
