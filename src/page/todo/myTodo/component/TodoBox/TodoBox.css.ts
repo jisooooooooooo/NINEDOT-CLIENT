@@ -9,7 +9,7 @@ export const todoBoxContainer = styleVariants({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '1rem', // 10px
+    gap: '1rem',
     background: colors.grey4,
     borderRadius: '10px',
     width: '40.6rem',
