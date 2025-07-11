@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { IcMediumTextdelete } from '@/assets/svg';
-
 import type { ModifyTextFieldProps, ModifyTextFieldVariant } from './ModifyTextField.types';
 import * as styles from './ModifyTextField.css';
 import { useModifyTextFieldState } from './useModifyTextFieldState';
@@ -12,24 +10,33 @@ const DEFAULT_PLACEHOLDER = {
   todo: '할 일을 입력해주세요',
 } as const;
 
+const TODO_FIELD_STATES = new Set([
+  'modify_empty',
+  'modify_hover',
+  'modify_clicked',
+  'modify_typing',
+  'modify_filled',
+] as const);
+
 // ====== 타입 정의 ======
-type FieldState = 'filled' | 'empty' | 'modify_empty' | 'modify_hover' | 'modify_clicked' | 'modify_typing' | 'modify_filled';
+type FieldState =
+  | 'filled'
+  | 'empty'
+  | 'modify_empty'
+  | 'modify_hover'
+  | 'modify_clicked'
+  | 'modify_typing'
+  | 'modify_filled';
 
-// ====== 상태 결정 함수들 ======
-function getSubGoalFieldState(isFocused: boolean, hasValue: boolean): 'filled' | 'empty' {
-  return hasValue ? 'filled' : 'empty';
-}
-
-function getTodoFieldState(isFocused: boolean, isHovered: boolean, hasValue: boolean): 'modify_empty' | 'modify_hover' | 'modify_clicked' | 'modify_typing' | 'modify_filled' {
-  if (isFocused) {
-    return hasValue ? 'modify_typing' : 'modify_clicked';
+// ====== 상태 결정 함수 ======
+function getFieldState(variant: ModifyTextFieldVariant, isFocused: boolean, isHovered: boolean, hasValue: boolean): FieldState {
+  if (variant === 'subGoal') {
+    return hasValue ? 'filled' : 'empty';
   }
-  if (hasValue) {
-    return 'modify_filled';
-  }
-  if (isHovered) {
-    return 'modify_hover';
-  }
+  // todo
+  if (isFocused) return hasValue ? 'modify_typing' : 'modify_clicked';
+  if (hasValue) return 'modify_filled';
+  if (isHovered) return 'modify_hover';
   return 'modify_empty';
 }
 
@@ -38,7 +45,7 @@ function getWrapperClass(variant: ModifyTextFieldVariant, fieldState: FieldState
   if (variant === 'subGoal') {
     return styles.subGoalVariants[fieldState as 'filled' | 'empty'];
   }
-  return styles.todoVariants[fieldState as 'modify_empty' | 'modify_hover' | 'modify_clicked' | 'modify_typing' | 'modify_filled'];
+  return styles.todoVariants[fieldState as keyof typeof styles.todoVariants];
 }
 
 // ====== 플레이스홀더 결정 함수 ======
@@ -47,7 +54,7 @@ function getPlaceholder(variant: ModifyTextFieldVariant, placeholder?: string) {
 }
 
 // ====== 입력 필드 속성 생성 함수 ======
-function createInputProps({
+function getInputProps({
   value,
   onChange,
   onFocus,
@@ -69,9 +76,7 @@ function createInputProps({
   return {
     type: 'text' as const,
     value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
-    },
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
     onFocus: () => {
       dispatch({ type: 'FOCUS' });
       onFocus?.();
@@ -90,7 +95,7 @@ function createInputProps({
 }
 
 // ====== 래퍼 속성 생성 함수 ======
-function createWrapperProps({
+function getWrapperProps({
   disabled,
   handleWrapperClick,
   handleWrapperKeyDown,
@@ -130,8 +135,6 @@ function ClearButton({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
   );
 }
 
-
-
 // ====== 메인 컴포넌트 ======
 export default function ModifyTextField({
   variant = 'todo',
@@ -153,16 +156,10 @@ export default function ModifyTextField({
   } = useModifyTextFieldState({ onChange });
 
   const hasValue = Boolean(value);
-  
-  // ====== 필드 상태 결정 ======
-  const fieldState = variant === 'subGoal' 
-    ? getSubGoalFieldState(state.isFocused, hasValue)
-    : getTodoFieldState(state.isFocused, state.isHovered, hasValue);
-
+  const fieldState = getFieldState(variant, state.isFocused, state.isHovered, hasValue);
   const wrapperClass = getWrapperClass(variant, fieldState);
   const effectivePlaceholder = getPlaceholder(variant, placeholder);
-  
-  const inputProps = createInputProps({
+  const inputProps = getInputProps({
     value,
     onChange,
     onFocus,
@@ -172,15 +169,13 @@ export default function ModifyTextField({
     placeholder: effectivePlaceholder,
     disabled,
   });
-
-  const wrapperProps = createWrapperProps({
+  const wrapperProps = getWrapperProps({
     disabled,
     handleWrapperClick,
     handleWrapperKeyDown,
     dispatch,
     isFocused: state.isFocused,
   });
-
   const showClearButton = fieldState === 'modify_typing';
 
   return (
