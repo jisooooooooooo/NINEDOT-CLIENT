@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import { Square } from './Square';
+import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
-export type MandalartSize = 'small' | 'default';
+export type MandalartType = 'TODO_SUB' | 'TODO_MAIN' | 'TODO_EDIT' | 'MY_MANDAL';
 
 export interface SubGoal {
   title: string;
@@ -16,7 +16,8 @@ export interface SubGoal {
 interface MandalartProps {
   mainGoal?: string;
   subGoals?: SubGoal[];
-  size?: MandalartSize;
+  type: MandalartType;
+  onGoalClick?: (position: number) => void;
 }
 
 const CENTER_INDEX = 4;
@@ -24,29 +25,31 @@ const CENTER_INDEX = 4;
 const Mandalart = ({
   mainGoal = MOCK_MANDALART_DATA.mainGoal,
   subGoals = MOCK_MANDALART_DATA.subGoals,
-  size = 'default',
+  type,
+  onGoalClick,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
   const handleGoalClick = (position: number) => {
     setSelectedGoal(selectedGoal === position ? null : position);
+    onGoalClick?.(position);
   };
 
   const renderSquare = (index: number) => {
     if (index === CENTER_INDEX) {
-      return <Square.Main key={index} content={mainGoal} size={size} />;
+      return <Main key={index} content={mainGoal} type={type} />;
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
     const subGoal = subGoals[subGoalIndex];
 
     return (
-      <Square.Sub
+      <Sub
         key={index}
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        size={size}
+        type={type}
       />
     );
   };
@@ -55,7 +58,7 @@ const Mandalart = ({
     .fill(null)
     .map((_, index) => renderSquare(index));
 
-  return <div className={size === 'small' ? styles.gridSmall : styles.gridDefault}>{squares}</div>;
+  return <div className={styles.grid[type]}>{squares}</div>;
 };
 
 export default Mandalart;

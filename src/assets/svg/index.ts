@@ -5,6 +5,7 @@ export { default as IcDropdown } from './IcDropdown';
 export { default as IcLock } from './IcLock';
 export { default as IcMediumTextdelete } from './IcMediumTextdelete';
 export { default as IcModalDelete } from './IcModalDelete';
+export { default as IcPencil } from './IcPencil';
 export { default as IcRadioChecked } from './IcRadioChecked';
 export { default as IcRadioDefault } from './IcRadioDefault';
 export { default as IcSmallTextdelete } from './IcSmallTextdelete';
