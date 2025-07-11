@@ -1,8 +1,9 @@
+import * as styles from './Mandal.css';
 import Toggle from './component/Toggle/Toggle';
 
 const Mandal = () => {
   return (
-    <div>
+    <div className={styles.viewContainer}>
       <Toggle />
     </div>
   );
