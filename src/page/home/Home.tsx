@@ -7,9 +7,17 @@ const Home = () => {
   const [subGoalValue, setSubGoalValue] = useState('');
 
   return (
-    <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center' }}>
+    <div
+      style={{
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2rem',
+        alignItems: 'center',
+      }}
+    >
       <h1>ModifyTextField 테스트</h1>
-      
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
         <h3>할 일 입력 필드</h3>
         <ModifyTextField
