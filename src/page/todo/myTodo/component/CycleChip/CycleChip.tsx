@@ -13,6 +13,7 @@ const CycleChip = ({ type, value, selected, onClick }: CycleChipProps) => {
   return type === 'selector' ? (
     <button
       type="button"
+      aria-pressed={selected}
       className={`${chipBase} ${selected ? selectorChip.selected : selectorChip.deselected}`}
       onClick={() => onClick?.(value)}
     >
