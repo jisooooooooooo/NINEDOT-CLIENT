@@ -22,7 +22,3 @@ export const labelContainer = style({
   color: colors.grey11,
   ...fonts.body04,
 });
-
-export const jobContainer = style({
-  gap: '0',
-});
