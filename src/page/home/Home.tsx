@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { CycleChip, CycleType } from '../todo/myTodo/component/CycleChip';
+
+import { CycleChip } from '../todo/myTodo/component/CycleChip';
+import type { CycleType } from '../todo/myTodo/component/CycleChip';
 
 const CYCLE_LIST: CycleType[] = ['매일', '매주', '한번'];
 
