@@ -41,6 +41,13 @@ export const buttonWrapper = style({
   height: '6rem',
   borderRadius: '8px',
   backgroundColor: colors.grey3,
+  cursor: 'pointer',
+
+  selectors: {
+    '&:hover': {
+      backgroundColor: colors.grey4,
+    },
+  },
 });
 
 export const googleIcon = style({

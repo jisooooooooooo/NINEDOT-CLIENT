@@ -16,10 +16,10 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
       </button>
       <div className={styles.contentWrapper}>
         <img src={loginLogo} />
-        <div className={styles.buttonWrapper}>
+        <button className={styles.buttonWrapper}>
           <IcGoogleLogo className={styles.googleIcon} />
           <span className={styles.loginText}>Google 계정으로 로그인</span>
-        </div>
+        </button>
       </div>
     </div>
   );
