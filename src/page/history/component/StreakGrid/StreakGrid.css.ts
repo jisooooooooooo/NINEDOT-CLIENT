@@ -5,8 +5,11 @@ import { colors } from '@/style/token';
 
 export const gridContainer = style({
   display: 'grid',
-  gridTemplateColumns: 'repeat(11, 1fr)',
-  gap: '3rem',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(3.6rem, 1fr))',
+  columnGap: '3rem',
+  rowGap: '1.5rem',
+  width: '100%',
+  maxWidth: '84.6rem',
   padding: '4rem 6rem',
   backgroundColor: colors.grey2,
   borderRadius: '8px',

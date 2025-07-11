@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { colors, fonts } from '@/style/token';
 
 export const detailContainer = style({
+  flexShrink: '0',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
