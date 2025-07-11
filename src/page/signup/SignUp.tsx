@@ -65,7 +65,9 @@ const SignUp = () => {
         </section>
 
         <div className={styles.agreementContainer}>
-          <CheckIcon className={styles.checkboxIcon} onClick={() => setIsChecked(!isChecked)} />
+          <button onClick={() => setIsChecked(!isChecked)}>
+            <CheckIcon className={styles.checkboxIcon} />
+          </button>
           <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
           <button className={styles.seeText}>보기</button>
         </div>
