@@ -2,11 +2,9 @@ import { useMandalView } from './hook/useMandalView';
 import * as styles from './Mandal.css';
 import Toggle from './component/Toggle/Toggle';
 import { mockMandalartData } from './mock/mandalartData';
-import type { CoreGoal } from './types/mandal';
+import EntireMandal from './component/EntireMandal/EntireMandal';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
-
-const CENTER_INDEX = 4;
 
 const Mandal = () => {
   const { viewType, handleViewChange } = useMandalView();
@@ -18,16 +16,7 @@ const Mandal = () => {
       {viewType === 'onlygoal' ? (
         <Mandalart type="MY_MANDAL" />
       ) : (
-        <div className={styles.entireContainer}>
-          {coreGoals.map((goal: CoreGoal, index: number) => (
-            <Mandalart
-              key={goal.id}
-              type="TODO_SUB"
-              data={goal}
-              isCenter={index === CENTER_INDEX}
-            />
-          ))}
-        </div>
+        <EntireMandal coreGoals={coreGoals} />
       )}
     </div>
   );
