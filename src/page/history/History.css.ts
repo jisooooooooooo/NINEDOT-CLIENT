@@ -11,6 +11,25 @@ export const layoutContainer = style({
   margin: '0 auto',
 });
 
+export const titleContainer = style({
+  width: '100%',
+  padding: '1.4rem',
+  backgroundImage: colors.gradient06,
+  borderRadius: '12px',
+  color: colors.grey11,
+  ...fonts.display02,
+  textAlign: 'center',
+});
+
+export const descriptionContainer = style({
+  marginTop: '2rem',
+  padding: '7.6rem 5rem',
+  backgroundColor: colors.grey2,
+  borderRadius: '12px',
+  color: colors.white01,
+  ...fonts.title01,
+});
+
 export const streakTrackerWrapper = style({
   paddingTop: '8rem',
   paddingBottom: '9.8rem',
