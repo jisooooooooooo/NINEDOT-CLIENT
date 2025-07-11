@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as styles from '@/page/home/Home.css';
@@ -11,15 +12,21 @@ const CONTINUE_BTN_MESSAGE = '이어서 작성하기';
 
 const Home = () => {
   const isWritten = true;
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate('/todo');
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <main className={styles.homeWrapper}>
-      <UserModal />
+      {isModalOpen && <UserModal onClose={handleCloseModal} />}
       <h1
         className={styles.homeText}
         dangerouslySetInnerHTML={{ __html: isWritten ? CONTINUE_MESSAGE : START_MESSAGE }}
