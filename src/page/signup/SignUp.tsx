@@ -1,15 +1,40 @@
-import { IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
+import { useState } from 'react';
+
+import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
+import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
+import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
 import SurveySection from '@/page/signup/SurveySection/SurveySection';
-import * as styles from '@/page/signup/SignUp.css';
 import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
+import * as styles from '@/page/signup/SignUp.css';
 
-const SIGNUP_MESSAGE = '회원가입 NINEDOPT를 만나보세요!';
+const SIGNUP_MESSAGE = '회원가입 후 NiNEDOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
 const PERSONAL_INFO_AGREEMENT = '(필수) 개인정보 수집 및 이용약관 동의';
 
 const SignUp = () => {
-  const handleSignUp = () => {};
+  const [name, setName] = useState('새봄');
+  const [email, setEmail] = useState('spring180@naver.com');
+  const [birth, setBirth] = useState('2002-02-14');
+  const [selectedJob, setSelectedJob] = useState<JobValue>('직업을 선택하세요');
+  const [inputJob, setInputJob] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
+
+  const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
+
+  const handleCheck = () => setIsChecked((prev) => !prev);
+  const handleSignUp = () => {
+    console.log(name, email, birth, selectedJob, inputJob);
+  };
+
+  const isJobValid =
+    typeof selectedJob === 'string'
+      ? false
+      : selectedJob.id !== JOB_LIST[JOB_LIST.length - 1].id || inputJob.trim().length > 0;
+
+  const isValid =
+    name.trim() !== '' && email.trim() !== '' && birth.trim() !== '' && isJobValid && isChecked;
+
   return (
     <main className={styles.mainContainer}>
       <div className={styles.layoutContainer}>
@@ -17,31 +42,52 @@ const SignUp = () => {
           <h1 className={styles.headerText}>회원가입</h1>
           <p className={styles.descriptionText}>{SIGNUP_MESSAGE}</p>
         </header>
-        <div className={styles.basicInfoContainer}>
-          <span className={styles.InfoText}>기본정보</span>
-          <span>
-            <IcEssentialDot className={styles.essentialIcon} />
-            <span className={styles.essentialText}>필수 입력 항목</span>
-          </span>
-        </div>
-        <div className={styles.basicInfoSection}>
-          <BasicInfoSection />
-        </div>
-        <div className={styles.fitInfoContainer}>
-          <span className={styles.InfoText}>맞춤 정보</span>
-          <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
-        </div>
-        <div className={styles.surveySection}>
-          <SurveySection />
-        </div>
+
+        <section>
+          <div className={styles.basicInfoContainer}>
+            <h2 className={styles.InfoText}>기본정보</h2>
+            <span>
+              <IcEssentialDot className={styles.essentialIcon} />
+              <span className={styles.essentialText}>필수 입력 항목</span>
+            </span>
+          </div>
+          <div className={styles.basicInfoSection}>
+            <BasicInfoSection
+              name={name}
+              email={email}
+              birth={birth}
+              setName={setName}
+              setEmail={setEmail}
+              setBirth={setBirth}
+              selectedJob={selectedJob}
+              setSelectedJob={setSelectedJob}
+              inputJob={inputJob}
+              setInputJob={setInputJob}
+            />
+          </div>
+        </section>
+
+        <section>
+          <div className={styles.fitInfoContainer}>
+            <span className={styles.InfoText}>맞춤 정보</span>
+            <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
+          </div>
+          <div className={styles.surveySection}>
+            <SurveySection />
+          </div>
+        </section>
+
         <div className={styles.agreementContainer}>
-          <IcCheckboxDefault className={styles.checkboxIcon} />
+          <CheckIcon className={styles.checkboxIcon} onClick={handleCheck} />
           <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
-          <span className={styles.seeText}>보기</span>
+          <button className={styles.seeText}>보기</button>
         </div>
-        <SignUpButton onClick={handleSignUp} disabled>
-          가입하기
-        </SignUpButton>
+
+        <div className={styles.buttonContainer}>
+          <SignUpButton onClick={handleSignUp} disabled={!isValid}>
+            가입하기
+          </SignUpButton>
+        </div>
       </div>
     </main>
   );

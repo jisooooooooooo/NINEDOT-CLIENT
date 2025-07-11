@@ -1,20 +1,35 @@
-import { useState } from 'react';
-
 import SignupTextField from '@/common/component/SignupTextField';
-import JobDropDown from '@/common/component/JobDropDown/JobDropDown';
+import JobDropDown from '@/page/signup/component/JobDropDown/JobDropDown';
 import * as styles from '@/page/signup/BasicInfoSection/BasicInfoSection.css';
 import { IcEssentialDot } from '@/assets/svg';
 import { essentialIcon } from '@/page/signup/SignUp.css';
+import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 
-const BasicInfoSection = () => {
-  const initialName = '새봄';
-  const initialEmail = 'spring180@naver.com';
-  const initialBirth = '2002-02-14';
+type BasicInfoProps = {
+  name: string;
+  email: string;
+  birth: string;
+  setName: (value: string) => void;
+  setEmail: (value: string) => void;
+  setBirth: (value: string) => void;
+  selectedJob: JobValue;
+  setSelectedJob: (job: JobValue) => void;
+  inputJob: string;
+  setInputJob: (value: string) => void;
+};
 
-  const [name, setName] = useState(initialName);
-  const [email, setEmail] = useState(initialEmail);
-  const [birth, setBirth] = useState(initialBirth);
-
+const BasicInfoSection = ({
+  name,
+  email,
+  birth,
+  setName,
+  setEmail,
+  setBirth,
+  selectedJob,
+  setSelectedJob,
+  inputJob,
+  setInputJob,
+}: BasicInfoProps) => {
   return (
     <div className={styles.TextFieldContainer}>
       <div className={styles.inputContainer}>
@@ -29,15 +44,17 @@ const BasicInfoSection = () => {
           placeholder="이름을 입력해주세요"
         />
       </div>
+
       <div className={styles.inputContainer}>
-        <label htmlFor="name-input" className={styles.labelContainer}>
+        <label htmlFor="email-input" className={styles.labelContainer}>
           이메일
           <IcEssentialDot className={essentialIcon} />
         </label>
         <SignupTextField type="email" value={email} onChange={setEmail} disabled />
       </div>
+
       <div className={styles.inputContainer}>
-        <label htmlFor="name-input" className={styles.labelContainer}>
+        <label htmlFor="birth-input" className={styles.labelContainer}>
           생년월일
           <IcEssentialDot className={essentialIcon} />
         </label>
@@ -48,12 +65,18 @@ const BasicInfoSection = () => {
           placeholder="생년월일을 입력해주세요"
         />
       </div>
+
       <div className={styles.inputContainer}>
-        <label htmlFor="name-input" className={styles.labelContainer}>
+        <label htmlFor="job-input" className={styles.labelContainer}>
           직업
           <IcEssentialDot className={essentialIcon} />
         </label>
-        <JobDropDown />
+        <JobDropDown
+          selectedJob={selectedJob}
+          setSelectedJob={setSelectedJob}
+          inputJob={inputJob}
+          setInputJob={setInputJob}
+        />
       </div>
     </div>
   );

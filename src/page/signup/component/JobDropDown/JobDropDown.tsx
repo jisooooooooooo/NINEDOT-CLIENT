@@ -3,19 +3,22 @@ import { useState } from 'react';
 import { IcDropdown } from '@/assets/svg';
 import * as styles from '@/page/signup/component/JobDropDown/JobDropDown.css';
 import JobList from '@/page/signup/component/JobDropDown/JobList';
-import { PLACE_HOLDER, JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
+import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
 import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import SignupTextField from '@/common/component/SignupTextField';
 
-const JobDropDown = () => {
+type JobDropDownProps = {
+  selectedJob: JobValue;
+  inputJob: string;
+  setSelectedJob: (job: JobValue) => void;
+  setInputJob: (value: string) => void;
+};
+
+const JobDropDown = ({ selectedJob, setSelectedJob, inputJob, setInputJob }: JobDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedJob, setSelectedJob] = useState<JobValue>(PLACE_HOLDER);
-  const [writedJob, setWritedJob] = useState('');
   const isPlaceHolder = typeof selectedJob === 'string';
 
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleJob = (job: JobType) => {
     setSelectedJob(job);
@@ -38,8 +41,8 @@ const JobDropDown = () => {
       {!isPlaceHolder && selectedJob.id === JOB_LIST[JOB_LIST.length - 1].id && (
         <SignupTextField
           type="job"
-          value={writedJob}
-          onChange={setWritedJob}
+          value={inputJob}
+          onChange={setInputJob}
           placeholder="정보를 입력해주세요"
         />
       )}

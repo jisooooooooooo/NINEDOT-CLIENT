@@ -8,7 +8,6 @@ export const signUpContainer = recipe({
     height: '5.6rem',
     padding: '1.4rem 2rem',
     borderRadius: '8px',
-    color: colors.grey6,
     ...fonts.subtitle05,
     textAlign: 'center',
   },
@@ -16,10 +15,12 @@ export const signUpContainer = recipe({
     state: {
       active: {
         backgroundColor: colors.blue06,
+        color: colors.white01,
         cursor: 'pointer',
       },
       disabled: {
         backgroundColor: colors.grey4,
+        color: colors.grey6,
         cursor: 'not-allowed',
       },
     },
