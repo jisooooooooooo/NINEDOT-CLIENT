@@ -6,6 +6,7 @@ import { fonts } from '@/style/token/typography.css';
 export const chipBase = style({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   borderRadius: '8px',
   textAlign: 'center',
   ...fonts.subtitle02,
@@ -18,7 +19,6 @@ export const selectorChip = styleVariants({
     padding: '1.4rem 2rem',
     background: colors.gradient04,
     color: colors.grey11,
-    justifyContent: 'center',
   },
   deselected: {
     width: '17rem',
@@ -26,7 +26,6 @@ export const selectorChip = styleVariants({
     padding: '1.4rem 2rem',
     background: colors.grey3,
     color: colors.grey8,
-    justifyContent: 'center',
     selectors: {
       '&:hover': {
         background: colors.grey2,
@@ -41,6 +40,4 @@ export const displayChip = style({
   padding: '1.4rem 2rem',
   background: colors.grey4,
   color: colors.grey10,
-  textAlign: 'center',
-  justifyContent: 'center',
 });

@@ -1,2 +1,2 @@
 export { default as CycleChip } from './CycleChip';
-export * from './CycleChip.types';
+export type { CycleType, CycleChipProps } from './CycleChip';
