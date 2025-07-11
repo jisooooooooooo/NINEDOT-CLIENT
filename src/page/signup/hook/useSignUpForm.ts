@@ -4,11 +4,13 @@ import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
 import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import { userData } from '@/page/signup/userData';
 
+const PLACE_HOLDER = '직업을 선택하세요';
+
 export const useSignUpForm = () => {
   const [name, setName] = useState(userData.name);
   const [email, setEmail] = useState(userData.email);
   const [birth, setBirth] = useState(userData.birthday);
-  const [selectedJob, setSelectedJob] = useState<JobValue>('직업을 선택하세요');
+  const [selectedJob, setSelectedJob] = useState<JobValue>(PLACE_HOLDER);
   const [inputJob, setInputJob] = useState('');
   const [isChecked, setIsChecked] = useState(false);
 
