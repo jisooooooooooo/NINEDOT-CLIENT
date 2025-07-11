@@ -74,7 +74,7 @@ const BasicInfoSection = ({
           <IcEssentialDot className={essentialIcon} />
         </label>
         <JobDropDown
-          id="job-input"
+          aria-labelledby="job-label"
           selectedJob={selectedJob}
           setSelectedJob={setSelectedJob}
           inputJob={inputJob}

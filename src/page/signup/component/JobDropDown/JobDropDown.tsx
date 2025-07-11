@@ -12,9 +12,16 @@ type JobDropDownProps = {
   inputJob: string;
   setSelectedJob: (job: JobValue) => void;
   setInputJob: (value: string) => void;
+  ariaLabelledby?: string;
 };
 
-const JobDropDown = ({ selectedJob, setSelectedJob, inputJob, setInputJob }: JobDropDownProps) => {
+const JobDropDown = ({
+  selectedJob,
+  setSelectedJob,
+  inputJob,
+  setInputJob,
+  ariaLabelledby,
+}: JobDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const isPlaceHolder = typeof selectedJob === 'string';
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,7 +53,11 @@ const JobDropDown = ({ selectedJob, setSelectedJob, inputJob, setInputJob }: Job
 
   return (
     <div className={styles.dropdownContainer} ref={dropdownRef}>
-      <button className={styles.jobContainer} onClick={toggleDropdown}>
+      <button
+        aria-labelledby={ariaLabelledby}
+        className={styles.jobContainer}
+        onClick={toggleDropdown}
+      >
         <span className={styles.jobText({ state })}>
           {isPlaceHolder ? selectedJob : selectedJob.job}
         </span>
