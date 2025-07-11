@@ -7,6 +7,8 @@ import { GradientCircle } from '@/common/component/GradientCircle/GradientCircle
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
+import { useModal } from '@/common/hook/useModal';
+import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 
 const ORDER_PREFIX = [
   '첫번째',
@@ -30,6 +32,8 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     position: 0,
   };
 
+  const { openModal, ModalWrapper, closeModal } = useModal();
+
   return (
     <main className={styles.upperTodoContainer}>
       <GradientCircle variant="topRight" />
@@ -49,7 +53,12 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
 
           <div className={styles.aiAssistWrapper}>
             <Tooltip className={styles.aiAssistTooltip} />
-            <button className={styles.aiAssistButton} type="button" aria-label="AI로 빈칸 채우기">
+            <button
+              className={styles.aiAssistButton}
+              type="button"
+              aria-label="AI로 빈칸 채우기"
+              onClick={() => openModal(<AiRecommendModal onClose={closeModal} />)}
+            >
               AI로 빈칸 채우기
             </button>
           </div>
@@ -74,6 +83,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           <span className={styles.mandalCompleteText}>만다르트를 완성했어요</span>
           <IcSmallNext className={styles.mandalCompleteIcon} />
         </button>
+        {ModalWrapper}
       </section>
     </main>
   );
