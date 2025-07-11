@@ -12,6 +12,7 @@ export { default as IcSmallTextdelete } from './IcSmallTextdelete';
 export { default as IcStreakerDot } from './IcStreakerDot';
 export { default as IcStreakerDotDefault } from './IcStreakerDotDefault';
 export { default as IcTextdelete } from './IcTextdelete';
+export { default as IcSmallNext } from './IcSmallNext';
 export { default as IcTooltipDelete } from './IcTooltipDelete';
 export { default as IcTriangle } from './IcTriangle';
 export { default as Vite } from './Vite';

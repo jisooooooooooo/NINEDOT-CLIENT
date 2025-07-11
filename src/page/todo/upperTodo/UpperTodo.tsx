@@ -1,4 +1,4 @@
-import Mandalart, { type MainGoal } from '@shared/component/Mandalart/Mandalart';
+import Mandalart from '@common/component/Mandalart/Mandalart';
 import { useNavigate } from 'react-router-dom';
 
 import * as styles from './UpperTodo.css';
@@ -29,11 +29,6 @@ interface UpperTodoProps {
 }
 
 const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: UpperTodoProps) => {
-  const mandalartMainGoal: MainGoal = {
-    title: mainGoal,
-    position: 0,
-  };
-
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
 
@@ -72,7 +67,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
         </header>
 
         <div className={styles.upperTodoBox}>
-          <Mandalart mainGoal={mandalartMainGoal} />
+          <Mandalart type="TODO_MAIN" mainGoal={mainGoal} />
           <div className={styles.textFieldColumn}>
             {[...Array(8)].map((_, index) => (
               <TextField
