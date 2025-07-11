@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import { IcDropdown } from '@/assets/svg';
-import JobList from '@/common/component/JobDropDown/JobList';
+import JobList from '@/page/signup/component/JobDropDown/JobList';
 import * as styles from '@/common/component/JobDropDown/JobDropDown.css';
-import { PLACE_HOLDER, JOB_LIST } from '@/common/component/JobDropDown/constants/job';
-import type { JobType, JobValue } from '@/common/component/JobDropDown/constants/job';
+import { PLACE_HOLDER, JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
+import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import SignupTextField from '@/common/component/SignupTextField';
 
 const JobDropDown = () => {
