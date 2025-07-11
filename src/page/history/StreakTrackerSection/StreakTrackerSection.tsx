@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 const StreakTracker = () => {
   const [selectedDay, setSelectedDay] = useState(dayData.progressDays);
-
   const detailData = todoData.streaks.find((streak) => streak.streakDay === selectedDay);
 
   return (
