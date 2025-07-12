@@ -95,10 +95,6 @@ export const seeText = style({
   color: colors.grey6,
   ...fonts.body05,
   textDecorationLine: 'underline',
-  textDecorationStyle: 'solid',
-  textDecorationSkipInk: 'auto',
-  textDecorationThickness: 'auto',
-  textUnderlineOffset: 'auto',
   textUnderlinePosition: 'from-font',
 });
 
