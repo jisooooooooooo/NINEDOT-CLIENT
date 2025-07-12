@@ -24,6 +24,11 @@ export const headerInner = style({
   height: '8rem',
 });
 
+export const logoImage = style({
+  height: '2.4rem',
+  flexShrink: 0,
+});
+
 export const navWrapper = style({
   display: 'flex',
   gap: '2rem',
@@ -84,8 +89,4 @@ export const loginButton = style({
       color: colors.grey7,
     },
   },
-});
-
-export const logoImage = style({
-  height: '2.4rem',
 });
