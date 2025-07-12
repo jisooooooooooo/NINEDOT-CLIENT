@@ -1,7 +1,9 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import svgr from 'vite-plugin-svgr';
+import type { UserConfig } from 'vite';
 
+// Chromatic deployment configuration
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
