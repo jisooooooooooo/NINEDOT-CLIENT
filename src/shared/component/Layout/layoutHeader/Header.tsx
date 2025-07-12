@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import * as styles from './Header.css';
 
 import { PATH } from '@/route/path';
+import IcLogo from '@/assets/svg/IcLogo';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -12,12 +13,16 @@ const MENUS = [
 ];
 
 const Header = () => {
-  const [activeMenu, setActiveMenu] = useState<string>(MENUS[0].label);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
+  const initialMenu = findActiveMenu ? findActiveMenu.label : '';
+
+  const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const handleLogin = () => {
-    // 로그인 로직 추가하기
     setIsLoggedIn(true);
   };
 
@@ -29,7 +34,9 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
-        <h1 className={styles.logo}>NINEDOT</h1>
+        <h1 className={styles.logo}>
+          <IcLogo className={styles.logoImage} />
+        </h1>
 
         {isLoggedIn ? (
           <>

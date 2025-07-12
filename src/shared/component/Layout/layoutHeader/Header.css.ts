@@ -17,11 +17,11 @@ export const header = style({
 export const headerInner = style({
   width: '100%',
   maxWidth: '128rem',
-  padding: '1.5rem 8rem',
+  padding: '2.8rem 8rem',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  minHeight: '8rem',
+  height: '8rem',
 });
 
 export const logo = style({
@@ -89,4 +89,8 @@ export const loginButton = style({
       color: colors.grey7,
     },
   },
+});
+
+export const logoImage = style({
+  height: '3rem',
 });
