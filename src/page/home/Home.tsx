@@ -1,3 +1,4 @@
+import EndSection from '@/page/home/EndSection/EndSection';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import StartSection from '@/page/home/StartSection/StartSection';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
@@ -18,6 +19,7 @@ const Home = () => {
           />
         ))}
       </>
+      <EndSection />
     </div>
   );
 };
