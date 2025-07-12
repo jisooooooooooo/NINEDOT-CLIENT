@@ -17,8 +17,8 @@ const StreakGrid = ({ progressDays, onClick }: StreakGridProps) => {
     const DotIcon = isFilled ? IcStreakerDot : IcStreakerDotDefault;
 
     return (
-      <button onClick={isFilled ? () => onClick(day) : undefined}>
-        <DotIcon key={i} className={styles.dotIcon({ clickable: isFilled })} />
+      <button key={i} onClick={isFilled ? () => onClick(day) : undefined}>
+        <DotIcon className={styles.dotIcon({ clickable: isFilled })} />
       </button>
     );
   });
