@@ -7,6 +7,11 @@
     "node": ">=20.0.0",
     "pnpm": ">=8.0.0"
   },
+  "pnpm": {
+    "overrides": {
+      "jackspeak": "2.1.1"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "pnpm lint && tsc -b && vite build",
