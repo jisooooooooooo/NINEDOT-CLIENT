@@ -1,7 +1,6 @@
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
-import { zIndex } from '@/style/token';
 
 export const upperTodoContainer = style({
   height: '100%',
@@ -86,11 +85,18 @@ export const upperTodoBox = style({
   flexShrink: 0,
   borderRadius: '12px',
   background: 'rgba(65, 69, 76, 0.32)',
-  zIndex: Number(zIndex.modal),
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'flex-start',
   gap: '2rem',
+});
+
+export const textFieldColumn = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2.4rem',
+  flexShrink: 0,
+  justifyContent: 'center',
 });
 
 // 만다르트 완성 버튼
@@ -104,24 +110,36 @@ export const mandalCompleteBox = style({
   marginBottom: '5rem',
   alignSelf: 'flex-end',
   cursor: 'pointer',
-  textAlign: 'center',
+
+  selectors: {
+    '&:disabled': {
+      cursor: 'not-allowed',
+    },
+  },
 });
 
-export const mandalCompleteText = style({
-  color: colors.white01,
-  ...fonts.subtitle02,
+export const mandalCompleteText = styleVariants({
+  active: {
+    color: colors.white01,
+    ...fonts.subtitle02,
+  },
+  inactive: {
+    color: colors.grey2,
+    ...fonts.subtitle02,
+  },
 });
 
-export const mandalCompleteIcon = style({
-  width: '2.4rem',
-  height: '2.4rem',
-  flexShrink: 0,
-});
-
-export const textFieldColumn = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2.4rem',
-  flexShrink: 0,
-  justifyContent: 'center',
+export const mandalCompleteIcon = styleVariants({
+  active: {
+    width: '2.4rem',
+    height: '2.4rem',
+    flexShrink: 0,
+    color: colors.white01,
+  },
+  inactive: {
+    width: '2.4rem',
+    height: '2.4rem',
+    flexShrink: 0,
+    color: colors.grey2,
+  },
 });

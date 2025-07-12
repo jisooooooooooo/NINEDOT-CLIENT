@@ -72,9 +72,24 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           type="button"
           aria-label="만다르트 완성하기"
           onClick={handleNavigateLower}
+          disabled={subGoals.filter((v) => v.trim() !== '').length === 0}
         >
-          <span className={styles.mandalCompleteText}>만다르트를 완성했어요</span>
-          <IcSmallNext className={styles.mandalCompleteIcon} />
+          <span
+            className={
+              subGoals.filter((v) => v.trim() !== '').length > 0
+                ? styles.mandalCompleteText.active
+                : styles.mandalCompleteText.inactive
+            }
+          >
+            만다르트를 완성했어요
+          </span>
+          <IcSmallNext
+            className={
+              subGoals.filter((v) => v.trim() !== '').length > 0
+                ? styles.mandalCompleteIcon.active
+                : styles.mandalCompleteIcon.inactive
+            }
+          />
         </button>
         {ModalWrapper}
       </section>
