@@ -8,7 +8,7 @@ import IcLogo from '@/assets/svg/IcLogo';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
-  { label: '나의 만다르트', path: PATH.MANDAL },
+  { label: '나의 만다라트', path: PATH.MANDAL },
   { label: '나의 히스토리', path: PATH.HISTORY },
 ];
 
