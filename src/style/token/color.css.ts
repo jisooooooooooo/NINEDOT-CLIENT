@@ -25,6 +25,7 @@ export const colors = {
   blue05: '#3E72F3',
   blue06: '#2F53C4',
   blue07: '#1B49D7',
+  blue08: '#2C4A83',
 
   mint01: '#DEFFEF',
   mint02: '#A9FFD6',
