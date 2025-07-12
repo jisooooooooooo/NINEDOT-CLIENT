@@ -13,6 +13,8 @@ export { default as IcStreakerDot } from './IcStreakerDot';
 export { default as IcStreakerDotDefault } from './IcStreakerDotDefault';
 export { default as IcTextdelete } from './IcTextdelete';
 export { default as IcSmallNext } from './IcSmallNext';
+export { default as IcTomorrow } from './IcTomorrow';
 export { default as IcTooltipDelete } from './IcTooltipDelete';
 export { default as IcTriangle } from './IcTriangle';
+export { default as IcYesterday } from './IcYesterday';
 export { default as Vite } from './Vite';
