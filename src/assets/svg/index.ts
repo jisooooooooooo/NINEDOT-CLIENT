@@ -8,6 +8,7 @@ export { default as IcModalDelete } from './IcModalDelete';
 export { default as IcPencil } from './IcPencil';
 export { default as IcRadioChecked } from './IcRadioChecked';
 export { default as IcRadioDefault } from './IcRadioDefault';
+export { default as IcSmallNext } from './IcSmallNext';
 export { default as IcSmallTextdelete } from './IcSmallTextdelete';
 export { default as IcStreakerDot } from './IcStreakerDot';
 export { default as IcStreakerDotDefault } from './IcStreakerDotDefault';
