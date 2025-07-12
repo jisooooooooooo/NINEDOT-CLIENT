@@ -8,19 +8,19 @@ import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/cons
 import SignupTextField from '@/common/component/SignupTextField';
 
 type JobDropDownProps = {
+  id: string;
   selectedJob: JobValue;
   inputJob: string;
   setSelectedJob: (job: JobValue) => void;
   setInputJob: (value: string) => void;
-  ariaLabelledby?: string;
 };
 
 const JobDropDown = ({
+  id,
   selectedJob,
   setSelectedJob,
   inputJob,
   setInputJob,
-  ariaLabelledby,
 }: JobDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const isPlaceHolder = typeof selectedJob === 'string';
@@ -53,11 +53,7 @@ const JobDropDown = ({
 
   return (
     <div className={styles.dropdownContainer} ref={dropdownRef}>
-      <button
-        aria-labelledby={ariaLabelledby}
-        className={styles.jobContainer}
-        onClick={toggleDropdown}
-      >
+      <button id={id} className={styles.jobContainer} onClick={toggleDropdown}>
         <span className={styles.jobText({ state })}>
           {isPlaceHolder ? selectedJob : selectedJob.job}
         </span>

@@ -69,12 +69,12 @@ const BasicInfoSection = ({
       </div>
 
       <div className={styles.inputContainer}>
-        <label htmlFor="job-input" className={styles.labelContainer}>
+        <label htmlFor="job-button" className={styles.labelContainer}>
           직업
           <IcEssentialDot className={essentialIcon} />
         </label>
         <JobDropDown
-          aria-labelledby="job-label"
+          id="job-button"
           selectedJob={selectedJob}
           setSelectedJob={setSelectedJob}
           inputJob={inputJob}
