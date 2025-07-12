@@ -4,7 +4,6 @@ const baseGrid = {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: '1.2rem',
-  margin: '0 auto',
   width: 'fit-content',
 };
 
