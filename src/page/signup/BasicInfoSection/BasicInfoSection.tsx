@@ -1,9 +1,8 @@
 import SignupTextField from '@/common/component/SignupTextField';
 import JobDropDown from '@/page/signup/component/JobDropDown/JobDropDown';
 import * as styles from '@/page/signup/BasicInfoSection/BasicInfoSection.css';
-import { IcEssentialDot } from '@/assets/svg';
-import { essentialIcon } from '@/page/signup/SignUp.css';
 import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
+import LabeledField from '@/page/signup/component/LabelField/LabelField';
 
 type BasicInfoProps = {
   name: string;
@@ -32,11 +31,7 @@ const BasicInfoSection = ({
 }: BasicInfoProps) => {
   return (
     <div className={styles.TextFieldContainer}>
-      <div className={styles.inputContainer}>
-        <label htmlFor="name-input" className={styles.labelContainer}>
-          이름
-          <IcEssentialDot className={essentialIcon} />
-        </label>
+      <LabeledField id="name-input" label="이름">
         <SignupTextField
           id="name-input"
           type="name"
@@ -44,21 +39,13 @@ const BasicInfoSection = ({
           onChange={setName}
           placeholder="이름을 입력해주세요"
         />
-      </div>
+      </LabeledField>
 
-      <div className={styles.inputContainer}>
-        <label htmlFor="email-input" className={styles.labelContainer}>
-          이메일
-          <IcEssentialDot className={essentialIcon} />
-        </label>
+      <LabeledField id="email-input" label="이메일">
         <SignupTextField id="email-input" type="email" value={email} onChange={setEmail} disabled />
-      </div>
+      </LabeledField>
 
-      <div className={styles.inputContainer}>
-        <label htmlFor="birth-input" className={styles.labelContainer}>
-          생년월일
-          <IcEssentialDot className={essentialIcon} />
-        </label>
+      <LabeledField id="birth-input" label="생년월일">
         <SignupTextField
           id="birth-input"
           type="birth"
@@ -66,13 +53,9 @@ const BasicInfoSection = ({
           onChange={setBirth}
           placeholder="생년월일을 입력해주세요"
         />
-      </div>
+      </LabeledField>
 
-      <div className={styles.inputContainer}>
-        <label htmlFor="job-button" className={styles.labelContainer}>
-          직업
-          <IcEssentialDot className={essentialIcon} />
-        </label>
+      <LabeledField id="job-button" label="직업">
         <JobDropDown
           id="job-button"
           selectedJob={selectedJob}
@@ -80,7 +63,7 @@ const BasicInfoSection = ({
           inputJob={inputJob}
           setInputJob={setInputJob}
         />
-      </div>
+      </LabeledField>
     </div>
   );
 };
