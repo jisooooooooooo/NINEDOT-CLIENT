@@ -11,6 +11,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginImport from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
+import regexpPlugin from 'eslint-plugin-regexp';
 
 export default tseslint.config(
   {
@@ -27,13 +28,15 @@ export default tseslint.config(
       import: eslintPluginImport,
       prettier: prettierPlugin,
       'jsx-a11y': jsxA11y,
+      regexp: regexpPlugin,
+      '@typescript-eslint': tseslint.plugin,
     },
     settings: {
       react: {
         version: 'detect',
       },
     },
-    ignores: ['node_modules', 'dist', 'dist-ssr', '*.config.js', '*.config.ts'],
+    ignores: ['node_modules', 'dist', 'dist-ssr', '*.config.js', '*.config.ts', 'storybook-static',],
     extends: [js.configs.recommended, ...tseslint.configs.recommended, prettierConfig],
     rules: {
       ...reactHooks.configs.recommended.rules,
