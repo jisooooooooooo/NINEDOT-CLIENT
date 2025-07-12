@@ -8,9 +8,10 @@ type StreakDetailProps = {
 };
 
 const StreakDetail = ({ detailData }: StreakDetailProps) => {
-  const state = !detailData || detailData.completedTodoCount === 0 ? 'empty' : 'filled';
+  const isEmpty = !detailData || detailData.completedTodoCount === 0;
+  const state = isEmpty ? 'empty' : 'filled';
 
-  if (!detailData || detailData.completedTodoCount === 0) {
+  if (isEmpty) {
     return (
       <div className={styles.detailContainer({ state })}>
         <p className={styles.defaultText} dangerouslySetInnerHTML={{ __html: DEFAULT_MESSAGE }} />
