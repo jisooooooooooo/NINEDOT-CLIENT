@@ -106,7 +106,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
                 : styles.mandalCompleteText.inactive
             }
           >
-            만다르트를 완성했어요
+            만다라트를 완성했어요
           </span>
           <IcSmallNext
             className={
