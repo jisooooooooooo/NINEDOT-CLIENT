@@ -32,7 +32,7 @@ const SignUp = () => {
 
         <section>
           <div className={styles.basicInfoContainer}>
-            <h2 className={styles.InfoText}>기본정보</h2>
+            <h2 className={styles.infoText}>기본정보</h2>
             <span>
               <IcEssentialDot className={styles.essentialIcon} />
               <span className={styles.essentialText}>필수 입력 항목</span>
@@ -56,7 +56,7 @@ const SignUp = () => {
 
         <section>
           <div className={styles.fitInfoContainer}>
-            <span className={styles.InfoText}>맞춤 정보</span>
+            <span className={styles.infoText}>맞춤 정보</span>
             <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
           </div>
           <div className={styles.surveySection}>

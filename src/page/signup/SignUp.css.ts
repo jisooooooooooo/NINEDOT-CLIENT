@@ -37,7 +37,7 @@ export const basicInfoContainer = style({
   color: colors.grey11,
 });
 
-export const InfoText = style({
+export const infoText = style({
   ...fonts.subtitle01,
 });
 
