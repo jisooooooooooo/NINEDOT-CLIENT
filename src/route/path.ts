@@ -4,6 +4,7 @@ export const PATH = {
   TODO: '/todo',
   TODO_UPPER: '/todo/upper',
   TODO_LOWER: '/todo/lower',
+  TODO_MY: '/todo/my',
   MANDAL: '/mandal',
   EDIT: '/edit',
   HISTORY: '/history',
