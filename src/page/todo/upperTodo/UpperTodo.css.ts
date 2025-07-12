@@ -84,7 +84,7 @@ export const aiAssistButton = styleVariants({
   inactive: {
     ...aiAssistBase,
     cursor: 'not-allowed',
-    color: colors.grey2,
+    color: colors.grey11_10,
   },
 });
 
