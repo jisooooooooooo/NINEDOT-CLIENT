@@ -8,7 +8,7 @@ import {
   checkboxIcon,
 } from './TodoBox.css';
 
-import { IcCheckboxChecked, IcCheckboxDefault } from '@/assets/svg';
+import { IcFilledcheckCheck, IcFilledcheckDefault } from '@/assets/svg';
 
 interface TodoBoxProps {
   type: 'recommend' | 'todo';
@@ -52,7 +52,7 @@ const TodoItem = ({
         aria-label={item.completed ? '완료 취소하기' : '완료하기'}
       >
         {(() => {
-          const CheckIcon = item.completed ? IcCheckboxChecked : IcCheckboxDefault;
+          const CheckIcon = item.completed ? IcFilledcheckCheck : IcFilledcheckDefault;
           return <CheckIcon className={checkboxIcon} />;
         })()}
       </button>
