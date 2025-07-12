@@ -1,6 +1,6 @@
 import { chipBase, selectorChip, displayChip } from './CycleChip.css';
 
-export type CycleType = '매일' | '매주' | '한번';
+export type CycleType = '매일' | '매주' | '한 번';
 
 export interface CycleChipProps {
   type: 'selector' | 'display';
