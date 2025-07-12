@@ -32,7 +32,7 @@ const SignUp = () => {
 
         <section>
           <div className={styles.basicInfoContainer}>
-            <h2 className={styles.infoText}>기본정보</h2>
+            <h2 className={styles.infoText}>기본 정보</h2>
             <span>
               <IcEssentialDot className={styles.essentialIcon} />
               <span className={styles.essentialText}>필수 입력 항목</span>
