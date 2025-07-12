@@ -34,9 +34,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
-        <h1 className={styles.logo}>
-          <IcLogo className={styles.logoImage} />
-        </h1>
+        <IcLogo className={styles.logoImage} />
 
         {isLoggedIn ? (
           <>
