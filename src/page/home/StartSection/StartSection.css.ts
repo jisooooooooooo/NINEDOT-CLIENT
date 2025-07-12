@@ -10,6 +10,7 @@ export const startContainer = style({
 export const layoutContainer = style({
   padding: '0 25.2rem',
   paddingTop: '21.8rem',
+  paddingBottom: '30rem',
 });
 
 export const titleText = style({
