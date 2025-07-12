@@ -21,11 +21,33 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
   const [subGoals, setSubGoals] = useState(Array(8).fill(''));
+  const [isAiUsed, setIsAiUsed] = useState(false);
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
   const handleNavigateLower = () => {
     navigate(PATH.TODO_LOWER);
+  };
+
+  const handleAiSubmit = (selected: string[]) => {
+    const updated = [...subGoals];
+    let selectedIndex = 0;
+    for (let i = 0; i < updated.length; i++) {
+      if (updated[i].trim() === '' && selectedIndex < selected.length) {
+        updated[i] = selected[selectedIndex];
+        selectedIndex++;
+      }
+    }
+    setSubGoals(updated);
+  };
+
+  const aiModalContent = (
+    <AiRecommendModal onClose={closeModal} onSubmit={handleAiSubmit} values={subGoals} />
+  );
+
+  const handleOpenAiModal = () => {
+    setIsAiUsed(true);
+    openModal(aiModalContent);
   };
 
   return (
@@ -46,10 +68,11 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           <div className={styles.aiAssistWrapper}>
             <Tooltip className={styles.aiAssistTooltip} />
             <button
-              className={styles.aiAssistButton}
+              className={isAiUsed ? styles.aiAssistButton.inactive : styles.aiAssistButton.active}
               type="button"
               aria-label="AI로 빈칸 채우기"
-              onClick={() => openModal(<AiRecommendModal onClose={closeModal} />)}
+              onClick={handleOpenAiModal}
+              disabled={isAiUsed}
             >
               AI로 빈칸 채우기
             </button>

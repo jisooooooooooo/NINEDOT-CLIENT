@@ -20,8 +20,12 @@ interface SubGoalFieldsProps {
 }
 
 const SubGoalFields = ({ values, onChange }: SubGoalFieldsProps) => {
+  const updatedValues = (index: number, newValue: string) =>
+    values.map((v, i) => (i === index ? newValue : v));
+
   const handleChange = (index: number, newValue: string) => {
-    onChange(values.map((v, i) => (i === index ? newValue : v)));
+    const newValues = updatedValues(index, newValue);
+    onChange(newValues);
   };
 
   return (

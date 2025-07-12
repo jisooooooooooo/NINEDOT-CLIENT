@@ -7,6 +7,8 @@ import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/sv
 
 interface AiRecommendModalProps {
   onClose: () => void;
+  onSubmit: (selected: string[]) => void;
+  values: string[];
 }
 
 const options = [
@@ -20,11 +22,10 @@ const options = [
   '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜8',
 ];
 
-const MAX_SELECTIONS = 8;
-
-const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
+const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const remainingSelections = MAX_SELECTIONS - selectedOptions.length;
+  const emptyCount = values.filter((v) => v.trim() === '').length;
+  const remainingSelections = emptyCount - selectedOptions.length;
 
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) =>
@@ -48,8 +49,7 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
         <div className={styles.listWrapper}>
           {options
             .filter(
-              (option) =>
-                selectedOptions.includes(option) || selectedOptions.length < MAX_SELECTIONS,
+              (option) => selectedOptions.includes(option) || selectedOptions.length < emptyCount,
             )
             .map((option) => {
               const isChecked = selectedOptions.includes(option);
@@ -72,7 +72,13 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
             })}
         </div>
         <div className={styles.buttonWrapper}>
-          <MandalButton text="내 만다라트에 넣기" />
+          <MandalButton
+            text="내 만다라트에 넣기"
+            onClick={() => {
+              onSubmit(selectedOptions);
+              onClose();
+            }}
+          />
         </div>
       </div>
     </div>

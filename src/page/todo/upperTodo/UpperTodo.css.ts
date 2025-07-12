@@ -63,18 +63,29 @@ export const aiAssistTooltip = style({
   marginRight: 'calc((100% - 24.5rem) / 2)',
 });
 
-export const aiAssistButton = style({
+const aiAssistBase = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   border: 'none',
   borderRadius: '8px',
-  cursor: 'pointer',
-  textAlign: 'center',
-  color: colors.grey11,
+  textAlign: 'center' as const,
   alignSelf: 'flex-end',
   whiteSpace: 'nowrap',
   ...fonts.body02,
+};
+
+export const aiAssistButton = styleVariants({
+  active: {
+    ...aiAssistBase,
+    cursor: 'pointer',
+    color: colors.grey11,
+  },
+  inactive: {
+    ...aiAssistBase,
+    cursor: 'not-allowed',
+    color: colors.grey2,
+  },
 });
 
 // 상위 할 일 박스
@@ -118,28 +129,34 @@ export const mandalCompleteBox = style({
   },
 });
 
+const mandalTextBase = {
+  ...fonts.subtitle02,
+};
+
 export const mandalCompleteText = styleVariants({
   active: {
+    ...mandalTextBase,
     color: colors.white01,
-    ...fonts.subtitle02,
   },
   inactive: {
+    ...mandalTextBase,
     color: colors.grey2,
-    ...fonts.subtitle02,
   },
 });
 
+const mandalIconBase = {
+  width: '2.4rem',
+  height: '2.4rem',
+  flexShrink: 0,
+};
+
 export const mandalCompleteIcon = styleVariants({
   active: {
-    width: '2.4rem',
-    height: '2.4rem',
-    flexShrink: 0,
+    ...mandalIconBase,
     color: colors.white01,
   },
   inactive: {
-    width: '2.4rem',
-    height: '2.4rem',
-    flexShrink: 0,
+    ...mandalIconBase,
     color: colors.grey2,
   },
 });
