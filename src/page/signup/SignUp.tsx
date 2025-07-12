@@ -5,7 +5,7 @@ import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
 import * as styles from '@/page/signup/SignUp.css';
 import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 
-const SIGNUP_MESSAGE = '회원가입 후 NiNEDOT를 만나보세요!';
+const SIGNUP_MESSAGE = '회원가입 후 NiNE DOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
 const PERSONAL_INFO_AGREEMENT = '(필수) 개인정보 수집 및 이용약관 동의';
 
