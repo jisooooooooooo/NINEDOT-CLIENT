@@ -7,21 +7,9 @@ import {
   checkboxButton,
   checkboxIcon,
 } from './TodoBox.css';
+import type { TodoBoxProps, TodoItemTypes } from './TodoBox.types';
 
 import { IcFilledcheckCheck, IcFilledcheckDefault } from '@/assets/svg';
-
-interface TodoBoxProps {
-  type: 'recommend' | 'todo';
-  items: TodoItemProps[];
-  onItemClick?: (item: TodoItemProps) => void;
-  className?: string;
-}
-
-interface TodoItemProps {
-  id: string;
-  content: string;
-  completed?: boolean;
-}
 
 const TodoBox = ({ type, items, onItemClick, className }: TodoBoxProps) => (
   <div className={clsx(todoBoxContainer[type], className)}>
@@ -36,9 +24,9 @@ const TodoItem = ({
   type,
   onItemClick,
 }: {
-  item: TodoItemProps;
+  item: TodoItemTypes;
   type: 'recommend' | 'todo';
-  onItemClick?: (item: TodoItemProps) => void;
+  onItemClick?: (item: TodoItemTypes) => void;
 }) => {
   const handleClick = () => {
     onItemClick?.(item);
@@ -60,4 +48,4 @@ const TodoItem = ({
   );
 };
 
-export default TodoBox;
+export { TodoBox };
