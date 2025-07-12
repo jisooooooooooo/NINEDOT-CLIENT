@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import { PATH } from './path';
 
 import { Home, Todo, Mandal, History, Edit } from '@/page';
-import { UpperGoal, LowerGoal } from '@/page/todo';
+import { UpperGoal, LowerGoal, MyTodo } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
 
 export const mainRoutes: RouteObject[] = [
@@ -25,6 +25,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.TODO_LOWER,
         element: <LowerGoal />,
+      },
+      {
+        path: PATH.TODO_MY,
+        element: <MyTodo />,
       },
       {
         path: PATH.MANDAL,
