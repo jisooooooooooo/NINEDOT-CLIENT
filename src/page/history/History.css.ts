@@ -9,6 +9,7 @@ export const historyContainer = style({
 export const layoutContainer = style({
   maxWidth: '128rem',
   margin: '0 auto',
+  paddingTop: '8.6rem',
 });
 
 export const titleContainer = style({
