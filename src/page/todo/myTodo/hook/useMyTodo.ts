@@ -49,47 +49,39 @@ export const useMyTodo = ({
 
   const handleDateChange = (newDate: Date) => {
     setCurrentDate(newDate);
-    // TODO: API 호출하여 해당 날짜의 추천 할 일 가져오기
-    // fetchRecommendTodos(newDate);
+    // API 호출하여 해당 날짜의 추천 할 일 가져오기
   };
 
   const handleCycleClick = (cycle: CycleType) => {
     setSelectedCycle(selectedCycle === cycle ? selectedCycle : cycle);
-    // TODO: API 호출하여 해당 주기의 할 일 가져오기
-    // fetchTodosByFilter(selectedMandalart, cycle);
+    // API 호출하여 해당 주기의 할 일 가져오기
   };
 
   const handleRecommendTodoClick = (item: TodoItemTypes) => {
     setRecommendTodos((prev) =>
       prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
     );
-    // TODO: API 호출하여 추천 할 일 완료 상태 업데이트
-    // updateTodoStatus(item.id, !item.completed);
+    // API 호출하여 추천 할 일 완료 상태 업데이트
   };
 
   const handleMyTodoClick = (item: TodoItemTypes) => {
     setTodos((prev) =>
       prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
     );
-    // TODO: API 호출하여 할 일 완료 상태 업데이트
-    // updateTodoStatus(item.id, !item.completed);
+    // API 호출하여 할 일 완료 상태 업데이트
   };
 
   const handleMandalartClick = () => {
-    // TODO: 만다라트 칸 선택 로직 구현
-    // setSelectedMandalart(mandalartId);
-    // fetchTodosByFilter(mandalartId, selectedCycle);
+    // 만다라트 칸 선택 로직 구현
   };
 
   return {
-    // 상태
     currentDate,
     selectedCycle,
     todos,
     recommendTodos,
     hasPreviousDate,
     hasNextDate,
-    // 핸들러
     handleDateChange,
     handleCycleClick,
     handleRecommendTodoClick,
