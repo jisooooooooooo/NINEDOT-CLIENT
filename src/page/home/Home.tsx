@@ -2,25 +2,40 @@ import EndSection from '@/page/home/EndSection/EndSection';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import StartSection from '@/page/home/StartSection/StartSection';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
+import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
+import { fadeInUp } from '@/page/home/style/fadeIn.css';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
+  const start = useFadeInOnView<HTMLDivElement>();
+  const end = useFadeInOnView<HTMLDivElement>();
+  const scrolls = sectionKeys.map(() => useFadeInOnView<HTMLDivElement>());
+
   return (
-    <div>
-      <StartSection />
-      <>
-        {sectionKeys.map((key, index) => (
+    <>
+      <div ref={start.ref} className={fadeInUp({ visible: start.visible })}>
+        <StartSection />
+      </div>
+
+      {sectionKeys.map((key, index) => (
+        <div
+          key={key}
+          ref={scrolls[index].ref}
+          className={fadeInUp({ visible: scrolls[index].visible })}
+        >
           <ScrollSection
-            key={key}
             title={INTRO_MESSAGE[key].title}
             content={INTRO_MESSAGE[key].content}
             index={index}
           />
-        ))}
-      </>
-      <EndSection />
-    </div>
+        </div>
+      ))}
+
+      <div ref={end.ref} className={fadeInUp({ visible: end.visible })}>
+        <EndSection />
+      </div>
+    </>
   );
 };
 
