@@ -1,7 +1,12 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors } from '@/style/token/color.css';
-import { fonts } from '@/style/token/typography.css';
+import { colors, fonts } from '@/style/token';
+
+const SECTION_GAP = '2.4rem';
+const TEXT_WRAPPER_GAP = '0.4rem';
+const CONTAINER_WIDTH = '128rem';
+const GREY_BACKGROUND = colors.grey05_32;
+const BORDER_RADIUS_LARGE = '16px';
 
 export const myTodoContainer = style({
   minHeight: '100vh',
@@ -14,9 +19,9 @@ export const myTodoContainer = style({
 
 export const contentWrapper = style({
   display: 'flex',
-  width: '128rem',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  width: CONTAINER_WIDTH,
   gap: '8rem',
 });
 
@@ -28,9 +33,9 @@ export const datePickerSection = style({
 
 export const mainContentWrapper = style({
   display: 'flex',
-  width: '100%',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  width: '100%',
   gap: '11.8rem',
 });
 
@@ -38,30 +43,33 @@ export const recommendSection = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '2.4rem',
   width: '100%',
+  gap: SECTION_GAP,
 });
 
 export const recommendTextWrapper = style({
   display: 'flex',
-  width: '100%',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '0.4rem',
+  gap: TEXT_WRAPPER_GAP,
 });
 
 export const recommendTitle = style({
+  ...fonts.display02,
   color: colors.white01,
-  ...fonts.title01,
+  margin: 0,
 });
 
 export const recommendSubtitle = style({
+  ...fonts.body01,
+  color: colors.grey9,
+  margin: 0,
   alignSelf: 'stretch',
-  color: colors.grey6,
-  ...fonts.subtitle06,
 });
 
 export const recommendBoxWrapper = style({
+  background: GREY_BACKGROUND,
+  borderRadius: BORDER_RADIUS_LARGE,
   display: 'flex',
   padding: '1.5rem',
   flexDirection: 'row',
@@ -69,46 +77,45 @@ export const recommendBoxWrapper = style({
   alignItems: 'center',
   gap: '2rem',
   alignSelf: 'stretch',
-  borderRadius: '16px',
-  background: colors.grey05_32,
 });
 
 export const checkSection = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '2.4rem',
   width: '100%',
+  gap: SECTION_GAP,
 });
 
 export const checkTextWrapper = style({
   display: 'flex',
-  width: '100%',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '0.4rem',
+  gap: TEXT_WRAPPER_GAP,
 });
 
 export const checkTitle = style({
+  ...fonts.display02,
   color: colors.white01,
-  ...fonts.title01,
+  margin: 0,
 });
 
 export const checkSubtitle = style({
-  color: colors.grey6,
-  ...fonts.subtitle06,
+  ...fonts.body01,
+  color: colors.grey9,
+  margin: 0,
 });
 
 export const checkMainContainer = style({
+  background: GREY_BACKGROUND,
+  borderRadius: BORDER_RADIUS_LARGE,
   display: 'flex',
-  height: '67.2rem',
-  padding: '2.6rem',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  height: '67.2rem',
+  padding: '2.6rem',
   gap: '1rem',
   alignSelf: 'stretch',
-  borderRadius: '12px',
-  background: colors.grey05_32,
 });
 
 export const mainContentSection = style({
@@ -128,9 +135,9 @@ export const mandalartWithTodoSection = style({
 
 export const todoCheckArea = style({
   display: 'flex',
-  width: '55.2rem',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  width: '55.2rem',
   gap: '1.9rem',
   height: '100%',
 });
@@ -144,10 +151,10 @@ export const selectorChipsContainer = style({
 
 export const todoCheckContainer = style({
   display: 'flex',
-  height: '53.8rem',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '2.4rem',
+  height: '53.8rem',
+  gap: SECTION_GAP,
   alignSelf: 'stretch',
   overflowY: 'auto',
   selectors: {
@@ -166,6 +173,7 @@ export const todoCheckLine = style({
 
 export const customScrollbarContainer = style({
   width: '0.8rem',
+  borderRadius: '4px',
   height: '53.8rem',
   display: 'flex',
   flexDirection: 'column',
@@ -176,17 +184,17 @@ export const customScrollbarContainer = style({
 
 export const customScrollbarTrack = style({
   width: '0.8rem',
+  borderRadius: '4px',
   height: '100%',
   background: colors.grey11_10,
-  borderRadius: '4px',
   position: 'relative',
 });
 
 export const customScrollbarThumb = style({
   width: '0.8rem',
+  borderRadius: '4px',
   height: '20%',
   background: colors.grey7,
-  borderRadius: '4px',
   position: 'absolute',
   top: '0',
   cursor: 'pointer',
