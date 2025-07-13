@@ -26,7 +26,7 @@ export const descriptionContainer = style({
   padding: '7.6rem 5rem',
   backgroundColor: colors.grey2,
   borderRadius: '12px',
-  color: colors.white01,
+  color: colors.grey11,
   ...fonts.title01,
 });
 
