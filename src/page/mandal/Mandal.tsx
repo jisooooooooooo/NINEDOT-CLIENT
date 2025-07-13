@@ -6,6 +6,7 @@ import { mockMandalartData } from './mock/mandalartData';
 import EntireMandal from './component/EntireMandal/EntireMandal';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
+import EditBtn from './component/EditBtn/EditBtn';
 
 const Mandal = () => {
   const { viewType, handleViewChange } = useMandalView();
@@ -19,6 +20,9 @@ const Mandal = () => {
       ) : (
         <EntireMandal coreGoals={coreGoals} />
       )}
+      <div className={styles.editBtnContainer}>
+        <EditBtn />
+      </div>
     </div>
   );
 };
