@@ -40,11 +40,11 @@ export const listText = recipe({
   variants: {
     state: {
       selected: {
-        ...fonts.body03,
+        ...fonts.body01,
         color: colors.grey10,
       },
       default: {
-        ...fonts.body01,
+        ...fonts.body03,
         color: colors.grey6,
       },
     },

@@ -15,7 +15,7 @@ export const signUpContainer = recipe({
     state: {
       active: {
         backgroundColor: colors.blue06,
-        color: colors.white01,
+        color: colors.grey11,
         cursor: 'pointer',
       },
       disabled: {

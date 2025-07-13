@@ -68,7 +68,7 @@ const JobDropDown = ({
             type="job"
             value={inputJob}
             onChange={setInputJob}
-            placeholder="정보를 입력해주세요"
+            placeholder="직업을 입력해주세요"
           />
         </div>
       )}

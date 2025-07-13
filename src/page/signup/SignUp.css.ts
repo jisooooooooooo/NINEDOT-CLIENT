@@ -66,7 +66,7 @@ export const fitInfoContainer = style({
 
 export const fitInfoText = style({
   ...fonts.body05,
-  color: colors.grey5,
+  color: colors.grey6,
 });
 
 export const surveySection = style({

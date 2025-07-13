@@ -14,7 +14,7 @@ const LabeledField = ({ id, label, children }: LabeledFieldProps) => (
   <div className={styles.inputContainer}>
     <label htmlFor={id} className={styles.labelContainer}>
       {label}
-      <IcEssentialDot className={essentialIcon} />
+      {id !== 'job-button' && <IcEssentialDot className={essentialIcon} />}
     </label>
     {children}
   </div>
