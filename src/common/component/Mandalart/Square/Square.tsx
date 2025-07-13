@@ -36,3 +36,9 @@ export const Sub = ({ content, isCompleted, onClick, type }: SubCellProps) => {
     </div>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const Square = {
+  Main,
+  Sub,
+};
