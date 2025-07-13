@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import * as styles from './AiRecommendModal.css';
-import MandalButton from '../MandalButton/MandalButton';
+import MandalButton from '../Button/Button';
 
 import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
@@ -72,7 +72,7 @@ const AiRecommendModal = ({ onClose }: AiRecommendModalProps) => {
             })}
         </div>
         <div className={styles.buttonWrapper}>
-          <MandalButton />
+          <MandalButton text="내 만다라트에 넣기" />
         </div>
       </div>
     </div>
