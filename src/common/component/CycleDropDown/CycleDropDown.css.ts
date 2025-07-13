@@ -62,3 +62,7 @@ export const dropdownIcon = recipe({
     state: 'default',
   },
 });
+
+export const cycleListContainer = style({
+  position: 'relative',
+});

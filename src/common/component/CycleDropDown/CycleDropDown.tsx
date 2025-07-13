@@ -2,11 +2,7 @@ import { useState } from 'react';
 
 import { IcDropdown } from '@/assets/svg';
 import CycleList from '@/common/component/CycleDropDown/CycleList';
-import {
-  cycleContainer,
-  cycleText,
-  dropdownIcon,
-} from '@/common/component/CycleDropDown/CycleDropDown.css';
+import * as styles from '@/common/component/CycleDropDown/CycleDropDown.css';
 
 const CYCLE_TYPE = ['매일', '매주', '한 번'] as const;
 
@@ -28,12 +24,14 @@ const CycleDropDown = () => {
 
   return (
     <>
-      <button className={cycleContainer} onClick={toggleDropdown}>
-        <span className={cycleText({ state })}>{selectedType}</span>
-        <IcDropdown className={dropdownIcon({ state })} />
+      <button className={styles.cycleContainer} onClick={toggleDropdown}>
+        <span className={styles.cycleText({ state })}>{selectedType}</span>
+        <IcDropdown className={styles.dropdownIcon({ state })} />
       </button>
 
-      {isOpen && <CycleList selectedType={selectedType} onSelect={handleType} />}
+      <div className={styles.cycleListContainer}>
+        {isOpen && <CycleList selectedType={selectedType} onSelect={handleType} />}
+      </div>
     </>
   );
 };
