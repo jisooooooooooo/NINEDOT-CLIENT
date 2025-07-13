@@ -15,9 +15,7 @@ const Home = () => {
 
   return (
     <div className={HomeContainer}>
-      <div ref={start.ref} className={fadeInUp({ visible: start.visible })}>
-        <StartSection />
-      </div>
+      <StartSection />
 
       {sectionKeys.map((key, index) => (
         <div
