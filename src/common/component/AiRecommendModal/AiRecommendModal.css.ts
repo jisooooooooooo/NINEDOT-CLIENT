@@ -68,6 +68,10 @@ export const listItem = style({
   whiteSpace: 'nowrap',
 });
 
+export const listItemDisabled = style({
+  cursor: 'not-allowed',
+});
+
 export const checkboxIcon = style({
   width: '2.4rem',
   height: '2.4rem',

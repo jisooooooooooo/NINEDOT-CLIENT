@@ -47,29 +47,31 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
           있어요
         </p>
         <div className={styles.listWrapper}>
-          {options
-            .filter(
-              (option) => selectedOptions.includes(option) || selectedOptions.length < emptyCount,
-            )
-            .map((option) => {
-              const isChecked = selectedOptions.includes(option);
-              return (
-                <div
-                  key={option}
-                  className={styles.listItem}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => toggleOption(option)}
-                >
-                  {isChecked ? (
-                    <IcCheckboxChecked className={styles.checkboxIcon} />
-                  ) : (
-                    <IcCheckboxDefault className={styles.checkboxIcon} />
-                  )}
-                  <span>{option}</span>
-                </div>
-              );
-            })}
+          {options.map((option) => {
+            const isChecked = selectedOptions.includes(option);
+            const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
+
+            return (
+              <div
+                key={option}
+                className={`${styles.listItem} ${isDisabled ? styles.listItemDisabled : ''}`}
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  if (!isDisabled) {
+                    toggleOption(option);
+                  }
+                }}
+              >
+                {isChecked ? (
+                  <IcCheckboxChecked className={styles.checkboxIcon} />
+                ) : (
+                  <IcCheckboxDefault className={styles.checkboxIcon} />
+                )}
+                <span>{option}</span>
+              </div>
+            );
+          })}
         </div>
         <div className={styles.buttonWrapper}>
           <MandalButton
