@@ -7,8 +7,6 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 // https://vite.dev/config/
 import path from 'node:path';
 
-const isTest = process.env.NODE_ENV === 'test';
-
 export default defineConfig({
   plugins: [
     react(),
@@ -32,14 +30,4 @@ export default defineConfig({
       '@type': path.resolve(__dirname, './src/type'),
     },
   },
-  test: isTest
-    ? {
-        browser: {
-          enabled: true,
-          headless: true,
-          provider: 'playwright',
-          name: 'chromium',
-        },
-      }
-    : undefined,
 });
