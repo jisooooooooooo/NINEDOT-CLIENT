@@ -5,11 +5,12 @@ import StartSection from '@/page/home/StartSection/StartSection';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import EndSection from '@/page/home/EndSection/EndSection';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
+import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
-  const scrolls = sectionKeys.map(() => useFadeInOnView<HTMLDivElement>());
+  const scrolls = useMultipleFadeInOnView(sectionKeys.length);
   const end = useFadeInOnView<HTMLDivElement>();
 
   return (
@@ -31,5 +32,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;
