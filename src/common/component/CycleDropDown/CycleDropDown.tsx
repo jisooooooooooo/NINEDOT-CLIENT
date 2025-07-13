@@ -8,16 +8,23 @@ const CYCLE_TYPE = ['매일', '매주', '한 번'] as const;
 
 type CycleType = (typeof CYCLE_TYPE)[number];
 
-const CycleDropDown = () => {
+type CycleDropDownProps = {
+  initialType?: CycleType;
+  onChange?: (type: CycleType) => void;
+};
+
+const CycleDropDown = ({ initialType = CYCLE_TYPE[0], onChange }: CycleDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState<CycleType>(CYCLE_TYPE[0]);
+  const [selectedType, setSelectedType] = useState<CycleType>(initialType);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
+
   const handleType = (type: CycleType) => {
     setSelectedType(type);
     setIsOpen(false);
+    onChange?.(type);
   };
 
   const state = isOpen ? 'clicked' : 'default';
