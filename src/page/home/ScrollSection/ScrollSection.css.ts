@@ -3,14 +3,15 @@ import { style } from '@vanilla-extract/css';
 import { colors, fonts } from '@/style/token';
 
 export const scrollContainer = style({
-  height: '100vh',
+  height: 'calc(100vh - 8rem)',
   backgroundColor: colors.bg_black01,
 });
 
 export const layoutContainer = style({
   display: 'flex',
   justifyContent: 'space-between',
-  padding: '0 25.2rem',
+  maxWidth: '141.5rem',
+  margin: '0 auto',
   paddingTop: '26.2rem',
 });
 
