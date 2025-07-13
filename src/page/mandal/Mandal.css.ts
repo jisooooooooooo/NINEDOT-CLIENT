@@ -9,3 +9,9 @@ export const viewContainer = style({
   marginBottom: '10.8rem',
   gap: '7.3rem',
 });
+
+export const editBtnContainer = style({
+  position: 'absolute',
+  bottom: '5rem',
+  right: '16.3rem',
+});
