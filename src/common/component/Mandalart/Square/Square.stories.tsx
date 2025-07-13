@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Square } from './Square';
+import { Main, Sub } from './Square';
 import type { MandalartType } from '../Mandalart';
 
 import { colors } from '@/style/token';
 
 const meta = {
   title: 'Components/Square',
-  component: Square.Main,
+  component: Main,
   parameters: {
     layout: 'centered',
     backgrounds: {
@@ -21,7 +21,7 @@ const meta = {
       options: ['TODO_SUB', 'TODO_MAIN', 'TODO_EDIT', 'MY_MANDAL'],
     },
   },
-} satisfies Meta<typeof Square.Main>;
+} satisfies Meta<typeof Main>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -32,9 +32,9 @@ const TypePreview = ({ title, type }: { title: string; type: MandalartType }) =>
   <div>
     <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>{title}</h3>
     <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-      <Square.Main content="상위 목표" type={type} />
-      <Square.Sub content="세부 목표" isCompleted={false} onClick={handleClick} type={type} />
-      <Square.Sub content="완료된 목표" isCompleted={true} onClick={handleClick} type={type} />
+      <Main content="상위 목표" type={type} />
+      <Sub content="세부 목표" isCompleted={false} onClick={handleClick} type={type} />
+      <Sub content="완료된 목표" isCompleted={true} onClick={handleClick} type={type} />
     </div>
   </div>
 );
@@ -63,19 +63,19 @@ export const MainGoal: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_SUB (96px)</h3>
-        <Square.Main content="메인 목표를 입력하세요" type="TODO_SUB" />
+        <Main content="메인 목표를 입력하세요" type="TODO_SUB" />
       </div>
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_MAIN (196px)</h3>
-        <Square.Main content="메인 목표를 입력하세요" type="TODO_MAIN" />
+        <Main content="메인 목표를 입력하세요" type="TODO_MAIN" />
       </div>
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
-        <Square.Main content="메인 목표를 입력하세요" type="TODO_EDIT" />
+        <Main content="메인 목표를 입력하세요" type="TODO_EDIT" />
       </div>
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
-        <Square.Main content="메인 목표를 입력하세요" type="MY_MANDAL" />
+        <Main content="메인 목표를 입력하세요" type="MY_MANDAL" />
       </div>
     </div>
   ),
@@ -91,13 +91,13 @@ export const SubGoalStates: Story = {
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_SUB (96px)</h3>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <Square.Sub
+          <Sub
             content="세부 목표를 입력하세요"
             isCompleted={false}
             onClick={handleClick}
             type="TODO_SUB"
           />
-          <Square.Sub
+          <Sub
             content="완료된 목표입니다"
             isCompleted={true}
             onClick={handleClick}
@@ -108,13 +108,13 @@ export const SubGoalStates: Story = {
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_MAIN (196px)</h3>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <Square.Sub
+          <Sub
             content="세부 목표를 입력하세요"
             isCompleted={false}
             onClick={handleClick}
             type="TODO_MAIN"
           />
-          <Square.Sub
+          <Sub
             content="완료된 목표입니다"
             isCompleted={true}
             onClick={handleClick}
@@ -125,13 +125,13 @@ export const SubGoalStates: Story = {
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <Square.Sub
+          <Sub
             content="세부 목표를 입력하세요"
             isCompleted={false}
             onClick={handleClick}
             type="TODO_EDIT"
           />
-          <Square.Sub
+          <Sub
             content="완료된 목표입니다"
             isCompleted={true}
             onClick={handleClick}
@@ -142,13 +142,13 @@ export const SubGoalStates: Story = {
       <div>
         <h3 style={{ color: colors.white01, marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <Square.Sub
+          <Sub
             content="세부 목표를 입력하세요"
             isCompleted={false}
             onClick={handleClick}
             type="MY_MANDAL"
           />
-          <Square.Sub
+          <Sub
             content="완료된 목표입니다"
             isCompleted={true}
             onClick={handleClick}
