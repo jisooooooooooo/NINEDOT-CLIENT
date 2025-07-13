@@ -10,12 +10,13 @@ import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnVie
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
-  const scrolls = useMultipleFadeInOnView(sectionKeys.length);
+  const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
 
   return (
     <div className={HomeContainer}>
       <StartSection />
+
       {sectionKeys.map((key, index) => {
         const { ref, visible } = scrolls[index];
         return (
@@ -28,6 +29,7 @@ const Home = () => {
           </div>
         );
       })}
+
       <EndSection fadeInRef={end.ref} visible={end.visible} />
     </div>
   );

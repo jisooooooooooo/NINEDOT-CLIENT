@@ -1,5 +1,10 @@
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
 
-export const useMultipleFadeInOnView = (count: number) => {
-  return Array.from({ length: count }, () => useFadeInOnView<HTMLDivElement>());
+export const useMultipleFadeInOnView = () => {
+  const refs = [
+    useFadeInOnView<HTMLDivElement>(),
+    useFadeInOnView<HTMLDivElement>(),
+    useFadeInOnView<HTMLDivElement>(),
+  ];
+  return refs;
 };
