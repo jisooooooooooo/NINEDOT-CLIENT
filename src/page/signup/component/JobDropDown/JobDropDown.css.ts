@@ -64,3 +64,8 @@ export const dropdownIcon = recipe({
     state: 'default',
   },
 });
+
+export const etcContainer = style({
+  position: 'absolute',
+  top: '6.6rem',
+});

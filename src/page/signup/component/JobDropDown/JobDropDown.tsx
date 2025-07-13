@@ -63,12 +63,14 @@ const JobDropDown = ({
       {isOpen && <JobList jobList={JOB_LIST} selectedJob={selectedJob} onSelect={handleJob} />}
 
       {!isPlaceHolder && selectedJob.id === JOB_LIST[JOB_LIST.length - 1].id && (
-        <SignupTextField
-          type="job"
-          value={inputJob}
-          onChange={setInputJob}
-          placeholder="정보를 입력해주세요"
-        />
+        <div className={styles.etcContainer}>
+          <SignupTextField
+            type="job"
+            value={inputJob}
+            onChange={setInputJob}
+            placeholder="정보를 입력해주세요"
+          />
+        </div>
       )}
     </div>
   );
