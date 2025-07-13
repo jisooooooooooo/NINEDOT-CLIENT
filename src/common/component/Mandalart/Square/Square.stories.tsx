@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Main, Sub } from '.';
+import { Main, Sub } from './Square';
 import type { MandalartType } from '../Mandalart';
 
 import { colors } from '@/style/token';
