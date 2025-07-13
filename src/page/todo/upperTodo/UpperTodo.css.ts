@@ -40,13 +40,13 @@ export const upperTodoHeaderLeft = style({
 });
 
 export const upperTodoHeaderTitle = style({
-  color: colors.white01,
+  color: colors.grey11,
   ...fonts.title02,
   margin: 0,
 });
 
 export const upperTodoHeaderGoal = style({
-  color: colors.white01,
+  color: colors.grey11,
   ...fonts.display02,
   marginRight: '0.4rem',
 });
@@ -136,11 +136,11 @@ const mandalTextBase = {
 export const mandalCompleteText = styleVariants({
   active: {
     ...mandalTextBase,
-    color: colors.white01,
+    color: colors.grey11,
   },
   inactive: {
     ...mandalTextBase,
-    color: colors.grey2,
+    color: colors.grey3,
   },
 });
 
@@ -153,10 +153,10 @@ const mandalIconBase = {
 export const mandalCompleteIcon = styleVariants({
   active: {
     ...mandalIconBase,
-    color: colors.white01,
+    color: colors.grey11,
   },
   inactive: {
     ...mandalIconBase,
-    color: colors.grey2,
+    color: colors.grey3,
   },
 });

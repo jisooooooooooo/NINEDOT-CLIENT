@@ -18,6 +18,7 @@ interface MandalartProps {
   subGoals?: SubGoal[];
   type: MandalartType;
   onGoalClick?: (position: number) => void;
+  disableInteraction?: boolean;
 }
 
 const CENTER_INDEX = 4;
@@ -27,6 +28,7 @@ const Mandalart = ({
   subGoals = MOCK_MANDALART_DATA.subGoals,
   type,
   onGoalClick,
+  disableInteraction,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
@@ -50,6 +52,7 @@ const Mandalart = ({
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
         type={type}
+        disableInteraction={disableInteraction}
       />
     );
   };

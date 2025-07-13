@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +22,14 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   const navigate = useNavigate();
   const [subGoals, setSubGoals] = useState(Array(8).fill(''));
   const [isAiUsed, setIsAiUsed] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
+
+  useEffect(() => {
+    const allFilled = subGoals.every((v) => v.trim() !== '');
+    if (allFilled) {
+      setIsTooltipOpen(false);
+    }
+  }, [subGoals]);
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
@@ -66,7 +74,11 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           </div>
 
           <div className={styles.aiAssistWrapper}>
-            <Tooltip className={styles.aiAssistTooltip} />
+            <Tooltip
+              className={styles.aiAssistTooltip}
+              isOpen={isTooltipOpen}
+              onClose={() => setIsTooltipOpen(false)}
+            />
             <button
               className={isAiUsed ? styles.aiAssistButton.inactive : styles.aiAssistButton.active}
               type="button"
@@ -88,6 +100,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
               position: i,
               cycle: 'ONCE' as const,
             }))}
+            disableInteraction
           />
           <SubGoalFields values={subGoals} onChange={setSubGoals} />
         </div>
