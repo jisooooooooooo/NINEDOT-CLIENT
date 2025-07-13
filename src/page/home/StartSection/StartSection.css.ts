@@ -5,6 +5,7 @@ import { colors, fonts } from '@/style/token';
 export const startContainer = style({
   height: 'calc(100vh - 8rem)',
   backgroundColor: colors.bg_black01,
+  position: 'relative',
 });
 
 export const gradientBlue = style({

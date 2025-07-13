@@ -21,6 +21,10 @@ export const gradientBackground = style({
     'radial-gradient(50% 50% at 50% 50%, rgba(50, 95, 236, 0.30) 0%, rgba(50, 95, 236, 0.00) 100%)',
 });
 
+export const fadeContainer = style({
+  height: '100%',
+});
+
 export const layoutContainer = style({
   position: 'relative',
   height: '100%',

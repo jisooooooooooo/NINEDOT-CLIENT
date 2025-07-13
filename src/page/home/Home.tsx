@@ -15,6 +15,7 @@ const Home = () => {
 
   return (
     <div className={HomeContainer}>
+      <div></div>
       <StartSection />
 
       {sectionKeys.map((key, index) => (
@@ -31,9 +32,7 @@ const Home = () => {
         </div>
       ))}
 
-      <div ref={end.ref} className={fadeInUp({ visible: end.visible })}>
-        <EndSection />
-      </div>
+      <EndSection fadeInRef={end.ref} isVisible={end.visible} />
     </div>
   );
 };
