@@ -55,6 +55,7 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
 
   const handleOpenAiModal = () => {
     setIsAiUsed(true);
+    setIsTooltipOpen(false);
     openModal(aiModalContent);
   };
 
