@@ -36,8 +36,3 @@ export const Sub = ({ content, isCompleted, onClick, type }: SubCellProps) => {
     </div>
   );
 };
-
-export const Square = {
-  Main,
-  Sub,
-};
