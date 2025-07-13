@@ -16,7 +16,6 @@ export const header = style({
 
 export const headerInner = style({
   width: '100%',
-  maxWidth: '128rem',
   padding: '2.8rem 8rem',
   display: 'flex',
   justifyContent: 'space-between',

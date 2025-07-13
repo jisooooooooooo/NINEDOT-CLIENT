@@ -31,27 +31,36 @@ const Header = () => {
     navigate(path);
   };
 
+  const renderNavMenu = () => (
+    <>
+      <nav className={styles.navWrapper}>
+        {MENUS.map((menu) => {
+          const isActive = activeMenu === menu.label;
+          const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
+
+          return (
+            <button
+              key={menu.label}
+              className={buttonClass}
+              onClick={() => handleMenuClick(menu.label, menu.path)}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {menu.label}
+            </button>
+          );
+        })}
+      </nav>
+      <div className={styles.profilePlaceholder} />
+    </>
+  );
+
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
         <IcLogo className={styles.logoImage} />
 
         {isLoggedIn ? (
-          <>
-            <nav className={styles.navWrapper}>
-              {MENUS.map((menu) => (
-                <button
-                  key={menu.label}
-                  className={`${styles.navItem} ${activeMenu === menu.label ? styles.navItemActive : ''}`}
-                  onClick={() => handleMenuClick(menu.label, menu.path)}
-                  aria-current={activeMenu === menu.label ? 'page' : undefined}
-                >
-                  {menu.label}
-                </button>
-              ))}
-            </nav>
-            <div className={styles.profilePlaceholder} />
-          </>
+          renderNavMenu()
         ) : (
           <button className={styles.loginButton} onClick={handleLogin}>
             로그인
