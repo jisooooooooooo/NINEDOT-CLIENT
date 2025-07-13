@@ -125,7 +125,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: `0.4rem solid ${colors.blue08}`,
+          border: `0.4px solid ${colors.blue08}`,
           background: colors.grey2,
         },
       },
@@ -142,7 +142,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: `0.3rem solid ${colors.blue08}`,
+          border: `0.3px solid ${colors.blue08}`,
           background: colors.grey2,
         },
       },
