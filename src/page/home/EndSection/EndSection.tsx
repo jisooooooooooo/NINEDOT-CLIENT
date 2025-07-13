@@ -5,6 +5,7 @@ import { END_MESSAGE } from '@/page/home/constant/endSection';
 const EndSection = () => {
   return (
     <section className={styles.endContainer}>
+      <div className={styles.gradientBackground} />
       <div className={styles.layoutContainer}>
         <h1 className={styles.endText} dangerouslySetInnerHTML={{ __html: END_MESSAGE }} />
         <StartButton />

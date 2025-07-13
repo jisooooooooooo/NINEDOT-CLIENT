@@ -1,4 +1,5 @@
 import EndSection from '@/page/home/EndSection/EndSection';
+import { HomeContainer } from '@/page/home/Home.css';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import StartSection from '@/page/home/StartSection/StartSection';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
@@ -13,7 +14,7 @@ const Home = () => {
   const scrolls = sectionKeys.map(() => useFadeInOnView<HTMLDivElement>());
 
   return (
-    <>
+    <div className={HomeContainer}>
       <div ref={start.ref} className={fadeInUp({ visible: start.visible })}>
         <StartSection />
       </div>
@@ -35,7 +36,7 @@ const Home = () => {
       <div ref={end.ref} className={fadeInUp({ visible: end.visible })}>
         <EndSection />
       </div>
-    </>
+    </div>
   );
 };
 

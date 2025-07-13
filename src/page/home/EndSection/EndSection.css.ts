@@ -5,9 +5,24 @@ import { colors, fonts } from '@/style/token';
 export const endContainer = style({
   height: 'calc(100vh - 8rem)',
   backgroundColor: colors.bg_black01,
+  position: 'relative',
+});
+
+export const gradientBackground = style({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '97.8rem',
+  height: '97.8rem',
+  borderRadius: '97.8rem',
+  filter: 'blur(4rem)',
+  background:
+    'radial-gradient(50% 50% at 50% 50%, rgba(50, 95, 236, 0.30) 0%, rgba(50, 95, 236, 0.00) 100%)',
 });
 
 export const layoutContainer = style({
+  position: 'relative',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',

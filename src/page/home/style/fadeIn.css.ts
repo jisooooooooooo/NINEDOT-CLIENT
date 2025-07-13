@@ -4,7 +4,7 @@ export const fadeInUp = recipe({
   base: {
     opacity: 0,
     transform: 'translateY(4rem)',
-    transition: 'opacity 0.7s ease, transform 0.7s ease',
+    transition: 'opacity 1s ease, transform 1s ease',
   },
   variants: {
     visible: {
