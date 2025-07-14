@@ -9,7 +9,6 @@ import { formatBirthDate } from '@/common/util/format';
 function getFieldState(
   isFocused: boolean,
   hasValue: boolean,
-  isHovered: boolean,
   error: boolean,
   isLocked: boolean,
 ): keyof typeof styles.fieldVariants | 'typingError' {
@@ -59,7 +58,7 @@ export default function SignupTextField({
     externalError ||
     (type === 'email' ? undefined : validateField(type as 'name' | 'birth' | 'job', value));
   const hasValue = Boolean(value);
-  const fieldState = getFieldState(state.isFocused, hasValue, state.isHovered, !!error, isLocked);
+  const fieldState = getFieldState(state.isFocused, hasValue, !!error, isLocked);
 
   const wrapperProps = isLocked
     ? { tabIndex: -1 as const }
