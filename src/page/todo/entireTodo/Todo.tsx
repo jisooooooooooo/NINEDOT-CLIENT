@@ -6,7 +6,7 @@ import * as styles from './Todo.css';
 
 import useTypingEffect from '@/common/hook/useTypingEffect';
 import GoButton from '@/common/component/GoButton/GoButton';
-import GradientBackground from '@/common/component/\bBackground/GradientBackground';
+import GradientBackground from '@/common/component/Background/GradientBackground';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 import { PATH } from '@/route';
 

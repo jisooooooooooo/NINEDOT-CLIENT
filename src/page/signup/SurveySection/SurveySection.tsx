@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
+import SurveyItem from '@/page/signup/component/SurveyItem/SurveyItem';
+import { questionList } from '@/page/signup/surveyData';
 import {
   surveyWrapper,
   surveyContainer,
   surveyTitle,
-} from '@/page/signup/component/Survey/Survey.css';
-import SurveyItem from '@/page/signup/component/SurveyItem/SurveyItem';
-import { questionList } from '@/page/signup/component/Survey/data';
+} from '@/page/signup/SurveySection/SurveySection.css';
 
-export const Survey = () => {
+const SurveySection = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
 
   const handleSelect = (questionId: number, optionId: number) => {
@@ -36,3 +36,4 @@ export const Survey = () => {
     </div>
   );
 };
+export default SurveySection;

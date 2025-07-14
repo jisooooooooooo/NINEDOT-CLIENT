@@ -3,6 +3,13 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { fonts, colors } from '@/style/token';
 
+export const dropdownContainer = style({
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.6rem',
+});
+
 export const jobContainer = style({
   display: 'flex',
   justifyContent: 'space-between',
@@ -58,23 +65,7 @@ export const dropdownIcon = recipe({
   },
 });
 
-export const textContainer = style({
-  width: '52.2rem',
-  height: '5rem',
-  padding: '1.4rem 2rem',
-  marginTop: '1.6rem',
-  backgroundColor: colors.grey4,
-  border: 'none',
-  borderRadius: '8px',
-  color: colors.grey10,
-  ...fonts.body03,
-
-  selectors: {
-    '&::placeholder': {
-      color: colors.grey6,
-    },
-    '&:focus': {
-      outline: 'none',
-    },
-  },
+export const etcContainer = style({
+  position: 'absolute',
+  top: '6.6rem',
 });

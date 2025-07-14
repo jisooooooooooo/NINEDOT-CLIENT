@@ -2,6 +2,7 @@ export { default as IcBigNext } from './IcBigNext';
 export { default as IcCheckboxChecked } from './IcCheckboxChecked';
 export { default as IcCheckboxDefault } from './IcCheckboxDefault';
 export { default as IcDropdown } from './IcDropdown';
+export { default as IcEssentialDot } from './IcEssentialDot';
 export { default as IcLock } from './IcLock';
 export { default as IcLogo } from './IcLogo';
 export { default as IcMediumTextdelete } from './IcMediumTextdelete';
