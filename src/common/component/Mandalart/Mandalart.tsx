@@ -21,7 +21,8 @@ interface MandalartProps {
   onGoalClick?: (position: number) => void;
   disableInteraction?: boolean;
   isCenter?: boolean;
-  mainGoal: string;
+  mainGoal?: string;
+  subGoals?: { title: string; position: number; cycle: string }[];
 }
 
 const CENTER_INDEX = 4;
