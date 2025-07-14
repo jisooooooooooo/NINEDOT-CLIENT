@@ -43,7 +43,7 @@ const MyTodo = ({
   selectedDate,
   initialRecommendTodos,
   initialMyTodos,
-}: MyTodoProps = {}) => {
+}: MyTodoProps) => {
   const {
     currentDate,
     selectedCycle,
@@ -63,18 +63,18 @@ const MyTodo = ({
   });
 
   return (
-    <div className={styles.myTodoContainer}>
+    <main className={styles.myTodoContainer}>
       <div className={styles.contentWrapper}>
-        <div className={styles.datePickerSection}>
+        <section className={styles.datePickerSection}>
           <DatePicker
             currentDate={currentDate}
             onDateChange={handleDateChange}
             hasPrev={hasPreviousDate}
             hasNext={hasNextDate}
           />
-        </div>
+        </section>
 
-        <div className={styles.mainContentWrapper}>
+        <section className={styles.mainContentWrapper}>
           <RecommendSection
             userName={userName}
             recommendTodos={recommendTodos}
@@ -89,9 +89,9 @@ const MyTodo = ({
             onTodoClick={handleMyTodoClick}
             onMandalartClick={handleMandalartClick}
           />
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -47,7 +47,7 @@ export const todoText = styleVariants({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    color: colors.white01,
+    color: colors.grey10,
     ...fonts.subtitle05,
   },
   todo: {

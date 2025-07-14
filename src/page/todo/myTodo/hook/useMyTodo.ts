@@ -41,8 +41,8 @@ export const useMyTodo = ({
 }: UseMyTodoProps = {}) => {
   const [currentDate, setCurrentDate] = useState(initialDate);
   const [selectedCycle, setSelectedCycle] = useState<CycleType>('매일');
-  const [todos, setTodos] = useState<TodoItemTypes[]>(initialMyTodos);
-  const [recommendTodos, setRecommendTodos] = useState<TodoItemTypes[]>(initialRecommendTodos);
+  const [todos, setTodos] = useState(initialMyTodos);
+  const [recommendTodos, setRecommendTodos] = useState(initialRecommendTodos);
 
   const hasPreviousDate = currentDate > MIN_DATE;
   const hasNextDate = currentDate < MAX_DATE;
@@ -53,8 +53,7 @@ export const useMyTodo = ({
   };
 
   const handleCycleClick = (cycle: CycleType) => {
-    setSelectedCycle(selectedCycle === cycle ? selectedCycle : cycle);
-    // API 호출하여 해당 주기의 할 일 가져오기
+    setSelectedCycle(cycle);
   };
 
   const handleRecommendTodoClick = (item: TodoItemTypes) => {
