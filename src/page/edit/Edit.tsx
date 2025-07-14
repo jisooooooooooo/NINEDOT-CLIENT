@@ -6,8 +6,8 @@ import EditBtn from './component/EditBtn/EditBtn';
 const Edit = () => {
   return (
     <div className={styles.editContainer}>
-      <UxWriting />
       <div className={styles.contentWrapper}>
+        <UxWriting />
         <Content />
         <div className={styles.editBtnWrapper}>
           <EditBtn />

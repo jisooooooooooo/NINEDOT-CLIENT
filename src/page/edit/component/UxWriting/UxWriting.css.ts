@@ -7,7 +7,6 @@ export const uxWritingContainer = style({
   flexDirection: 'column',
   justifyContent: 'center',
   width: '100%',
-  marginLeft: '32rem',
   marginTop: '8rem',
 });
 
