@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { colors, fonts } from '@/style/token';
 
@@ -6,12 +7,24 @@ export const scrollContainer = style({
   height: 'calc(100vh - 8rem)',
 });
 
-export const layoutContainer = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  maxWidth: '141.5rem',
-  margin: '0 auto',
-  paddingTop: '26.2rem',
+export const layoutContainer = recipe({
+  base: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    maxWidth: '141.5rem',
+    margin: '0 auto',
+    paddingTop: '26.2rem',
+  },
+  variants: {
+    direction: {
+      left: {
+        flexDirection: 'row',
+      },
+      right: {
+        flexDirection: 'row-reverse',
+      },
+    },
+  },
 });
 
 export const titleText = style({
