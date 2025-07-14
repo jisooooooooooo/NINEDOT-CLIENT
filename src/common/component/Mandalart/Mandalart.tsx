@@ -33,6 +33,8 @@ const Mandalart = ({
   onGoalClick,
   isCenter = false,
   disableInteraction,
+  mainGoal,
+  subGoals,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
@@ -46,12 +48,19 @@ const Mandalart = ({
 
     if (index === CENTER_INDEX) {
       return (
-        <Main key={index} content={data?.title || MOCK_MANDALART_DATA.mainGoal} type={squareType} />
+        <Main
+          key={index}
+          content={mainGoal || data?.title || MOCK_MANDALART_DATA.mainGoal}
+          type={squareType}
+        />
       );
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
-    const subGoal = data?.subGoals[subGoalIndex] || MOCK_MANDALART_DATA.subGoals[subGoalIndex];
+    const subGoal =
+      subGoals?.[subGoalIndex] ||
+      data?.subGoals?.[subGoalIndex] ||
+      MOCK_MANDALART_DATA.subGoals[subGoalIndex];
 
     return (
       <Sub

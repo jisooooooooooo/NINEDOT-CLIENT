@@ -43,7 +43,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
           AI가 추천해 준 할 일이에요!
         </h2>
         <p className={styles.subtitle}>
-          앞으로 <span className={styles.highlight}>{remainingSelections}</span>개를 더 선택할 수
+          앞으로 <span className={styles.highlight}>{remainingSelections}개</span>를 더 선택할 수
           있어요
         </p>
         <div className={styles.listWrapper}>
