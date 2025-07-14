@@ -10,33 +10,31 @@ export const startContainer = style({
 
 export const gradientBlue = style({
   position: 'absolute',
-  top: '2.1rem',
-  right: '3.3rem',
+  top: '-7rem',
+  right: '-10rem',
   width: '105.7rem',
   height: '105.7rem',
   borderRadius: '105.7px',
   background:
     'radial-gradient(50% 50% at 50% 50%, rgba(50, 95, 236, 0.30) 0%, rgba(50, 95, 236, 0.00) 100%)',
-  filter: 'blur(4rem)',
 });
 
 export const gradientGreen = style({
   position: 'absolute',
-  bottom: '1.7rem',
-  right: '51.9rem',
+  bottom: '-5rem',
+  right: '47rem',
   width: '70.1rem',
   height: '71.1rem',
   borderRadius: '71.1px',
   background:
     'radial-gradient(50% 50% at 50% 50%, rgba(59, 255, 160, 0.70) 0%, rgba(59, 255, 160, 0.00) 100%)',
-  filter: 'blur(4rem)',
   opacity: 0.2,
 });
 
 export const vectorLine = style({
   position: 'absolute',
-  top: '10rem',
-  right: 0,
+  top: '3rem',
+  right: '-12rem',
   width: '100%',
   height: '100%',
 });
