@@ -1,8 +1,8 @@
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
 
-const SECTION_GAP = '2.4rem';
+const SECTION_GAP = '2.8rem';
 const TEXT_WRAPPER_GAP = '0.4rem';
 const CONTAINER_WIDTH = '128rem';
 const GREY_BACKGROUND = colors.grey05_32;
@@ -14,7 +14,7 @@ export const myTodoContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '3rem 2rem',
+  padding: '3rem 0',
 });
 
 export const contentWrapper = style({
@@ -56,7 +56,7 @@ export const recommendTextWrapper = style({
 
 export const recommendTitle = style({
   ...fonts.display02,
-  color: colors.white01,
+  color: colors.grey11,
   margin: 0,
 });
 
@@ -75,7 +75,7 @@ export const recommendBoxWrapper = style({
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '2rem',
+  gap: '1.6rem',
   alignSelf: 'stretch',
 });
 
@@ -95,15 +95,22 @@ export const checkTextWrapper = style({
 });
 
 export const checkTitle = style({
-  ...fonts.display02,
+  fontFamily: 'Pretendard',
+  fontSize: '2.8rem',
+  fontWeight: 600,
+  lineHeight: '140%',
   color: colors.white01,
   margin: 0,
 });
 
 export const checkSubtitle = style({
-  ...fonts.body01,
-  color: colors.grey9,
+  fontFamily: 'Pretendard',
+  fontSize: '1.8rem',
+  fontWeight: 500,
+  lineHeight: '140%',
+  color: colors.grey6,
   margin: 0,
+  alignSelf: 'stretch',
 });
 
 export const checkMainContainer = style({
@@ -171,4 +178,20 @@ export const todoCheckLine = style({
   alignItems: 'center',
   gap: '1rem',
   width: '100%',
+});
+
+export const todoText = styleVariants({
+  recommend: {
+    width: '33.3rem',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    color: colors.grey10,
+    ...fonts.subtitle05,
+  },
+  todo: {
+    color: colors.grey10,
+    textAlign: 'center',
+    ...fonts.subtitle02,
+  },
 });

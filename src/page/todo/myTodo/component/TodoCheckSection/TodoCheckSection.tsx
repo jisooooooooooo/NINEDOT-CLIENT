@@ -39,13 +39,13 @@ const TodoCheckSection = ({
   onTodoClick,
   onMandalartClick,
 }: TodoCheckSectionProps) => (
-  <div className={styles.checkSection}>
-    <div className={styles.checkTextWrapper}>
-      <div className={styles.checkTitle}>{CHECK_MESSAGES.TITLE}</div>
-      <div className={styles.checkSubtitle}>{CHECK_MESSAGES.SUBTITLE}</div>
-    </div>
+  <section className={styles.checkSection}>
+    <header className={styles.checkTextWrapper}>
+      <h2 className={styles.checkTitle}>{CHECK_MESSAGES.TITLE}</h2>
+      <p className={styles.checkSubtitle}>{CHECK_MESSAGES.SUBTITLE}</p>
+    </header>
 
-    <div className={styles.checkMainContainer}>
+    <section className={styles.checkMainContainer}>
       <div className={styles.mainContentSection}>
         <div className={styles.mandalartWithTodoSection}>
           <Mandalart
@@ -83,8 +83,8 @@ const TodoCheckSection = ({
         </div>
         <div className={styles.rightGap} />
       </div>
-    </div>
-  </div>
+    </section>
+  </section>
 );
 
 export { TodoCheckSection };
