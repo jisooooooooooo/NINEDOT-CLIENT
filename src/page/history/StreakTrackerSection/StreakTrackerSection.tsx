@@ -1,15 +1,31 @@
+import { useState } from 'react';
+
 import StreakDetail from '@/page/history/component/StreakDetail/StreakDetail';
 import StreakGrid from '@/page/history/component/StreakGrid/StreakGrid';
-import { dayData } from '@/page/history/sampleData/dayData';
 import { todoData } from '@/page/history/sampleData/todoData';
 import * as styles from '@/page/history/StreakTrackerSection/StreakTrackerSection.css';
 
-const StreakTracker = () => {
-  const detailData = todoData.streaks.find((streak) => streak.streakDay === dayData.progressDays);
+type StreakTrackerProps = {
+  selectedDay: number | null;
+  setSelectedDay: (day: number | null) => void;
+};
+
+const StreakTracker = ({ selectedDay, setSelectedDay }: StreakTrackerProps) => {
+  const [hoveredDay, setHoveredDay] = useState<number | null>(null);
+
+  const isLocked = selectedDay !== null;
+  const visibleDay = isLocked ? selectedDay : hoveredDay;
+
+  const detailData =
+    visibleDay !== null
+      ? todoData.streaks.find((streak) => streak.streakDay === visibleDay)
+      : undefined;
 
   return (
     <div className={styles.streakTrackerContainer}>
-      <StreakGrid progressDays={dayData.progressDays} />
+      <div onClick={(e) => e.stopPropagation()}>
+        <StreakGrid onHover={setHoveredDay} onSelect={setSelectedDay} />
+      </div>
       <StreakDetail detailData={detailData} />
     </div>
   );

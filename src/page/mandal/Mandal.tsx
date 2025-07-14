@@ -1,4 +1,5 @@
 import { useMandalView } from './hook/useMandalView';
+
 import * as styles from './Mandal.css';
 import Toggle from './component/Toggle/Toggle';
 import { mockMandalartData } from './mock/mandalartData';
