@@ -2,6 +2,7 @@ import * as styles from '@/page/home/StartSection/StartSection.css';
 import { CONTENT_MESSAGE, TITLE_MESSAGE } from '@/page/home/constant/startSection';
 import StartButton from '@/page/home/StartButton/StartButton';
 import VectorLine from '@/assets/image/vector-line.svg';
+import { IcUnder } from '@/assets/svg';
 
 const StartSection = () => {
   return (
@@ -13,6 +14,10 @@ const StartSection = () => {
         <h1 className={styles.titleText} dangerouslySetInnerHTML={{ __html: TITLE_MESSAGE }} />
         <p className={styles.contentText} dangerouslySetInnerHTML={{ __html: CONTENT_MESSAGE }} />
         <StartButton />
+        <div className={styles.scrollContainer}>
+          <IcUnder className={styles.scrollIcon} />
+          <span className={styles.scrollText}>Scroll</span>
+        </div>
       </div>
     </section>
   );

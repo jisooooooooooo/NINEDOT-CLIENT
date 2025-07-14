@@ -37,6 +37,7 @@ export const vectorLine = style({
   right: '-12rem',
   width: '100%',
   height: '100%',
+  pointerEvents: 'none',
 });
 
 export const layoutContainer = style({
@@ -56,4 +57,24 @@ export const contentText = style({
   marginBottom: '6.8rem',
   color: colors.grey10,
   ...fonts.title02,
+});
+
+export const scrollContainer = style({
+  position: 'absolute',
+  bottom: '4.2rem',
+  right: '50%',
+  transform: 'translate(50%, -50%)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.4rem',
+});
+
+export const scrollIcon = style({
+  width: '2rem',
+  height: '2rem',
+});
+
+export const scrollText = style({
+  color: colors.grey9,
+  ...fonts.body03,
 });
