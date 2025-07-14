@@ -7,7 +7,7 @@ import { zIndex } from '@/style/token/zIndex.css';
 export const header = style({
   position: 'sticky',
   top: 0,
-  zIndex: zIndex.header,
+  zIndex: zIndex.layout,
   width: '100%',
   backgroundColor: colors.bg_black01,
   display: 'flex',
