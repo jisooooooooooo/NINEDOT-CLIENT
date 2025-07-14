@@ -28,9 +28,6 @@ function getFieldState(
   if (!isFocused && hasValue) {
     return 'completed';
   }
-  if (isHovered) {
-    return 'clicked';
-  }
   return 'default';
 }
 
