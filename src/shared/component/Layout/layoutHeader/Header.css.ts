@@ -7,7 +7,7 @@ import { zIndex } from '@/style/token/zIndex.css';
 export const header = style({
   position: 'sticky',
   top: 0,
-  zIndex: zIndex.header,
+  zIndex: zIndex.layout,
   width: '100%',
   backgroundColor: colors.bg_black01,
   display: 'flex',
@@ -16,16 +16,16 @@ export const header = style({
 
 export const headerInner = style({
   width: '100%',
-  maxWidth: '128rem',
-  padding: '1.5rem 8rem',
+  padding: '2.8rem 8rem',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  height: '8rem',
 });
 
-export const logo = style({
-  color: colors.white01,
-  ...fonts.subtitle05,
+export const logoImage = style({
+  height: '2.4rem',
+  flexShrink: 0,
 });
 
 export const navWrapper = style({

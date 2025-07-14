@@ -34,6 +34,7 @@ export const colors = {
 
   gradient04: 'linear-gradient(180deg, #305088 0%, #1E3270 100%)',
   gradient05: 'linear-gradient(180deg, #152C56 0%, #0D193E 100%)',
+  gradient06: 'linear-gradient(270deg, #224482 0%, #0D193E 100%)',
 
   error01: '#ff0000',
 };

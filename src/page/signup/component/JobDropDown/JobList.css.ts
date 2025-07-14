@@ -4,6 +4,7 @@ import { recipe } from '@vanilla-extract/recipes';
 import { colors, fonts, zIndex } from '@/style/token';
 
 export const listContainer = style({
+  position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
   width: '52.2rem',
@@ -14,6 +15,7 @@ export const listContainer = style({
   overflowX: 'hidden',
   cursor: 'pointer',
   zIndex: zIndex.dropdown,
+  top: '5rem',
 });
 
 export const listItem = style({
@@ -38,11 +40,11 @@ export const listText = recipe({
   variants: {
     state: {
       selected: {
-        ...fonts.body03,
+        ...fonts.body01,
         color: colors.grey10,
       },
       default: {
-        ...fonts.body01,
+        ...fonts.body03,
         color: colors.grey6,
       },
     },

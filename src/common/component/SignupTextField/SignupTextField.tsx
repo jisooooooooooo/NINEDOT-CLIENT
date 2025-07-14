@@ -9,12 +9,14 @@ import { formatBirthDate } from '@/common/util/format';
 function getFieldState(
   isFocused: boolean,
   hasValue: boolean,
-  isHovered: boolean,
   error: boolean,
   isLocked: boolean,
-): keyof typeof styles.fieldVariants {
+): keyof typeof styles.fieldVariants | 'typingError' {
   if (isLocked) {
     return 'locked';
+  }
+  if (isFocused && hasValue && error) {
+    return 'typingError';
   }
   if (error) {
     return 'error';
@@ -28,13 +30,11 @@ function getFieldState(
   if (!isFocused && hasValue) {
     return 'completed';
   }
-  if (isHovered) {
-    return 'clicked';
-  }
   return 'default';
 }
 
 export default function SignupTextField({
+  id,
   type,
   value,
   onChange,
@@ -58,7 +58,7 @@ export default function SignupTextField({
     externalError ||
     (type === 'email' ? undefined : validateField(type as 'name' | 'birth' | 'job', value));
   const hasValue = Boolean(value);
-  const fieldState = getFieldState(state.isFocused, hasValue, state.isHovered, !!error, isLocked);
+  const fieldState = getFieldState(state.isFocused, hasValue, !!error, isLocked);
 
   const wrapperProps = isLocked
     ? { tabIndex: -1 as const }
@@ -73,6 +73,7 @@ export default function SignupTextField({
 
   function createInputProps() {
     return {
+      id,
       ref: inputRef,
       type: 'text' as const,
       value,
@@ -113,7 +114,10 @@ export default function SignupTextField({
   return (
     <div className={error ? styles.errorMessageWrapper : undefined}>
       <div
-        className={[styles.baseClass, styles.fieldVariants[fieldState]].join(' ')}
+        className={[
+          styles.baseClass,
+          styles.fieldVariants[fieldState === 'typingError' ? 'error' : fieldState],
+        ].join(' ')}
         {...wrapperProps}
       >
         <RenderInputContent
