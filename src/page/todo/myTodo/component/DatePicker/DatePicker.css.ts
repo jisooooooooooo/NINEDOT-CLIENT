@@ -18,14 +18,15 @@ export const datePickerContainer = style({
 
 export const datePickerContent = style({
   display: 'flex',
+  justifyContent: 'space-between',
   alignItems: 'center',
-  justifyContent: 'center',
-  gap: '2rem',
+  alignSelf: 'stretch',
 });
 
 export const dateText = style({
   color: colors.grey11,
   textAlign: 'center',
+  flex: 1,
   ...fonts.subtitle02,
 });
 
