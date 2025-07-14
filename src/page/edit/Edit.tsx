@@ -1,5 +1,11 @@
-const Edit = () => {
-  return <div>수정하기 뷰</div>;
-};
+import UxWriting from './component/UxWriting/UxWriting';
+import * as styles from './Edit.css.ts';
 
+const Edit = () => {
+  return (
+    <div className={styles.editContainer}>
+      <UxWriting />
+    </div>
+  );
+};
 export default Edit;
