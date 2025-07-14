@@ -11,4 +11,10 @@ const meta: Meta<typeof AiRecommendModal> = {
 export default meta;
 type Story = StoryObj<typeof AiRecommendModal>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    onClose: () => {},
+    onSubmit: () => {},
+    values: [],
+  },
+};

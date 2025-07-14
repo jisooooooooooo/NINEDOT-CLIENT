@@ -18,6 +18,7 @@ interface MandalartProps {
   subGoals?: SubGoal[];
   type: MandalartType;
   onGoalClick?: (position: number) => void;
+  disableInteraction?: boolean;
 }
 
 const CENTER_INDEX = 4;
@@ -27,6 +28,7 @@ const Mandalart = ({
   subGoals = MOCK_MANDALART_DATA.subGoals,
   type,
   onGoalClick,
+  disableInteraction,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
@@ -43,6 +45,9 @@ const Mandalart = ({
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
     const subGoal = subGoals[subGoalIndex];
 
+    // 빈 제목이거나 전체 disableInteraction이 true인 경우 비활성화
+    const isDisabled = disableInteraction || !subGoal.title || subGoal.title.trim() === '';
+
     return (
       <Sub
         key={index}
@@ -50,6 +55,7 @@ const Mandalart = ({
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
         type={type}
+        disableInteraction={isDisabled}
       />
     );
   };

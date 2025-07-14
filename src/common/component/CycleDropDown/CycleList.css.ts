@@ -11,7 +11,10 @@ export const listContainer = style({
   borderRadius: '8px',
   overflow: 'hidden',
   cursor: 'pointer',
-  zIndex: zIndex.dropdown,
+  position: 'absolute',
+  top: 'calc(100% + 0.4rem)',
+  left: 0,
+  zIndex: zIndex.dropdownList,
 });
 
 export const listItem = style({

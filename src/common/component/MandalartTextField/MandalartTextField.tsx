@@ -2,19 +2,12 @@ import { useReducer, useRef } from 'react';
 
 import type { TextFieldProps, TextFieldVariant } from './MandalartTextField.types';
 import * as styles from './MandalartTextField.css';
+import { DEFAULT_PLACEHOLDER, BIG_GOAL_MAX_LENGTH } from './constant/constants';
 
 import IcTextdelete from '@/assets/svg/IcTextdelete';
 
-const DEFAULT_PLACEHOLDER = {
-  bigGoal: '이루고 싶은 목표를 작성하세요',
-  subGoal: '세부 목표를 입력해주세요',
-  todo: '할 일을 입력해주세요',
-} as const;
-
 const BIG_GOAL_MAX_LENGTH = 30;
 type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
-
-// 상태 타입 및 액션 타입 정의
 
 type State = {
   isFocused: boolean;
