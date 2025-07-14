@@ -7,5 +7,25 @@ export const editContainer = style({
   alignItems: 'center',
   gap: '6rem',
   marginTop: '2.8rem',
-  padding: '0 calc(50% - 64rem)',
+  position: 'relative',
+  overflowX: 'hidden',
+  msOverflowStyle: 'none',
+  scrollbarWidth: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+});
+
+export const contentWrapper = style({
+  width: '128rem',
+  position: 'relative',
+});
+
+export const editBtnWrapper = style({
+  position: 'absolute',
+  top: 'calc(100% + 2.3rem)',
+  right: 0,
+  marginBottom: '7.4rem',
 });
