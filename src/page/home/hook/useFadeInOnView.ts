@@ -7,7 +7,7 @@ export const useFadeInOnView = <T extends HTMLElement>() => {
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
       threshold: 0.3,
-      rootMargin: '0 0 -2rem 0',
+      rootMargin: '0px 0px -20% 0px',
     });
     if (ref.current) {
       observer.observe(ref.current);
