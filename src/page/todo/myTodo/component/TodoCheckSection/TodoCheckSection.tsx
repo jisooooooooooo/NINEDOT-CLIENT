@@ -81,12 +81,7 @@ const TodoCheckSection = ({
             </div>
           </div>
         </div>
-
-        <div className={styles.customScrollbarContainer}>
-          <div className={styles.customScrollbarTrack}>
-            <div className={styles.customScrollbarThumb} />
-          </div>
-        </div>
+        <div className={styles.rightGap} />
       </div>
     </div>
   </div>
