@@ -10,7 +10,7 @@ export const lowerTodoContainer = style({
   justifyContent: 'center',
   backgroundColor: colors.bg_black01,
   position: 'relative',
-  overflow: 'hidden',
+  overflow: 'visible',
 });
 
 export const lowerTodoBoxWrapper = style({
@@ -104,6 +104,7 @@ export const lowerTodoBox = style({
   alignSelf: 'stretch',
   borderRadius: '12px',
   background: colors.grey05_32,
+  overflow: 'visible',
 });
 
 export const mainGoalSection = style({
@@ -143,6 +144,7 @@ export const todoWritingSection = style({
   gap: '2.4rem',
   alignSelf: 'stretch',
   overflowY: 'auto',
+  overflowX: 'visible',
 });
 
 export const todoFieldWrapper = style({
