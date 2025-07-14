@@ -26,13 +26,12 @@ interface MandalartProps {
 const CENTER_INDEX = 4;
 
 const Mandalart = ({
-  mainGoal = MOCK_MANDALART_DATA.mainGoal,
-  subGoals = MOCK_MANDALART_DATA.subGoals,
   type,
+  data,
   onGoalClick,
+  isCenter = false,
   disableInteraction,
 }: MandalartProps) => {
-const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
   const handleGoalClick = (position: number) => {
@@ -58,7 +57,6 @@ const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        type={type}
         disableInteraction={disableInteraction}
         type={squareType}
       />
