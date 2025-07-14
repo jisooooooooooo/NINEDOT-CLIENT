@@ -12,9 +12,12 @@ function getFieldState(
   isHovered: boolean,
   error: boolean,
   isLocked: boolean,
-): keyof typeof styles.fieldVariants {
+): keyof typeof styles.fieldVariants | 'typingError' {
   if (isLocked) {
     return 'locked';
+  }
+  if (isFocused && hasValue && error) {
+    return 'typingError';
   }
   if (error) {
     return 'error';
@@ -112,7 +115,10 @@ export default function SignupTextField({
   return (
     <div className={error ? styles.errorMessageWrapper : undefined}>
       <div
-        className={[styles.baseClass, styles.fieldVariants[fieldState]].join(' ')}
+        className={[
+          styles.baseClass,
+          styles.fieldVariants[fieldState === 'typingError' ? 'error' : fieldState],
+        ].join(' ')}
         {...wrapperProps}
       >
         <RenderInputContent

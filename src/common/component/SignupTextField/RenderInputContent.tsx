@@ -20,7 +20,7 @@ export function RenderInputContent({
   handleClearClick,
   styles,
 }: RenderInputContentProps) {
-  if (fieldState === 'typing' || fieldState === 'error') {
+  if (fieldState === 'typing' || fieldState === 'typingError') {
     return (
       <>
         <input {...inputProps} />
@@ -38,6 +38,9 @@ export function RenderInputContent({
         )}
       </>
     );
+  }
+  if (fieldState === 'error') {
+    return <input {...inputProps} />;
   }
   if (fieldState === 'locked') {
     return (
