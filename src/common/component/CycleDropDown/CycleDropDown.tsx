@@ -31,7 +31,7 @@ const CycleDropDown = ({ initialType = CYCLE_TYPE[0], onChange }: CycleDropDownP
 
   return (
     <>
-      <button className={styles.cycleContainer} onClick={toggleDropdown}>
+      <button className={styles.cycleContainer} onClick={toggleDropdown} type="button">
         <span className={styles.cycleText({ state })}>{selectedType}</span>
         <IcDropdown className={styles.dropdownIcon({ state })} />
       </button>
