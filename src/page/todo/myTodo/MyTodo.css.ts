@@ -126,6 +126,12 @@ export const mainContentSection = style({
   height: '100%',
 });
 
+export const rightGap = style({
+  width: '1.9rem',
+  minWidth: '1.9rem',
+  flexShrink: 0,
+});
+
 export const mandalartWithTodoSection = style({
   display: 'flex',
   alignItems: 'center',
@@ -157,11 +163,7 @@ export const todoCheckContainer = style({
   gap: SECTION_GAP,
   alignSelf: 'stretch',
   overflowY: 'auto',
-  selectors: {
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
+  paddingRight: '1.9rem',
 });
 
 export const todoCheckLine = style({
@@ -169,36 +171,4 @@ export const todoCheckLine = style({
   alignItems: 'center',
   gap: '1rem',
   width: '100%',
-});
-
-export const customScrollbarContainer = style({
-  width: '0.8rem',
-  borderRadius: '4px',
-  height: '53.8rem',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  alignSelf: 'flex-end',
-});
-
-export const customScrollbarTrack = style({
-  width: '0.8rem',
-  borderRadius: '4px',
-  height: '100%',
-  background: colors.grey11_10,
-  position: 'relative',
-});
-
-export const customScrollbarThumb = style({
-  width: '0.8rem',
-  borderRadius: '4px',
-  height: '20%',
-  background: colors.grey7,
-  position: 'absolute',
-  top: '0',
-  cursor: 'pointer',
-  ':hover': {
-    background: colors.grey8,
-  },
 });
