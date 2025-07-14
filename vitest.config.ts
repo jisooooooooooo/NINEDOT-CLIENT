@@ -1,22 +1,16 @@
-/// <reference types="vitest/config" />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import svgr from 'vite-plugin-svgr';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
-
-// https://vite.dev/config/
+/// <reference types="vitest" />
+import { defineConfig } from 'vitest/config';
 import path from 'node:path';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    vanillaExtractPlugin(),
-    svgr({
-      svgrOptions: {
-        icon: true,
-      },
-    }),
-  ],
+  test: {
+    browser: {
+      enabled: true,
+      headless: true,
+      provider: 'playwright',
+      name: 'chromium',
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

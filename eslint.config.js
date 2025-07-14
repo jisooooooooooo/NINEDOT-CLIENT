@@ -34,6 +34,7 @@ export default tseslint.config(
       },
     },
     ignores: ['node_modules', 'dist', 'dist-ssr', '*.config.js', '*.config.ts'],
+    ignores: ['node_modules', 'dist', 'dist-ssr', '*.config.js', '*.config.ts', 'storybook-static'],
     extends: [js.configs.recommended, ...tseslint.configs.recommended, prettierConfig],
     rules: {
       ...reactHooks.configs.recommended.rules,

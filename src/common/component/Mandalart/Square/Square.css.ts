@@ -33,15 +33,21 @@ const SQUARE_TYPES = {
     width: '29.8rem',
     height: '29.8rem',
     padding: '4.4rem',
-    mainFont: fonts.display02,
+    mainFont: fonts.display03,
     subFont: fonts.title01,
+  },
+  MY_MANDAL_CENTER: {
+    width: '9.6rem',
+    height: '9.6rem',
+    padding: '0.6rem',
+    mainFont: fonts.body04,
+    subFont: fonts.caption01,
   },
 } as const;
 
 const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
   style({
     borderRadius: '8px',
-    cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -51,6 +57,7 @@ const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
     height: SQUARE_TYPES[type].height,
     padding: SQUARE_TYPES[type].padding,
     boxSizing: 'border-box',
+    cursor: type === 'MY_MANDAL' || type === 'MY_MANDAL_CENTER' ? 'default' : 'pointer',
   });
 
 export const mainCell = {
@@ -58,7 +65,7 @@ export const mainCell = {
     createBaseCell('TODO_SUB'),
     SQUARE_TYPES.TODO_SUB.mainFont,
     {
-      color: colors.white01,
+      color: colors.grey10,
       backgroundImage: colors.gradient04,
     },
   ]),
@@ -74,7 +81,7 @@ export const mainCell = {
     createBaseCell('TODO_EDIT'),
     SQUARE_TYPES.TODO_EDIT.mainFont,
     {
-      color: colors.white01,
+      color: colors.grey10,
       backgroundImage: colors.gradient04,
     },
   ]),
@@ -82,7 +89,15 @@ export const mainCell = {
     createBaseCell('MY_MANDAL'),
     SQUARE_TYPES.MY_MANDAL.mainFont,
     {
-      color: colors.white01,
+      color: colors.grey10,
+      backgroundImage: colors.gradient05,
+    },
+  ]),
+  MY_MANDAL_CENTER: style([
+    createBaseCell('MY_MANDAL_CENTER'),
+    SQUARE_TYPES.MY_MANDAL_CENTER.mainFont,
+    {
+      color: colors.grey10,
       backgroundImage: colors.gradient05,
     },
   ]),
@@ -111,7 +126,7 @@ export const subCell = {
           background: colors.grey2,
         },
         '&[data-completed="true"]': {
-          border: '0.4rem solid #305088',
+          border: `0.4px solid ${colors.blue08}`,
           background: colors.grey2,
         },
       },
@@ -128,7 +143,7 @@ export const subCell = {
       },
       selectors: {
         '&[data-completed="true"]': {
-          border: '0.3rem solid #305088',
+          border: `0.3px solid ${colors.blue08}`,
           background: colors.grey2,
         },
       },
@@ -138,7 +153,16 @@ export const subCell = {
     createBaseCell('MY_MANDAL'),
     SQUARE_TYPES.MY_MANDAL.subFont,
     {
-      color: colors.white01,
+      color: colors.grey10,
+      backgroundImage: colors.gradient04,
+      pointerEvents: 'none',
+    },
+  ]),
+  MY_MANDAL_CENTER: style([
+    createBaseCell('MY_MANDAL_CENTER'),
+    SQUARE_TYPES.MY_MANDAL_CENTER.subFont,
+    {
+      color: colors.grey10,
       backgroundImage: colors.gradient04,
     },
   ]),

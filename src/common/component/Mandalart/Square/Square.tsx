@@ -42,8 +42,3 @@ export const Sub = ({ content, isCompleted, onClick, type, disableInteraction }:
     </div>
   );
 };
-
-export const Square = {
-  Main,
-  Sub,
-};
