@@ -10,7 +10,7 @@ const PLACE_HOLDER = '직업을 선택하세요';
 export const useSignUpForm = () => {
   const [name, setName] = useState(userData.name);
   const [email, setEmail] = useState(userData.email);
-  const [birth, setBirth] = useState(userData.birthday);
+  const [birth, setBirth] = useState('');
   const [selectedJob, setSelectedJob] = useState<JobValue>(PLACE_HOLDER);
   const [inputJob, setInputJob] = useState('');
   const [isChecked, setIsChecked] = useState(false);
