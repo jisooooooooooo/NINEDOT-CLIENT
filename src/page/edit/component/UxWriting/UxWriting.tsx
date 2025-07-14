@@ -1,5 +1,5 @@
 import * as styles from './UxWriting.css';
-import { WRITING_MESSAGES } from './constants';
+import { WRITING_MESSAGES } from '../../constants';
 
 const UxWriting = () => {
   return (
