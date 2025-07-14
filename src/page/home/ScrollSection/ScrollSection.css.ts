@@ -4,7 +4,6 @@ import { colors, fonts } from '@/style/token';
 
 export const scrollContainer = style({
   height: 'calc(100vh - 8rem)',
-  backgroundColor: colors.bg_black01,
 });
 
 export const layoutContainer = style({
