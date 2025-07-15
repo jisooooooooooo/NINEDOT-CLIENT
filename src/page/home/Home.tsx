@@ -6,16 +6,28 @@ import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import EndSection from '@/page/home/EndSection/EndSection';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
+import { useState } from 'react';
+import LoginModal from '@/common/component/LoginModal/LoginModal';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
+  const [isModalOpen, setIsOpenModal] = useState(false);
+
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
 
   return (
     <div className={HomeContainer}>
-      <StartSection />
+      {isModalOpen && <LoginModal onClose={closeModal} />}
+      <StartSection onClick={openModal} />
 
       {sectionKeys.map((key, index) => {
         const { ref, visible } = scrolls[index];

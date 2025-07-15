@@ -1,7 +1,12 @@
 import { startButton } from '@/page/home/StartButton/StartButton.css';
+import type { ButtonClickType } from '@/page/home/type/ButtonClickType';
 
-const StartButton = () => {
-  return <button className={startButton}>시작하기</button>;
+const StartButton = ({ onClick }: ButtonClickType) => {
+  return (
+    <button onClick={onClick} className={startButton}>
+      시작하기
+    </button>
+  );
 };
 
 export default StartButton;
