@@ -4,6 +4,10 @@ import { colors } from '@/style/token/color.css';
 import { fonts } from '@/style/token/typography.css';
 
 export const modalContainer = style({
+  position: 'fixed',
+  top: '44.5rem',
+  left: '50%',
+  transform: 'translateX(-50%)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

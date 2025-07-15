@@ -1,3 +1,5 @@
+import { createPortal } from 'react-dom';
+
 import { IcModalDelete } from '@/assets/svg';
 
 import * as styles from '@/common/component/LoginModal/LoginModal.css';
@@ -9,7 +11,10 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ onClose }: LoginModalProps) => {
-  return (
+  const modalRoot = document.getElementById('modal-root');
+  if (!modalRoot) return null;
+
+  return createPortal(
     <div className={styles.modalContainer}>
       <button type="button" className={styles.iconWrapper} onClick={onClose}>
         <IcModalDelete className={styles.closeIcon} />
@@ -21,7 +26,8 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
           <span className={styles.loginText}>Google 계정으로 로그인</span>
         </button>
       </div>
-    </div>
+    </div>,
+    modalRoot,
   );
 };
 
