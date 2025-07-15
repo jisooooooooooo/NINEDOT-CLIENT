@@ -4,7 +4,7 @@ import { IcModalDelete } from '@/assets/svg';
 
 import * as styles from '@/common/component/LoginModal/LoginModal.css';
 import loginLogo from '@/assets/image/login_logo.svg';
-import IcGoogleLogo from '@/assets/svg/IcGoogleLogo';
+import GoogleLoginButton from '@/api/auth/googleLogin/GoogleLoginButton';
 
 interface LoginModalProps {
   onClose: () => void;
@@ -22,10 +22,7 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
         </button>
         <div className={styles.contentWrapper}>
           <img src={loginLogo} />
-          <button className={styles.buttonWrapper}>
-            <IcGoogleLogo className={styles.googleIcon} />
-            <span className={styles.loginText}>Google 계정으로 로그인</span>
-          </button>
+          <GoogleLoginButton />
         </div>
       </div>
     </div>,

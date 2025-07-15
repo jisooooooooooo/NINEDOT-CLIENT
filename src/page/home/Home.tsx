@@ -8,6 +8,7 @@ import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
 import { useState } from 'react';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
+import Example from '@/api/auth/googleLogin/Example';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 

@@ -1,4 +1,6 @@
+import * as styles from '@/api/auth/googleLogin/GoogleLogin.css';
 import { generateGoogleLoginUrl } from './util/generateGoogleLoginUrl';
+import { IcGoogleLogo } from '@/assets/svg';
 
 const GoogleLoginButton = () => {
   const handleGoogleLogin = () => {
@@ -6,7 +8,12 @@ const GoogleLoginButton = () => {
     window.location.href = loginUrl;
   };
 
-  return <button onClick={handleGoogleLogin}>구글 로그인 버튼</button>;
+  return (
+    <button onClick={handleGoogleLogin} className={styles.buttonWrapper}>
+      <IcGoogleLogo className={styles.googleIcon} />
+      <span className={styles.loginText}>Google 계정으로 로그인</span>
+    </button>
+  );
 };
 
 export default GoogleLoginButton;
