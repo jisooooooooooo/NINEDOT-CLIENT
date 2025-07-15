@@ -1,7 +1,6 @@
 import { createPortal } from 'react-dom';
 
 import { IcModalDelete } from '@/assets/svg';
-
 import * as styles from '@/common/component/LoginModal/LoginModal.css';
 import loginLogo from '@/assets/image/login_logo.svg';
 import GoogleLoginButton from '@/api/auth/googleLogin/GoogleLoginButton';

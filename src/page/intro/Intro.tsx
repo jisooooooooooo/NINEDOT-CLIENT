@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+
 import * as styles from '@/page/intro/Intro.css';
 
 const MESSAGE = {

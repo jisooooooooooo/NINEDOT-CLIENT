@@ -1,5 +1,6 @@
-import { colors, fonts } from '@/style/token';
 import { style } from '@vanilla-extract/css';
+
+import { colors, fonts } from '@/style/token';
 
 export const buttonWrapper = style({
   display: 'flex',

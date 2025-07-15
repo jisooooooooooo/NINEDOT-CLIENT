@@ -61,7 +61,7 @@ const Header = () => {
           );
         })}
       </nav>
-      <button className={styles.profilePlaceholder} onClick={handleProfile}></button>
+      <button className={styles.profilePlaceholder} onClick={handleProfile} />
       {isLoggedIn && openProfile && (
         <UserModal setIsLoggedIn={setIsLoggedIn} onClose={handleProfile} />
       )}

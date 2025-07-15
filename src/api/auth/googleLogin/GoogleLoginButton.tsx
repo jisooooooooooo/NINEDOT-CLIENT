@@ -1,5 +1,6 @@
-import * as styles from '@/api/auth/googleLogin/GoogleLogin.css';
 import { generateGoogleLoginUrl } from './util/generateGoogleLoginUrl';
+
+import * as styles from '@/api/auth/googleLogin/GoogleLogin.css';
 import { IcGoogleLogo } from '@/assets/svg';
 
 const GoogleLoginButton = () => {
