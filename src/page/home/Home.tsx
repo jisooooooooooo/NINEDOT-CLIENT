@@ -42,7 +42,7 @@ const Home = () => {
         );
       })}
 
-      <EndSection fadeInRef={end.ref} visible={end.visible} />
+      <EndSection fadeInRef={end.ref} visible={end.visible} onClick={openModal} />
     </div>
   );
 };
