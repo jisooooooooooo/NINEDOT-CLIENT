@@ -48,7 +48,7 @@ const TodoCheckSection = ({
               id: 0,
               position: 0,
               title: mandalartData.mainGoal,
-              subGoals: mandalartData.subGoals.map((sg) => ({ ...sg, id: sg.position }))
+              subGoals: mandalartData.subGoals.map((sg) => ({ ...sg, id: sg.position })),
             }}
             onGoalClick={(position) => {
               const parentId = position + 1;
