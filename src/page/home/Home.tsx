@@ -10,6 +10,7 @@ import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnVie
 import LoginModal from '@/common/component/LoginModal/LoginModal';
 import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
 import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
+import { useLoginModal } from '@/common/hook/useLoginModal';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
@@ -35,15 +36,8 @@ const Home = () => {
 
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
-  const [isModalOpen, setIsOpenModal] = useState(false);
 
-  const openModal = () => {
-    setIsOpenModal(true);
-  };
-
-  const closeModal = () => {
-    setIsOpenModal(false);
-  };
+  const { isModalOpen, openModal, closeModal } = useLoginModal();
 
   return (
     <div className={HomeContainer}>
