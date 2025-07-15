@@ -15,16 +15,18 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
   if (!modalRoot) return null;
 
   return createPortal(
-    <div className={styles.modalContainer}>
-      <button type="button" className={styles.iconWrapper} onClick={onClose}>
-        <IcModalDelete className={styles.closeIcon} />
-      </button>
-      <div className={styles.contentWrapper}>
-        <img src={loginLogo} />
-        <button className={styles.buttonWrapper}>
-          <IcGoogleLogo className={styles.googleIcon} />
-          <span className={styles.loginText}>Google 계정으로 로그인</span>
+    <div className={styles.backdrop} onClick={onClose}>
+      <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+        <button type="button" className={styles.iconWrapper} onClick={onClose}>
+          <IcModalDelete className={styles.closeIcon} />
         </button>
+        <div className={styles.contentWrapper}>
+          <img src={loginLogo} />
+          <button className={styles.buttonWrapper}>
+            <IcGoogleLogo className={styles.googleIcon} />
+            <span className={styles.loginText}>Google 계정으로 로그인</span>
+          </button>
+        </div>
       </div>
     </div>,
     modalRoot,
