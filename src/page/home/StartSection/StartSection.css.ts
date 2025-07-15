@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
 
@@ -59,6 +59,12 @@ export const contentText = style({
   ...fonts.title02,
 });
 
+const scrollBounce = keyframes({
+  '0%': { transform: 'translateY(0)' },
+  '50%': { transform: 'translateY(8px)' },
+  '100%': { transform: 'translateY(0)' },
+});
+
 export const scrollContainer = style({
   position: 'absolute',
   bottom: '4.2rem',
@@ -67,6 +73,7 @@ export const scrollContainer = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.4rem',
+  animation: `${scrollBounce} 1.8s ease-in-out infinite`,
 });
 
 export const scrollIcon = style({
