@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { HomeContainer } from '@/page/home/Home.css';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
@@ -6,13 +7,32 @@ import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import EndSection from '@/page/home/EndSection/EndSection';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
-import { useState } from 'react';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
-import Example from '@/api/auth/googleLogin/Example';
+import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
+import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
+  useEffect(() => {
+    const getToken = async () => {
+      const code = getGoogleAuthCode();
+
+      if (!code) {
+        return;
+      }
+
+      try {
+        const data = await getAccessToken(code);
+        console.log('로그인 성공:', data);
+      } catch (error) {
+        console.error('로그인 실패:', error);
+      }
+    };
+
+    getToken();
+  }, []);
+
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
   const [isModalOpen, setIsOpenModal] = useState(false);
