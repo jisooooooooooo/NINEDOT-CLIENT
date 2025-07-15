@@ -1,4 +1,4 @@
-import type { Cycle, SubGoal } from './Mandalart';
+import type { SubGoal } from '@/page/mandal/types/mandal';
 
 interface MockMandalartData {
   mainGoal: string;
@@ -9,44 +9,44 @@ export const MOCK_MANDALART_DATA: MockMandalartData = {
   mainGoal: '메인 목표를 입력하세요',
   subGoals: [
     {
+      id: 1,
       title: '세부 목표를 입력하세요',
       position: 0,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 2,
       title: '세부 목표를 입력하세요',
       position: 1,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 3,
       title: '세부 목표를 입력하세요',
       position: 2,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 4,
       title: '세부 목표를 입력하세요',
       position: 3,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 5,
       title: '세부 목표를 입력하세요',
       position: 4,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 6,
       title: '세부 목표를 입력하세요',
       position: 5,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 7,
       title: '세부 목표를 입력하세요',
       position: 6,
-      cycle: 'DAILY' as Cycle,
     },
     {
+      id: 8,
       title: '세부 목표를 입력하세요',
       position: 7,
-      cycle: 'DAILY' as Cycle,
     },
   ],
 };

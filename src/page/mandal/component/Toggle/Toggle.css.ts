@@ -19,7 +19,7 @@ export const toggleButton = style([
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    color: colors.white01,
+    color: colors.grey10,
     cursor: 'pointer',
     border: 'none',
     backgroundColor: 'transparent',

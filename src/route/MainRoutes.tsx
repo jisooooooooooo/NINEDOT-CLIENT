@@ -35,6 +35,10 @@ export const mainRoutes: RouteObject[] = [
         element: <History />,
       },
       {
+        path: PATH.SIGNUP,
+        element: <SignUp />,
+      },
+      {
         path: PATH.EDIT,
         element: <Edit />,
       },

@@ -25,6 +25,7 @@ export const colors = {
   blue05: '#3E72F3',
   blue06: '#2F53C4',
   blue07: '#1B49D7',
+  blue08: '#2C4A83',
 
   mint01: '#DEFFEF',
   mint02: '#A9FFD6',
@@ -33,6 +34,7 @@ export const colors = {
 
   gradient04: 'linear-gradient(180deg, #305088 0%, #1E3270 100%)',
   gradient05: 'linear-gradient(180deg, #152C56 0%, #0D193E 100%)',
+  gradient06: 'linear-gradient(270deg, #224482 0%, #0D193E 100%)',
 
   error01: '#ff0000',
 };

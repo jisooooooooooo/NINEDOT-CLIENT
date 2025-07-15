@@ -3,33 +3,28 @@ import { useState } from 'react';
 import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
+import MandalartGrid from './MandalartGrid/MandalartGrid';
+
+import type { CoreGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
-export type MandalartType = 'TODO_SUB' | 'TODO_MAIN' | 'TODO_EDIT' | 'MY_MANDAL';
-
-export interface SubGoal {
-  title: string;
-  position: number;
-  cycle: Cycle;
-}
+export type MandalartType =
+  | 'TODO_SUB'
+  | 'TODO_MAIN'
+  | 'TODO_EDIT'
+  | 'MY_MANDAL'
+  | 'MY_MANDAL_CENTER';
 
 interface MandalartProps {
-  mainGoal?: string;
-  subGoals?: SubGoal[];
   type: MandalartType;
+  data?: CoreGoal;
   onGoalClick?: (position: number) => void;
-  disableInteraction?: boolean;
+  isCenter?: boolean;
 }
 
 const CENTER_INDEX = 4;
 
-const Mandalart = ({
-  mainGoal = MOCK_MANDALART_DATA.mainGoal,
-  subGoals = MOCK_MANDALART_DATA.subGoals,
-  type,
-  onGoalClick,
-  disableInteraction,
-}: MandalartProps) => {
+const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
   const handleGoalClick = (position: number) => {
@@ -38,15 +33,16 @@ const Mandalart = ({
   };
 
   const renderSquare = (index: number) => {
+    const squareType = type === 'MY_MANDAL' ? 'MY_MANDAL' : isCenter ? 'MY_MANDAL_CENTER' : type;
+
     if (index === CENTER_INDEX) {
-      return <Main key={index} content={mainGoal} type={type} />;
+      return (
+        <Main key={index} content={data?.title || MOCK_MANDALART_DATA.mainGoal} type={squareType} />
+      );
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
-    const subGoal = subGoals[subGoalIndex];
-
-    // 빈 제목이거나 전체 disableInteraction이 true인 경우 비활성화
-    const isDisabled = disableInteraction || !subGoal.title || subGoal.title.trim() === '';
+    const subGoal = data?.subGoals[subGoalIndex] || MOCK_MANDALART_DATA.subGoals[subGoalIndex];
 
     return (
       <Sub
@@ -54,17 +50,12 @@ const Mandalart = ({
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        type={type}
-        disableInteraction={isDisabled}
+        type={squareType}
       />
     );
   };
 
-  const squares = Array(9)
-    .fill(null)
-    .map((_, index) => renderSquare(index));
-
-  return <div className={styles.grid[type]}>{squares}</div>;
+  return <MandalartGrid className={styles.grid[type]}>{renderSquare}</MandalartGrid>;
 };
 
 export default Mandalart;
