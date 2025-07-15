@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 
 import type { CycleType } from '../constant/mock';
+import { DEFAULT_RECOMMEND_TODOS } from '../constant/mock';
+
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { createDate } from '@/common/util/format';
-import { DEFAULT_RECOMMEND_TODOS } from '../constant/mock';
 
 const mockSubGoals = Array.from({ length: 8 * 8 }, (_, i) => {
   const parentId = Math.floor(i / 8) + 1;
   const order = (i % 8) + 1;
   const cycles: CycleType[] = ['DAILY', 'WEEKLY', 'ONCE'];
-  const cycle = cycles[(i % 3)];
+  const cycle = cycles[i % 3];
   return {
     id: parentId * 100 + order,
     title: `${parentId}-${order} 하위 목표`,
@@ -75,8 +76,8 @@ export const useMyTodo = ({
   };
 
   const filteredTodos = todos
-    .filter(todo => !selectedCycle || todo.cycle === selectedCycle)
-    .filter(todo => !selectedParentId || todo.parentId === selectedParentId)
+    .filter((todo) => !selectedCycle || todo.cycle === selectedCycle)
+    .filter((todo) => !selectedParentId || todo.parentId === selectedParentId)
     .sort((a, b) => (a.parentId ?? 0) - (b.parentId ?? 0) || (a.order ?? 0) - (b.order ?? 0));
 
   return {

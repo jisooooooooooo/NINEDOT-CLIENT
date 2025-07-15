@@ -46,4 +46,4 @@ export const DEFAULT_MY_TODOS: TodoItemTypes[] = [
   { id: '13', content: '할 일 업무 완료 상태', completed: false, cycle: 'DAILY' },
   { id: '14', content: '할 일 업무 완료 상태', completed: false, cycle: 'WEEKLY' },
   { id: '15', content: '할 일 업무 완료 상태', completed: false, cycle: 'ONCE' },
-]; 
+];

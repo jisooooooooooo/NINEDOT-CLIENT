@@ -20,9 +20,7 @@ const RecommendSection = ({ userName, recommendTodos, onTodoClick }: RecommendSe
   return (
     <div className={styles.recommendSection}>
       <div className={styles.recommendTextWrapper}>
-        <div className={styles.recommendTitle}>
-          {`${userName}${RECOMMEND_MESSAGES.TITLE}`}
-        </div>
+        <div className={styles.recommendTitle}>{`${userName}${RECOMMEND_MESSAGES.TITLE}`}</div>
         <div className={styles.recommendSubtitle}>{RECOMMEND_MESSAGES.SUBTITLE}</div>
       </div>
 
