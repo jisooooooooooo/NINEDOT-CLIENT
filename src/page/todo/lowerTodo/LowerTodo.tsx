@@ -46,20 +46,27 @@ const LowerTodo = ({
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(getFirstValidGoalIndex());
   const [allTodos, setAllTodos] = useState<string[][]>([...EMPTY_TODOS]);
   const [aiUsedByGoal, setAiUsedByGoal] = useState<boolean[]>([...EMPTY_BOOL_ARR]);
-  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
-
-  useEffect(() => {
-    if (allTodos.flat().every((todo) => todo.trim() !== '')) {
-      setIsTooltipOpen(false);
-    }
-  }, [allTodos]);
+  const [tooltipOpenArr, setTooltipOpenArr] = useState<boolean[]>(Array(8).fill(true));
 
   const todos = selectedGoalIndex === -1 ? Array(8).fill('') : allTodos[selectedGoalIndex];
+
+  useEffect(() => {
+    if (selectedGoalIndex !== -1 && todos.every((todo) => todo.trim() !== '')) {
+      setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
+    }
+  }, [todos, selectedGoalIndex]);
+
+  const isTooltipOpen = selectedGoalIndex !== -1 ? tooltipOpenArr[selectedGoalIndex] : false;
+  const handleTooltipClose = () => {
+    setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
+  };
+
   const hasAnyTodos = allTodos.some((goalTodos) => goalTodos.some((todo) => todo.trim() !== ''));
   const isCurrentGoalAiUsed = selectedGoalIndex === -1 ? false : aiUsedByGoal[selectedGoalIndex];
   const isCurrentGoalValid =
     selectedGoalIndex !== -1 &&
     Boolean(subGoals[selectedGoalIndex] && subGoals[selectedGoalIndex].trim() !== '');
+  const isAllCurrentTodosFilled = todos.every((todo) => todo.trim() !== '');
 
   const handleSubGoalClick = (position: number) => {
     if (!subGoals[position] || subGoals[position].trim() === '' || selectedGoalIndex === -1) {
@@ -84,6 +91,7 @@ const LowerTodo = ({
       );
     });
     setAiUsedByGoal((prev) => prev.map((v, idx) => (idx === selectedGoalIndex ? true : v)));
+    setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
   };
 
   const handleOpenAiModal = () => {
@@ -116,24 +124,28 @@ const LowerTodo = ({
               </h1>
             </div>
             <div className={styles.aiAssistWrapper}>
-              <Tooltip
-                className={styles.aiAssistTooltip}
-                isOpen={isTooltipOpen}
-                onClose={() => setIsTooltipOpen(false)}
-              />
-              <button
-                className={
-                  isCurrentGoalAiUsed || !isCurrentGoalValid
-                    ? styles.aiAssistButton.inactive
-                    : styles.aiAssistButton.active
-                }
-                type="button"
-                aria-label="AI로 빈칸 채우기"
-                onClick={handleOpenAiModal}
-                disabled={isCurrentGoalAiUsed || !isCurrentGoalValid}
-              >
-                AI로 빈칸 채우기
-              </button>
+              {isTooltipOpen && !isAllCurrentTodosFilled && (
+                <Tooltip
+                  className={styles.aiAssistTooltip}
+                  isOpen={isTooltipOpen}
+                  onClose={handleTooltipClose}
+                />
+              )}
+              {!isAllCurrentTodosFilled && (
+                <button
+                  className={
+                    isCurrentGoalAiUsed || !isCurrentGoalValid
+                      ? styles.aiAssistButton.inactive
+                      : styles.aiAssistButton.active
+                  }
+                  type="button"
+                  aria-label="AI로 빈칸 채우기"
+                  onClick={handleOpenAiModal}
+                  disabled={isCurrentGoalAiUsed || !isCurrentGoalValid}
+                >
+                  AI로 빈칸 채우기
+                </button>
+              )}
             </div>
           </header>
           <div className={styles.lowerTodoBox}>
