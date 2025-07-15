@@ -140,13 +140,16 @@ const LowerTodo = ({
             <div className={styles.mainGoalSection}>
               <Mandalart
                 type="TODO_MAIN"
-                mainGoal={truncateText(mainGoal)}
-                subGoals={subGoals.map((subGoal, idx) => ({
-                  title: truncateText(subGoal),
-                  position: idx,
-                  cycle: 'ONCE' as const,
-                  disableInteraction: !subGoal || subGoal.trim() === '' || selectedGoalIndex === -1,
-                }))}
+                data={{
+                  id: 0,
+                  position: 0,
+                  title: truncateText(mainGoal),
+                  subGoals: subGoals.map((subGoal, idx) => ({
+                    id: idx,
+                    title: truncateText(subGoal),
+                    position: idx,
+                  })),
+                }}
                 onGoalClick={handleSubGoalClick}
               />
             </div>
@@ -154,12 +157,16 @@ const LowerTodo = ({
               <div className={styles.subGoalSection}>
                 <Mandalart
                   type="TODO_SUB"
-                  mainGoal={truncateText(subGoals[selectedGoalIndex] || '')}
-                  subGoals={todos.map((todo, idx) => ({
-                    title: todo ? truncateText(todo) : '',
-                    position: idx,
-                    cycle: 'ONCE' as const,
-                  }))}
+                  data={{
+                    id: selectedGoalIndex,
+                    position: selectedGoalIndex,
+                    title: truncateText(subGoals[selectedGoalIndex] || ''),
+                    subGoals: todos.map((todo, idx) => ({
+                      id: idx,
+                      title: todo ? truncateText(todo) : '',
+                      position: idx,
+                    })),
+                  }}
                   onGoalClick={() => {}}
                 />
                 <TodoFields

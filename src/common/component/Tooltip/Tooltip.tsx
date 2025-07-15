@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { IcTooltipDelete, IcTriangle } from '@/assets/svg';
 import {
   tooltipContainer,

@@ -2,7 +2,7 @@ import { useReducer, useRef } from 'react';
 
 import type { TextFieldProps, TextFieldVariant } from './MandalartTextField.types';
 import * as styles from './MandalartTextField.css';
-import { DEFAULT_PLACEHOLDER, BIG_GOAL_MAX_LENGTH } from './constant/constants';
+import { DEFAULT_PLACEHOLDER } from './constant/constants';
 
 import IcTextdelete from '@/assets/svg/IcTextdelete';
 
