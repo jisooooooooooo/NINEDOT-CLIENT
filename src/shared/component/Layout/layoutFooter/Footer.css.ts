@@ -2,12 +2,14 @@ import { style } from '@vanilla-extract/css';
 
 import { colors } from '@/style/token';
 import { fonts } from '@/style/token/typography.css';
+import { zIndex } from '@/style/token/zIndex.css';
 
 export const footerContainer = style({
   display: 'flex',
   flexDirection: 'column',
   height: '15.1rem',
   padding: '4rem 0',
+  zIndex: zIndex.layout,
   justifyContent: 'center',
   alignItems: 'center',
   borderTop: `2px solid ${colors.grey1}`,

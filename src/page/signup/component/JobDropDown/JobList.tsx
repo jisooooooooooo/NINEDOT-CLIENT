@@ -1,5 +1,5 @@
-import { listContainer, listItem, listText } from '@/common/component/JobDropDown/JobList.css';
-import type { JobType, JobValue } from '@/common/component/JobDropDown/constants/job';
+import { listContainer, listItem, listText } from '@/page/signup/component/JobDropDown/JobList.css';
+import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 
 type JobProps = {
   jobList: JobType[];

@@ -12,7 +12,7 @@ export const gridContainer = style({
   maxWidth: '84.6rem',
   padding: '4rem 6rem',
   backgroundColor: colors.grey2,
-  borderRadius: '8px',
+  borderRadius: '12px',
 });
 
 export const dotIcon = recipe({

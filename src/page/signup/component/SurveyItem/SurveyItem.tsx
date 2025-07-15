@@ -4,7 +4,7 @@ import {
   radioIcon,
 } from '@/page/signup/component/SurveyItem/SurveyItem.css';
 import { IcRadioDefault, IcRadioChecked } from '@/assets/svg';
-import type { OptionType } from '@/page/signup/component/type/optionType';
+import type { OptionType } from '@/page/signup/type/optionType';
 
 type itemProps = {
   item: OptionType;
