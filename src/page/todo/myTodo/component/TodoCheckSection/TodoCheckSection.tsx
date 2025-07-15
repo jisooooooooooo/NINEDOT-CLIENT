@@ -5,26 +5,19 @@ import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
 import type { CycleType } from '@/page/todo/myTodo/component/CycleChip';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
-
-interface MandalartData {
-  mainGoal: string;
-  subGoals: Array<{
-    title: string;
-    position: number;
-    cycle: 'DAILY' | 'WEEKLY' | 'ONCE';
-  }>;
-}
+import type { MandalartData } from '../../constant/mock';
 
 interface TodoCheckSectionProps {
-  selectedCycle: CycleType;
+  selectedCycle: CycleType | undefined;
   todos: TodoItemTypes[];
   mandalartData: MandalartData;
   onCycleClick: (cycle: CycleType) => void;
   onTodoClick: (item: TodoItemTypes) => void;
-  onMandalartClick: () => void;
+  onMandalartClick: (parentId: number | undefined) => void;
+  selectedParentId: number | undefined;
 }
 
-const CYCLE_LIST: CycleType[] = ['매일', '매주', '한 번'];
+const CYCLE_LIST: CycleType[] = ['DAILY', 'WEEKLY', 'ONCE'];
 
 const CHECK_MESSAGES = {
   TITLE: '작은 성취를 체크하여 오늘을 완성해요',
@@ -38,6 +31,7 @@ const TodoCheckSection = ({
   onCycleClick,
   onTodoClick,
   onMandalartClick,
+  selectedParentId,
 }: TodoCheckSectionProps) => (
   <section className={styles.checkSection}>
     <header className={styles.checkTextWrapper}>
@@ -52,32 +46,38 @@ const TodoCheckSection = ({
             type="TODO_MAIN"
             mainGoal={mandalartData.mainGoal}
             subGoals={mandalartData.subGoals}
-            onGoalClick={onMandalartClick}
+            onGoalClick={(position) => {
+              const parentId = position + 1;
+              onMandalartClick(selectedParentId === parentId ? undefined : parentId);
+            }}
           />
 
           <div className={styles.todoCheckArea}>
             <div className={styles.selectorChipsContainer}>
-              {CYCLE_LIST.map((cycle) => {
-                const isSelected = selectedCycle === cycle;
-                return (
-                  <CycleChip
-                    key={cycle}
-                    type="selector"
-                    value={cycle}
-                    selected={isSelected}
-                    onClick={onCycleClick}
-                  />
-                );
-              })}
+              {CYCLE_LIST.map(cycle => (
+                <CycleChip
+                  key={cycle}
+                  type="selector"
+                  value={cycle}
+                  selected={selectedCycle === cycle}
+                  onClick={onCycleClick}
+                />
+              ))}
             </div>
 
-            <div className={styles.todoCheckContainer}>
-              {todos.map((todo) => (
-                <div key={todo.id} className={styles.todoCheckLine}>
-                  <CycleChip type="display" value={selectedCycle} />
-                  <TodoBox type="todo" items={[todo]} onItemClick={onTodoClick} />
+            <div className={todos.length === 0 ? styles.noScrollTodoCheckContainer : styles.todoCheckContainer}>
+              {todos.length === 0 ? (
+                <div className={styles.emptyTodoBox}>
+                  <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
                 </div>
-              ))}
+              ) : (
+                todos.map((todo) => (
+                  <div key={todo.id} className={styles.todoCheckLine}>
+                    <CycleChip type="display" value={todo.cycle} />
+                    <TodoBox type="todo" items={[todo]} onItemClick={onTodoClick} />
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
