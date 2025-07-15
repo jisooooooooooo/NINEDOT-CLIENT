@@ -1,6 +1,6 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
-import { colors, fonts, zIndex } from '@/style/token';
+import { colors, fonts } from '@/style/token';
 
 export const lowerTodoContainer = style({
   display: 'flex',
@@ -78,10 +78,9 @@ export const aiAssistBase = style({
 });
 
 export const aiAssistTooltip = style({
-position: 'absolute',
-top: '0',
+  position: 'absolute',
+  top: '0',
 });
-
 
 export const aiAssistButton = styleVariants({
   active: [
