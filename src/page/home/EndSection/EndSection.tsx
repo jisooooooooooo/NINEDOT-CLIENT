@@ -11,13 +11,12 @@ type EndSectionProps = {
 };
 
 const EndSection = ({ fadeInRef, visible }: EndSectionProps) => {
+  const fadeState = visible ? 'in' : 'out';
+
   return (
     <section className={styles.endContainer}>
       <div className={styles.gradientBackground} />
-      <div
-        ref={fadeInRef}
-        className={`${styles.fadeContainer} ${fadeSlide({ state: visible ? 'in' : 'out' })}`}
-      >
+      <div ref={fadeInRef} className={`${styles.fadeContainer} ${fadeSlide({ state: fadeState })}`}>
         <div className={styles.layoutContainer}>
           <h1 className={styles.endText} dangerouslySetInnerHTML={{ __html: END_MESSAGE }} />
           <StartButton />
