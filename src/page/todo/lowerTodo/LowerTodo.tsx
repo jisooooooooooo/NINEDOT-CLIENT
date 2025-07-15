@@ -31,6 +31,11 @@ const truncateText = (text: string, cutLength: number = 23) => {
   return text.length > cutLength ? `${text.substring(0, cutLength)}...` : text;
 };
 
+const getFirstValidGoalIndex = (subGoals: string[]) => {
+  const idx = subGoals.findIndex((goal) => goal && goal.trim() !== '');
+  return idx === -1 ? -1 : idx;
+};
+
 const LowerTodo = ({
   userName = '@@',
   mainGoal = '사용자가 작성한 대목표',
@@ -39,11 +44,7 @@ const LowerTodo = ({
   const navigate = useNavigate();
   const { openModal, ModalWrapper, closeModal } = useModal();
 
-  const getFirstValidGoalIndex = () => {
-    const idx = subGoals.findIndex((goal) => goal && goal.trim() !== '');
-    return idx === -1 ? -1 : idx;
-  };
-  const [selectedGoalIndex, setSelectedGoalIndex] = useState(getFirstValidGoalIndex());
+  const [selectedGoalIndex, setSelectedGoalIndex] = useState(getFirstValidGoalIndex(subGoals));
   const [allTodos, setAllTodos] = useState<string[][]>([...EMPTY_TODOS]);
   const [aiUsedByGoal, setAiUsedByGoal] = useState<boolean[]>([...EMPTY_BOOL_ARR]);
   const [tooltipOpenArr, setTooltipOpenArr] = useState<boolean[]>(Array(8).fill(true));
