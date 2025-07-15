@@ -43,6 +43,7 @@ const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
     const subGoal = data?.subGoals[subGoalIndex] || MOCK_MANDALART_DATA.subGoals[subGoalIndex];
+    const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
 
     return (
       <Sub
@@ -51,6 +52,7 @@ const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
         type={squareType}
+        disableInteraction={isEmptyGoal}
       />
     );
   };
