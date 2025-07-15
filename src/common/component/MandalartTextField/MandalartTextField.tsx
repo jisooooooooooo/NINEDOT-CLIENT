@@ -68,7 +68,7 @@ const getClearButtonClass = (variant: TextFieldVariant) =>
   variant === 'bigGoal' ? styles.clearButton : styles.clearButtonSmall;
 
 const getMaxLength = (variant: TextFieldVariant, maxLength?: number) =>
-  variant === 'bigGoal' ? (maxLength ?? BIG_GOAL_MAX_LENGTH) : undefined;
+  maxLength ?? (variant === 'bigGoal' ? BIG_GOAL_MAX_LENGTH : undefined);
 
 const getPlaceholder = (variant: TextFieldVariant, placeholder?: string) =>
   placeholder ?? DEFAULT_PLACEHOLDER[variant];
