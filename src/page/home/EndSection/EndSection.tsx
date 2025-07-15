@@ -4,12 +4,12 @@ import * as styles from '@/page/home/EndSection/EndSection.css';
 import StartButton from '@/page/home/StartButton/StartButton';
 import { END_MESSAGE } from '@/page/home/constant/endSection';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
-import type { ButtonClickType } from '@/page/home/type/ButtonClickType';
+import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
 
 type EndSectionProps = {
   fadeInRef: RefObject<HTMLDivElement | null>;
   visible: boolean;
-} & ButtonClickType;
+} & buttonHandlerType;
 
 const EndSection = ({ fadeInRef, visible, onClick }: EndSectionProps) => {
   const fadeState = visible ? 'in' : 'out';

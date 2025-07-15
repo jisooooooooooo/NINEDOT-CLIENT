@@ -1,7 +1,7 @@
 import { startButton } from '@/page/home/StartButton/StartButton.css';
-import type { ButtonClickType } from '@/page/home/type/ButtonClickType';
+import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
 
-const StartButton = ({ onClick }: ButtonClickType) => {
+const StartButton = ({ onClick }: buttonHandlerType) => {
   return (
     <button onClick={onClick} className={startButton}>
       시작하기

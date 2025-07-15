@@ -3,9 +3,9 @@ import { CONTENT_MESSAGE, TITLE_MESSAGE } from '@/page/home/constant/startSectio
 import StartButton from '@/page/home/StartButton/StartButton';
 import VectorLine from '@/assets/image/vector-line.svg';
 import { IcUnder } from '@/assets/svg';
-import type { ButtonClickType } from '@/page/home/type/ButtonClickType';
+import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
 
-const StartSection = ({ onClick }: ButtonClickType) => {
+const StartSection = ({ onClick }: buttonHandlerType) => {
   return (
     <section className={styles.startContainer}>
       <div className={styles.gradientBlue} />
