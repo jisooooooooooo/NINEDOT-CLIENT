@@ -18,7 +18,7 @@ interface LowerTodoProps {
   subGoals?: string[];
 }
 
-const DEFAULT_SUB_GOALS = ['행복하기', '다이어트', '', '', '', '', '', ''];
+const DEFAULT_SUB_GOALS = ['행복하기', '다이어트', '', '', '부자되기', '', '', ''];
 const EMPTY_TODOS = Array(8)
   .fill('')
   .map(() => Array(8).fill(''));
@@ -155,10 +155,10 @@ const LowerTodo = ({
                 data={{
                   id: 0,
                   position: 0,
-                  title: truncateText(mainGoal),
+                  title: truncateText(mainGoal, 23),
                   subGoals: subGoals.map((subGoal, idx) => ({
                     id: idx,
-                    title: truncateText(subGoal),
+                    title: truncateText(subGoal, 23),
                     position: idx,
                   })),
                 }}
@@ -172,10 +172,10 @@ const LowerTodo = ({
                   data={{
                     id: selectedGoalIndex,
                     position: selectedGoalIndex,
-                    title: truncateText(subGoals[selectedGoalIndex] || ''),
+                    title: truncateText(subGoals[selectedGoalIndex] || '', 23),
                     subGoals: todos.map((todo, idx) => ({
                       id: idx,
-                      title: todo ? truncateText(todo) : '',
+                      title: todo ? truncateText(todo, 23) : '',
                       position: idx,
                     })),
                   }}

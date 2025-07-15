@@ -8,7 +8,7 @@ export const cycleContainer = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '10.6rem',
-  height: '5.6rem', // height 고정
+  height: '5.6rem',
   padding: '1.4rem 2rem',
   borderRadius: '8px',
   backgroundColor: colors.grey4,
@@ -65,4 +65,5 @@ export const dropdownIcon = recipe({
 
 export const cycleListContainer = style({
   position: 'relative',
+  overflow: 'visible',
 });

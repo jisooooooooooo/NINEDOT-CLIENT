@@ -167,7 +167,6 @@ export const dropdownWrapper = style({
   width: '10.6rem',
   height: '5.6rem',
   flexShrink: 0,
-  zIndex: zIndex.dropdown,
 });
 
 export const mandalCompleteBox = style({

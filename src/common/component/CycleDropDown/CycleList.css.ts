@@ -5,7 +5,7 @@ import { colors, fonts, zIndex } from '@/style/token';
 
 export const listContainer = style({
   position: 'absolute',
-  top: 'calc(100% + 0.4rem)',
+  top: '100%',
   left: 0,
   display: 'flex',
   flexDirection: 'column',
