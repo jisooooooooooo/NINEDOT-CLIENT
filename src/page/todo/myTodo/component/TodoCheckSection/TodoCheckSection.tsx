@@ -44,8 +44,12 @@ const TodoCheckSection = ({
         <div className={styles.mandalartWithTodoSection}>
           <Mandalart
             type="TODO_MAIN"
-            mainGoal={mandalartData.mainGoal}
-            subGoals={mandalartData.subGoals}
+            data={{
+              id: 0,
+              position: 0,
+              title: mandalartData.mainGoal,
+              subGoals: mandalartData.subGoals.map((sg) => ({ ...sg, id: sg.position }))
+            }}
             onGoalClick={(position) => {
               const parentId = position + 1;
               onMandalartClick(selectedParentId === parentId ? undefined : parentId);
