@@ -1,28 +1,35 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-
 import { colors, fonts } from '@/style/token';
 
-const SECTION_GAP = '2.8rem';
-const TEXT_WRAPPER_GAP = '0.4rem';
-const CONTAINER_WIDTH = '128rem';
-const GREY_BACKGROUND = colors.grey05_32;
-const BORDER_RADIUS_LARGE = '16px';
-
-export const myTodoContainer = style({
+export const myTodoBg = style({
+  position: 'fixed',
+  left: 0,
+  top: 0,
+  width: '100vw',
   minHeight: '100vh',
   background: colors.bg_black01,
+  zIndex: 0,
+});
+
+export const myTodoContainer = style({
+  position: 'relative',
+  zIndex: 1,
+  maxWidth: '128rem',
+  margin: '0 auto',
+  minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '3rem 0',
+  width: '100%',
 });
 
 export const contentWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: CONTAINER_WIDTH,
-  gap: '8rem',
+  width: '100%',
+  maxWidth: '128rem',
+  gap: '8.6rem', // 헤더-데이트피커 간격 86px
 });
 
 export const datePickerSection = style({
@@ -44,32 +51,32 @@ export const recommendSection = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   width: '100%',
-  gap: SECTION_GAP,
+  gap: '2.8rem',
 });
 
 export const recommendTextWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: TEXT_WRAPPER_GAP,
+  gap: '0.4rem',
 });
 
 export const recommendTitle = style({
   ...fonts.display02,
-  color: colors.grey11,
+  color: colors.white01,
   margin: 0,
 });
 
 export const recommendSubtitle = style({
   ...fonts.body01,
-  color: colors.grey9,
+  color: colors.grey6,
   margin: 0,
   alignSelf: 'stretch',
 });
 
 export const recommendBoxWrapper = style({
-  background: GREY_BACKGROUND,
-  borderRadius: BORDER_RADIUS_LARGE,
+  background: colors.grey05_32,
+  borderRadius: '12px',
   display: 'flex',
   padding: '1.5rem',
   flexDirection: 'row',
@@ -84,38 +91,32 @@ export const checkSection = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   width: '100%',
-  gap: SECTION_GAP,
+  gap: '2.8rem',
 });
 
 export const checkTextWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: TEXT_WRAPPER_GAP,
+  gap: '0.4rem',
 });
 
 export const checkTitle = style({
-  fontFamily: 'Pretendard',
-  fontSize: '2.8rem',
-  fontWeight: 600,
-  lineHeight: '140%',
+  ...fonts.display02,
   color: colors.white01,
   margin: 0,
 });
 
 export const checkSubtitle = style({
-  fontFamily: 'Pretendard',
-  fontSize: '1.8rem',
-  fontWeight: 500,
-  lineHeight: '140%',
+  ...fonts.body01,
   color: colors.grey6,
   margin: 0,
   alignSelf: 'stretch',
 });
 
 export const checkMainContainer = style({
-  background: GREY_BACKGROUND,
-  borderRadius: BORDER_RADIUS_LARGE,
+  background: colors.grey05_32,
+  borderRadius: '12px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -133,26 +134,15 @@ export const mainContentSection = style({
   height: '100%',
 });
 
-export const rightGap = style({
-  width: '1.9rem',
-  minWidth: '1.9rem',
-  flexShrink: 0,
-});
-
-export const mandalartWithTodoSection = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '3.7rem',
-  flex: 1,
-});
-
 export const todoCheckArea = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
   width: '55.2rem',
-  gap: '1.9rem',
+  minWidth: '55.2rem',
+  gap: '2.6rem',
   height: '100%',
+  flexShrink: 0,
 });
 
 export const selectorChipsContainer = style({
@@ -160,6 +150,7 @@ export const selectorChipsContainer = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   alignSelf: 'stretch',
+  gap: '2.6rem',
 });
 
 export const todoCheckContainer = style({
@@ -167,9 +158,20 @@ export const todoCheckContainer = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   height: '53.8rem',
-  gap: SECTION_GAP,
+  gap: '2.4rem',
   alignSelf: 'stretch',
   overflowY: 'auto',
+  paddingRight: '1.9rem',
+});
+
+export const noScrollTodoCheckContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  height: '53.8rem',
+  gap: '2.4rem',
+  alignSelf: 'stretch',
+  overflowY: 'hidden',
   paddingRight: '1.9rem',
 });
 
@@ -194,4 +196,42 @@ export const todoText = styleVariants({
     textAlign: 'center',
     ...fonts.subtitle02,
   },
+});
+
+export const emptyTodoBox = style({
+  display: 'flex',
+  width: '55.2rem',
+  height: '53.8rem',
+  padding: '25.1rem 9.1rem',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '1rem',
+  flexShrink: 0,
+  borderRadius: '0.8px',
+  background: colors.grey4,
+});
+
+export const emptyTodoText = style({
+  color: colors.grey10,
+  textAlign: 'center',
+  ...fonts.subtitle02,
+});
+
+export const rightGap = style({
+  width: '1.9rem',
+  minWidth: '1.9rem',
+  flexShrink: 0,
+});
+
+export const mandalartWithTodoSection = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '3.7rem',
+  flex: 1,
+});
+
+export const mandalartField = style({
+  display: 'flex',
+  gap: '1.6rem',
+  margin: '2rem 0',
 });
