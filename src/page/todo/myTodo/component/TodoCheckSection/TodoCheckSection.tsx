@@ -1,11 +1,11 @@
 import * as styles from '../../MyTodo.css';
+import type { MandalartData } from '../../constant/mock';
 
 import { CycleChip } from '@/page/todo/myTodo/component/CycleChip';
 import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
 import type { CycleType } from '@/page/todo/myTodo/component/CycleChip';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
-import type { MandalartData } from '../../constant/mock';
 
 interface TodoCheckSectionProps {
   selectedCycle: CycleType | undefined;
@@ -54,7 +54,7 @@ const TodoCheckSection = ({
 
           <div className={styles.todoCheckArea}>
             <div className={styles.selectorChipsContainer}>
-              {CYCLE_LIST.map(cycle => (
+              {CYCLE_LIST.map((cycle) => (
                 <CycleChip
                   key={cycle}
                   type="selector"
@@ -65,7 +65,11 @@ const TodoCheckSection = ({
               ))}
             </div>
 
-            <div className={todos.length === 0 ? styles.noScrollTodoCheckContainer : styles.todoCheckContainer}>
+            <div
+              className={
+                todos.length === 0 ? styles.noScrollTodoCheckContainer : styles.todoCheckContainer
+              }
+            >
               {todos.length === 0 ? (
                 <div className={styles.emptyTodoBox}>
                   <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>

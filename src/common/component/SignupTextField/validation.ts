@@ -14,7 +14,9 @@ export function validateField(type: 'name' | 'birth' | 'job', value: string): st
     return undefined;
   }
   if (type === 'birth') {
-    if (!value) return undefined;
+    if (!value) {
+      return undefined;
+    }
     if (!BIRTH_REGEX.test(value)) {
       return ERROR_MESSAGES.birth;
     }
@@ -28,7 +30,7 @@ export function validateField(type: 'name' | 'birth' | 'job', value: string): st
       return ERROR_MESSAGES.birth;
     }
     const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
     const koreaNow = new Date(utc + 9 * 60 * 60 * 1000);
     const todayStr = koreaNow.toISOString().slice(0, 10); // 'YYYY-MM-DD'
     const [todayYear, todayMonth, todayDay] = todayStr.split('-');

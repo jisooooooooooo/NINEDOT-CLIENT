@@ -2,10 +2,11 @@ import * as styles from './MyTodo.css';
 import { RecommendSection } from './component/RecommendSection/RecommendSection';
 import { TodoCheckSection } from './component/TodoCheckSection/TodoCheckSection';
 import { useMyTodo } from './hook/useMyTodo';
-import { DatePicker } from '@/page/todo/myTodo/component/DatePicker';
-import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { DEFAULT_MANDALART_DATA } from './constant/mock';
 import type { MandalartData } from './constant/mock';
+
+import { DatePicker } from '@/page/todo/myTodo/component/DatePicker';
+import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 
 interface MyTodoProps {
   userName?: string;
