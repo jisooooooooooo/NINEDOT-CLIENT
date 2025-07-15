@@ -4,6 +4,9 @@ import { recipe } from '@vanilla-extract/recipes';
 import { colors, fonts, zIndex } from '@/style/token';
 
 export const listContainer = style({
+  position: 'absolute',
+  top: '0',
+  left: '0',
   display: 'flex',
   flexDirection: 'column',
   width: '13.2rem',
