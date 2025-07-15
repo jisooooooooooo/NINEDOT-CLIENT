@@ -22,7 +22,8 @@ export const myTodoContainer = style({
   flexDirection: 'column',
   alignItems: 'center',
   width: '100%',
-  marginTop: '8.6rem', // 헤더와 DatePicker 사이 간격
+  marginTop: '8.6rem',
+  marginBottom: '10rem',
 });
 
 export const contentWrapper = style({
@@ -64,13 +65,13 @@ export const recommendTextWrapper = style({
 });
 
 export const recommendTitle = style({
-  ...fonts.display02,
+  ...fonts.title01,
   color: colors.white01,
   margin: 0,
 });
 
 export const recommendSubtitle = style({
-  ...fonts.body01,
+  ...fonts.subtitle06,
   color: colors.grey6,
   margin: 0,
   alignSelf: 'stretch',
@@ -104,13 +105,13 @@ export const checkTextWrapper = style({
 });
 
 export const checkTitle = style({
-  ...fonts.display02,
+  ...fonts.title01,
   color: colors.white01,
   margin: 0,
 });
 
 export const checkSubtitle = style({
-  ...fonts.body01,
+  ...fonts.subtitle06,
   color: colors.grey6,
   margin: 0,
   alignSelf: 'stretch',
@@ -123,7 +124,7 @@ export const checkMainContainer = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   height: '67.2rem',
-  padding: '2.6rem',
+  padding: '2.6rem 5rem 2.6rem 2.6rem',
   gap: '1rem',
   alignSelf: 'stretch',
 });
@@ -145,6 +146,7 @@ export const todoCheckArea = style({
   gap: '2.6rem',
   height: '100%',
   flexShrink: 0,
+  paddingRight: '1.9rem',
 });
 
 export const selectorChipsContainer = style({
@@ -159,11 +161,11 @@ export const todoCheckContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  width: '57.1rem',
   height: '53.8rem',
   gap: '2.4rem',
   alignSelf: 'stretch',
   overflowY: 'auto',
-  paddingRight: '1.9rem',
 });
 
 export const noScrollTodoCheckContainer = style({
@@ -219,16 +221,10 @@ export const emptyTodoText = style({
   ...fonts.subtitle02,
 });
 
-export const rightGap = style({
-  width: '1.9rem',
-  minWidth: '1.9rem',
-  flexShrink: 0,
-});
-
 export const mandalartWithTodoSection = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '3.7rem',
+  justifyContent: 'space-between',
   flex: 1,
 });
 

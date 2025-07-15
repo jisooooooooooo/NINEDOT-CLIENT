@@ -23,6 +23,7 @@ export const todoBoxContainer = styleVariants({
     borderRadius: '8px',
     width: '43.6rem',
     padding: '1.4rem 2rem',
+    marginRight: '1.9rem',
   },
 });
 
