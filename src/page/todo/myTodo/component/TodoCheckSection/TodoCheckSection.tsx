@@ -89,7 +89,6 @@ const TodoCheckSection = ({
             </div>
           </div>
         </div>
-        <div className={styles.rightGap} />
       </div>
     </section>
   </section>
