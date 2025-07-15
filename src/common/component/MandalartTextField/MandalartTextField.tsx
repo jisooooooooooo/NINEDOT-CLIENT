@@ -68,8 +68,15 @@ const getWrapperClass = (variant: TextFieldVariant, state: FieldState) => {
 const getClearButtonClass = (variant: TextFieldVariant) =>
   variant === 'bigGoal' ? styles.clearButton : styles.clearButtonSmall;
 
-const getMaxLength = (variant: TextFieldVariant, maxLength?: number) =>
-  variant === 'bigGoal' ? (maxLength ?? BIG_GOAL_MAX_LENGTH) : undefined;
+const getMaxLength = (variant: TextFieldVariant, maxLength?: number) => {
+  if (variant === 'bigGoal') {
+    return maxLength ?? BIG_GOAL_MAX_LENGTH;
+  }
+  if (variant === 'subGoal') {
+    return 30;
+  }
+  return undefined;
+};
 
 const getPlaceholder = (variant: TextFieldVariant, placeholder?: string) =>
   placeholder ?? DEFAULT_PLACEHOLDER[variant];

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import * as styles from './AiRecommendModal.css';
-import MandalButton from '../Button/Button';
+import Button from '../Button/Button';
 
 import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
@@ -51,6 +51,8 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
 
+            const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
+
             return (
               <div
                 key={option}
@@ -63,18 +65,14 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
                   }
                 }}
               >
-                {isChecked ? (
-                  <IcCheckboxChecked className={styles.checkboxIcon} />
-                ) : (
-                  <IcCheckboxDefault className={styles.checkboxIcon} />
-                )}
+                <CheckIcon className={styles.checkboxIcon} />
                 <span>{option}</span>
               </div>
             );
           })}
         </div>
         <div className={styles.buttonWrapper}>
-          <MandalButton
+          <Button
             text="내 만다라트에 넣기"
             onClick={() => {
               onSubmit(selectedOptions);

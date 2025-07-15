@@ -15,6 +15,12 @@ export type MandalartType =
   | 'MY_MANDAL'
   | 'MY_MANDAL_CENTER';
 
+interface SubGoal {
+  title: string;
+  position: number;
+  cycle: string;
+}
+
 interface MandalartProps {
   type: MandalartType;
   data?: CoreGoal;
@@ -22,7 +28,7 @@ interface MandalartProps {
   disableInteraction?: boolean;
   isCenter?: boolean;
   mainGoal?: string;
-  subGoals?: { title: string; position: number; cycle: string }[];
+  subGoals?: SubGoal[];
 }
 
 const CENTER_INDEX = 4;
