@@ -69,7 +69,7 @@ const LowerTodo = ({
   const isAllCurrentTodosFilled = todos.every((todo) => todo.trim() !== '');
 
   const handleSubGoalClick = (position: number) => {
-    if (!subGoals[position] || subGoals[position].trim() === '' || selectedGoalIndex === -1) {
+    if (!subGoals[position] || subGoals[position].trim() === '') {
       return;
     }
     setSelectedGoalIndex(position);

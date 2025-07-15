@@ -3,7 +3,6 @@ import { style, styleVariants } from '@vanilla-extract/css';
 import { colors, fonts, zIndex } from '@/style/token';
 
 export const lowerTodoContainer = style({
-  height: '100vh',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -51,22 +50,22 @@ export const lowerTodoHeaderGoal = style({
 });
 
 export const aiAssistWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  gap: '3rem',
-  alignSelf: 'flex-end',
-});
-
-export const aiAssistTooltip = style({
   position: 'relative',
   display: 'flex',
-  justifyContent: 'flex-end',
+  flexDirection: 'column',
   alignItems: 'center',
-  marginRight: 'calc((100% - 24.5rem) / 2)',
+  marginTop: '8.7rem',
 });
 
-const aiAssistBase = style({
+export const tooltipBox = style({
+  marginBottom: '1.2rem',
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+export const aiAssistBase = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -77,6 +76,12 @@ const aiAssistBase = style({
   whiteSpace: 'nowrap',
   ...fonts.body02,
 });
+
+export const aiAssistTooltip = style({
+position: 'absolute',
+top: '0',
+});
+
 
 export const aiAssistButton = styleVariants({
   active: [
