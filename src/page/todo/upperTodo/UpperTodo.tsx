@@ -7,7 +7,7 @@ import SubGoalFields from './component/SubGoalFields';
 
 import { PATH } from '@/route';
 import { IcSmallNext } from '@/assets/svg';
-import GradientBackground from '@/common/component/\bBackground/GradientBackground';
+import GradientBackground from '@/common/component/Background/GradientBackground';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
