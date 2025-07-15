@@ -2,10 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
-import { Home, Todo, Mandal, History } from '@/page';
-import UpperTodo from '@/page/todo/upperTodo/UpperTodo';
-import LowerTodo from '@/page/todo/lowerTodo/LowerTodo';
-import Edit from '@/page/edit/Edit';
+import { Home, Todo, Mandal, History, SignUp, Edit } from '@/page';
+import { UpperGoal, LowerGoal } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
 
 export const mainRoutes: RouteObject[] = [
@@ -35,6 +33,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.HISTORY,
         element: <History />,
+      },
+      {
+        path: PATH.SIGNUP,
+        element: <SignUp />,
       },
       {
         path: PATH.EDIT,

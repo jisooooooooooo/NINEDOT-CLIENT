@@ -1,4 +1,4 @@
-import type { QuestionType } from '@/page/signup/component/type/questionType';
+import type { QuestionType } from '@/page/signup/type/questionType';
 
 export const questionList: QuestionType[] = [
   {
