@@ -12,7 +12,9 @@ interface LoginModalProps {
 
 const LoginModal = ({ onClose }: LoginModalProps) => {
   const modalRoot = document.getElementById('modal-root');
-  if (!modalRoot) return null;
+  if (!modalRoot) {
+    return null;
+  }
 
   return createPortal(
     <div className={styles.backdrop} onClick={onClose}>
@@ -21,7 +23,7 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
           <IcModalDelete className={styles.closeIcon} />
         </button>
         <div className={styles.contentWrapper}>
-          <img src={loginLogo} />
+          <img src={loginLogo} alt="구글 로그인" />
           <GoogleLoginButton />
         </div>
       </div>

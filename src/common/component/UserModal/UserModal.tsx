@@ -33,7 +33,7 @@ const UserModal = ({ setIsLoggedIn, onClose }: UserModalProps) => {
   return (
     <div className={styles.modalContainer} ref={modalRef}>
       <div className={styles.profileContainer}>
-        <img src={userData.profileImageUrl} className={styles.profileImage} />
+        <img src={userData.profileImageUrl} className={styles.profileImage} alt="프로필 이미지" />
         <div className={styles.textContainer}>
           <strong className={styles.nameText}> {userData.name}</strong>
           <p className={styles.emailText}>{userData.email}</p>
