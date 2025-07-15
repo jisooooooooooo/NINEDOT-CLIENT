@@ -2,7 +2,6 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
-
 import { Home, Todo, Mandal, History, SignUp, Edit } from '@/page';
 import { UpperGoal, LowerGoal, MyTodo } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
