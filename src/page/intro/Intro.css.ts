@@ -12,7 +12,7 @@ export const introContainer = style({
   backgroundColor: colors.grey1,
 });
 
-export consntroText = style({
+export const introText = style({
   color: colors.grey11,
   ...fonts.display03,
   textAlign: 'center',
