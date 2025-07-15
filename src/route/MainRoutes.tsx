@@ -3,8 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import { PATH } from './path';
 
 import { Home, Todo, Mandal, History } from '@/page';
-import UpperTodo from '@/page/todo/upperTodo/UpperTodo';
-import LowerTodo from '@/page/todo/lowerTodo/LowerTodo';
+import { UpperTodo, LowerTodo } from '@/page/todo';
 import Edit from '@/page/edit/Edit';
 import { Layout } from '@/shared/component/Layout';
 
