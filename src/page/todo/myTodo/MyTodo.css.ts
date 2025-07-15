@@ -22,6 +22,7 @@ export const myTodoContainer = style({
   flexDirection: 'column',
   alignItems: 'center',
   width: '100%',
+  marginTop: '8.6rem', // 헤더와 DatePicker 사이 간격
 });
 
 export const contentWrapper = style({
