@@ -11,7 +11,7 @@ const baseGrid = {
 export const grid = {
   TODO_SUB: style({
     ...baseGrid,
-    gap: '1rem',
+    gap: '0.5rem',
   }),
   TODO_MAIN: style({
     ...baseGrid,
@@ -23,6 +23,10 @@ export const grid = {
   }),
   MY_MANDAL: style({
     ...baseGrid,
-    gap: '3rem',
+    gap: '2.5rem',
+  }),
+  MY_MANDAL_CENTER: style({
+    ...baseGrid,
+    gap: '1rem',
   }),
 };

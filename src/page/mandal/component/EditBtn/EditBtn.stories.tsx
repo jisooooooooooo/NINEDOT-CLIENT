@@ -13,7 +13,7 @@ const meta = {
     },
   },
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <BrowserRouter>
         <Story />
       </BrowserRouter>
