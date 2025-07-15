@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
+import { createRadialGradient } from '@/page/home/util/createRadialGradient';
 
 export const endContainer = style({
   height: 'calc(100vh - 8rem)',
@@ -17,8 +18,7 @@ export const gradientBackground = style({
   height: '97.8rem',
   borderRadius: '97.8rem',
   filter: 'blur(4rem)',
-  background:
-    'radial-gradient(50% 50% at 50% 50%, rgba(50, 95, 236, 0.30) 0%, rgba(50, 95, 236, 0.00) 100%)',
+  background: createRadialGradient('50, 95, 236', 0.3),
 });
 
 export const fadeContainer = style({

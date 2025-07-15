@@ -1,6 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
+import { createRadialGradient } from '@/page/home/util/createRadialGradient';
 
 export const startContainer = style({
   height: 'calc(100vh - 8rem)',
@@ -15,8 +16,7 @@ export const gradientBlue = style({
   width: '105.7rem',
   height: '105.7rem',
   borderRadius: '105.7px',
-  background:
-    'radial-gradient(50% 50% at 50% 50%, rgba(50, 95, 236, 0.30) 0%, rgba(50, 95, 236, 0.00) 100%)',
+  background: createRadialGradient('50, 95, 236', 0.3),
 });
 
 export const gradientGreen = style({
@@ -26,8 +26,7 @@ export const gradientGreen = style({
   width: '70.1rem',
   height: '71.1rem',
   borderRadius: '71.1px',
-  background:
-    'radial-gradient(50% 50% at 50% 50%, rgba(59, 255, 160, 0.70) 0%, rgba(59, 255, 160, 0.00) 100%)',
+  background: createRadialGradient('59, 255, 160', 0.7),
   opacity: 0.2,
 });
 
