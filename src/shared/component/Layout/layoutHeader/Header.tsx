@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import * as styles from './Header.css';
 
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
+import UserModal from '@/common/component/UserModal/UserModal';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -21,6 +22,7 @@ const Header = () => {
 
   const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [openProfile, setOpenProfile] = useState<boolean>(false);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -29,6 +31,10 @@ const Header = () => {
   const handleMenuClick = (menuLabel: string, path: string) => {
     setActiveMenu(menuLabel);
     navigate(path);
+  };
+
+  const handleProfile = () => {
+    setOpenProfile((prev) => !prev);
   };
 
   const renderNavMenu = () => (
@@ -50,14 +56,19 @@ const Header = () => {
           );
         })}
       </nav>
-      <div className={styles.profilePlaceholder} />
+      <button className={styles.profilePlaceholder} onClick={handleProfile}></button>
+      {isLoggedIn && openProfile && (
+        <UserModal setIsLoggedIn={setIsLoggedIn} onClose={handleProfile} />
+      )}
     </>
   );
 
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
-        <IcLogo className={styles.logoImage} />
+        <Link to={PATH.ROOT}>
+          <IcLogo className={styles.logoImage} />
+        </Link>
 
         {isLoggedIn ? (
           renderNavMenu()

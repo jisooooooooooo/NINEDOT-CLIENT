@@ -5,16 +5,22 @@ import { userData } from '@/common/component/UserModal/userData';
 import * as styles from '@/common/component/UserModal/UserModal.css';
 
 interface UserModalProps {
+  setIsLoggedIn: (value: boolean) => void;
   onClose: () => void;
 }
 
-const UserModal = ({ onClose }: UserModalProps) => {
+const UserModal = ({ setIsLoggedIn, onClose }: UserModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       onClose();
     }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    onClose();
   };
 
   useEffect(() => {
@@ -34,7 +40,9 @@ const UserModal = ({ onClose }: UserModalProps) => {
         </div>
       </div>
       <IcDivider className={styles.dividerIcon} />
-      <button className={styles.logoutButton}>로그아웃</button>
+      <button onClick={handleLogout} className={styles.logoutButton}>
+        로그아웃
+      </button>
     </div>
   );
 };

@@ -8,7 +8,6 @@ export const homeWrapper = style({
   justifyContent: 'center',
   alignItems: 'center',
   gap: '4rem',
-  // 헤더랑 푸터 높이 뺌
   height: 'calc(100vh - 15rem - 8rem)',
   backgroundColor: colors.grey1,
 });
