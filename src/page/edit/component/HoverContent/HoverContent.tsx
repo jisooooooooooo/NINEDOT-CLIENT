@@ -31,18 +31,18 @@ const HoverContent = ({ content, onChange }: HoverContentProps) => {
   };
 
   return (
-    <div className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>
+    <section className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>
       <Mandalart type="TODO_SUB" data={{ ...MANDALART_MOCK_DATA, subGoals }} />
-      <div className={styles.inputContainer}>
+      <form className={styles.inputContainer} onSubmit={(e) => e.preventDefault()}>
         <ModifyTextField
           variant="subGoal"
           value={content}
           onChange={onChange}
           placeholder="수정할 목표를 입력해주세요."
         />
-        <div className={styles.todoListContainer}>
+        <ul className={styles.todoListContainer}>
           {subGoals.map((subGoal, index) => (
-            <div key={subGoal.id} className={styles.todoInputRow}>
+            <li key={subGoal.id} className={styles.todoInputRow}>
               <CycleDropDown
                 initialType={subGoal.cycle}
                 onChange={(cycle) => handleCycleChange(index, cycle)}
@@ -53,11 +53,11 @@ const HoverContent = ({ content, onChange }: HoverContentProps) => {
                 onChange={(value) => handleTodoChange(index, value)}
                 placeholder="수정할 목표를 입력해주세요."
               />
-            </div>
+            </li>
           ))}
-        </div>
-      </div>
-    </div>
+        </ul>
+      </form>
+    </section>
   );
 };
 
