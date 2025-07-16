@@ -5,15 +5,19 @@ import HoverContent from '../HoverContent/HoverContent';
 import { HOVER_GUIDE_MESSAGES } from '../../constants';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
+import { useMandalAll } from '@/api/domain/mandalAll/hook';
 
 interface ContentProps {
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
 }
 
+const MANDAL_ID = 1;
+
 const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [subGoal, setSubGoal] = useState('');
+  const { data: mandalartData } = useMandalAll(MANDAL_ID);
 
   const handleMouseLeave = (e: React.MouseEvent) => {
     const relatedTarget = e.relatedTarget as HTMLElement;
@@ -37,9 +41,20 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
 
   const renderEditContent = () => <HoverContent content={subGoal} onChange={setSubGoal} />;
 
+  const mainGoalData = mandalartData
+    ? {
+        title: mandalartData.title,
+        subGoals: mandalartData.coreGoals.map((goal) => ({
+          id: goal.id,
+          title: goal.title,
+          position: goal.position,
+        })),
+      }
+    : undefined;
+
   const renderTodoMain = () => (
     <div className={styles.todoMainContainer}>
-      <Mandalart type="TODO_MAIN" />
+      <Mandalart type="TODO_MAIN" data={mainGoalData} />
     </div>
   );
 
@@ -61,7 +76,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         onMouseLeave={handleMouseLeave}
         onClick={() => setIsEditing(!isEditing)}
       >
-        <Mandalart type="TODO_EDIT" />
+        <Mandalart type="TODO_EDIT" data={mainGoalData} />
       </div>
       <div id="hoverContent" onMouseLeave={handleMouseLeave}>
         {renderContent()}
