@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 
 import { getUpperGoalIds, getSubGoalIds, getCoreGoals } from '.';
+import type { BaseResponse } from '@/type/api';
 
 export const EDIT_QUERY_KEY = {
   all: ['edit'] as const,
@@ -17,10 +19,21 @@ export const useUpperGoalIds = (mandalartId: number) => {
   });
 };
 
-export const useSubGoalIds = (coreGoalId: number) => {
+interface SubGoalIdsResponse {
+  subGoalIds: {
+    id: number;
+    position: number;
+  }[];
+}
+
+export const useSubGoalIds = (
+  coreGoalId: number,
+  options?: Omit<UseQueryOptions<BaseResponse<SubGoalIdsResponse>>, 'queryKey' | 'queryFn'>,
+) => {
   return useQuery({
     queryKey: EDIT_QUERY_KEY.subGoalIds(coreGoalId),
     queryFn: () => getSubGoalIds(coreGoalId),
+    ...options,
   });
 };
 

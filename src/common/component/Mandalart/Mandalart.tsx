@@ -33,6 +33,10 @@ interface MandalartProps {
 
 const CENTER_INDEX = 4;
 
+const indexToPosition = (index: number): number => {
+  return index + 1;
+};
+
 const Mandalart = ({
   type,
   data,
@@ -43,8 +47,9 @@ const Mandalart = ({
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
-  const handleGoalClick = (position: number) => {
-    setSelectedGoal(selectedGoal === position ? null : position);
+  const handleGoalClick = (index: number) => {
+    const position = indexToPosition(index);
+    setSelectedGoal(selectedGoal === index ? null : index);
     onGoalClick?.(position);
   };
 
@@ -74,7 +79,7 @@ const Mandalart = ({
         key={index}
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
-        onClick={() => handleGoalClick(subGoalIndex)}
+        onClick={() => handleGoalClick(index)}
         type={squareType}
         disableInteraction={isEmptyGoal}
       />

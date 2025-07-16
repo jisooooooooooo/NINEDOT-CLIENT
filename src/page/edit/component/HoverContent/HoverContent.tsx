@@ -17,10 +17,17 @@ interface SubGoalWithCycle extends SubGoal {
 interface HoverContentProps {
   content: string;
   onChange: (value: string) => void;
+  initialSubGoals?: SubGoal[];
 }
 
-const HoverContent = ({ content, onChange }: HoverContentProps) => {
-  const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(MANDALART_MOCK_DATA.subGoals);
+const HoverContent = ({
+  content,
+  onChange,
+  initialSubGoals = MANDALART_MOCK_DATA.subGoals,
+}: HoverContentProps) => {
+  const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(
+    initialSubGoals.map((goal) => ({ ...goal, cycle: undefined })),
+  );
 
   const handleTodoChange = (index: number, value: string) => {
     setSubGoals((prev) => prev.map((goal, i) => (i === index ? { ...goal, title: value } : goal)));
@@ -32,7 +39,7 @@ const HoverContent = ({ content, onChange }: HoverContentProps) => {
 
   return (
     <section className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>
-      <Mandalart type="TODO_SUB" data={{ ...MANDALART_MOCK_DATA, subGoals }} />
+      <Mandalart type="TODO_SUB" data={{ title: content, subGoals }} />
       <form className={styles.inputContainer} onSubmit={(e) => e.preventDefault()}>
         <ModifyTextField
           variant="subGoal"

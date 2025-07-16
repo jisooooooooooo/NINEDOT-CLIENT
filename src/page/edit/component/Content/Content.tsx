@@ -6,6 +6,8 @@ import { HOVER_GUIDE_MESSAGES } from '../../constants';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
+import { useSubGoalIds } from '@/api/domain/edit/hook';
+import type { CoreGoal, SubGoal } from '@/page/mandal/types/mandal';
 
 interface ContentProps {
   isEditing: boolean;
@@ -16,8 +18,11 @@ const MANDAL_ID = 1;
 
 const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [subGoal, setSubGoal] = useState('');
+  const [hoveredGoal, setHoveredGoal] = useState<CoreGoal | null>(null);
   const { data: mandalartData } = useMandalAll(MANDAL_ID);
+  const { data: subGoalIdsResponse } = useSubGoalIds(hoveredGoal?.id || 0, {
+    enabled: !!hoveredGoal,
+  });
 
   const handleMouseLeave = (e: React.MouseEvent) => {
     const relatedTarget = e.relatedTarget as HTMLElement;
@@ -26,6 +31,19 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
 
     if (!isMovingToHoverContent && !isMovingToMandalartContent) {
       setIsHovered(false);
+      setHoveredGoal(null);
+    }
+  };
+
+  const handleGoalClick = (position: number) => {
+    if (!mandalartData) {
+      return;
+    }
+
+    const goal = mandalartData.coreGoals.find((g) => g.position === position);
+    if (goal) {
+      setHoveredGoal(goal);
+      setIsHovered(true);
     }
   };
 
@@ -39,7 +57,26 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     </div>
   );
 
-  const renderEditContent = () => <HoverContent content={subGoal} onChange={setSubGoal} />;
+  const renderEditContent = () => {
+    const subGoals: SubGoal[] =
+      subGoalIdsResponse?.data.subGoalIds.map(({ id, position }) => ({
+        id,
+        position,
+        title: '', // 실제 title은 별도의 API 호출로 가져와야 할 것 같습니다
+      })) || [];
+
+    return (
+      <HoverContent
+        content={hoveredGoal?.title || ''}
+        onChange={(value) => {
+          if (hoveredGoal) {
+            setHoveredGoal({ ...hoveredGoal, title: value });
+          }
+        }}
+        initialSubGoals={subGoals}
+      />
+    );
+  };
 
   const mainGoalData = mandalartData
     ? {
@@ -76,7 +113,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         onMouseLeave={handleMouseLeave}
         onClick={() => setIsEditing(!isEditing)}
       >
-        <Mandalart type="TODO_EDIT" data={mainGoalData} />
+        <Mandalart type="TODO_EDIT" data={mainGoalData} onGoalClick={handleGoalClick} />
       </div>
       <div id="hoverContent" onMouseLeave={handleMouseLeave}>
         {renderContent()}
