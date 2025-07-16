@@ -45,7 +45,7 @@ const Mandalart = ({
 
   const handleGoalClick = (index: number, subGoal: SubGoal) => {
     const position = indexToPosition(index);
-    setSelectedGoal(selectedGoal === index ? null : index);
+    setSelectedGoal(selectedGoal === position ? null : position);
     onGoalClick?.(position, subGoal.id);
   };
 
@@ -75,7 +75,7 @@ const Mandalart = ({
       <Sub
         key={index}
         content={subGoal.title}
-        isCompleted={selectedGoal === subGoalIndex}
+        isCompleted={selectedGoal === indexToPosition(index)}
         onClick={() => handleGoalClick(index, subGoal)}
         type={squareType}
         disableInteraction={isEmptyGoal}

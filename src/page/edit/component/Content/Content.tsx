@@ -71,7 +71,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   };
 
   const handleGoalClick = (position: number, goalId?: number) => {
-    if (!mandalartData || isEditing) {
+    if (!mandalartData || (!isEditing && position === 5)) {
       return;
     }
 
@@ -80,6 +80,29 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       : mandalartData.coreGoals.find((g: CoreGoal) => g.position === position);
 
     if (goal) {
+      if (isEditing && hoveredGoal) {
+        const requestData = {
+          coreGoal: {
+            position: hoveredGoal.position,
+            title: hoveredGoal.title,
+          },
+          subGoals: hoveredGoal.subGoals.map((subGoal) => ({
+            position: subGoal.position,
+            title: subGoal.title,
+            cycle: subGoal.cycle || 'DAILY',
+          })),
+        };
+
+        updateGoal(requestData, {
+          onSuccess: () => {
+            setHoveredGoal(goal);
+            setIsHovered(false);
+            setIsEditing(true);
+          },
+        });
+        return;
+      }
+
       setHoveredGoal(goal);
       setIsHovered(false);
       setIsEditing(true);
@@ -99,51 +122,56 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const mainGoalData = mandalartData
     ? {
         title: mandalartData.title,
-        subGoals: Array.from({ length: 8 }, (_, i) => i + 1).map((position) => {
-          const latestGoal = mandalartData.coreGoals
-            .filter((goal: CoreGoal) => goal.position === position)
-            .reduce(
-              (latest, current) => {
-                return !latest || current.id > latest.id ? current : latest;
-              },
-              null as CoreGoal | null,
-            );
+        subGoals: Array.from({ length: 9 }, (_, i) => i + 1)
+          .filter((pos) => pos !== 5) // 중앙(5) 제외
+          .map((uiPosition) => {
+            // UI position을 실제 데이터의 position으로 변환
+            const dataPosition = uiPosition > 5 ? uiPosition - 1 : uiPosition;
 
-          if (!latestGoal) {
-            return {
-              id: 0,
-              title: '',
-              position,
-              subGoals: [],
-            };
-          }
-
-          const uniqueSubGoals = Array.from({ length: 8 }, (_, i) => i + 1).map((subPosition) => {
-            const latestSubGoal = latestGoal.subGoals
-              ?.filter((subGoal) => subGoal.position === subPosition)
+            const latestGoal = mandalartData.coreGoals
+              .filter((goal: CoreGoal) => goal.position === dataPosition)
               .reduce(
                 (latest, current) => {
                   return !latest || current.id > latest.id ? current : latest;
                 },
-                null as SubGoal | null,
+                null as CoreGoal | null,
               );
 
-            return (
-              latestSubGoal || {
+            if (!latestGoal) {
+              return {
                 id: 0,
                 title: '',
-                position: subPosition,
-              }
-            );
-          });
+                position: uiPosition, // UI position 유지
+                subGoals: [],
+              };
+            }
 
-          return {
-            id: latestGoal.id,
-            title: latestGoal.title,
-            position: latestGoal.position,
-            subGoals: uniqueSubGoals,
-          };
-        }),
+            const uniqueSubGoals = Array.from({ length: 8 }, (_, i) => i + 1).map((subPosition) => {
+              const latestSubGoal = latestGoal.subGoals
+                ?.filter((subGoal) => subGoal.position === subPosition)
+                .reduce(
+                  (latest, current) => {
+                    return !latest || current.id > latest.id ? current : latest;
+                  },
+                  null as SubGoal | null,
+                );
+
+              return (
+                latestSubGoal || {
+                  id: 0,
+                  title: '',
+                  position: subPosition,
+                }
+              );
+            });
+
+            return {
+              id: latestGoal.id,
+              title: latestGoal.title,
+              position: uiPosition, // UI position 유지
+              subGoals: uniqueSubGoals,
+            };
+          }),
       }
     : undefined;
 
