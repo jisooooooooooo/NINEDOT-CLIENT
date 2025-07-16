@@ -14,6 +14,7 @@ import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
+import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
 
 interface LowerTodoProps {
   userName?: string;
@@ -32,12 +33,34 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   const mandalartId = 1;
   const { data: coreGoalsData } = useCoreGoals(mandalartId);
 
+  const selectedCoreGoalId =
+    selectedGoalIndex !== -1 && coreGoalsData
+      ? coreGoalsData.data.coreGoals[selectedGoalIndex]?.id
+      : undefined;
+
+  const { data: subGoalsData } = useSubGoals({
+    mandalartId,
+    coreGoalId: selectedCoreGoalId,
+  });
+
   useEffect(() => {
     if (coreGoalsData && coreGoalsData.data.coreGoals.length > 0) {
       const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
       setSelectedGoalIndex(getFirstValidGoalIndex(subGoals));
     }
   }, [coreGoalsData]);
+
+  useEffect(() => {
+    if (subGoalsData && selectedGoalIndex !== -1) {
+      const newTodos = [...allTodos];
+      const apiTodos = subGoalsData.data.subGoals.map((subGoal) => subGoal.title);
+      const filledTodos = Array(8)
+        .fill('')
+        .map((_, idx) => apiTodos[idx] || '');
+      newTodos[selectedGoalIndex] = filledTodos;
+      setAllTodos(newTodos);
+    }
+  }, [subGoalsData, selectedGoalIndex]);
 
   useEffect(() => {
     if (coreGoalsData && selectedGoalIndex !== -1) {
