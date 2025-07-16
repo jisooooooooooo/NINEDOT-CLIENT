@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
-import { getMandalAll, getCoreGoalIdPositions } from './index';
+import { getMandalAll, getCoreGoalIdPositions, postOnboardingCoreGoal } from './index';
 
 import { QUERY_KEY } from '@/api/constant/queryKey';
 
@@ -16,5 +16,20 @@ export const useGetCoreGoalIdPositions = (mandalartId: number) => {
     queryKey: [...QUERY_KEY.CORE_GOAL_IDS, mandalartId],
     queryFn: () => getCoreGoalIdPositions(mandalartId),
     enabled: !!mandalartId,
+  });
+};
+
+export const usePostOnboardingCoreGoal = () => {
+  return useMutation({
+    mutationKey: QUERY_KEY.POST_ONBOARDING_CORE_GOAL,
+    mutationFn: ({
+      mandalartId,
+      title,
+      position,
+    }: {
+      mandalartId: number;
+      title: string;
+      position: number;
+    }) => postOnboardingCoreGoal(mandalartId, { title, position }),
   });
 };

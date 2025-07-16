@@ -18,9 +18,10 @@ interface SubGoalFieldsProps {
   values: string[];
   onChange: (values: string[]) => void;
   idPositions?: { coreGoalId: number; position: number }[];
+  onEnter?: (index: number, value: string) => void;
 }
 
-const SubGoalFields = ({ values, onChange, idPositions }: SubGoalFieldsProps) => {
+const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFieldsProps) => {
   const updatedValues = (index: number, newValue: string) =>
     values.map((v, i) => (i === index ? newValue : v));
 
@@ -39,6 +40,12 @@ const SubGoalFields = ({ values, onChange, idPositions }: SubGoalFieldsProps) =>
           onChange={(val) => handleChange(index, val)}
           placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
           data-id={idPositions?.[index]?.coreGoalId?.toString()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && onEnter) {
+              e.preventDefault();
+              onEnter(index, e.currentTarget.value);
+            }
+          }}
         />
       ))}
     </div>

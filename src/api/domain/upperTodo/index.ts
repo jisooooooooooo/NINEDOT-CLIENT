@@ -16,7 +16,18 @@ export const getMandalAll = async (mandalartId: number) => {
 
 export const getCoreGoalIdPositions = async (mandalartId: number) => {
   const res = await axiosInstance.get<BaseResponse<CoreGoalIdPosition[]>>(
-    `/mandalarts/${mandalartId}/core-goals/id-positions`,
+    `/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}/id-positions`,
   );
   return res.data;
+};
+
+export const postOnboardingCoreGoal = async (
+  mandalartId: number,
+  { title, position }: { title: string; position: number },
+) => {
+  const response = await axiosInstance.post<BaseResponse<{ id: number }>>(
+    `${END_POINT.ONBOARDING}/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}`,
+    { title, position },
+  );
+  return response.data.data;
 };
