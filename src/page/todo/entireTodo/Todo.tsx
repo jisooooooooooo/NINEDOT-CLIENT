@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { FULL_TEXT, TYPING_DURATION, PLACEHOLDER_TEXT } from './constant/constants';
 import * as styles from './Todo.css';
-import { useCreateOverallTodo } from './hook/useCreateMandalart';
 
+import { useCreateOverallTodo } from '@/api/domain/entireTodo/hook/useCreateMandalart';
 import useTypingEffect from '@/common/hook/useTypingEffect';
 import GoButton from '@/common/component/GoButton/GoButton';
 import GradientBackground from '@/common/component/Background/GradientBackground';
