@@ -8,6 +8,7 @@ export const uxWritingContainer = style({
   justifyContent: 'center',
   width: '100%',
   marginTop: '8rem',
+  marginBottom: '2.8rem',
 });
 
 export const uxWritingText = style([
