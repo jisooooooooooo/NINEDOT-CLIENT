@@ -1,6 +1,5 @@
-import axiosInstance from '../../axiosInstance';
-import { END_POINT } from '../../constants/endPoint';
-
+import axiosInstance from '@/api/axiosInstance';
+import { END_POINT } from '@/api/constants/endPoint';
 import type { MandalartData } from '@/page/mandal/types/mandal';
 
 interface ApiResponse {
