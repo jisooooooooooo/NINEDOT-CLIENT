@@ -10,7 +10,6 @@ import GoButton from '@/common/component/GoButton/GoButton';
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 import { PATH } from '@/route';
-import type { ErrorResponse } from '@/type/api';
 
 const Todo = () => {
   const [inputText, setInputText] = useState('');
@@ -33,8 +32,8 @@ const Todo = () => {
           onSuccess: () => {
             navigate(PATH.TODO_UPPER);
           },
-          onError: (error: ErrorResponse) => {
-            // console.error('만다라트 생성 실패:', error);
+          onError: () => {
+            // 생성 실패 시 처리 로직
           },
         },
       );
