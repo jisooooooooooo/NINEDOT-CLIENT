@@ -12,25 +12,13 @@ import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { DEFAULT_SUB_GOALS, EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
-import { isValidSubGoal } from './util';
+import { isValidSubGoal, truncateText, getFirstValidGoalIndex } from './util';
 
 interface LowerTodoProps {
   userName?: string;
   mainGoal?: string;
   subGoals?: string[];
 }
-
-const truncateText = (text: string, cutLength: number = 23) => {
-  if (!text) {
-    return '';
-  }
-  return text.length > cutLength ? `${text.substring(0, cutLength)}...` : text;
-};
-
-const getFirstValidGoalIndex = (subGoals: string[]) => {
-  const idx = subGoals.findIndex((goal) => goal && goal.trim() !== '');
-  return idx === -1 ? -1 : idx;
-};
 
 const LowerTodo = ({
   userName = '@@',
