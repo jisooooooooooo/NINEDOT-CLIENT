@@ -14,4 +14,4 @@ export function truncateText(text: string, cutLength: number = TRUNCATE_TEXT_LEN
 export function getFirstValidGoalIndex(subGoals: string[]) {
   const idx = subGoals.findIndex((goal) => goal && goal.trim() !== '');
   return idx === -1 ? -1 : idx;
-} 
+}

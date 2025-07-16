@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import * as styles from './LowerTodo.css';
 import TodoFields from './component/TodoFields';
+import { DEFAULT_SUB_GOALS, EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
+import { isValidSubGoal, truncateText, getFirstValidGoalIndex } from './util';
 
 import { PATH } from '@/route';
 import { IcSmallNext } from '@/assets/svg';
@@ -11,8 +13,6 @@ import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
-import { DEFAULT_SUB_GOALS, EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
-import { isValidSubGoal, truncateText, getFirstValidGoalIndex } from './util';
 
 interface LowerTodoProps {
   userName?: string;

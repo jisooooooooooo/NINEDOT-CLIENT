@@ -6,4 +6,4 @@ export const EMPTY_TODOS = Array(8)
 
 export const EMPTY_BOOL_ARR = Array(8).fill(false);
 
-export const TRUNCATE_TEXT_LENGTH = 23; 
+export const TRUNCATE_TEXT_LENGTH = 23;
