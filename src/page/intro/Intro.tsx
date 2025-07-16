@@ -23,9 +23,16 @@ const Intro = () => {
 
   const content = isWritten ? MESSAGE.CONTINUE : MESSAGE.START;
 
+  const renderTitle = content.title.split('<br/>').map((line, index) => (
+    <span key={index}>
+      {line}
+      {index !== content.title.split('<br/>').length - 1 && <br />}
+    </span>
+  ));
+
   return (
     <main className={styles.introContainer}>
-      <h1 className={styles.introText} dangerouslySetInnerHTML={{ __html: content.title }} />
+      <h1 className={styles.introText}>{renderTitle}</h1>
       <button className={styles.buttonContainer} onClick={handleNavigateToTodo}>
         {content.button}
       </button>
