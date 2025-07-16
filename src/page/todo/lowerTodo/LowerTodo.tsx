@@ -15,6 +15,7 @@ import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendMod
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
 import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
+import { useSubGoalIds } from '@/api/domain/lowerTodo/hook/useSubGoalIds';
 
 interface LowerTodoProps {
   userName?: string;
@@ -29,6 +30,9 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   const [allTodos, setAllTodos] = useState([...EMPTY_TODOS]);
   const [aiUsedByGoal, setAiUsedByGoal] = useState([...EMPTY_BOOL_ARR]);
   const [tooltipOpenArr, setTooltipOpenArr] = useState(Array(8).fill(true));
+  const [subGoalIdsByPosition, setSubGoalIdsByPosition] = useState<{
+    [position: number]: number | null;
+  }>({});
 
   const mandalartId = 1;
   const { data: coreGoalsData } = useCoreGoals(mandalartId);
@@ -43,6 +47,8 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     coreGoalId: selectedCoreGoalId,
   });
 
+  const { data: subGoalIdsData } = useSubGoalIds(selectedCoreGoalId || 0);
+
   useEffect(() => {
     if (coreGoalsData && coreGoalsData.data.coreGoals.length > 0) {
       const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
@@ -51,14 +57,37 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   }, [coreGoalsData]);
 
   useEffect(() => {
+    if (
+      subGoalIdsData &&
+      subGoalIdsData.data &&
+      subGoalIdsData.data.subgoalIds &&
+      selectedGoalIndex !== -1
+    ) {
+      const newIdMap: { [position: number]: number | null } = {};
+
+      for (let i = 0; i < 8; i++) {
+        newIdMap[i] = null;
+      }
+
+      subGoalIdsData.data.subgoalIds.forEach(({ id, position }) => {
+        newIdMap[position - 1] = id;
+      });
+
+      setSubGoalIdsByPosition(newIdMap);
+    }
+  }, [subGoalIdsData, selectedGoalIndex]);
+
+  useEffect(() => {
     if (subGoalsData && selectedGoalIndex !== -1) {
-      const newTodos = [...allTodos];
-      const apiTodos = subGoalsData.data.subGoals.map((subGoal) => subGoal.title);
-      const filledTodos = Array(8)
-        .fill('')
-        .map((_, idx) => apiTodos[idx] || '');
-      newTodos[selectedGoalIndex] = filledTodos;
-      setAllTodos(newTodos);
+      setAllTodos((prev) => {
+        const newTodos = [...prev];
+        const apiTodos = subGoalsData.data.subGoals.map((subGoal) => subGoal.title);
+        const filledTodos = Array(8)
+          .fill('')
+          .map((_, idx) => apiTodos[idx] || '');
+        newTodos[selectedGoalIndex] = filledTodos;
+        return newTodos;
+      });
     }
   }, [subGoalsData, selectedGoalIndex]);
 

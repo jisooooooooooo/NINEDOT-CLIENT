@@ -1,5 +1,6 @@
 import type { GetCoreGoalsResponse } from './type/coreGoals';
 import type { GetSubGoalsRequest, GetSubGoalsResponse } from './type/subGoals';
+import type { GetSubGoalIdsRequest, GetSubGoalIdsResponse } from './type/subGoalIds';
 
 import { get } from '@/api';
 import { END_POINT } from '@/api/constant/endPoint';
@@ -25,5 +26,12 @@ export const getSubGoals = async ({ mandalartId, coreGoalId, cycle }: GetSubGoal
   const url = `${END_POINT.MANDALART}/${mandalartId}/${END_POINT.SUB_GOAL}${queryString ? `?${queryString}` : ''}`;
 
   const { data } = await get<BaseResponse<GetSubGoalsResponse>>(url);
+  return data;
+};
+
+export const getSubGoalIds = async ({ coreGoalId }: GetSubGoalIdsRequest) => {
+  const { data } = await get<BaseResponse<GetSubGoalIdsResponse>>(
+    `${END_POINT.CORE_GOAL}/${coreGoalId}/${END_POINT.SUB_GOAL}`,
+  );
   return data;
 };
