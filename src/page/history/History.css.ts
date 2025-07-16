@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
+import historyBackground from '@/assets/image/history_background.svg';
 
 export const historyContainer = style({
   backgroundColor: colors.bg_black01,
@@ -29,6 +30,10 @@ export const descriptionContainer = style({
   borderRadius: '12px',
   color: colors.grey11,
   ...fonts.title01,
+  backgroundImage: `url(${historyBackground})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
 });
 
 export const streakTrackerWrapper = style({
