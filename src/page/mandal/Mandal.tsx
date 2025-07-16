@@ -15,15 +15,24 @@ const Mandal = () => {
     return null;
   }
 
-  const selectedCoreGoal = mandalartData.coreGoals[0];
+  const mainGoalData = {
+    id: 0,
+    position: 0,
+    title: mandalartData.title,
+    subGoals: mandalartData.coreGoals.map((goal) => ({
+      id: goal.id,
+      title: goal.title,
+      position: goal.position,
+    })),
+  };
 
   return (
     <div className={styles.viewContainer}>
       <Toggle defaultValue="onlygoal" onChange={handleViewChange} />
       {viewType === 'onlygoal' ? (
-        <Mandalart type="MY_MANDAL" data={selectedCoreGoal} />
+        <Mandalart type="MY_MANDAL" data={mainGoalData} />
       ) : (
-        <EntireMandal coreGoals={mandalartData.coreGoals} />
+        <EntireMandal coreGoals={mandalartData.coreGoals} mainTitle={mandalartData.title} />
       )}
       <div className={styles.editBtnContainer}>
         <EditBtn />
