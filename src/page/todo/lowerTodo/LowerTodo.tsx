@@ -35,22 +35,25 @@ const LowerTodo = ({
 
   const todos = selectedGoalIndex === -1 ? Array(8).fill('') : allTodos[selectedGoalIndex];
 
+  const updateTooltipState = (index: number, value: boolean) => {
+    setTooltipOpenArr((arr) => arr.map((v, i) => (i === index ? value : v)));
+  };
+
   useEffect(() => {
     if (selectedGoalIndex !== -1 && todos.every((todo) => todo.trim() !== '')) {
-      setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
+      updateTooltipState(selectedGoalIndex, false);
     }
   }, [todos, selectedGoalIndex]);
 
   const isTooltipOpen = selectedGoalIndex !== -1 ? tooltipOpenArr[selectedGoalIndex] : false;
   const handleTooltipClose = () => {
-    setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
+    updateTooltipState(selectedGoalIndex, false);
   };
 
   const hasAnyTodos = allTodos.some((goalTodos) => goalTodos.some((todo) => todo.trim() !== ''));
   const isCurrentGoalAiUsed = selectedGoalIndex === -1 ? false : aiUsedByGoal[selectedGoalIndex];
   const isCurrentGoalValid =
-    selectedGoalIndex !== -1 &&
-    Boolean(subGoals[selectedGoalIndex] && subGoals[selectedGoalIndex].trim() !== '');
+    selectedGoalIndex !== -1 && isValidSubGoal(subGoals[selectedGoalIndex]);
   const isAllCurrentTodosFilled = todos.every((todo) => todo.trim() !== '');
 
   const handleSubGoalClick = (position: number) => {
@@ -76,7 +79,7 @@ const LowerTodo = ({
       );
     });
     setAiUsedByGoal((prev) => prev.map((v, idx) => (idx === selectedGoalIndex ? true : v)));
-    setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
+    updateTooltipState(selectedGoalIndex, false);
   };
 
   const handleOpenAiModal = () => {
