@@ -11,5 +11,5 @@ const SvgIcSmallNext = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-    
+
 export default SvgIcSmallNext;

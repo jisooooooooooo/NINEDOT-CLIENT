@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
 import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
+
 import type { CoreGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
@@ -65,7 +67,7 @@ const Mandalart = ({
       subGoals?.[subGoalIndex] ||
       data?.subGoals?.[subGoalIndex] ||
       MOCK_MANDALART_DATA.subGoals[subGoalIndex];
-    
+
     const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
 
     return (

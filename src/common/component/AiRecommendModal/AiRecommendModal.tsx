@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import * as styles from './AiRecommendModal.css';
 import Button from '../Button/Button';
+
 import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
 interface AiRecommendModalProps {
@@ -22,7 +24,7 @@ const options = [
 
 const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  
+
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
 
@@ -50,7 +52,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
             const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
-            
+
             return (
               <div
                 key={option}
