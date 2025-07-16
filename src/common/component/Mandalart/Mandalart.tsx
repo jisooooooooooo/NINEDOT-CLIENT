@@ -15,16 +15,33 @@ export type MandalartType =
   | 'MY_MANDAL'
   | 'MY_MANDAL_CENTER';
 
+interface SubGoal {
+  title: string;
+  position: number;
+  cycle: string;
+}
+
 interface MandalartProps {
   type: MandalartType;
   data?: CoreGoal;
   onGoalClick?: (position: number) => void;
+  disableInteraction?: boolean;
   isCenter?: boolean;
+  mainGoal?: string;
+  subGoals?: SubGoal[];
 }
 
 const CENTER_INDEX = 4;
 
-const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps) => {
+const Mandalart = ({
+  type,
+  data,
+  onGoalClick,
+  isCenter = false,
+  disableInteraction,
+  mainGoal,
+  subGoals,
+}: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
   const handleGoalClick = (position: number) => {
@@ -37,12 +54,19 @@ const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps
 
     if (index === CENTER_INDEX) {
       return (
-        <Main key={index} content={data?.title || MOCK_MANDALART_DATA.mainGoal} type={squareType} />
+        <Main
+          key={index}
+          content={mainGoal || data?.title || MOCK_MANDALART_DATA.mainGoal}
+          type={squareType}
+        />
       );
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
-    const subGoal = data?.subGoals[subGoalIndex] || MOCK_MANDALART_DATA.subGoals[subGoalIndex];
+    const subGoal =
+      subGoals?.[subGoalIndex] ||
+      data?.subGoals?.[subGoalIndex] ||
+      MOCK_MANDALART_DATA.subGoals[subGoalIndex];
 
     return (
       <Sub
@@ -50,6 +74,7 @@ const Mandalart = ({ type, data, onGoalClick, isCenter = false }: MandalartProps
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
+        disableInteraction={disableInteraction}
         type={squareType}
       />
     );
