@@ -5,7 +5,7 @@ import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
 
-import type { CoreGoal } from '@/page/mandal/types/mandal';
+import type { CoreGoal, MainGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
 export type MandalartType =
@@ -24,7 +24,7 @@ interface SubGoal {
 
 interface MandalartProps {
   type: MandalartType;
-  data?: CoreGoal;
+  data?: CoreGoal | MainGoal;
   onGoalClick?: (position: number) => void;
   isCenter?: boolean;
   mainGoal?: string;

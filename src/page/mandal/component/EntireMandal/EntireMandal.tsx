@@ -1,5 +1,5 @@
 import * as styles from './EntireMandal.css';
-import type { CoreGoal } from '../../types/mandal';
+import type { CoreGoal, MainGoal } from '../../types/mandal';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import MandalartGrid from '@/common/component/Mandalart/MandalartGrid/MandalartGrid';
@@ -12,9 +12,7 @@ interface EntireMandalProps {
 }
 
 const EntireMandal = ({ coreGoals, mainTitle }: EntireMandalProps) => {
-  const mainGoalData = {
-    id: 0,
-    position: 0,
+  const mainGoalData: MainGoal = {
     title: mainTitle,
     subGoals: coreGoals.map((goal) => ({
       id: goal.id,
