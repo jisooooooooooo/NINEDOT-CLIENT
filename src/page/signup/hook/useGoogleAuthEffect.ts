@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 
-import GoogleLoginButton from './GoogleLoginButton';
-import getGoogleAuthCode from './util/getGoogleAuthCode';
-import getAccessToken from './util/getAccessToken';
+import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
+import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
 
-const Example = () => {
+export const useGoogleAuthEffect = () => {
   useEffect(() => {
     const getToken = async () => {
       const code = getGoogleAuthCode();
@@ -23,12 +22,4 @@ const Example = () => {
 
     getToken();
   }, []);
-
-  return (
-    <>
-      <GoogleLoginButton />
-    </>
-  );
 };
-
-export default Example;

@@ -5,6 +5,7 @@ import { PATH } from './path';
 import { Home, Todo, Mandal, History, SignUp, Edit } from '@/page';
 import { UpperGoal, LowerGoal } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
+import Intro from '@/page/intro/Intro';
 
 export const mainRoutes: RouteObject[] = [
   {
@@ -13,6 +14,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.ROOT,
         element: <Home />,
+      },
+      {
+        path: PATH.INTRO,
+        element: <Intro />,
       },
       {
         path: PATH.TODO,
