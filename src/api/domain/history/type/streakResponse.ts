@@ -8,3 +8,7 @@ export type Streak = {
   completedTodoCount: number;
   completedTodos: CompletedTodo[];
 };
+
+export type StreakResponse = {
+  streaks: Streak[];
+};
