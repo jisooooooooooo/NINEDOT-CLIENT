@@ -6,13 +6,14 @@ import { MANDALART_MOCK_DATA } from './mock';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import ModifyTextField from '@/common/component/ModifyTextField';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
-import type { SubGoal } from '@/page/mandal/types/mandal';
+import type { SubGoal, CoreGoal } from '@/page/mandal/types/mandal';
 
 type CycleType = '매일' | '매주' | '한 번';
 
-interface SubGoalWithCycle extends SubGoal {
+type SubGoalWithCycle = SubGoal & {
   cycle?: CycleType;
-}
+  subGoals: SubGoal[];
+};
 
 interface HoverContentProps {
   content: string;
@@ -26,7 +27,7 @@ const HoverContent = ({
   initialSubGoals = MANDALART_MOCK_DATA.subGoals,
 }: HoverContentProps) => {
   const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(
-    initialSubGoals.map((goal) => ({ ...goal, cycle: undefined })),
+    initialSubGoals.map((goal) => ({ ...goal, cycle: undefined, subGoals: [] })),
   );
 
   const handleTodoChange = (index: number, value: string) => {

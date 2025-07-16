@@ -7,7 +7,7 @@ import { HOVER_GUIDE_MESSAGES } from '../../constants';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
 import { useSubGoalIds } from '@/api/domain/edit/hook';
-import type { CoreGoal, SubGoal } from '@/page/mandal/types/mandal';
+import type { CoreGoal, SubGoal, MandalartResponse } from '@/page/mandal/types/mandal';
 
 interface ContentProps {
   isEditing: boolean;
@@ -19,10 +19,15 @@ const MANDAL_ID = 1;
 const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredGoal, setHoveredGoal] = useState<CoreGoal | null>(null);
-  const { data: mandalartData } = useMandalAll(MANDAL_ID);
-  const { data: subGoalIdsResponse } = useSubGoalIds(hoveredGoal?.id || 0, {
-    enabled: !!hoveredGoal,
-  });
+  const { data: mandalartData, isLoading: isMandalLoading } = useMandalAll(MANDAL_ID);
+  const { data: subGoalIdsResponse, isLoading: isSubGoalsLoading } = useSubGoalIds(
+    hoveredGoal?.id || 0,
+    {
+      enabled: !!hoveredGoal,
+    },
+  );
+
+  const isLoading = isMandalLoading || (hoveredGoal && isSubGoalsLoading);
 
   const handleMouseLeave = (e: React.MouseEvent) => {
     const relatedTarget = e.relatedTarget as HTMLElement;
@@ -31,19 +36,22 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
 
     if (!isMovingToHoverContent && !isMovingToMandalartContent) {
       setIsHovered(false);
-      setHoveredGoal(null);
+      if (!isEditing) {
+        setHoveredGoal(null);
+      }
     }
   };
 
   const handleGoalClick = (position: number) => {
-    if (!mandalartData) {
+    if (!mandalartData || isEditing) {
       return;
     }
 
-    const goal = mandalartData.coreGoals.find((g) => g.position === position);
+    const goal = mandalartData.coreGoals.find((g: CoreGoal) => g.position === position);
     if (goal) {
       setHoveredGoal(goal);
-      setIsHovered(true);
+      setIsHovered(false);
+      setIsEditing(true);
     }
   };
 
@@ -58,12 +66,11 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   );
 
   const renderEditContent = () => {
-    const subGoals: SubGoal[] =
-      subGoalIdsResponse?.data.subGoalIds.map(({ id, position }) => ({
-        id,
-        position,
-        title: '', // 실제 title은 별도의 API 호출로 가져와야 할 것 같습니다
-      })) || [];
+    if (isLoading) {
+      return <div className={styles.loadingContainer}>로딩중...</div>;
+    }
+
+    const subGoals: SubGoal[] = hoveredGoal?.subGoals || [];
 
     return (
       <HoverContent
@@ -81,19 +88,39 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const mainGoalData = mandalartData
     ? {
         title: mandalartData.title,
-        subGoals: mandalartData.coreGoals.map((goal) => ({
-          id: goal.id,
-          title: goal.title,
-          position: goal.position,
-        })),
+        subGoals: Array.from({ length: 8 }, (_, i) => i + 1).map((position) => {
+          const goalsWithPosition = mandalartData.coreGoals
+            .filter((goal: CoreGoal) => goal.position === position)
+            .sort((a: CoreGoal, b: CoreGoal) => b.id - a.id);
+
+          const latestGoal = goalsWithPosition[0];
+          return latestGoal
+            ? {
+                id: latestGoal.id,
+                title: latestGoal.title,
+                position: latestGoal.position,
+                subGoals: latestGoal.subGoals || [],
+              }
+            : {
+                id: 0,
+                title: '',
+                position,
+                subGoals: [],
+              };
+        }),
       }
     : undefined;
 
-  const renderTodoMain = () => (
-    <div className={styles.todoMainContainer}>
-      <Mandalart type="TODO_MAIN" data={mainGoalData} />
-    </div>
-  );
+  const renderTodoMain = () => {
+    if (isMandalLoading) {
+      return <div className={styles.loadingContainer}>로딩중...</div>;
+    }
+    return (
+      <div className={styles.todoMainContainer}>
+        <Mandalart type="TODO_MAIN" data={mainGoalData} />
+      </div>
+    );
+  };
 
   const renderContent = () => {
     if (!isHovered && !isEditing) {
@@ -111,9 +138,13 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         id="mandalartContent"
         onMouseEnter={() => !isEditing && setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => setIsEditing(!isEditing)}
+        onClick={() => !isEditing && setIsEditing(!isEditing)}
       >
-        <Mandalart type="TODO_EDIT" data={mainGoalData} onGoalClick={handleGoalClick} />
+        {isMandalLoading ? (
+          <div className={styles.loadingContainer}>로딩중...</div>
+        ) : (
+          <Mandalart type="TODO_EDIT" data={mainGoalData} onGoalClick={handleGoalClick} />
+        )}
       </div>
       <div id="hoverContent" onMouseLeave={handleMouseLeave}>
         {renderContent()}
