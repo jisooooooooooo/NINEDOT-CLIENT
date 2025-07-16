@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import { userData } from '@/page/signup/userData';
 import { validateField } from '@/common/component/SignupTextField/validation';
-import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
 import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 
 const PLACE_HOLDER = '직업을 선택하세요';
+const ETC_JOB_KEYWORD = '기타';
 
-export const useSignUpForm = (jobList: JobItem[]) => {
+export const useSignUpForm = () => {
   const [name, setName] = useState(userData.name);
   const [email, setEmail] = useState(userData.email);
   const [birth, setBirth] = useState('');
@@ -21,14 +21,14 @@ export const useSignUpForm = (jobList: JobItem[]) => {
   const isPlaceholder = (job: JobValue): job is typeof PLACE_HOLDER => job === PLACE_HOLDER;
 
   const isOtherJob = (job: JobValue): boolean =>
-    !isPlaceholder(job) && jobList.length > 0 && job.id === jobList[jobList.length - 1].id;
+    !isPlaceholder(job) && typeof job !== 'string' && job.job.includes(ETC_JOB_KEYWORD);
 
   const isOtherSelected = isOtherJob(selectedJob);
 
   const finalJob = isPlaceholder(selectedJob)
     ? ''
-    : isOtherSelected
-      ? inputJob.trim()
+    : typeof selectedJob === 'string'
+      ? ''
       : selectedJob.job;
 
   const isValid =

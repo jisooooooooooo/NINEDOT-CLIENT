@@ -9,10 +9,12 @@ type JobProps = {
 };
 
 const JobList = ({ jobList, selectedJob, onSelect }: JobProps) => {
+  const isPlaceHolder = typeof selectedJob === 'string';
+
   return (
     <div className={listContainer}>
       {jobList.map((job: JobItem) => {
-        const state = selectedJob === job ? 'selected' : 'default';
+        const state = !isPlaceHolder && selectedJob.id === job.id ? 'selected' : 'default';
 
         return (
           <button key={job.id} className={listItem} onClick={() => onSelect(job)}>
@@ -23,5 +25,4 @@ const JobList = ({ jobList, selectedJob, onSelect }: JobProps) => {
     </div>
   );
 };
-
 export default JobList;
