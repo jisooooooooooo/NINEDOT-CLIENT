@@ -8,25 +8,19 @@ import ModifyTextField from '@/common/component/ModifyTextField';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
 import type { SubGoal } from '@/page/mandal/types/mandal';
 
-interface EditedContent {
-  subGoal: string;
-  cycle: 'DAILY' | 'WEEKLY' | 'MONTHLY';
+type CycleType = '매일' | '매주' | '한 번';
+
+interface SubGoalWithCycle extends SubGoal {
+  cycle?: CycleType;
 }
 
 interface HoverContentProps {
-  isVisible: boolean;
-  content: EditedContent;
-  onChange: (type: keyof EditedContent, value: EditedContent[keyof EditedContent]) => void;
+  content: string;
+  onChange: (value: string) => void;
 }
 
-const HoverContent = ({ isVisible, content, onChange }: HoverContentProps) => {
-  const [subGoals, setSubGoals] = useState(MANDALART_MOCK_DATA.subGoals);
-
-  const handleSubGoalChange = (value: string) => {
-    if (value.length <= 96) {
-      onChange('subGoal', value);
-    }
-  };
+const HoverContent = ({ content, onChange }: HoverContentProps) => {
+  const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(MANDALART_MOCK_DATA.subGoals);
 
   const handleTodoChange = (index: number, value: string) => {
     if (value.length <= 96) {
@@ -36,24 +30,29 @@ const HoverContent = ({ isVisible, content, onChange }: HoverContentProps) => {
     }
   };
 
+  const handleCycleChange = (index: number, cycle: CycleType) => {
+    const newSubGoals = [...subGoals];
+    newSubGoals[index] = { ...newSubGoals[index], cycle };
+    setSubGoals(newSubGoals);
+  };
+
   return (
-    <div
-      className={styles.hoverContentContainer}
-      style={{ display: isVisible ? 'flex' : 'none' }}
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>
       <Mandalart type="TODO_SUB" data={{ ...MANDALART_MOCK_DATA, subGoals }} />
       <div className={styles.inputContainer}>
         <ModifyTextField
           variant="subGoal"
-          value={content.subGoal}
-          onChange={handleSubGoalChange}
+          value={content}
+          onChange={onChange}
           placeholder="수정할 목표를 입력해주세요."
         />
         <div className={styles.todoListContainer}>
-          {subGoals.map((subGoal: SubGoal, index: number) => (
+          {subGoals.map((subGoal, index) => (
             <div key={subGoal.id} className={styles.todoInputRow}>
-              <CycleDropDown />
+              <CycleDropDown
+                initialType={subGoal.cycle}
+                onChange={(cycle) => handleCycleChange(index, cycle)}
+              />
               <ModifyTextField
                 variant="todo"
                 value={subGoal.title}

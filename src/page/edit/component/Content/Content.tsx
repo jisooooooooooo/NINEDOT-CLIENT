@@ -6,11 +6,6 @@ import { HOVER_GUIDE_MESSAGES } from '../../constants';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 
-interface EditedContent {
-  subGoal: string;
-  cycle: 'DAILY' | 'WEEKLY' | 'MONTHLY';
-}
-
 interface ContentProps {
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
@@ -18,19 +13,16 @@ interface ContentProps {
 
 const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [editedContent, setEditedContent] = useState<EditedContent>({
-    subGoal: '',
-    cycle: 'DAILY',
-  });
+  const [subGoal, setSubGoal] = useState('');
 
-  const handleContentChange = (
-    type: keyof EditedContent,
-    value: EditedContent[keyof EditedContent],
-  ) => {
-    setEditedContent((prev: EditedContent) => ({
-      ...prev,
-      [type]: value,
-    }));
+  const handleMouseLeave = (e: React.MouseEvent) => {
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    const isMovingToHoverContent = relatedTarget?.closest('#hoverContent');
+    const isMovingToMandalartContent = relatedTarget?.closest('#mandalartContent');
+
+    if (!isMovingToHoverContent && !isMovingToMandalartContent) {
+      setIsHovered(false);
+    }
   };
 
   return (
@@ -38,25 +30,12 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       <div
         id="mandalartContent"
         onMouseEnter={() => !isEditing && setIsHovered(true)}
-        onMouseLeave={(e) => {
-          const relatedTarget = e.relatedTarget as HTMLElement;
-          if (!relatedTarget?.closest('#hoverContent')) {
-            setIsHovered(false);
-          }
-        }}
+        onMouseLeave={handleMouseLeave}
         onClick={() => setIsEditing(!isEditing)}
       >
         <Mandalart type="TODO_EDIT" />
       </div>
-      <div
-        id="hoverContent"
-        onMouseLeave={(e) => {
-          const relatedTarget = e.relatedTarget as HTMLElement;
-          if (!relatedTarget?.closest('#mandalartContent')) {
-            setIsHovered(false);
-          }
-        }}
-      >
+      <div id="hoverContent" onMouseLeave={handleMouseLeave}>
         {!isHovered && !isEditing ? (
           <div className={styles.hoverGuideContainer}>
             <p className={styles.hoverGuideText}>
@@ -66,7 +45,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
             </p>
           </div>
         ) : isEditing ? (
-          <HoverContent isVisible={true} content={editedContent} onChange={handleContentChange} />
+          <HoverContent content={subGoal} onChange={setSubGoal} />
         ) : (
           <div className={styles.todoMainContainer}>
             <Mandalart type="TODO_MAIN" />
