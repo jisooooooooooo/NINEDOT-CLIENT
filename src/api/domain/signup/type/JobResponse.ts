@@ -1,7 +1,4 @@
-export type JobItem = {
-  id: number;
-  job: string;
-};
+import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
 
 export type JobResponse = {
   jobList: JobItem[];
