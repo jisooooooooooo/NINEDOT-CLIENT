@@ -23,7 +23,7 @@ const EntireMandal = ({ coreGoals, mainTitle }: EntireMandalProps) => {
 
   const renderMandalart = (index: number) => {
     if (index === CENTER_INDEX) {
-      return <Mandalart key="main" type="TODO_SUB_COLORED" data={mainGoalData} />;
+      return <Mandalart key="main" type="TODO_SUB_COLORED" data={mainGoalData} isCenter />;
     }
 
     const adjustedIndex = index > CENTER_INDEX ? index - 1 : index;
