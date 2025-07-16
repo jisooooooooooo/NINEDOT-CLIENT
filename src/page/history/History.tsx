@@ -29,7 +29,7 @@ const History = () => {
         <h1 className={styles.titleContainer}>{data.title}</h1>
         <p className={styles.descriptionContainer}>
           @@님, 목표를 향해 <br />
-          {data.progressDays}일째 달려가고 있어요
+          <strong className={styles.progressText}>{data.progressDays}</strong>일째 달려가고 있어요
         </p>
         <section className={styles.streakTrackerWrapper}>
           <h3 className={styles.streakTitle}>{STREAK_BANNER_MESSAGE}</h3>

@@ -52,3 +52,9 @@ export const streakDescription = style({
   color: colors.grey6,
   ...fonts.subtitle04,
 });
+
+export const progressText = style({
+  marginRight: '0.2rem',
+  color: colors.grey11,
+  ...fonts.display05,
+});
