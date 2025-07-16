@@ -25,7 +25,6 @@ interface MandalartProps {
   type: MandalartType;
   data?: CoreGoal;
   onGoalClick?: (position: number) => void;
-  disableInteraction?: boolean;
   isCenter?: boolean;
   mainGoal?: string;
   subGoals?: SubGoal[];
@@ -38,7 +37,6 @@ const Mandalart = ({
   data,
   onGoalClick,
   isCenter = false,
-  disableInteraction,
   mainGoal,
   subGoals,
 }: MandalartProps) => {
@@ -68,14 +66,16 @@ const Mandalart = ({
       data?.subGoals?.[subGoalIndex] ||
       MOCK_MANDALART_DATA.subGoals[subGoalIndex];
 
+    const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
+
     return (
       <Sub
         key={index}
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        disableInteraction={disableInteraction}
         type={squareType}
+        disableInteraction={isEmptyGoal}
       />
     );
   };

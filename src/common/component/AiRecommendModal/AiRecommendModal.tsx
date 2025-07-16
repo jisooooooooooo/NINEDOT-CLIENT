@@ -24,6 +24,7 @@ const options = [
 
 const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
 
@@ -50,7 +51,6 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
           {options.map((option) => {
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
-
             const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
 
             return (

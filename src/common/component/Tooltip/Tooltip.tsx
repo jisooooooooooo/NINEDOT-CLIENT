@@ -6,7 +6,7 @@ import {
   triangleIcon,
 } from '@/common/component/Tooltip/Tooltip.css';
 
-const TOOLTIP_TEXT = '한 번만 도움받을 수 있어요';
+const TOOLTIP_TEXT = '각 목표별로 한 번만 도움받을 수 있어요';
 
 interface TooltipProps {
   className?: string;
