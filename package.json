@@ -24,6 +24,7 @@
     "@vanilla-extract/recipes": "^0.5.7",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
+    "lottie-react": "^2.4.1",
     "openapi-typescript": "^7.8.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
