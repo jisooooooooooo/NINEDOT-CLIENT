@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import * as styles from './HoverContent.css';
 import { MANDALART_MOCK_DATA } from './mock';
 
