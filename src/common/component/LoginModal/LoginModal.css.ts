@@ -5,10 +5,7 @@ import { zIndex } from '@/style/token';
 
 export const backdrop = style({
   position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
+  inset: '0',
   backgroundColor: 'rgba(2, 5, 11, 0.7)',
   backdropFilter: 'blur(5px)',
   display: 'flex',
