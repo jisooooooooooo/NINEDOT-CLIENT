@@ -124,7 +124,7 @@ export const checkMainContainer = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   height: '67.2rem',
-  padding: '2.6rem 5rem 2.6rem 2.6rem',
+  padding: '2.6rem 5rem 2.6rem',
   gap: '1rem',
   alignSelf: 'stretch',
 });
