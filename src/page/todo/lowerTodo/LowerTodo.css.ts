@@ -79,7 +79,9 @@ export const aiAssistBase = style({
 
 export const aiAssistTooltip = style({
   position: 'absolute',
-  top: '0',
+  bottom: 'calc(100% + 2.5rem)',
+  left: '50%',
+  transform: 'translateX(-50%)',
 });
 
 export const aiAssistButton = styleVariants({
