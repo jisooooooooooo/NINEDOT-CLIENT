@@ -19,15 +19,13 @@ const TodoBox = ({ type, items, onItemClick, className }: TodoBoxProps) => (
   </div>
 );
 
-const TodoItem = ({
-  item,
-  type,
-  onItemClick,
-}: {
+export type TodoItemProps = {
   item: TodoItemTypes;
   type: 'recommend' | 'todo';
   onItemClick?: (item: TodoItemTypes) => void;
-}) => {
+};
+
+const TodoItem = ({ item, type, onItemClick }: TodoItemProps) => {
   const handleClick = () => {
     onItemClick?.(item);
   };
