@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import { PATH } from './path';
 
 import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback } from '@/page';
-import { UpperTodo, LowerTodo } from '@/page/todo';
+import { UpperTodo, LowerTodo, MyTodo } from '@/page/todo';
 
 import { Layout } from '@/shared/component/Layout';
 import Intro from '@/page/intro/Intro';
@@ -35,6 +35,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.TODO_LOWER,
         element: <LowerTodo />,
+      },
+      {
+        path: PATH.TODO_MY,
+        element: <MyTodo />,
       },
       {
         path: PATH.MANDAL,

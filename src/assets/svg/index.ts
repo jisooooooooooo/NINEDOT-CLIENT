@@ -3,6 +3,8 @@ export { default as IcCheckboxChecked } from './IcCheckboxChecked';
 export { default as IcCheckboxDefault } from './IcCheckboxDefault';
 export { default as IcDivider } from './IcDivider';
 export { default as IcDropdown } from './IcDropdown';
+export { default as IcFilledcheckCheck } from './IcFilledcheckCheck';
+export { default as IcFilledcheckDefault } from './IcFilledcheckDefault';
 export { default as IcGoogleLogo } from './IcGoogleLogo';
 export { default as IcEssentialDot } from './IcEssentialDot';
 export { default as IcLock } from './IcLock';
