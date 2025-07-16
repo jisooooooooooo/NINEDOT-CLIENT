@@ -5,15 +5,15 @@ import { fonts, colors } from '@/style/token';
 
 export const cycleContainer = style({
   display: 'flex',
-  justifyContent: 'space-between',
   alignItems: 'center',
+  justifyContent: 'space-between',
   width: '10.6rem',
   height: '5.6rem',
   padding: '1.4rem 2rem',
   borderRadius: '8px',
   backgroundColor: colors.grey4,
   cursor: 'pointer',
-
+  position: 'relative',
   selectors: {
     '&:hover': {
       backgroundColor: colors.grey3,
@@ -65,4 +65,5 @@ export const dropdownIcon = recipe({
 
 export const cycleListContainer = style({
   position: 'relative',
+  overflow: 'visible',
 });
