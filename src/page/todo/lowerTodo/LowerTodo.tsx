@@ -11,18 +11,14 @@ import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
+import { DEFAULT_SUB_GOALS, EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
+import { isValidSubGoal } from './util';
 
 interface LowerTodoProps {
   userName?: string;
   mainGoal?: string;
   subGoals?: string[];
 }
-
-const DEFAULT_SUB_GOALS = ['행복하기', '다이어트', '', '', '부자되기', '', '', ''];
-const EMPTY_TODOS = Array(8)
-  .fill('')
-  .map(() => Array(8).fill(''));
-const EMPTY_BOOL_ARR = Array(8).fill(false);
 
 const truncateText = (text: string, cutLength: number = 23) => {
   if (!text) {
@@ -115,7 +111,7 @@ const LowerTodo = ({
                 <br />
                 <span className={styles.lowerTodoHeaderGoal}>
                   '
-                  {subGoals[selectedGoalIndex] && subGoals[selectedGoalIndex].trim() !== ''
+                  {isValidSubGoal(subGoals[selectedGoalIndex])
                     ? subGoals[selectedGoalIndex]
                     : '세부 목표를 선택해주세요'}
                   '
