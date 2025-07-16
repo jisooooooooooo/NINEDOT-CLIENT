@@ -126,7 +126,7 @@ export const subCell = {
           background: colors.grey2,
         },
         '&[data-completed="true"]': {
-          border: `0.4px solid ${colors.blue08}`,
+          border: `4px solid ${colors.blue08}`,
           background: colors.grey2,
         },
         '&[data-disabled="true"]': {

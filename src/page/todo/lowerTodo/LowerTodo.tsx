@@ -175,6 +175,7 @@ const LowerTodo = ({
                       position: idx,
                     })),
                   }}
+                  onGoalClick={setSelectedGoalIndex}
                 />
                 <TodoFields
                   values={todos}
