@@ -176,7 +176,6 @@ const LowerTodo = ({
                       position: idx,
                     })),
                   }}
-                  onGoalClick={() => {}}
                 />
                 <TodoFields
                   values={todos}
