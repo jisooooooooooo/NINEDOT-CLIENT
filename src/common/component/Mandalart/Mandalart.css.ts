@@ -28,4 +28,8 @@ export const grid = {
     ...baseGrid,
     gap: '1rem',
   }),
+  TODO_SUB_COLORED: style({
+    ...baseGrid,
+    gap: '0.5rem',
+  }),
 };

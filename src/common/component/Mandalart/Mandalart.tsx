@@ -13,7 +13,8 @@ export type MandalartType =
   | 'TODO_MAIN'
   | 'TODO_EDIT'
   | 'MY_MANDAL'
-  | 'MY_MANDAL_CENTER';
+  | 'MY_MANDAL_CENTER'
+  | 'TODO_SUB_COLORED';
 
 interface SubGoal {
   title: string;
