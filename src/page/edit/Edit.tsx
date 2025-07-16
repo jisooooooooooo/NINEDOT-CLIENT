@@ -8,17 +8,13 @@ import EditBtn from './component/EditBtn/EditBtn';
 const Edit = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleEditComplete = () => {
-    setIsEditing(false);
-  };
-
   return (
     <div className={styles.editContainer}>
       <div className={styles.contentWrapper}>
         <UxWriting />
         <Content isEditing={isEditing} setIsEditing={setIsEditing} />
         <div className={styles.editBtnWrapper}>
-          <EditBtn onClick={handleEditComplete} />
+          <EditBtn onClick={() => setIsEditing(false)} />
         </div>
       </div>
     </div>

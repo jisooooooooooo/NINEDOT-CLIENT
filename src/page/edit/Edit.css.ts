@@ -9,12 +9,8 @@ export const editContainer = style({
   marginTop: '2.8rem',
   position: 'relative',
   overflowX: 'hidden',
-  msOverflowStyle: 'none',
-  scrollbarWidth: 'none',
-  selectors: {
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
+  '::-webkit-scrollbar': {
+    display: 'none',
   },
 });
 
