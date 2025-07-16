@@ -1,27 +1,20 @@
-import { useGetStreak } from '@/api/domain/history/hook/useGetStreak';
 import { IcStreakerDot, IcStreakerDotDefault } from '@/assets/svg';
-import Loading from '@/common/component/Loading/Loading';
 import * as styles from '@/page/history/component/StreakGrid/StreakGrid.css';
+import type { Streak } from '@/page/history/type/StreakDataType';
 
 const TOTAL_DOTS = 66;
-const MANDALART_ID = 1;
 
 type StreakGridProps = {
+  streaks: Streak[];
   onHover: (day: number | null) => void;
   onSelect: (day: number) => void;
 };
 
-const StreakGrid = ({ onHover, onSelect }: StreakGridProps) => {
-  const { data, isLoading } = useGetStreak(MANDALART_ID);
-
-  if (isLoading || !data) {
-    return <Loading />;
-  }
-
+const StreakGrid = ({ streaks, onHover, onSelect }: StreakGridProps) => {
   const dots = Array.from({ length: TOTAL_DOTS }, (_, i) => {
     const day = i + 1;
 
-    const streak = data.streaks.find((s) => s.streakDay === day);
+    const streak = streaks.find((s) => s.streakDay === day);
     const isFilled = streak !== undefined && streak.completedTodoCount > 0;
 
     const DotIcon = isFilled ? IcStreakerDot : IcStreakerDotDefault;
