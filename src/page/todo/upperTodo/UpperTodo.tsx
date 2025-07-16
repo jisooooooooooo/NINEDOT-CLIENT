@@ -11,18 +11,24 @@ import GradientBackground from '@/common/component/Background/GradientBackground
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import { useGetMandalAll } from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
   userName?: string;
   mainGoal?: string;
 }
 
-const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: UpperTodoProps) => {
+const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
   const [subGoals, setSubGoals] = useState(Array(8).fill(''));
   const [isAiUsed, setIsAiUsed] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
+
+  const mandalartId = 1;
+  const { data } = useGetMandalAll(mandalartId);
+
+  const mainGoal = data?.title || '사용자가 작성한 대목표';
 
   useEffect(() => {
     const allFilled = subGoals.every((v) => v.trim() !== '');
