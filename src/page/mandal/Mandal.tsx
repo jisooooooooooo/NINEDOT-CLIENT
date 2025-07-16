@@ -19,11 +19,26 @@ const Mandal = () => {
     id: 0,
     position: 0,
     title: mandalartData.title,
-    subGoals: mandalartData.coreGoals.map((goal) => ({
-      id: goal.id,
-      title: goal.title,
-      position: goal.position,
-    })),
+    subGoals: Array.from({ length: 8 }, (_, i) => i + 1).map((position) => {
+      const goalsWithPosition = mandalartData.coreGoals
+        .filter((goal) => goal.position === position)
+        .sort((a, b) => b.id - a.id);
+
+      const latestGoal = goalsWithPosition[0];
+      return latestGoal
+        ? {
+            id: latestGoal.id,
+            title: latestGoal.title,
+            position: latestGoal.position,
+            subGoals: latestGoal.subGoals || [],
+          }
+        : {
+            id: 0,
+            title: '',
+            position,
+            subGoals: [],
+          };
+    }),
   };
 
   return (
