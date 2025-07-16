@@ -145,6 +145,7 @@ export const subGoalAndTodoSection = style({
   alignItems: 'flex-end',
   flex: 1,
   height: '100%',
+  gap: '1.9rem',
 });
 
 export const subGoalSection = style({
@@ -171,6 +172,7 @@ export const todoWritingSection = style({
   alignSelf: 'stretch',
   overflowY: 'auto',
   overflowX: 'visible',
+  paddingRight: '1.9rem',
 });
 
 export const todoFieldWrapper = style({

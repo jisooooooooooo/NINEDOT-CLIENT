@@ -29,9 +29,9 @@ const LowerTodo = ({
   const { openModal, ModalWrapper, closeModal } = useModal();
 
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(getFirstValidGoalIndex(subGoals));
-  const [allTodos, setAllTodos] = useState<string[][]>([...EMPTY_TODOS]);
-  const [aiUsedByGoal, setAiUsedByGoal] = useState<boolean[]>([...EMPTY_BOOL_ARR]);
-  const [tooltipOpenArr, setTooltipOpenArr] = useState<boolean[]>(Array(8).fill(true));
+  const [allTodos, setAllTodos] = useState([...EMPTY_TODOS]);
+  const [aiUsedByGoal, setAiUsedByGoal] = useState([...EMPTY_BOOL_ARR]);
+  const [tooltipOpenArr, setTooltipOpenArr] = useState(Array(8).fill(true));
 
   const todos = selectedGoalIndex === -1 ? Array(8).fill('') : allTodos[selectedGoalIndex];
 
@@ -55,6 +55,7 @@ const LowerTodo = ({
   const isCurrentGoalValid =
     selectedGoalIndex !== -1 && isValidSubGoal(subGoals[selectedGoalIndex]);
   const isAllCurrentTodosFilled = todos.every((todo) => todo.trim() !== '');
+  const shouldShowTooltip = isTooltipOpen && !isAllCurrentTodosFilled;
 
   const handleSubGoalClick = (position: number) => {
     if (!subGoals[position] || subGoals[position].trim() === '') {
@@ -99,117 +100,115 @@ const LowerTodo = ({
   };
 
   return (
-    <>
-      <main className={styles.lowerTodoContainer}>
-        <GradientBackground />
-        <section className={styles.lowerTodoBoxWrapper}>
-          <header className={styles.lowerTodoHeader}>
-            <div className={styles.lowerTodoHeaderLeft}>
-              <h1 className={styles.lowerTodoHeaderTitle}>
-                {userName}님,
-                <br />
-                <span className={styles.lowerTodoHeaderGoal}>
-                  '
-                  {isValidSubGoal(subGoals[selectedGoalIndex])
-                    ? subGoals[selectedGoalIndex]
-                    : '세부 목표를 선택해주세요'}
-                  '
-                </span>
-                에<br />
-                도움이 될 8가지 할 일을 작성해보세요.
-              </h1>
-            </div>
-            <div className={styles.aiAssistWrapper}>
-              {isTooltipOpen && !isAllCurrentTodosFilled && (
-                <Tooltip
-                  className={styles.aiAssistTooltip}
-                  isOpen={isTooltipOpen}
-                  onClose={handleTooltipClose}
-                />
-              )}
-              {!isAllCurrentTodosFilled && (
-                <button
-                  className={
-                    isCurrentGoalAiUsed
-                      ? styles.aiAssistButton.inactive
-                      : styles.aiAssistButton.active
-                  }
-                  type="button"
-                  aria-label="AI로 빈칸 채우기"
-                  onClick={handleOpenAiModal}
-                  disabled={isCurrentGoalAiUsed}
-                >
-                  AI로 빈칸 채우기
-                </button>
-              )}
-            </div>
-          </header>
-          <div className={styles.lowerTodoBox}>
-            <div className={styles.mainGoalSection}>
+    <main className={styles.lowerTodoContainer}>
+      <GradientBackground />
+      <section className={styles.lowerTodoBoxWrapper}>
+        <header className={styles.lowerTodoHeader}>
+          <div className={styles.lowerTodoHeaderLeft}>
+            <h1 className={styles.lowerTodoHeaderTitle}>
+              {userName}님,
+              <br />
+              <span className={styles.lowerTodoHeaderGoal}>
+                '
+                {isValidSubGoal(subGoals[selectedGoalIndex])
+                  ? subGoals[selectedGoalIndex]
+                  : '세부 목표를 선택해주세요'}
+                '
+              </span>
+              에<br />
+              도움이 될 8가지 할 일을 작성해보세요.
+            </h1>
+          </div>
+          <div className={styles.aiAssistWrapper}>
+            {shouldShowTooltip && (
+              <Tooltip
+                className={styles.aiAssistTooltip}
+                isOpen={isTooltipOpen}
+                onClose={handleTooltipClose}
+              />
+            )}
+            {!isAllCurrentTodosFilled && (
+              <button
+                className={
+                  isCurrentGoalAiUsed
+                    ? styles.aiAssistButton.inactive
+                    : styles.aiAssistButton.active
+                }
+                type="button"
+                aria-label="AI로 빈칸 채우기"
+                onClick={handleOpenAiModal}
+                disabled={isCurrentGoalAiUsed}
+              >
+                AI로 빈칸 채우기
+              </button>
+            )}
+          </div>
+        </header>
+        <div className={styles.lowerTodoBox}>
+          <div className={styles.mainGoalSection}>
+            <Mandalart
+              type="TODO_MAIN"
+              data={{
+                id: 0,
+                position: 0,
+                title: truncateText(mainGoal, 23),
+                subGoals: subGoals.map((subGoal, idx) => ({
+                  id: idx,
+                  title: truncateText(subGoal, 23),
+                  position: idx,
+                })),
+              }}
+              onGoalClick={handleSubGoalClick}
+            />
+          </div>
+          <div className={styles.subGoalAndTodoSection}>
+            <div className={styles.subGoalSection}>
               <Mandalart
-                type="TODO_MAIN"
+                type="TODO_SUB"
                 data={{
-                  id: 0,
-                  position: 0,
-                  title: truncateText(mainGoal, 23),
-                  subGoals: subGoals.map((subGoal, idx) => ({
+                  id: selectedGoalIndex,
+                  position: selectedGoalIndex,
+                  title: truncateText(subGoals[selectedGoalIndex] || '', 23),
+                  subGoals: todos.map((todo, idx) => ({
                     id: idx,
-                    title: truncateText(subGoal, 23),
+                    title: todo ? truncateText(todo, 23) : '',
                     position: idx,
                   })),
                 }}
-                onGoalClick={handleSubGoalClick}
+                onGoalClick={setSelectedGoalIndex}
+              />
+              <TodoFields
+                values={todos}
+                onChange={handleTodoChange}
+                disabled={!isCurrentGoalValid}
               />
             </div>
-            <div className={styles.subGoalAndTodoSection}>
-              <div className={styles.subGoalSection}>
-                <Mandalart
-                  type="TODO_SUB"
-                  data={{
-                    id: selectedGoalIndex,
-                    position: selectedGoalIndex,
-                    title: truncateText(subGoals[selectedGoalIndex] || '', 23),
-                    subGoals: todos.map((todo, idx) => ({
-                      id: idx,
-                      title: todo ? truncateText(todo, 23) : '',
-                      position: idx,
-                    })),
-                  }}
-                  onGoalClick={setSelectedGoalIndex}
-                />
-                <TodoFields
-                  values={todos}
-                  onChange={handleTodoChange}
-                  disabled={!isCurrentGoalValid}
-                />
-              </div>
-              <div className={styles.scrollerSection} />
-            </div>
+            <div className={styles.scrollerSection} />
           </div>
-          <button
-            className={styles.mandalCompleteBox}
-            type="button"
-            aria-label="만다라트 완성하기"
-            onClick={handleNavigateComplete}
-            disabled={!hasAnyTodos}
+        </div>
+        <button
+          className={styles.mandalCompleteBox}
+          type="button"
+          aria-label="만다라트 완성하기"
+          onClick={handleNavigateComplete}
+          disabled={!hasAnyTodos}
+        >
+          <span
+            className={
+              hasAnyTodos ? styles.mandalCompleteText.active : styles.mandalCompleteText.inactive
+            }
           >
-            <span
-              className={
-                hasAnyTodos ? styles.mandalCompleteText.active : styles.mandalCompleteText.inactive
-              }
-            >
-              만다라트를 완성했어요
-            </span>
-            <IcSmallNext
-              className={
-                hasAnyTodos ? styles.mandalCompleteIcon.active : styles.mandalCompleteIcon.inactive
-              }
-            />
-          </button>
-          {ModalWrapper}
-        </section>
-      </main>
-    </>
+            만다라트를 완성했어요
+          </span>
+          <IcSmallNext
+            className={
+              hasAnyTodos ? styles.mandalCompleteIcon.active : styles.mandalCompleteIcon.inactive
+            }
+          />
+        </button>
+        {ModalWrapper}
+      </section>
+    </main>
   );
 };
 
