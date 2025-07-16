@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/axiosInstance';
-import { END_POINT } from '@/api/constant/endPoint'; 
+import { END_POINT } from '@/api/constant/endPoint';
 import type { BaseResponse } from '@/type/api';
 import type { CreateOverallTodoRequest, CreateOverallTodoResponse } from '@/api/type/todo';
 

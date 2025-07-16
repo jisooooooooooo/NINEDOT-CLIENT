@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { FULL_TEXT, TYPING_DURATION, PLACEHOLDER_TEXT } from './constant/constants';
 import * as styles from './Todo.css';
+import { useCreateOverallTodo } from './hook/useCreateMandalart';
 
 import useTypingEffect from '@/common/hook/useTypingEffect';
 import GoButton from '@/common/component/GoButton/GoButton';
@@ -10,7 +11,6 @@ import GradientBackground from '@/common/component/Background/GradientBackground
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 import { PATH } from '@/route';
 import type { ErrorResponse } from '@/type/api';
-import { useCreateOverallTodo } from './hook/useCreateMandalart';
 
 const Todo = () => {
   const [inputText, setInputText] = useState('');
@@ -34,7 +34,7 @@ const Todo = () => {
             navigate(PATH.TODO_UPPER);
           },
           onError: (error: ErrorResponse) => {
-            console.error('만다라트 생성 실패:', error);
+            // console.error('만다라트 생성 실패:', error);
           },
         },
       );
