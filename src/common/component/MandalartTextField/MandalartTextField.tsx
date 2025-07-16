@@ -2,11 +2,10 @@ import { useReducer, useRef } from 'react';
 
 import type { TextFieldProps, TextFieldVariant } from './MandalartTextField.types';
 import * as styles from './MandalartTextField.css';
-import { DEFAULT_PLACEHOLDER } from './constant/constants';
+import { DEFAULT_PLACEHOLDER, BIG_GOAL_MAX_LENGTH } from './constant/constants';
 
 import IcTextdelete from '@/assets/svg/IcTextdelete';
 
-const BIG_GOAL_MAX_LENGTH = 30;
 type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
 
 type State = {
@@ -67,8 +66,15 @@ const getWrapperClass = (variant: TextFieldVariant, state: FieldState) => {
 const getClearButtonClass = (variant: TextFieldVariant) =>
   variant === 'bigGoal' ? styles.clearButton : styles.clearButtonSmall;
 
-const getMaxLength = (variant: TextFieldVariant, maxLength?: number) =>
-  maxLength ?? (variant === 'bigGoal' ? BIG_GOAL_MAX_LENGTH : undefined);
+const getMaxLength = (variant: TextFieldVariant, maxLength?: number) => {
+  if (variant === 'bigGoal') {
+    return maxLength ?? BIG_GOAL_MAX_LENGTH;
+  }
+  if (variant === 'subGoal') {
+    return 30;
+  }
+  return undefined;
+};
 
 const getPlaceholder = (variant: TextFieldVariant, placeholder?: string) =>
   placeholder ?? DEFAULT_PLACEHOLDER[variant];

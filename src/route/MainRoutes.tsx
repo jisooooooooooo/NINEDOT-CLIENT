@@ -3,8 +3,10 @@ import type { RouteObject } from 'react-router-dom';
 import { PATH } from './path';
 
 import { Home, Todo, Mandal, History, Edit, SignUp } from '@/page';
-import { LowerTodo } from '@/page/todo';
+import { UpperTodo, LowerTodo } from '@/page/todo';
+
 import { Layout } from '@/shared/component/Layout';
+import Intro from '@/page/intro/Intro';
 
 export const mainRoutes: RouteObject[] = [
   {
@@ -15,12 +17,16 @@ export const mainRoutes: RouteObject[] = [
         element: <Home />,
       },
       {
+        path: PATH.INTRO,
+        element: <Intro />,
+      },
+      {
         path: PATH.TODO,
         element: <Todo />,
       },
       {
         path: PATH.TODO_UPPER,
-        element: <div>상위 목표 페이지</div>,
+        element: <UpperTodo />,
       },
       {
         path: PATH.TODO_LOWER,

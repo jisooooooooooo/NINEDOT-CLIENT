@@ -1,11 +1,11 @@
 import * as styles from './Button.css';
 
-type MandalButtonProps = {
+type ButtonProps = {
   text: string;
   onClick?: () => void;
 };
 
-const MandalButton = ({ text, onClick }: MandalButtonProps) => {
+const Button = ({ text, onClick }: ButtonProps) => {
   return (
     <button className={styles.buttonContainer} onClick={onClick}>
       {text}
@@ -13,4 +13,4 @@ const MandalButton = ({ text, onClick }: MandalButtonProps) => {
   );
 };
 
-export default MandalButton;
+export default Button;

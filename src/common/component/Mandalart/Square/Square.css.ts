@@ -121,10 +121,6 @@ export const subCell = {
     {
       color: colors.grey8,
       background: colors.grey3,
-      cursor: 'pointer',
-      ':hover': {
-        background: colors.grey2,
-      },
       selectors: {
         '&:hover:not([data-disabled="true"])': {
           background: colors.grey2,

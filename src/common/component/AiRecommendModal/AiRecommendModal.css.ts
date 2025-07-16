@@ -1,8 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors } from '@/style/token/color.css';
-import { fonts } from '@/style/token/typography.css';
-import { zIndex } from '@/style/token';
+import { colors, fonts, zIndex } from '@/style/token';
 
 export const container = style({
   display: 'inline-flex',
