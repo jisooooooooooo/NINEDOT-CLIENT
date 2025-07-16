@@ -30,9 +30,22 @@ const HoverContent = ({
   position = 0,
   id = 0,
 }: HoverContentProps) => {
-  const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(
-    initialSubGoals.map((goal) => ({ ...goal, cycle: undefined, subGoals: [] })),
-  );
+  console.log('HoverContent props:', { content, onChange, initialSubGoals, position, id });
+
+  const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(() => {
+    const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
+      id: 0,
+      title: '',
+      position: index + 1,
+      cycle: undefined,
+      subGoals: [],
+    }));
+
+    return defaultSubGoals.map((defaultGoal) => {
+      const existingGoal = initialSubGoals.find((goal) => goal.position === defaultGoal.position);
+      return existingGoal ? { ...existingGoal, cycle: undefined, subGoals: [] } : defaultGoal;
+    });
+  });
 
   const handleTodoChange = (index: number, value: string) => {
     setSubGoals((prev) => prev.map((goal, i) => (i === index ? { ...goal, title: value } : goal)));
@@ -49,6 +62,8 @@ const HoverContent = ({
     subGoals: subGoals.map(({ id, title, position }) => ({ id, title, position })),
   };
 
+  console.log('Rendering ModifyTextField with:', { content, onChange });
+
   return (
     <section className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>
       <Mandalart type="TODO_SUB" data={coreGoalData} />
@@ -61,7 +76,7 @@ const HoverContent = ({
         />
         <ul className={styles.todoListContainer}>
           {subGoals.map((subGoal, index) => (
-            <li key={subGoal.id} className={styles.todoInputRow}>
+            <li key={`${subGoal.id}-${subGoal.position}`} className={styles.todoInputRow}>
               <CycleDropDown
                 initialType={subGoal.cycle}
                 onChange={(cycle) => handleCycleChange(index, cycle)}
@@ -70,7 +85,7 @@ const HoverContent = ({
                 variant="todo"
                 value={subGoal.title}
                 onChange={(value) => handleTodoChange(index, value)}
-                placeholder="수정할 목표를 입력해주세요."
+                placeholder={`${index + 1}번째 목표를 입력해주세요.`}
               />
             </li>
           ))}
