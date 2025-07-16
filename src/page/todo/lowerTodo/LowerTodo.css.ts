@@ -74,7 +74,11 @@ export const aiAssistBase = style({
   textAlign: 'center',
   alignSelf: 'flex-end',
   whiteSpace: 'nowrap',
-  ...fonts.body02,
+  fontFamily: 'Pretendard',
+  fontSize: fonts.body02.fontSize,
+  fontStyle: 'normal',
+  fontWeight: fonts.body02.fontWeight,
+  lineHeight: fonts.body02.lineHeight,
 });
 
 export const aiAssistTooltip = style({
@@ -100,6 +104,22 @@ export const aiAssistButton = styleVariants({
     },
   ],
 });
+
+export const btn_ai_write_inactivation = [
+  aiAssistBase,
+  {
+    cursor: 'not-allowed',
+    color: colors.grey11_10,
+    textAlign: 'center',
+    fontFamily: 'Pretendard',
+    fontSize: fonts.body02.fontSize,
+    fontStyle: 'normal',
+    fontWeight: fonts.body02.fontWeight,
+    lineHeight: fonts.body02.lineHeight,
+    background: colors.grey4,
+    opacity: 0.7,
+  },
+];
 
 export const lowerTodoBox = style({
   display: 'flex',
