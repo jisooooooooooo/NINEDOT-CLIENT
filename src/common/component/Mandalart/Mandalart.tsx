@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
-import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
 
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
@@ -56,29 +55,34 @@ const Mandalart = ({
       return (
         <Main
           key={index}
-          content={mainGoal || data?.title || mandalartData?.title || MOCK_MANDALART_DATA.mainGoal}
+          content={mainGoal || data?.title || mandalartData?.title || ''}
           type={squareType}
         />
       );
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
-    const subGoal =
-      subGoals?.[subGoalIndex] ||
+    const subGoal = subGoals?.[subGoalIndex] ||
       data?.subGoals?.[subGoalIndex] ||
-      mandalartData?.coreGoals?.[subGoalIndex]?.subGoals?.[0] ||
-      MOCK_MANDALART_DATA.subGoals[subGoalIndex];
+      mandalartData?.coreGoals?.[subGoalIndex]?.subGoals?.[0] || {
+        title: '',
+        id: 0,
+        position: indexToPosition(index),
+      };
 
     const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
+    const position = indexToPosition(index);
 
     return (
       <Sub
         key={index}
         content={subGoal.title}
-        isCompleted={selectedGoal === indexToPosition(index)}
+        isCompleted={selectedGoal === position}
         onClick={() => handleGoalClick(index, subGoal)}
         type={squareType}
         disableInteraction={isEmptyGoal}
+        position={position}
+        goalId={subGoal.id}
       />
     );
   };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as styles from './HoverContent.css';
 import { MANDALART_MOCK_DATA } from './mock';
@@ -48,6 +48,25 @@ const HoverContent = ({
         : defaultGoal;
     });
   });
+
+  useEffect(() => {
+    const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
+      id: 0,
+      title: '',
+      position: index + 1,
+      cycle: 'DAILY' as const,
+      subGoals: [],
+    }));
+
+    setSubGoals(
+      defaultSubGoals.map((defaultGoal) => {
+        const existingGoal = initialSubGoals.find((goal) => goal.position === defaultGoal.position);
+        return existingGoal
+          ? { ...existingGoal, cycle: existingGoal.cycle || ('DAILY' as const), subGoals: [] }
+          : defaultGoal;
+      }),
+    );
+  }, [initialSubGoals]);
 
   const handleTodoChange = (index: number, value: string) => {
     setSubGoals((prev) => {
