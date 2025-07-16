@@ -4,13 +4,14 @@ import type { Streak } from '@/page/history/type/StreakDataType';
 const DEFAULT_MESSAGE = '원하는 날의 점을 클릭하고 <br/> 그날 내가 한 일을 확인해보세요!';
 
 type StreakDetailProps = {
-  detailData?: Streak | null;
+  detailData?: Streak;
 };
 
 const StreakDetail = ({ detailData }: StreakDetailProps) => {
-  const state = !detailData ? 'empty' : 'filled';
+  const isEmpty = !detailData || detailData.completedTodoCount === 0;
+  const state = isEmpty ? 'empty' : 'filled';
 
-  if (!detailData) {
+  if (isEmpty) {
     return (
       <div className={styles.detailContainer({ state })}>
         <p className={styles.defaultText} dangerouslySetInnerHTML={{ __html: DEFAULT_MESSAGE }} />
