@@ -1,16 +1,17 @@
 import { listContainer, listItem, listText } from '@/page/signup/component/JobDropDown/JobList.css';
-import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/constants/job';
+import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
+import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 
 type JobProps = {
-  jobList: JobType[];
+  jobList: JobItem[];
   selectedJob: JobValue;
-  onSelect: (type: JobType) => void;
+  onSelect: (type: JobItem) => void;
 };
 
 const JobList = ({ jobList, selectedJob, onSelect }: JobProps) => {
   return (
     <div className={listContainer}>
-      {jobList.map((job: JobType) => {
+      {jobList.map((job: JobItem) => {
         const state = selectedJob === job ? 'selected' : 'default';
 
         return (

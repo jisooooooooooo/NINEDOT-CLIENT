@@ -8,11 +8,3 @@ export const JOB_LIST = [
   { id: 7, job: '운동선수' },
   { id: 8, job: '기타 (직접 작성)' },
 ];
-
-export const PLACE_HOLDER = '직업을 선택하세요' as const;
-
-export type JobType = {
-  id: number;
-  job: string;
-};
-export type JobValue = JobType | typeof PLACE_HOLDER;

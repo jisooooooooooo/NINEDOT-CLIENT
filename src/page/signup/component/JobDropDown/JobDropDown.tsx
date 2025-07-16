@@ -3,9 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { IcDropdown } from '@/assets/svg';
 import * as styles from '@/page/signup/component/JobDropDown/JobDropDown.css';
 import JobList from '@/page/signup/component/JobDropDown/JobList';
-import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
-import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import SignupTextField from '@/common/component/SignupTextField';
+import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
 
 type JobDropDownProps = {
   id: string;
@@ -28,7 +27,7 @@ const JobDropDown = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const handleJob = (job: JobType) => {
+  const handleJob = (job: JobItem) => {
     setSelectedJob(job);
     setIsOpen(false);
   };
