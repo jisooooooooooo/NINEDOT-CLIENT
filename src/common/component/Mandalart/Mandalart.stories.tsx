@@ -35,6 +35,7 @@ export const Default: Story = {
   args: {
     type: 'TODO_MAIN',
     data: mockCoreGoal,
+    mainGoal: MOCK_MANDALART_DATA.mainGoal,
   },
 };
 
@@ -42,6 +43,7 @@ export const AllTypes: Story = {
   args: {
     type: 'TODO_MAIN',
     data: mockCoreGoal,
+    mainGoal: MOCK_MANDALART_DATA.mainGoal,
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
