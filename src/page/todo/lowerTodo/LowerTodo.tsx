@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as styles from './LowerTodo.css';
 import TodoFields from './component/TodoFields';
-import { DEFAULT_SUB_GOALS, EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
+import { EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
 import { isValidSubGoal, truncateText, getFirstValidGoalIndex } from './util';
 
 import { PATH } from '@/route';
@@ -13,37 +13,51 @@ import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
+import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
 
 interface LowerTodoProps {
   userName?: string;
   mainGoal?: string;
-  subGoals?: string[];
 }
 
-const LowerTodo = ({
-  userName = '@@',
-  mainGoal = '사용자가 작성한 대목표',
-  subGoals = DEFAULT_SUB_GOALS,
-}: LowerTodoProps) => {
+const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: LowerTodoProps) => {
   const navigate = useNavigate();
   const { openModal, ModalWrapper, closeModal } = useModal();
 
-  const [selectedGoalIndex, setSelectedGoalIndex] = useState(getFirstValidGoalIndex(subGoals));
+  const [selectedGoalIndex, setSelectedGoalIndex] = useState(-1);
   const [allTodos, setAllTodos] = useState([...EMPTY_TODOS]);
   const [aiUsedByGoal, setAiUsedByGoal] = useState([...EMPTY_BOOL_ARR]);
   const [tooltipOpenArr, setTooltipOpenArr] = useState(Array(8).fill(true));
 
+  const mandalartId = 1;
+  const { data: coreGoalsData } = useCoreGoals(mandalartId);
+
+  useEffect(() => {
+    if (coreGoalsData && coreGoalsData.data.coreGoals.length > 0) {
+      const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
+      setSelectedGoalIndex(getFirstValidGoalIndex(subGoals));
+    }
+  }, [coreGoalsData]);
+
+  useEffect(() => {
+    if (coreGoalsData && selectedGoalIndex !== -1) {
+      const todos = allTodos[selectedGoalIndex];
+      if (todos && todos.every((todo) => todo.trim() !== '')) {
+        setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
+      }
+    }
+  }, [coreGoalsData, allTodos, selectedGoalIndex]);
+
+  if (!coreGoalsData) {
+    return null;
+  }
+
+  const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
   const todos = selectedGoalIndex === -1 ? Array(8).fill('') : allTodos[selectedGoalIndex];
 
   const updateTooltipState = (index: number, value: boolean) => {
     setTooltipOpenArr((arr) => arr.map((v, i) => (i === index ? value : v)));
   };
-
-  useEffect(() => {
-    if (selectedGoalIndex !== -1 && todos.every((todo) => todo.trim() !== '')) {
-      updateTooltipState(selectedGoalIndex, false);
-    }
-  }, [todos, selectedGoalIndex]);
 
   const isTooltipOpen = selectedGoalIndex !== -1 ? tooltipOpenArr[selectedGoalIndex] : false;
   const handleTooltipClose = () => {
