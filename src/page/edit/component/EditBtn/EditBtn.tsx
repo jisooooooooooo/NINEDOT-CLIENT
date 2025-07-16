@@ -8,12 +8,12 @@ interface EditBtnProps {
 
 const EditBtn = ({ onClick }: EditBtnProps) => {
   return (
-    <div className={styles.editBtnContainer} onClick={onClick}>
+    <button className={styles.editBtnContainer} onClick={onClick}>
       <p className={styles.editBtnText}>수정 완료했어요</p>
       <div className={styles.iconWrapper}>
         <IcSmallNext />
       </div>
-    </div>
+    </button>
   );
 };
 export default EditBtn;

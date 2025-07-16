@@ -23,15 +23,11 @@ const HoverContent = ({ content, onChange }: HoverContentProps) => {
   const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(MANDALART_MOCK_DATA.subGoals);
 
   const handleTodoChange = (index: number, value: string) => {
-    const newSubGoals = [...subGoals];
-    newSubGoals[index] = { ...newSubGoals[index], title: value };
-    setSubGoals(newSubGoals);
+    setSubGoals((prev) => prev.map((goal, i) => (i === index ? { ...goal, title: value } : goal)));
   };
 
   const handleCycleChange = (index: number, cycle: CycleType) => {
-    const newSubGoals = [...subGoals];
-    newSubGoals[index] = { ...newSubGoals[index], cycle };
-    setSubGoals(newSubGoals);
+    setSubGoals((prev) => prev.map((goal, i) => (i === index ? { ...goal, cycle } : goal)));
   };
 
   return (

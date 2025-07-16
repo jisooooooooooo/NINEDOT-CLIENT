@@ -25,6 +25,34 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     }
   };
 
+  const renderHoverGuide = () => (
+    <div className={styles.hoverGuideContainer}>
+      <p className={styles.hoverGuideText}>
+        {HOVER_GUIDE_MESSAGES.DESCRIPTION[0]}
+        <br />
+        {HOVER_GUIDE_MESSAGES.DESCRIPTION[1]}
+      </p>
+    </div>
+  );
+
+  const renderEditContent = () => <HoverContent content={subGoal} onChange={setSubGoal} />;
+
+  const renderTodoMain = () => (
+    <div className={styles.todoMainContainer}>
+      <Mandalart type="TODO_MAIN" />
+    </div>
+  );
+
+  const renderContent = () => {
+    if (!isHovered && !isEditing) {
+      return renderHoverGuide();
+    }
+    if (isEditing) {
+      return renderEditContent();
+    }
+    return renderTodoMain();
+  };
+
   return (
     <div className={styles.contentContainer}>
       <div
@@ -36,21 +64,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         <Mandalart type="TODO_EDIT" />
       </div>
       <div id="hoverContent" onMouseLeave={handleMouseLeave}>
-        {!isHovered && !isEditing ? (
-          <div className={styles.hoverGuideContainer}>
-            <p className={styles.hoverGuideText}>
-              {HOVER_GUIDE_MESSAGES.DESCRIPTION[0]}
-              <br />
-              {HOVER_GUIDE_MESSAGES.DESCRIPTION[1]}
-            </p>
-          </div>
-        ) : isEditing ? (
-          <HoverContent content={subGoal} onChange={setSubGoal} />
-        ) : (
-          <div className={styles.todoMainContainer}>
-            <Mandalart type="TODO_MAIN" />
-          </div>
-        )}
+        {renderContent()}
       </div>
     </div>
   );
