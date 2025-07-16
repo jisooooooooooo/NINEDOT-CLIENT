@@ -1,26 +1,34 @@
+import { useNavigate } from 'react-router-dom';
+
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
 import SurveySection from '@/page/signup/SurveySection/SurveySection';
 import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
 import * as styles from '@/page/signup/SignUp.css';
 import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
+import { PATH } from '@/route';
+import { useGoogleAuthEffect } from '@/page/signup/hook/useGoogleAuthEffect';
 
 const SIGNUP_MESSAGE = '회원가입 후 NiNE DOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
 const PERSONAL_INFO_AGREEMENT = '(필수) 개인정보 수집 및 이용약관 동의';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const { formState, actions, computed } = useSignUpForm();
 
   const { name, email, birth, selectedJob, inputJob, isChecked } = formState;
   const { setName, setEmail, setBirth, setSelectedJob, setInputJob, setIsChecked } = actions;
-  const { isValid, finalJob } = computed;
+  const { isValid } = computed;
 
   const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
 
   const handleSignUp = () => {
-    console.log({ name, email, birth, job: finalJob });
+    navigate(PATH.INTRO);
   };
+
+  const data = useGoogleAuthEffect();
+  console.log(data);
 
   return (
     <main className={styles.mainContainer}>

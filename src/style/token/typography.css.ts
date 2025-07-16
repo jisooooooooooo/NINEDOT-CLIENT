@@ -26,7 +26,7 @@ export const fonts = {
   },
   title02: {
     fontSize: '2.8rem',
-    fontWeight: '300',
+    fontWeight: '400',
     lineHeight: '140%',
   },
   title03: {
