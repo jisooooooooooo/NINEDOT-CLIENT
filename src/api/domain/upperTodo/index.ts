@@ -3,7 +3,7 @@ import { END_POINT } from '@/api/constant/endPoint';
 import type { BaseResponse } from '@/type/api';
 
 export type CoreGoalIdPosition = {
-  coreGoalId: number;
+  id: number;
   position: number;
 };
 
@@ -15,10 +15,10 @@ export const getMandalAll = async (mandalartId: number) => {
 };
 
 export const getCoreGoalIdPositions = async (mandalartId: number) => {
-  const res = await axiosInstance.get<BaseResponse<CoreGoalIdPosition[]>>(
+  const res = await axiosInstance.get<BaseResponse<{ coreGoalIds: CoreGoalIdPosition[] }>>( // 응답 구조 변경
     `/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}/id-positions`,
   );
-  return res.data;
+  return res.data.data;
 };
 
 export const postOnboardingCoreGoal = async (
@@ -28,6 +28,20 @@ export const postOnboardingCoreGoal = async (
   const response = await axiosInstance.post<BaseResponse<{ id: number }>>(
     `${END_POINT.ONBOARDING}/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}`,
     { title, position },
+  );
+  return response.data.data;
+};
+
+export const patchOnboardingCoreGoal = async ({
+  coreGoalId,
+  title,
+}: {
+  coreGoalId: number;
+  title: string;
+}) => {
+  const response = await axiosInstance.patch<BaseResponse<{ id: number }>>(
+    `/${END_POINT.ONBOARDING}/${END_POINT.CORE_GOAL}/${coreGoalId}`,
+    { title },
   );
   return response.data.data;
 };

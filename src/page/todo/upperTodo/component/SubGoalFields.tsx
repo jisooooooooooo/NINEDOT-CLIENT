@@ -17,8 +17,8 @@ const ORDER_LABELS = [
 interface SubGoalFieldsProps {
   values: string[];
   onChange: (values: string[]) => void;
-  idPositions?: { coreGoalId: number; position: number }[];
-  onEnter?: (index: number, value: string) => void;
+  idPositions?: { id: number; position: number }[];
+  onEnter?: (index: number, value: string, coreGoalId?: number) => void;
 }
 
 const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFieldsProps) => {
@@ -39,11 +39,11 @@ const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFields
           value={value}
           onChange={(val) => handleChange(index, val)}
           placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
-          data-id={idPositions?.[index]?.coreGoalId?.toString()}
+          data-id={idPositions?.[index]?.id?.toString()}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && onEnter) {
               e.preventDefault();
-              onEnter(index, e.currentTarget.value);
+              onEnter(index, e.currentTarget.value, idPositions?.[index]?.id);
             }
           }}
         />

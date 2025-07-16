@@ -1,6 +1,11 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-import { getMandalAll, getCoreGoalIdPositions, postOnboardingCoreGoal } from './index';
+import {
+  getMandalAll,
+  getCoreGoalIdPositions,
+  postOnboardingCoreGoal,
+  patchOnboardingCoreGoal,
+} from './index';
 
 import { QUERY_KEY } from '@/api/constant/queryKey';
 
@@ -31,5 +36,12 @@ export const usePostOnboardingCoreGoal = () => {
       title: string;
       position: number;
     }) => postOnboardingCoreGoal(mandalartId, { title, position }),
+  });
+};
+
+export const usePatchOnboardingCoreGoal = () => {
+  return useMutation({
+    mutationKey: QUERY_KEY.PATCH_ONBOARDING_CORE_GOAL,
+    mutationFn: (params: { coreGoalId: number; title: string }) => patchOnboardingCoreGoal(params),
   });
 };

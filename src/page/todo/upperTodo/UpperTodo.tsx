@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ import {
   useGetMandalAll,
   useGetCoreGoalIdPositions,
   usePostOnboardingCoreGoal,
+  usePatchOnboardingCoreGoal,
 } from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
@@ -33,17 +34,35 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
   const { data } = useGetMandalAll(mandalartId);
   const { data: coreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
 
-  const { mutateAsync } = usePostOnboardingCoreGoal();
+  const coreGoalIdMap = useMemo(() => {
+    const map: Record<number, number> = {};
+    if (coreGoalIds?.coreGoalIds && Array.isArray(coreGoalIds.coreGoalIds)) {
+      coreGoalIds.coreGoalIds.forEach(({ id, position }) => {
+        map[position] = id;
+      });
+    }
+    return map;
+  }, [coreGoalIds]);
+
+  const postMutation = usePostOnboardingCoreGoal();
+  const patchMutation = usePatchOnboardingCoreGoal();
 
   const handleSubGoalEnter = async (index: number, value: string) => {
     if (!value.trim()) {
       return;
     }
 
+    const position = index + 1;
+    const coreGoalId = coreGoalIdMap[position];
+
     try {
-      await mutateAsync({ mandalartId, title: value, position: index + 1 });
+      if (coreGoalId) {
+        await patchMutation.mutateAsync({ coreGoalId, title: value });
+      } else {
+        await postMutation.mutateAsync({ mandalartId, title: value, position });
+      }
     } catch (error) {
-      console.error('상위 목표 생성 실패:', error);
+      console.error('상위 목표 저장 실패:', error);
     }
   };
 
@@ -130,7 +149,7 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
           <SubGoalFields
             values={subGoals}
             onChange={setSubGoals}
-            idPositions={coreGoalIds?.data}
+            idPositions={coreGoalIds?.coreGoalIds || []}
             onEnter={handleSubGoalEnter}
           />
         </div>
