@@ -25,7 +25,6 @@ interface MandalartProps {
   type: MandalartType;
   data?: CoreGoal;
   onGoalClick?: (position: number) => void;
-  disableInteraction?: boolean;
   isCenter?: boolean;
   mainGoal?: string;
   subGoals?: SubGoal[];
@@ -38,7 +37,6 @@ const Mandalart = ({
   data,
   onGoalClick,
   isCenter = false,
-  disableInteraction,
   mainGoal,
   subGoals,
 }: MandalartProps) => {
@@ -76,7 +74,6 @@ const Mandalart = ({
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        disableInteraction={disableInteraction}
         type={squareType}
         disableInteraction={isEmptyGoal}
       />
