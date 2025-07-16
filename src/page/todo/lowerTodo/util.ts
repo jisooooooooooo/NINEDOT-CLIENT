@@ -1,8 +1,10 @@
+import { TRUNCATE_TEXT_LENGTH } from './mock';
+
 export function isValidSubGoal(subGoal?: string) {
   return Boolean(subGoal && subGoal.trim() !== '');
 }
 
-export function truncateText(text: string, cutLength: number = 23) {
+export function truncateText(text: string, cutLength: number = TRUNCATE_TEXT_LENGTH) {
   if (!text) {
     return '';
   }

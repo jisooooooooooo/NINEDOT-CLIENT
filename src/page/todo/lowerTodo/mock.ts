@@ -4,4 +4,6 @@ export const EMPTY_TODOS = Array(8)
   .fill('')
   .map(() => Array(8).fill(''));
 
-export const EMPTY_BOOL_ARR = Array(8).fill(false); 
+export const EMPTY_BOOL_ARR = Array(8).fill(false);
+
+export const TRUNCATE_TEXT_LENGTH = 23; 
