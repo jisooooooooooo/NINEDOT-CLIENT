@@ -4,6 +4,7 @@ import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
+import { useMandalAll } from '@/api/domain/mandalAll/hook';
 
 import type { CoreGoal, MainGoal } from '@/page/mandal/types/mandal';
 
@@ -46,6 +47,7 @@ const Mandalart = ({
   subGoals,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
+  const { data: mandalartData } = useMandalAll(1);
 
   const handleGoalClick = (index: number) => {
     const position = indexToPosition(index);
@@ -60,7 +62,7 @@ const Mandalart = ({
       return (
         <Main
           key={index}
-          content={mainGoal || data?.title || MOCK_MANDALART_DATA.mainGoal}
+          content={mainGoal || data?.title || mandalartData?.title || MOCK_MANDALART_DATA.mainGoal}
           type={squareType}
         />
       );
@@ -70,6 +72,7 @@ const Mandalart = ({
     const subGoal =
       subGoals?.[subGoalIndex] ||
       data?.subGoals?.[subGoalIndex] ||
+      mandalartData?.coreGoals?.[subGoalIndex]?.subGoals?.[0] ||
       MOCK_MANDALART_DATA.subGoals[subGoalIndex];
 
     const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
