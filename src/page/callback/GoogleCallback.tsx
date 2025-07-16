@@ -13,6 +13,8 @@ const GoogleCallback = () => {
       navigate(PATH.SIGNUP);
     }
   }, [userData, navigate]);
+
+  return null;
 };
 
 export default GoogleCallback;
