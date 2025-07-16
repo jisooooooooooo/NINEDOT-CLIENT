@@ -1,18 +1,10 @@
-export type ApiSuccessResponse<T> = {
+export type BaseResponse<T> = {
   code: number;
   message: string;
   data: T;
-  meta?: {
-    path?: string;
-    timestamp?: number;
-  };
 };
 
-export type ApiErrorResponse = {
+export type ErrorResponse = {
   code: number;
   message: string;
-  meta: {
-    path: string;
-    timestamp: number;
-  };
 };

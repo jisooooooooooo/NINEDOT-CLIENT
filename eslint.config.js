@@ -11,7 +11,6 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginImport from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
-import regexpPlugin from 'eslint-plugin-regexp';
 
 export default tseslint.config(
   {
@@ -28,7 +27,6 @@ export default tseslint.config(
       import: eslintPluginImport,
       prettier: prettierPlugin,
       'jsx-a11y': jsxA11y,
-      regexp: regexpPlugin,
       '@typescript-eslint': tseslint.plugin,
     },
     settings: {
