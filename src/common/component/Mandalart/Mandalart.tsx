@@ -6,7 +6,6 @@ import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
 
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
-
 import type { CoreGoal, MainGoal, SubGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';

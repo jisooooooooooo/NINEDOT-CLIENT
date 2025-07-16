@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as styles from './Content.css';
 import HoverContent from '../HoverContent/HoverContent';
@@ -6,7 +6,7 @@ import { HOVER_GUIDE_MESSAGES } from '../../constants';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
-import { useSubGoalIds } from '@/api/domain/edit/hook';
+import { useSubGoalIds, useUpdateCoreGoal } from '@/api/domain/edit/hook';
 import type { CoreGoal, SubGoal, MandalartResponse } from '@/page/mandal/types/mandal';
 
 interface ContentProps {
@@ -19,6 +19,7 @@ const MANDAL_ID = 1;
 const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredGoal, setHoveredGoal] = useState<CoreGoal | null>(null);
+
   const { data: mandalartData, isLoading: isMandalLoading } = useMandalAll(MANDAL_ID);
   const { data: subGoalIdsResponse, isLoading: isSubGoalsLoading } = useSubGoalIds(
     hoveredGoal?.id || 0,
@@ -26,8 +27,35 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       enabled: !!hoveredGoal,
     },
   );
+  const { mutate: updateGoal } = useUpdateCoreGoal(MANDAL_ID);
 
   const isLoading = isMandalLoading || (hoveredGoal && isSubGoalsLoading);
+
+  const handleSave = () => {
+    if (hoveredGoal) {
+      const requestData = {
+        coreGoal: {
+          position: hoveredGoal.position,
+          title: hoveredGoal.title,
+        },
+        subGoals: hoveredGoal.subGoals.map((subGoal) => ({
+          position: subGoal.position,
+          title: subGoal.title,
+          cycle: subGoal.cycle || 'DAILY',
+        })),
+      };
+
+      updateGoal(requestData);
+      setIsEditing(false);
+      setHoveredGoal(null);
+    }
+  };
+
+  useEffect(() => {
+    if (!isEditing && hoveredGoal) {
+      handleSave();
+    }
+  }, [isEditing]);
 
   const handleMouseLeave = (e: React.MouseEvent) => {
     const relatedTarget = e.relatedTarget as HTMLElement;
@@ -72,24 +100,49 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     ? {
         title: mandalartData.title,
         subGoals: Array.from({ length: 8 }, (_, i) => i + 1).map((position) => {
-          const goalsWithPosition = mandalartData.coreGoals
+          const latestGoal = mandalartData.coreGoals
             .filter((goal: CoreGoal) => goal.position === position)
-            .sort((a: CoreGoal, b: CoreGoal) => b.id - a.id);
+            .reduce(
+              (latest, current) => {
+                return !latest || current.id > latest.id ? current : latest;
+              },
+              null as CoreGoal | null,
+            );
 
-          const latestGoal = goalsWithPosition[0];
-          return latestGoal
-            ? {
-                id: latestGoal.id,
-                title: latestGoal.title,
-                position: latestGoal.position,
-                subGoals: latestGoal.subGoals,
-              }
-            : {
+          if (!latestGoal) {
+            return {
+              id: 0,
+              title: '',
+              position,
+              subGoals: [],
+            };
+          }
+
+          const uniqueSubGoals = Array.from({ length: 8 }, (_, i) => i + 1).map((subPosition) => {
+            const latestSubGoal = latestGoal.subGoals
+              ?.filter((subGoal) => subGoal.position === subPosition)
+              .reduce(
+                (latest, current) => {
+                  return !latest || current.id > latest.id ? current : latest;
+                },
+                null as SubGoal | null,
+              );
+
+            return (
+              latestSubGoal || {
                 id: 0,
                 title: '',
-                position,
-                subGoals: [],
-              };
+                position: subPosition,
+              }
+            );
+          });
+
+          return {
+            id: latestGoal.id,
+            title: latestGoal.title,
+            position: latestGoal.position,
+            subGoals: uniqueSubGoals,
+          };
         }),
       }
     : undefined;
@@ -99,7 +152,6 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       return <div className={styles.loadingContainer}>로딩중...</div>;
     }
 
-    // API에서 받은 subGoals 그대로 사용
     const subGoals: SubGoal[] = hoveredGoal?.subGoals || [];
 
     return (
@@ -113,6 +165,11 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         initialSubGoals={subGoals}
         position={hoveredGoal?.position || 0}
         id={hoveredGoal?.id || 0}
+        onSubGoalsChange={(newSubGoals) => {
+          if (hoveredGoal) {
+            setHoveredGoal({ ...hoveredGoal, subGoals: newSubGoals });
+          }
+        }}
       />
     );
   };

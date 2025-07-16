@@ -8,7 +8,7 @@ import ModifyTextField from '@/common/component/ModifyTextField';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
 import type { SubGoal, CoreGoal } from '@/page/mandal/types/mandal';
 
-type CycleType = '매일' | '매주' | '한 번';
+type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
 
 type SubGoalWithCycle = SubGoal & {
   cycle?: CycleType;
@@ -21,6 +21,7 @@ interface HoverContentProps {
   initialSubGoals?: SubGoal[];
   position?: number;
   id?: number;
+  onSubGoalsChange?: (subGoals: SubGoal[]) => void;
 }
 
 const HoverContent = ({
@@ -29,30 +30,39 @@ const HoverContent = ({
   initialSubGoals = MANDALART_MOCK_DATA.subGoals,
   position = 0,
   id = 0,
+  onSubGoalsChange,
 }: HoverContentProps) => {
-  console.log('HoverContent props:', { content, onChange, initialSubGoals, position, id });
-
   const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(() => {
     const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
       id: 0,
       title: '',
       position: index + 1,
-      cycle: undefined,
+      cycle: 'DAILY' as const,
       subGoals: [],
     }));
 
     return defaultSubGoals.map((defaultGoal) => {
       const existingGoal = initialSubGoals.find((goal) => goal.position === defaultGoal.position);
-      return existingGoal ? { ...existingGoal, cycle: undefined, subGoals: [] } : defaultGoal;
+      return existingGoal
+        ? { ...existingGoal, cycle: existingGoal.cycle || ('DAILY' as const), subGoals: [] }
+        : defaultGoal;
     });
   });
 
   const handleTodoChange = (index: number, value: string) => {
-    setSubGoals((prev) => prev.map((goal, i) => (i === index ? { ...goal, title: value } : goal)));
+    setSubGoals((prev) => {
+      const newSubGoals = prev.map((goal, i) => (i === index ? { ...goal, title: value } : goal));
+      onSubGoalsChange?.(newSubGoals);
+      return newSubGoals;
+    });
   };
 
   const handleCycleChange = (index: number, cycle: CycleType) => {
-    setSubGoals((prev) => prev.map((goal, i) => (i === index ? { ...goal, cycle } : goal)));
+    setSubGoals((prev) => {
+      const newSubGoals = prev.map((goal, i) => (i === index ? { ...goal, cycle } : goal));
+      onSubGoalsChange?.(newSubGoals);
+      return newSubGoals;
+    });
   };
 
   const coreGoalData: CoreGoal = {
@@ -61,8 +71,6 @@ const HoverContent = ({
     position,
     subGoals: subGoals.map(({ id, title, position }) => ({ id, title, position })),
   };
-
-  console.log('Rendering ModifyTextField with:', { content, onChange });
 
   return (
     <section className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>

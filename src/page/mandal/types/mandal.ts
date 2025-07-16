@@ -2,6 +2,7 @@ export interface SubGoal {
   id: number;
   title: string;
   position: number;
+  cycle?: 'DAILY' | 'WEEKLY' | 'ONCE';
 }
 
 export interface CoreGoal {

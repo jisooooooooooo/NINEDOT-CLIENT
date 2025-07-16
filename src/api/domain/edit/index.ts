@@ -55,3 +55,32 @@ export const getCoreGoals = async (
   );
   return response.data;
 };
+
+export type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
+
+export interface UpdateCoreGoalRequest {
+  coreGoal: {
+    position: number;
+    title: string;
+  };
+  subGoals: {
+    position: number;
+    title: string;
+    cycle: CycleType;
+  }[];
+}
+
+export interface UpdateCoreGoalResponse {
+  success: boolean;
+}
+
+export const updateCoreGoal = async (
+  mandalartId: number,
+  data: UpdateCoreGoalRequest,
+): Promise<UpdateCoreGoalResponse> => {
+  const response = await axiosInstance.patch<UpdateCoreGoalResponse>(
+    `${END_POINT.MANDALART}/${mandalartId}/core-goals`,
+    data,
+  );
+  return response.data;
+};
