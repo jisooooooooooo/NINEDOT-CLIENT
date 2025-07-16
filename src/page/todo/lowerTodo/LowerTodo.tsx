@@ -89,7 +89,9 @@ const LowerTodo = ({
   };
 
   const handleOpenAiModal = () => {
-    openModal(<AiRecommendModal onClose={handleAiModalClose} onSubmit={handleAiSubmit} values={todos} />);
+    openModal(
+      <AiRecommendModal onClose={handleAiModalClose} onSubmit={handleAiSubmit} values={todos} />,
+    );
   };
 
   const handleNavigateComplete = () => {
@@ -127,7 +129,11 @@ const LowerTodo = ({
               )}
               {!isAllCurrentTodosFilled && (
                 <button
-                  className={isCurrentGoalAiUsed ? styles.aiAssistButton.inactive : styles.aiAssistButton.active}
+                  className={
+                    isCurrentGoalAiUsed
+                      ? styles.aiAssistButton.inactive
+                      : styles.aiAssistButton.active
+                  }
                   type="button"
                   aria-label="AI로 빈칸 채우기"
                   onClick={handleOpenAiModal}
