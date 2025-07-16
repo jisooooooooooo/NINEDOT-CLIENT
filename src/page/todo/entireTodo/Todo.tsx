@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FULL_TEXT, TYPING_DURATION, PLACEHOLDER_TEXT } from './constant/constants';
 import * as styles from './Todo.css';
 
+import { useCreateOverallTodo } from '@/api/domain/entireTodo/hook/useCreateMandalart';
 import useTypingEffect from '@/common/hook/useTypingEffect';
 import GoButton from '@/common/component/GoButton/GoButton';
 import GradientBackground from '@/common/component/Background/GradientBackground';
@@ -15,6 +16,8 @@ const Todo = () => {
   const displayedText = useTypingEffect(FULL_TEXT, TYPING_DURATION);
   const navigate = useNavigate();
 
+  const { mutate } = useCreateOverallTodo();
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleGoNext();
@@ -23,7 +26,17 @@ const Todo = () => {
 
   const handleGoNext = () => {
     if (inputText.trim().length > 0) {
-      navigate(PATH.TODO_UPPER);
+      mutate(
+        { title: inputText.trim() },
+        {
+          onSuccess: () => {
+            navigate(PATH.TODO_UPPER);
+          },
+          onError: () => {
+            // 생성 실패 시 처리 로직
+          },
+        },
+      );
     }
   };
 

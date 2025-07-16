@@ -11,13 +11,7 @@ export interface CoreGoal {
   subGoals: SubGoal[];
 }
 
-export interface MandalartResponse {
+export interface MandalartData {
   title: string;
   coreGoals: CoreGoal[];
-}
-
-export interface MandalartData {
-  code: number;
-  message: string;
-  data: MandalartResponse;
 }
