@@ -4,9 +4,9 @@ import { QUERY_KEY } from '@/api/constant/queryKey';
 import type { StreakResponse } from '@/api/domain/history/type/streakResponse';
 import { getStreak } from '@/api/domain/history';
 
-export const useGetStreaks = (mandalartId: number) => {
+export const useGetStreak = (mandalartId: number) => {
   return useQuery<StreakResponse>({
-    queryKey: QUERY_KEY.STREAKS(mandalartId),
+    queryKey: QUERY_KEY.STREAK(mandalartId),
     queryFn: () => getStreak(mandalartId),
   });
 };
