@@ -4,7 +4,6 @@ import { colors, fonts } from '@/style/token';
 
 export const squareContainer = style({
   display: 'grid',
-  margin: '0 auto',
 });
 
 const SQUARE_TYPES = {
