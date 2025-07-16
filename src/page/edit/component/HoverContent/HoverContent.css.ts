@@ -12,6 +12,22 @@ export const hoverContentContainer = style({
   borderRadius: '12px',
   alignItems: 'center',
   padding: '1.6rem',
+});
+
+export const inputContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.6rem',
+  width: '100%',
+  height: '100%',
+  overflow: 'hidden',
+});
+
+export const todoListContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.8rem',
+  width: '100%',
   overflow: 'auto',
   '::-webkit-scrollbar': {
     display: 'none',
@@ -20,23 +36,10 @@ export const hoverContentContainer = style({
   scrollbarWidth: 'none',
 });
 
-export const inputContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1.6rem',
-  width: '100%',
-});
-
-export const todoListContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.8rem',
-  width: '100%',
-});
-
 export const todoInputRow = style({
   display: 'flex',
   flexDirection: 'row',
-  gap: '1.2rem',
+  gap: '1rem',
   alignItems: 'center',
+  padding: '0 0.4rem',
 });

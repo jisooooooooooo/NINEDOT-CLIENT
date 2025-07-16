@@ -6,6 +6,7 @@ export const editBtnContainer = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.6rem',
+  marginBottom: '7.4rem',
 });
 
 export const editBtnText = style([
