@@ -70,7 +70,7 @@ const getMaxLength = (variant: TextFieldVariant, maxLength?: number) => {
   if (variant === 'bigGoal') {
     return maxLength ?? BIG_GOAL_MAX_LENGTH;
   }
-  if (variant === 'subGoal') {
+  if (variant === 'subGoal' || variant === 'todo') {
     return 30;
   }
   return undefined;
