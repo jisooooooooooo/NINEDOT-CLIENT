@@ -1,4 +1,5 @@
 import axiosInstance from '../../axiosInstance';
+import { END_POINT } from '../../constants/endPoint';
 
 import type { MandalartData } from '@/page/mandal/types/mandal';
 
@@ -9,6 +10,8 @@ interface ApiResponse {
 }
 
 export const getMandalAll = async (mandalartId: number) => {
-  const response = await axiosInstance.get<ApiResponse>(`/api/v1/mandalarts/${mandalartId}/board`);
+  const response = await axiosInstance.get<ApiResponse>(
+    `${END_POINT.MANDALART}/${mandalartId}/board`,
+  );
   return response.data.data;
 };
