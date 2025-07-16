@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { HTTP_STATUS } from '@/api/constant/httpStatus';
+
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
@@ -15,12 +17,12 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       const { status } = error.response;
 
-      if (status === 401) {
-        // 인증 실패 - 로그아웃 처리나 리다이렉트 로직 추가 예정
+      if (status === HTTP_STATUS.UNAUTHORIZED) {
+        // console.warn('인증 실패');
       }
 
-      if (status === 500) {
-        // 서버 오류 발생
+      if (status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
+        // console.error('서버 오류가 발생');
       }
     }
     return Promise.reject(error);
