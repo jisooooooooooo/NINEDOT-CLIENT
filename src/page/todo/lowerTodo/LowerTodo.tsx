@@ -241,7 +241,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
                     position: idx,
                   })),
                 }}
-                onGoalClick={setSelectedGoalIndex}
+                onGoalClick={() => {}}
               />
               <TodoFields
                 values={todos}

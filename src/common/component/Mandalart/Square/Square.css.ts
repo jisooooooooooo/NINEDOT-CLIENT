@@ -111,6 +111,14 @@ export const subCell = {
       ':hover': {
         background: colors.grey2,
       },
+      selectors: {
+        '&[data-disabled="true"]': {
+          pointerEvents: 'none',
+        },
+        '&[data-disabled="true"]:hover': {
+          background: colors.grey3,
+        },
+      },
     },
   ]),
   TODO_MAIN: style([
