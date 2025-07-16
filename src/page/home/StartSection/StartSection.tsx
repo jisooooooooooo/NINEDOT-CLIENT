@@ -3,8 +3,9 @@ import { CONTENT_MESSAGE, TITLE_MESSAGE } from '@/page/home/constant/startSectio
 import StartButton from '@/page/home/StartButton/StartButton';
 import VectorLine from '@/assets/image/vector-line.svg';
 import { IcUnder } from '@/assets/svg';
+import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
 
-const StartSection = () => {
+const StartSection = ({ onClick }: buttonHandlerType) => {
   return (
     <section className={styles.startContainer}>
       <div className={styles.gradientBlue} />
@@ -13,7 +14,7 @@ const StartSection = () => {
       <div className={styles.layoutContainer}>
         <h1 className={styles.titleText} dangerouslySetInnerHTML={{ __html: TITLE_MESSAGE }} />
         <p className={styles.contentText} dangerouslySetInnerHTML={{ __html: CONTENT_MESSAGE }} />
-        <StartButton />
+        <StartButton onClick={onClick} />
         <div className={styles.scrollContainer}>
           <IcUnder className={styles.scrollIcon} />
           <span className={styles.scrollText}>Scroll</span>

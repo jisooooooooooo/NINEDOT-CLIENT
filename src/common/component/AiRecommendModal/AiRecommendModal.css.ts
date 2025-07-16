@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors } from '@/style/token/color.css';
-import { fonts } from '@/style/token/typography.css';
+import { colors, fonts, zIndex } from '@/style/token';
 
 export const container = style({
   display: 'inline-flex',
@@ -10,6 +9,7 @@ export const container = style({
   alignItems: 'center',
   borderRadius: '16px',
   background: colors.grey3,
+  zIndex: zIndex.modal,
 });
 
 export const contentWrapper = style({
@@ -64,6 +64,10 @@ export const listItem = style({
   ...fonts.body02,
   cursor: 'pointer',
   whiteSpace: 'nowrap',
+});
+
+export const listItemDisabled = style({
+  cursor: 'not-allowed',
 });
 
 export const checkboxIcon = style({
