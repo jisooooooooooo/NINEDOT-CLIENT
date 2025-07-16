@@ -11,7 +11,7 @@ import GradientBackground from '@/common/component/Background/GradientBackground
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
-import { useGetMandalAll } from '@/api/domain/upperTodo/hook';
+import { useGetMandalAll, useGetCoreGoalIdPositions } from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
   userName?: string;
@@ -27,6 +27,7 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
 
   const mandalartId = 1;
   const { data } = useGetMandalAll(mandalartId);
+  const { data: coreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
 
   const mainGoal = data?.title || '사용자가 작성한 대목표';
 
@@ -108,7 +109,7 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
               cycle: 'ONCE' as const,
             }))}
           />
-          <SubGoalFields values={subGoals} onChange={setSubGoals} />
+          <SubGoalFields values={subGoals} onChange={setSubGoals} idPositions={coreGoalIds?.data} />
         </div>
 
         <button
