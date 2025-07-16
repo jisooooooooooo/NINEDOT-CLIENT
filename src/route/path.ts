@@ -10,6 +10,7 @@ export const PATH = {
   TERMS: '/terms',
   PRIVACY: '/privacy',
   SIGNUP: '/signup',
+  REDIRECT: '/auth/google/callback',
 } as const;
 
 export type PathType = (typeof PATH)[keyof typeof PATH];

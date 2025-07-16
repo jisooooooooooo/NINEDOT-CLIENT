@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import { PATH } from './path';
 
 import { UpperTodo, LowerTodo } from '@/page/todo';
-import { Home, Todo, Mandal, History, SignUp, Edit } from '@/page';
+import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback } from '@/page';
 import { Layout } from '@/shared/component/Layout';
 import Intro from '@/page/intro/Intro';
 
@@ -18,6 +18,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.INTRO,
         element: <Intro />,
+      },
+      {
+        path: PATH.REDIRECT,
+        element: <GoogleCallback />,
       },
       {
         path: PATH.TODO,
