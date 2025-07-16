@@ -32,7 +32,7 @@ export function validateField(type: 'name' | 'birth' | 'job', value: string): st
     const now = new Date();
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
     const koreaNow = new Date(utc + 9 * 60 * 60 * 1000);
-    const todayStr = koreaNow.toISOString().slice(0, 10); // 'YYYY-MM-DD'
+    const todayStr = koreaNow.toISOString().slice(0, 10);
     const [todayYear, todayMonth, todayDay] = todayStr.split('-');
     const today = new Date(`${todayYear}-${todayMonth}-${todayDay}`);
     const inputDate = new Date(`${year}-${month}-${day}`);

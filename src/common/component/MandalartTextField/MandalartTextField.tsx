@@ -8,8 +8,6 @@ import IcTextdelete from '@/assets/svg/IcTextdelete';
 
 type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
 
-// 상태 타입 및 액션 타입 정의
-
 type State = {
   isFocused: boolean;
   isHovered: boolean;
@@ -72,7 +70,7 @@ const getMaxLength = (variant: TextFieldVariant, maxLength?: number) => {
   if (variant === 'bigGoal') {
     return maxLength ?? BIG_GOAL_MAX_LENGTH;
   }
-  if (variant === 'subGoal') {
+  if (variant === 'subGoal' || variant === 'todo') {
     return 30;
   }
   return undefined;

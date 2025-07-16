@@ -52,7 +52,6 @@ const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    wordBreak: 'break-word',
     width: SQUARE_TYPES[type].width,
     height: SQUARE_TYPES[type].height,
     padding: SQUARE_TYPES[type].padding,
@@ -73,8 +72,8 @@ export const mainCell = {
     createBaseCell('TODO_MAIN'),
     SQUARE_TYPES.TODO_MAIN.mainFont,
     {
-      color: colors.white01,
-      backgroundImage: colors.gradient05,
+      color: colors.grey10,
+      backgroundImage: colors.gradient04,
     },
   ]),
   TODO_EDIT: style([
@@ -121,10 +120,10 @@ export const subCell = {
     {
       color: colors.grey8,
       background: colors.grey3,
+      ':hover': {
+        background: colors.grey2,
+      },
       selectors: {
-        '&:hover:not([data-disabled="true"])': {
-          background: colors.grey2,
-        },
         '&[data-completed="true"]': {
           border: `0.4px solid ${colors.blue08}`,
           background: colors.grey2,
