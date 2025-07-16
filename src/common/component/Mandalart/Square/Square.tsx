@@ -13,6 +13,7 @@ export interface CellProps {
 export interface SubCellProps extends CellProps {
   isCompleted: boolean;
   onClick: () => void;
+  disableInteraction?: boolean;
 }
 
 export const Root = ({ children }: SquareProps) => {
@@ -27,12 +28,23 @@ export const Main = ({ content, type }: CellProps) => {
   );
 };
 
-export const Sub = ({ content, isCompleted, onClick, type }: SubCellProps) => {
+export const Sub = ({ content, isCompleted, onClick, type, disableInteraction }: SubCellProps) => {
   return (
     <div className={styles.squareContainer}>
-      <div className={styles.subCell[type]} data-completed={isCompleted} onClick={onClick}>
+      <div
+        className={styles.subCell[type]}
+        data-completed={!disableInteraction && isCompleted}
+        data-disabled={disableInteraction}
+        onClick={!disableInteraction ? onClick : undefined}
+      >
         {content}
       </div>
     </div>
   );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const Square = {
+  Main,
+  Sub,
 };

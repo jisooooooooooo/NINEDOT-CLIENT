@@ -1,5 +1,6 @@
 export const PATH = {
   ROOT: '/',
+  INTRO: '/intro',
   TODO: '/todo',
   TODO_UPPER: '/todo/upper',
   TODO_LOWER: '/todo/lower',
@@ -10,6 +11,7 @@ export const PATH = {
   TERMS: '/terms',
   PRIVACY: '/privacy',
   SIGNUP: '/signup',
+  REDIRECT: '/auth/google/callback',
 } as const;
 
 export type PathType = (typeof PATH)[keyof typeof PATH];

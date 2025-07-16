@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { zIndex } from '@/style/token';
+
 export const dimmed = style({
   position: 'fixed',
   top: 0,
@@ -11,5 +13,5 @@ export const dimmed = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  zIndex: 1000,
+  zIndex: zIndex.modal,
 });

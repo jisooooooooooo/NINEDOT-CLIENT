@@ -11,14 +11,21 @@ interface EntireMandalProps {
 }
 
 const EntireMandal = ({ coreGoals }: EntireMandalProps) => {
-  const renderMandalart = (index: number) => (
-    <Mandalart
-      key={coreGoals[index].id}
-      type="TODO_SUB"
-      data={coreGoals[index]}
-      isCenter={index === CENTER_INDEX}
-    />
-  );
+  const renderMandalart = (index: number) => {
+    const coreGoal = coreGoals[index];
+    if (!coreGoal) {
+      return null;
+    }
+
+    return (
+      <Mandalart
+        key={coreGoal.id}
+        type="TODO_SUB"
+        data={coreGoal}
+        isCenter={index === CENTER_INDEX}
+      />
+    );
+  };
 
   return <MandalartGrid className={styles.entireContainer}>{renderMandalart}</MandalartGrid>;
 };

@@ -1,4 +1,4 @@
-const LowerGoal = () => {
+const LowerTodo = () => {
   return (
     <div>
       <h2>하위 목표 설정</h2>
@@ -7,4 +7,4 @@ const LowerGoal = () => {
   );
 };
 
-export default LowerGoal;
+export default LowerTodo;
