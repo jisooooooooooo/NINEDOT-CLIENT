@@ -6,8 +6,8 @@ import * as styles from './Header.css';
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
 import UserModal from '@/common/component/UserModal/UserModal';
-import { useLoginModal } from '@/common/hook/useLoginModal';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
+import { useModal } from '@/common/hook/useModal';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -26,11 +26,11 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [openProfile, setOpenProfile] = useState<boolean>(false);
 
-  const { isModalOpen, openModal, closeModal } = useLoginModal();
+  const { openModal, closeModal, ModalWrapper } = useModal();
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-    openModal();
+    openModal(<LoginModal onClose={closeModal} />);
   };
 
   const handleMenuClick = (menuLabel: string, path: string) => {
@@ -83,7 +83,7 @@ const Header = () => {
           </button>
         )}
       </div>
-      {isModalOpen && <LoginModal onClose={closeModal} />}
+      {ModalWrapper}
     </header>
   );
 };

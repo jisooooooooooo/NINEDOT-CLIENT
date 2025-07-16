@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { HomeContainer } from '@/page/home/Home.css';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
@@ -9,9 +7,7 @@ import EndSection from '@/page/home/EndSection/EndSection';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
-import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
-import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
-import { useLoginModal } from '@/common/hook/useLoginModal';
+import { useModal } from '@/common/hook/useModal';
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
@@ -19,12 +15,16 @@ const Home = () => {
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
 
-  const { isModalOpen, openModal, closeModal } = useLoginModal();
+  const { openModal, closeModal, ModalWrapper } = useModal();
+
+  const handleOpenLogin = () => {
+    openModal(<LoginModal onClose={closeModal} />);
+  };
 
   return (
     <div className={HomeContainer}>
-      {isModalOpen && <LoginModal onClose={closeModal} />}
-      <StartSection onClick={openModal} />
+      {ModalWrapper}
+      <StartSection onClick={handleOpenLogin} />
 
       {sectionKeys.map((key, index) => {
         const { ref, visible } = scrolls[index];
@@ -39,7 +39,7 @@ const Home = () => {
         );
       })}
 
-      <EndSection fadeInRef={end.ref} visible={end.visible} onClick={openModal} />
+      <EndSection fadeInRef={end.ref} visible={end.visible} onClick={handleOpenLogin} />
     </div>
   );
 };
