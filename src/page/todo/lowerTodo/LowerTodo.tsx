@@ -1,3 +1,4 @@
+// feat/#134/lowerGoalApi 브랜치를 기준으로 한 충돌 해결
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -207,6 +208,7 @@ const LowerTodo = ({
     setSelectedGoalIndex(position);
   };
 
+  // feat 브랜치의 handleAiSubmit 로직 유지 (당신이 작업한 버전)
   const handleAiSubmit = (selected: string[]) => {
     setAllTodos((prev) => {
       const updated = [...prev];
@@ -226,6 +228,7 @@ const LowerTodo = ({
     updateTooltipState(selectedGoalIndex, false);
   };
 
+  // feat 브랜치의 handleOpenAiModal 로직 유지 (당신이 작업한 AI API 호출 방식)
   const handleOpenAiModal = () => {
     console.log('[1] AI 버튼 클릭', {
       coreGoal: subGoals[selectedGoalIndex],
@@ -361,7 +364,7 @@ const LowerTodo = ({
                 onSave={handleSaveSubGoalSync}
                 disabled={!isCurrentGoalValid}
                 lastSavedTodos={[]}
-                selectedGoalIndex={0}
+                selectedGoalIndex={selectedGoalIndex}
               />
             </div>
             <div className={styles.scrollerSection} />
