@@ -5,6 +5,7 @@ import * as styles from './HoverContent.css';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import ModifyTextField from '@/common/component/ModifyTextField';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
+import { useUpdateSubGoal } from '@/api/domain/edit/hook';
 import type { SubGoal, CoreGoal } from '@/page/mandal/types/mandal';
 
 type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
@@ -21,6 +22,7 @@ interface HoverContentProps {
   position: number;
   id: number;
   onSubGoalsChange: (subGoals: SubGoal[]) => void;
+  mandalartId: number;
 }
 
 const HoverContent = ({
@@ -30,6 +32,7 @@ const HoverContent = ({
   position,
   id,
   onSubGoalsChange,
+  mandalartId,
 }: HoverContentProps) => {
   const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(() => {
     const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
@@ -47,6 +50,8 @@ const HoverContent = ({
         : defaultGoal;
     });
   });
+
+  const { mutate: updateGoal } = useUpdateSubGoal(mandalartId);
 
   useEffect(() => {
     const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
@@ -78,6 +83,18 @@ const HoverContent = ({
   const handleCycleChange = (index: number, cycle: CycleType) => {
     setSubGoals((prev) => {
       const newSubGoals = prev.map((goal, i) => (i === index ? { ...goal, cycle } : goal));
+      const targetGoal = newSubGoals[index];
+
+      if (targetGoal.id && targetGoal.title) {
+        updateGoal({
+          subGoalId: targetGoal.id,
+          data: {
+            title: targetGoal.title,
+            cycle: targetGoal.cycle || 'DAILY',
+          },
+        });
+      }
+
       onSubGoalsChange(newSubGoals);
       return newSubGoals;
     });

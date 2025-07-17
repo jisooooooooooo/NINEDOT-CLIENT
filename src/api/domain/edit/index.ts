@@ -11,10 +11,6 @@ interface CoreGoalIdsResponse {
   coreGoalIds: GoalIdPosition[];
 }
 
-interface SubGoalIdsResponse {
-  subGoalIds: GoalIdPosition[];
-}
-
 interface CoreGoal {
   id: number;
   title: string;
@@ -24,6 +20,19 @@ interface CoreGoal {
 
 interface CoreGoalsResponse {
   coreGoals: CoreGoal[];
+}
+
+type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
+
+interface SubGoal {
+  id: number;
+  title: string;
+  position: number;
+  cycle: CycleType;
+}
+
+export interface SubGoalsResponse {
+  subGoals: SubGoal[];
 }
 
 // 상위 목표 id, position 조회 API
@@ -36,29 +45,38 @@ export const getUpperGoalIds = async (
   return response.data;
 };
 
-// 하위 목표 id, position 조회 API
-export const getSubGoalIds = async (
-  coreGoalId: number,
-): Promise<BaseResponse<SubGoalIdsResponse>> => {
-  const response = await axiosInstance.get<BaseResponse<SubGoalIdsResponse>>(
-    `${END_POINT.CORE_GOAL}/${coreGoalId}/sub-goals`,
-  );
-  return response.data;
-};
-
 // 상위 목표 정보 조회 API
 export const getCoreGoals = async (
   mandalartId: number,
 ): Promise<BaseResponse<CoreGoalsResponse>> => {
   const response = await axiosInstance.get<BaseResponse<CoreGoalsResponse>>(
-    `${END_POINT.ONBOARDING}/${END_POINT.MANDALART}/${mandalartId}/core-goals`,
+    `${END_POINT.MANDALART}/${mandalartId}/core-goals`,
   );
   return response.data;
 };
 
-export type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
+// 하위 목표 조회 API
+export const getSubGoals = async (
+  mandalartId: number,
+  coreGoalId?: number,
+  cycle?: CycleType,
+): Promise<BaseResponse<SubGoalsResponse>> => {
+  const queryParams = new URLSearchParams();
+  if (coreGoalId !== undefined) {
+    queryParams.append('coreGoalId', coreGoalId.toString());
+  }
+  if (cycle) {
+    queryParams.append('cycle', cycle);
+  }
 
-export interface UpdateCoreGoalRequest {
+  const queryString = queryParams.toString();
+  const url = `${END_POINT.MANDALART}/${mandalartId}/sub-goals${queryString ? `?${queryString}` : ''}`;
+
+  const response = await axiosInstance.get<BaseResponse<SubGoalsResponse>>(url);
+  return response.data;
+};
+
+export interface UpdateSubGoalRequest {
   coreGoal: {
     position: number;
     title: string;
@@ -70,15 +88,15 @@ export interface UpdateCoreGoalRequest {
   }[];
 }
 
-export interface UpdateCoreGoalResponse {
+export interface UpdateSubGoalResponse {
   success: boolean;
 }
 
-export const updateCoreGoal = async (
+export const updateSubGoal = async (
   mandalartId: number,
-  data: UpdateCoreGoalRequest,
-): Promise<UpdateCoreGoalResponse> => {
-  const response = await axiosInstance.patch<UpdateCoreGoalResponse>(
+  data: UpdateSubGoalRequest,
+): Promise<UpdateSubGoalResponse> => {
+  const response = await axiosInstance.patch<UpdateSubGoalResponse>(
     `${END_POINT.MANDALART}/${mandalartId}/core-goals`,
     data,
   );

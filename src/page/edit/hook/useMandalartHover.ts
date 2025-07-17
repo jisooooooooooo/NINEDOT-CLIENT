@@ -65,9 +65,18 @@ export const useMandalartHover = ({
 
   const handleMouseLeave = useCallback(
     (e: React.MouseEvent) => {
-      const relatedTarget = e.relatedTarget as HTMLElement;
-      const isMovingToHoverContent = relatedTarget?.closest('#hoverContent');
-      const isMovingToMandalartContent = relatedTarget?.closest('#mandalartContent');
+      const relatedTarget = e.relatedTarget;
+      if (!(relatedTarget instanceof HTMLElement)) {
+        lastPositionRef.current = null;
+        setIsHovered(false);
+        if (!isEditing) {
+          setHoveredGoal(null);
+        }
+        return;
+      }
+
+      const isMovingToHoverContent = relatedTarget.closest('#hoverContent');
+      const isMovingToMandalartContent = relatedTarget.closest('#mandalartContent');
 
       if (!isMovingToHoverContent && !isMovingToMandalartContent) {
         lastPositionRef.current = null;

@@ -7,7 +7,7 @@ import { useMandalartHover } from '../../hook/useMandalartHover';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
-import { useSubGoalIds, useUpdateCoreGoal } from '@/api/domain/edit/hook';
+import { useSubGoals, useUpdateSubGoal } from '@/api/domain/edit/hook';
 import type { CoreGoal, SubGoal } from '@/page/mandal/types/mandal';
 
 interface ContentProps {
@@ -31,10 +31,10 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     mandalartData,
   });
 
-  const { isLoading: isSubGoalsLoading } = useSubGoalIds(hoveredGoal?.id || 0, {
+  const { isLoading: isSubGoalsLoading } = useSubGoals(MANDAL_ID, hoveredGoal?.id, undefined, {
     enabled: !!hoveredGoal,
   });
-  const { mutate: updateGoal } = useUpdateCoreGoal(MANDAL_ID);
+  const { mutate: updateGoal } = useUpdateSubGoal(MANDAL_ID);
 
   const isLoading = isMandalLoading || (hoveredGoal && isSubGoalsLoading);
 
@@ -43,24 +43,24 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       return;
     }
 
-    const requestData = {
-      coreGoal: {
-        position: hoveredGoal.position,
-        title: hoveredGoal.title,
-      },
-      subGoals: hoveredGoal.subGoals.map((subGoal) => ({
-        position: subGoal.position,
-        title: subGoal.title,
-        cycle: subGoal.cycle || 'DAILY',
-      })),
-    };
+    const validSubGoals = hoveredGoal.subGoals.filter((subGoal) => subGoal.title);
 
-    updateGoal(requestData, {
-      onSuccess: () => {
-        setIsEditing(false);
-        setIsHovered(true);
-      },
-    });
+    if (validSubGoals.length > 0) {
+      updateGoal({
+        coreGoal: {
+          position: hoveredGoal.position,
+          title: hoveredGoal.title,
+        },
+        subGoals: validSubGoals.map((subGoal) => ({
+          position: subGoal.position,
+          title: subGoal.title,
+          cycle: subGoal.cycle || 'DAILY',
+        })),
+      });
+    }
+
+    setIsEditing(false);
+    setIsHovered(true);
   }, [hoveredGoal, updateGoal, setIsEditing, setIsHovered]);
 
   useEffect(() => {
@@ -84,25 +84,25 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       }
 
       if (isEditing && hoveredGoal) {
-        const requestData = {
-          coreGoal: {
-            position: hoveredGoal.position,
-            title: hoveredGoal.title,
-          },
-          subGoals: hoveredGoal.subGoals.map((subGoal) => ({
-            position: subGoal.position,
-            title: subGoal.title,
-            cycle: subGoal.cycle || 'DAILY',
-          })),
-        };
+        const validSubGoals = hoveredGoal.subGoals.filter((subGoal) => subGoal.title);
 
-        updateGoal(requestData, {
-          onSuccess: () => {
-            setHoveredGoal(goal);
-            setIsHovered(true);
-            setIsEditing(true);
-          },
-        });
+        if (validSubGoals.length > 0) {
+          updateGoal({
+            coreGoal: {
+              position: hoveredGoal.position,
+              title: hoveredGoal.title,
+            },
+            subGoals: validSubGoals.map((subGoal) => ({
+              position: subGoal.position,
+              title: subGoal.title,
+              cycle: subGoal.cycle || 'DAILY',
+            })),
+          });
+        }
+
+        setHoveredGoal(goal);
+        setIsHovered(true);
+        setIsEditing(true);
         return;
       }
 
@@ -215,6 +215,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         position={hoveredGoal.position}
         id={hoveredGoal.id}
         onSubGoalsChange={handleSubGoalsChange}
+        mandalartId={MANDAL_ID}
       />
     );
   }, [isLoading, hoveredGoal, handleTitleChange, handleSubGoalsChange]);
