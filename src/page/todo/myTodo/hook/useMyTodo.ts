@@ -6,6 +6,7 @@ import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox
 import { createDate, formatDateDot } from '@/common/util/format';
 import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
 import { usePostRecommendation } from '@/api/domain/myTodo/hook/usePostRecommendation';
+import { useDeleteRecommendation } from '@/api/domain/myTodo/hook/useDeleteRecommendation';
 
 const MANDALART_ID = 1;
 
@@ -44,6 +45,7 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
   const formattedDate = formatDateDot(currentDate);
   const { data: recommendationData, refetch } = useGetRecommendation(MANDALART_ID, formattedDate);
   const { mutate: completeTodo } = usePostRecommendation();
+  const { mutate: deleteTodo } = useDeleteRecommendation();
 
   useEffect(() => {
     if (recommendationData?.subGoals) {
@@ -75,15 +77,25 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
   };
 
   const handleRecommendTodoClick = (item: TodoItemTypes) => {
+    const isCompleted = item.completed;
+
     setRecommendTodos((prev) =>
       prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
     );
 
-    completeTodo(Number(item.id), {
-      onSuccess: () => {
-        refetch();
-      },
-    });
+    if (isCompleted) {
+      deleteTodo(Number(item.id), {
+        onSuccess: () => {
+          refetch();
+        },
+      });
+    } else {
+      completeTodo(Number(item.id), {
+        onSuccess: () => {
+          refetch();
+        },
+      });
+    }
   };
 
   const handleMyTodoClick = (item: TodoItemTypes) => {
