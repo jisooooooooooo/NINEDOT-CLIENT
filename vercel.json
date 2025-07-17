@@ -1,15 +1,5 @@
 {
-  "buildCommand": "pnpm build",
-  "installCommand": "pnpm install",
-  "framework": "vite",
-  "outputDirectory": "dist",
-  "cleanUrls": true,
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
-  ,
-  "routes": [{"handle":"filesystem", "src": "/(.*)", "dest": "/index.html"}]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
