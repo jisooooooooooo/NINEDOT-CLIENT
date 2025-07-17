@@ -16,12 +16,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    onClose: () => {
-      console.log('Modal closed');
-    },
-    onSubmit: (selected) => {
-      console.log('Selected options:', selected);
-    },
-    values: ['추천 항목 1', '추천 항목 2'],
+    onClose: () => {},
+    onSubmit: (selected) => console.log(selected),
+    values: [],
+    options: ['옵션1', '옵션2'],
+    mandalartId: 1,
   },
 };
