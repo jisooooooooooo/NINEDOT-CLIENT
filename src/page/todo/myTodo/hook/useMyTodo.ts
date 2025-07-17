@@ -4,7 +4,7 @@ import type { CycleType } from '../constant/mock';
 
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { createDate, formatDateDot } from '@/common/util/format';
-import { useGetRecommendation } from '@/api/domain/myTodo/hook/usegetRecommendation';
+import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
 
 const MANDALART_ID = 1;
 
@@ -68,7 +68,9 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
     setSelectedCycle(selectedCycle === cycle ? undefined : cycle);
   };
 
-  const handleRecommendTodoClick = (item: TodoItemTypes) => {};
+  const handleRecommendTodoClick = () =>
+    //item: TodoItemTypes
+    {};
 
   const handleMyTodoClick = (item: TodoItemTypes) => {
     setTodos((prev) =>
