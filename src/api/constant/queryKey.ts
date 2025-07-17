@@ -4,4 +4,6 @@ export const QUERY_KEY = {
   MANDALART_SUB_GOALS: (mandalartId: number, coreGoalId?: number, cycle?: string) =>
     ['mandalartSubGoals', mandalartId, coreGoalId, cycle].filter(Boolean),
   SUB_GOAL_IDS: (coreGoalId: number) => ['subGoalIds', coreGoalId],
+  SUB_GOALS: (mandalartId: number, coreGoalId?: number, cycle?: string) =>
+    ['subGoals', mandalartId, coreGoalId, cycle].filter(Boolean),
 } as const;

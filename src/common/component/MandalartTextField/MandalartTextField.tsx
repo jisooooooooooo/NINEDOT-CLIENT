@@ -87,6 +87,9 @@ const TextField = ({
   maxLength,
   disabled = false,
   onKeyDown,
+  onBlur,
+  onCompositionStart,
+  onCompositionEnd,
 }: TextFieldProps) => {
   const [state, dispatch] = useReducer(reducer, {
     isFocused: false,
@@ -157,10 +160,25 @@ const TextField = ({
         placeholder={effectivePlaceholder}
         disabled={disabled}
         onFocus={() => dispatch({ type: 'FOCUS' })}
-        onBlur={() => dispatch({ type: 'BLUR' })}
+        onBlur={(e) => {
+          dispatch({ type: 'BLUR' });
+          if (onBlur) {
+            onBlur(e);
+          }
+        }}
         onKeyDown={onKeyDown ?? handleKeyDown}
-        onCompositionStart={() => dispatch({ type: 'COMPOSE_START' })}
-        onCompositionEnd={() => dispatch({ type: 'COMPOSE_END' })}
+        onCompositionStart={(e) => {
+          dispatch({ type: 'COMPOSE_START' });
+          if (onCompositionStart) {
+            onCompositionStart(e);
+          }
+        }}
+        onCompositionEnd={(e) => {
+          dispatch({ type: 'COMPOSE_END' });
+          if (onCompositionEnd) {
+            onCompositionEnd(e);
+          }
+        }}
         maxLength={effectiveMaxLength}
       />
       {fieldState === 'typing' && (

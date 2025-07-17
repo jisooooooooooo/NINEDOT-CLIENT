@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as styles from './LowerTodo.css';
@@ -16,6 +16,7 @@ import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
 import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
 import { useSubGoalIds } from '@/api/domain/lowerTodo/hook/useSubGoalIds';
+import { useCreateSubGoal } from '@/api/domain/lowerTodo/hook/useCreateSubGoal';
 
 interface LowerTodoProps {
   userName?: string;
@@ -30,8 +31,7 @@ interface TodoItem {
 const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: LowerTodoProps) => {
   const navigate = useNavigate();
   const { openModal, ModalWrapper, closeModal } = useModal();
-
-  const [selectedGoalIndex, setSelectedGoalIndex] = useState(-1);
+  const [selectedGoalIndex, setSelectedGoalIndex] = useState(0);
   const [allTodos, setAllTodos] = useState<TodoItem[][]>(
     Array(8)
       .fill(null)
@@ -57,6 +57,58 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   });
 
   const { data: subGoalIdsData } = useSubGoalIds(selectedCoreGoalId || 0);
+
+  const createSubGoalMutation = useCreateSubGoal(selectedCoreGoalId ?? 0);
+
+  const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
+    if (!selectedCoreGoalId || subGoalIdsByPosition[position] != null) {
+      if (done) {
+        done();
+      }
+      return;
+    }
+    if (!todo.title.trim()) {
+      if (done) {
+        done();
+      }
+      return;
+    }
+    createSubGoalMutation.mutate(
+      {
+        title: todo.title.trim(),
+        position: position + 1,
+        cycle: todo.cycle,
+      },
+      {
+        onSuccess: (res) => {
+          setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: res.id }));
+          setAllTodos((prev) => {
+            const newTodos = [...prev];
+            newTodos[selectedGoalIndex][position] = { ...todo };
+            return newTodos;
+          });
+          if (done) {
+            done();
+          }
+        },
+        onError: (err) => {
+          const error = err as any;
+          if (error.response?.data?.message) {
+            alert(error.response.data.message);
+          } else {
+            alert('하위 목표 저장 중 오류가 발생했습니다.');
+          }
+          if (done) {
+            done();
+          }
+        },
+      },
+    );
+  };
+
+  const handleTodoChange = (newTodos: TodoItem[]) => {
+    setAllTodos((prev) => prev.map((arr, idx) => (idx === selectedGoalIndex ? newTodos : arr)));
+  };
 
   useEffect(() => {
     if (coreGoalsData && coreGoalsData.data.coreGoals.length > 0) {
@@ -117,7 +169,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   }
 
   const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
-  const todos = selectedGoalIndex === -1 ? Array(8).fill({ title: '', cycle: 'DAILY' }) : allTodos[selectedGoalIndex];
+  const todos = allTodos[selectedGoalIndex];
 
   const updateTooltipState = (index: number, value: boolean) => {
     setTooltipOpenArr((arr) => arr.map((v, i) => (i === index ? value : v)));
@@ -128,7 +180,9 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     updateTooltipState(selectedGoalIndex, false);
   };
 
-  const hasAnyTodos = allTodos.some((goalTodos) => goalTodos.some((todo) => todo.title.trim() !== ''));
+  const hasAnyTodos = allTodos.some((goalTodos) =>
+    goalTodos.some((todo) => todo.title.trim() !== ''),
+  );
   const isCurrentGoalAiUsed = selectedGoalIndex === -1 ? false : aiUsedByGoal[selectedGoalIndex];
   const isCurrentGoalValid =
     selectedGoalIndex !== -1 && isValidSubGoal(subGoals[selectedGoalIndex]);
@@ -142,17 +196,15 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     setSelectedGoalIndex(position);
   };
 
-  const handleTodoChange = (newTodos: TodoItem[]) => {
-    setAllTodos((prev) => prev.map((arr, idx) => (idx === selectedGoalIndex ? newTodos : arr)));
-  };
-
   const handleAiSubmit = (selected: string[]) => {
     setAllTodos((prev) => {
       let selectedIdx = 0;
       return prev.map((arr, idx) =>
         idx === selectedGoalIndex
           ? arr.map((todo) =>
-              todo.title.trim() === '' && selectedIdx < selected.length ? selected[selectedIdx++] : todo,
+              todo.title.trim() === '' && selectedIdx < selected.length
+                ? { ...todo, title: selected[selectedIdx++] }
+                : todo,
             )
           : arr,
       );
@@ -258,7 +310,10 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
               <TodoFields
                 values={todos}
                 onChange={handleTodoChange}
+                onSave={handleSaveSubGoalSync}
                 disabled={!isCurrentGoalValid}
+                lastSavedTodos={[]}
+                selectedGoalIndex={0}
               />
             </div>
             <div className={styles.scrollerSection} />

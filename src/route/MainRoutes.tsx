@@ -4,7 +4,6 @@ import { PATH } from './path';
 
 import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback } from '@/page';
 import { UpperTodo, LowerTodo, MyTodo } from '@/page/todo';
-
 import { Layout } from '@/shared/component/Layout';
 import Intro from '@/page/intro/Intro';
 
