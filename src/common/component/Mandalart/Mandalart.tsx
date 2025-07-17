@@ -80,7 +80,7 @@ const Mandalart = ({
         isCompleted={selectedGoal === position}
         onClick={() => handleGoalClick(index, subGoal)}
         type={squareType}
-        disableInteraction={isEmptyGoal}
+        disableInteraction={isEmptyGoal || type === 'TODO_SUB'}
         position={position}
         goalId={subGoal.id}
       />

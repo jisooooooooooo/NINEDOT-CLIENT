@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { IcDropdown } from '@/assets/svg';
 import CycleList from '@/common/component/CycleDropDown/CycleList';
@@ -26,6 +26,17 @@ const CycleDropDown = ({ initialType = 'DAILY', onChange }: CycleDropDownProps) 
     (Object.entries(CYCLE_MAPPING).find(([_, v]) => v === initialType)?.[0] as DisplayCycleType) ||
       '매일',
   );
+
+  useEffect(() => {
+    if (initialType) {
+      const label =
+        typeof initialType === 'string' &&
+        (initialType === 'DAILY' || initialType === 'WEEKLY' || initialType === 'ONCE')
+          ? CYCLE_TYPE[Object.values(CYCLE_MAPPING).indexOf(initialType)]
+          : initialType;
+      setSelectedType(label);
+    }
+  }, [initialType]);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);

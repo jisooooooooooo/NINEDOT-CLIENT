@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import type { CoreGoal } from '@/page/mandal/types/mandal';
 
 interface UseMandalartHoverProps {
