@@ -84,7 +84,7 @@ const HoverContent = ({
     setSubGoals((prev) => {
       const newSubGoals = prev.map((goal, i) => (i === index ? { ...goal, cycle } : goal));
       const targetGoal = newSubGoals[index];
-
+      
       if (targetGoal.id && targetGoal.title) {
         updateGoal({
           coreGoal: {
