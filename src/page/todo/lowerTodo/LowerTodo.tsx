@@ -209,15 +209,20 @@ const LowerTodo = ({
   };
 
   // feat 브랜치의 handleAiSubmit 로직 유지 (당신이 작업한 버전)
-  const handleAiSubmit = (selected: string[]) => {
+  const handleAiSubmit = (selected: { id: number; position: number; title: string }[]) => {
+    const selectedTitles = selected.map((item) => item.title);
     setAllTodos((prev) => {
       const updated = [...prev];
       let fillIndex = 0;
-      for (let i = 0; i < updated[selectedGoalIndex].length && fillIndex < selected.length; i++) {
+      for (
+        let i = 0;
+        i < updated[selectedGoalIndex].length && fillIndex < selectedTitles.length;
+        i++
+      ) {
         if (updated[selectedGoalIndex][i].title.trim() === '') {
           updated[selectedGoalIndex][i] = {
             ...updated[selectedGoalIndex][i],
-            title: selected[fillIndex],
+            title: selectedTitles[fillIndex],
           };
           fillIndex++;
         }

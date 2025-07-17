@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import * as styles from './AiRecommendModal.css';
 import Button from '../Button/Button';
+
 import { usePostAiRecommendToCoreGoals } from '@/api/domain/upperTodo/hook';
 import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
@@ -12,19 +14,19 @@ interface AiRecommendModalProps {
   mandalartId?: number;
 }
 
-const AiRecommendModal = ({ 
-  onClose, 
-  onSubmit, 
-  values, 
+const AiRecommendModal = ({
+  onClose,
+  onSubmit,
+  values,
   options,
-  mandalartId = 0 // 기본값 설정
+  mandalartId = 0, // 기본값 설정
 }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const postRecommend = usePostAiRecommendToCoreGoals();
-  
+
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
-  
+
   const displayOptions =
     options && options.length > 0
       ? options
@@ -49,7 +51,7 @@ const AiRecommendModal = ({
 
   const handleClick = () => {
     const goals = selectedOptions.slice(0, emptyCount);
-    
+
     if (mandalartId && mandalartId > 0) {
       postRecommend.mutate(
         { mandalartId, goals },
@@ -68,7 +70,7 @@ const AiRecommendModal = ({
       const mockAiResponseData = goals.map((title, index) => ({
         id: Date.now() + index, // 임시 ID
         position: index + 1,
-        title
+        title,
       }));
       onSubmit(mockAiResponseData);
       onClose();
@@ -93,7 +95,7 @@ const AiRecommendModal = ({
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
             const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
-            
+
             return (
               <div
                 key={option}
