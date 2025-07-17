@@ -1,29 +1,36 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 
 import * as styles from './UpperTodo.css';
 import SubGoalFields from './component/SubGoalFields';
+import UpperTodoHeader from './component/UpperTodoHeader';
+import MandalCompleteButton from './component/MandalCompleteButton';
+import { useUpperTodoState } from './hook/useUpperTodoState';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import { PATH } from '@/route';
-import { IcSmallNext } from '@/assets/svg';
-import {
-  useDeleteOnboardingCoreGoal,
-  useGetCoreGoalIdPositions,
-  useGetMandalAll,
-  usePatchOnboardingCoreGoal,
-  usePostAiRecommendCoreGoal,
-  usePostOnboardingCoreGoal,
-} from '@/api/domain/upperTodo/hook';
+import { usePostAiRecommendCoreGoal } from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
   userName?: string;
   mainGoal?: string;
 }
+
+const updateSubGoalsWithAiResponse = (
+  original: string[],
+  responseData: { position: number; title: string }[],
+): string[] => {
+  const updated = [...original];
+  responseData.forEach(({ position, title }) => {
+    updated[position - 1] = title;
+  });
+  return updated;
+};
+
+const extractTitles = (goals: { title: string }[]) => goals.map((item) => item.title);
 
 const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const mandalartId = 1;
@@ -31,65 +38,23 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
 
-  const { data, refetch } = useGetMandalAll(mandalartId);
-  const { data: coreGoalIds, refetch: refetchCoreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
+  const {
+    data,
+    subGoals,
+    setSubGoals,
+    isTooltipOpen,
+    setIsTooltipOpen,
+    aiResponseData,
+    setAiResponseData,
+    coreGoalIds,
+    handleSubGoalEnter,
+    refetch,
+    refetchCoreGoalIds,
+  } = useUpperTodoState(mandalartId);
 
-  const postMutation = usePostOnboardingCoreGoal();
-  const patchMutation = usePatchOnboardingCoreGoal();
   const postAiRecommend = usePostAiRecommendCoreGoal();
-  const deleteMutation = useDeleteOnboardingCoreGoal();
-
-  const [subGoals, setSubGoals] = useState(Array(8).fill(''));
-  const [isAiUsed, setIsAiUsed] = useState(false);
-  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
-  const [recommendedGoals, setRecommendedGoals] = useState<{ title: string }[]>([]);
-  const [aiResponseData, setAiResponseData] = useState<
-    { id: number; position: number; title: string }[]
-  >([]);
-
-  const coreGoalIdMap = useMemo(() => {
-    const map: Record<number, number> = {};
-    if (coreGoalIds?.coreGoalIds && Array.isArray(coreGoalIds.coreGoalIds)) {
-      coreGoalIds.coreGoalIds.forEach(({ id, position }) => {
-        map[position] = id;
-      });
-    }
-    return map;
-  }, [coreGoalIds]);
 
   const mainGoal = data?.title || '사용자가 작성한 대목표';
-
-  useEffect(() => {
-    const allFilled = subGoals.every((v) => v.trim() !== '');
-    if (allFilled) {
-      setIsTooltipOpen(false);
-    }
-  }, [subGoals]);
-
-  const handleSubGoalEnter = async (index: number, value: string) => {
-    const position = index + 1;
-    const coreGoalId = coreGoalIdMap[position];
-
-    try {
-      if (value.trim() === '') {
-        if (coreGoalId) {
-          await deleteMutation.mutateAsync(coreGoalId);
-          await refetchCoreGoalIds();
-        }
-        return;
-      }
-
-      if (coreGoalId) {
-        await patchMutation.mutateAsync({ coreGoalId, title: value });
-      } else {
-        await postMutation.mutateAsync({ mandalartId, title: value, position });
-      }
-
-      await refetchCoreGoalIds();
-    } catch (error) {
-      console.error('상위 목표 저장 실패 또는 삭제 실패:', error);
-    }
-  };
 
   const handleNavigateLower = () => {
     navigate(PATH.TODO_LOWER);
@@ -97,13 +62,8 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
 
   const handleAiSubmit = (responseData: { id: number; position: number; title: string }[]) => {
     setAiResponseData(responseData);
-
-    const updatedSubGoals = [...subGoals];
-    responseData.forEach(({ position, title }) => {
-      updatedSubGoals[position - 1] = title;
-    });
+    const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
     setSubGoals(updatedSubGoals);
-
     refetchCoreGoalIds();
     refetch();
   };
@@ -130,9 +90,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
       });
 
       const recommendList = response || [];
-      const titles = recommendList.map((item: { title: string }) => item.title);
-
-      setRecommendedGoals(recommendList);
+      const titles = extractTitles(recommendList);
 
       const aiModalContent = (
         <AiRecommendModal
@@ -151,6 +109,8 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
     }
   };
 
+  const [isAiUsed, setIsAiUsed] = useState(false);
+
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
   return (
@@ -158,33 +118,14 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
       <GradientBackground />
 
       <section className={styles.upperTodoBoxWrapper}>
-        <header className={styles.upperTodoHeader}>
-          <div className={styles.upperTodoHeaderLeft}>
-            <h1 className={styles.upperTodoHeaderTitle}>
-              {userName}님,
-              <br />
-              <span className={styles.upperTodoHeaderGoal}>'{mainGoal}'</span>에<br />
-              필요한 8가지 세부 목표를 작성해주세요.
-            </h1>
-          </div>
-
-          <div className={styles.aiAssistWrapper}>
-            <Tooltip
-              className={styles.aiAssistTooltip}
-              isOpen={isTooltipOpen}
-              onClose={() => setIsTooltipOpen(false)}
-            />
-            <button
-              className={isAiUsed ? styles.aiAssistButton.inactive : styles.aiAssistButton.active}
-              type="button"
-              aria-label="AI로 빈칸 채우기"
-              onClick={handleOpenAiModal}
-              disabled={isAiUsed}
-            >
-              AI로 빈칸 채우기
-            </button>
-          </div>
-        </header>
+        <UpperTodoHeader
+          userName={userName}
+          mainGoal={mainGoal}
+          isTooltipOpen={isTooltipOpen}
+          setIsTooltipOpen={setIsTooltipOpen}
+          isAiUsed={isAiUsed}
+          handleOpenAiModal={handleOpenAiModal}
+        />
 
         <div className={styles.upperTodoBox}>
           <Mandalart
@@ -205,30 +146,10 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
           />
         </div>
 
-        <button
-          className={styles.mandalCompleteBox}
-          type="button"
-          aria-label="만다르트 완성하기"
-          onClick={handleNavigateLower}
-          disabled={!hasFilledSubGoals}
-        >
-          <span
-            className={
-              hasFilledSubGoals
-                ? styles.mandalCompleteText.active
-                : styles.mandalCompleteText.inactive
-            }
-          >
-            만다라트를 완성했어요
-          </span>
-          <IcSmallNext
-            className={
-              hasFilledSubGoals
-                ? styles.mandalCompleteIcon.active
-                : styles.mandalCompleteIcon.inactive
-            }
-          />
-        </button>
+        <MandalCompleteButton
+          hasFilledSubGoals={hasFilledSubGoals}
+          handleNavigateLower={handleNavigateLower}
+        />
         {ModalWrapper}
       </section>
     </main>
