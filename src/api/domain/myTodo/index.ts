@@ -17,3 +17,8 @@ export const postRecommendation = async (subGoalId: number) => {
   const data = await axiosInstance.post(`/${END_POINT.SUB_GOAL}/${subGoalId}/histories`);
   return data.data;
 };
+
+export const deleteRecommendation = async (subGoalId: number) => {
+  const { data } = await axiosInstance.delete(`/${END_POINT.SUB_GOAL}/${subGoalId}/histories`);
+  return data.data;
+};
