@@ -2,6 +2,7 @@ export interface SubGoal {
   id: number;
   title: string;
   position: number;
+  cycle?: 'DAILY' | 'WEEKLY' | 'ONCE';
 }
 
 export interface CoreGoal {
@@ -13,7 +14,16 @@ export interface CoreGoal {
 
 export interface MainGoal {
   title: string;
-  subGoals: SubGoal[];
+  subGoals: (CoreGoal & { subGoals: SubGoal[] })[];
+}
+
+export interface MandalartResponse {
+  code: number;
+  message: string;
+  data: {
+    title: string;
+    coreGoals: CoreGoal[];
+  };
 }
 
 export interface MandalartData {
