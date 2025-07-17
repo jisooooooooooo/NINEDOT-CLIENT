@@ -1,23 +1,30 @@
 import { useState } from 'react';
-
 import * as styles from './AiRecommendModal.css';
 import Button from '../Button/Button';
-
+import { usePostAiRecommendToCoreGoals } from '@/api/domain/upperTodo/hook';
 import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
 interface AiRecommendModalProps {
   onClose: () => void;
-  onSubmit: (selected: string[]) => void;
+  onSubmit: (aiResponseData: { id: number; position: number; title: string }[]) => void;
   values: string[];
   options?: string[];
+  mandalartId?: number;
 }
 
-const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendModalProps) => {
+const AiRecommendModal = ({ 
+  onClose, 
+  onSubmit, 
+  values, 
+  options,
+  mandalartId = 0 // 기본값 설정
+}: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
+  const postRecommend = usePostAiRecommendToCoreGoals();
+  
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
-
+  
   const displayOptions =
     options && options.length > 0
       ? options
@@ -40,6 +47,34 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
     );
   };
 
+  const handleClick = () => {
+    const goals = selectedOptions.slice(0, emptyCount);
+    
+    if (mandalartId && mandalartId > 0) {
+      postRecommend.mutate(
+        { mandalartId, goals },
+        {
+          onSuccess: (response) => {
+            const aiResponseData = response.coreGoals;
+            onSubmit(aiResponseData);
+            onClose();
+          },
+          onError: (error) => {
+            console.error('AI 추천 목표 저장 실패:', error);
+          },
+        },
+      );
+    } else {
+      const mockAiResponseData = goals.map((title, index) => ({
+        id: Date.now() + index, // 임시 ID
+        position: index + 1,
+        title
+      }));
+      onSubmit(mockAiResponseData);
+      onClose();
+    }
+  };
+
   return (
     <div className={styles.container} role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div className={styles.contentWrapper}>
@@ -58,7 +93,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
             const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
-
+            
             return (
               <div
                 key={option}
@@ -78,13 +113,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
           })}
         </div>
         <div className={styles.buttonWrapper}>
-          <Button
-            text="내 만다라트에 넣기"
-            onClick={() => {
-              onSubmit(selectedOptions);
-              onClose();
-            }}
-          />
+          <Button text="내 만다라트에 넣기" onClick={handleClick} />
         </div>
       </div>
     </div>

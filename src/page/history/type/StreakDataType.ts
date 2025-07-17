@@ -1,14 +1,10 @@
-export interface CompletedTodo {
+export type CompletedTodo = {
   id: number;
   title: string;
-}
+};
 
-export interface Streak {
+export type Streak = {
   streakDay: number;
   completedTodoCount: number;
   completedTodos: CompletedTodo[];
-}
-
-export interface StreakData {
-  streaks: Streak[];
-}
+};

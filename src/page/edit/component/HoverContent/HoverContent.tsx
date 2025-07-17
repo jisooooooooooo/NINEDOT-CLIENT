@@ -88,8 +88,8 @@ const HoverContent = ({
       if (targetGoal.id && targetGoal.title) {
         updateGoal({
           coreGoal: {
-            position: targetGoal.position,
-            title: targetGoal.title,
+            position: position,
+            title: content,
           },
           subGoals: [
             {
