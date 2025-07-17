@@ -87,11 +87,17 @@ const HoverContent = ({
 
       if (targetGoal.id && targetGoal.title) {
         updateGoal({
-          subGoalId: targetGoal.id,
-          data: {
+          coreGoal: {
+            position: targetGoal.position,
             title: targetGoal.title,
-            cycle: targetGoal.cycle || 'DAILY',
           },
+          subGoals: [
+            {
+              position: targetGoal.position,
+              title: targetGoal.title,
+              cycle: targetGoal.cycle || 'DAILY',
+            },
+          ],
         });
       }
 
