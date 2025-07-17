@@ -9,24 +9,30 @@ interface AiRecommendModalProps {
   onClose: () => void;
   onSubmit: (selected: string[]) => void;
   values: string[];
+  options?: string[];
 }
 
-const options = [
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜1',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜2',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜3',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜4',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜5',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜6',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜7',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜8',
-];
-
-const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) => {
+const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
+
+  const displayOptions =
+    options && options.length > 0
+      ? options
+      : options === undefined
+        ? [
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜1',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜2',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜3',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜4',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜5',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜6',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜7',
+            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜8',
+          ]
+        : [];
 
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) =>
@@ -48,7 +54,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) 
           있어요
         </p>
         <div className={styles.listWrapper}>
-          {options.map((option) => {
+          {displayOptions.map((option) => {
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
             const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;

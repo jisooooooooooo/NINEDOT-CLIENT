@@ -12,11 +12,13 @@ import GradientBackground from '@/common/component/Background/GradientBackground
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import AiFailModal from '@/common/component/AiFailModal/AiFailModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
 import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
 import { useSubGoalIds } from '@/api/domain/lowerTodo/hook/useSubGoalIds';
 import { useCreateSubGoal } from '@/api/domain/lowerTodo/hook/useCreateSubGoal';
+import { useAiRecommendSubGoal } from '@/api/domain/lowerTodo/hook/useAiRecommendSubGoal';
 
 interface LowerTodoProps {
   userName?: string;
@@ -59,6 +61,12 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   const { data: subGoalIdsData } = useSubGoalIds(selectedCoreGoalId || 0);
 
   const createSubGoalMutation = useCreateSubGoal(selectedCoreGoalId ?? 0);
+
+  const aiRecommendMutation = useAiRecommendSubGoal(selectedCoreGoalId ?? 0);
+  const recommendAiSubGoal = aiRecommendMutation.mutate;
+  const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [aiFailModalOpen, setAiFailModalOpen] = useState(false);
+  const [aiRecommendList, setAiRecommendList] = useState<{ title: string; cycle: string }[]>([]);
 
   const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
     if (!selectedCoreGoalId || subGoalIdsByPosition[position] != null) {
@@ -198,16 +206,18 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
 
   const handleAiSubmit = (selected: string[]) => {
     setAllTodos((prev) => {
-      let selectedIdx = 0;
-      return prev.map((arr, idx) =>
-        idx === selectedGoalIndex
-          ? arr.map((todo) =>
-              todo.title.trim() === '' && selectedIdx < selected.length
-                ? { ...todo, title: selected[selectedIdx++] }
-                : todo,
-            )
-          : arr,
-      );
+      const updated = [...prev];
+      let fillIndex = 0;
+      for (let i = 0; i < updated[selectedGoalIndex].length && fillIndex < selected.length; i++) {
+        if (updated[selectedGoalIndex][i].title.trim() === '') {
+          updated[selectedGoalIndex][i] = {
+            ...updated[selectedGoalIndex][i],
+            title: selected[fillIndex],
+          };
+          fillIndex++;
+        }
+      }
+      return updated;
     });
     setAiUsedByGoal((prev) => prev.map((v, idx) => (idx === selectedGoalIndex ? true : v)));
     updateTooltipState(selectedGoalIndex, false);
@@ -220,8 +230,49 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   };
 
   const handleOpenAiModal = () => {
-    openModal(
-      <AiRecommendModal onClose={handleAiModalClose} onSubmit={handleAiSubmit} values={todos} />,
+    console.log('[1] AI 버튼 클릭', {
+      coreGoal: subGoals[selectedGoalIndex],
+      subGoal: todos.filter(todo => todo.title.trim()).map(todo => ({ title: todo.title })),
+      selectedCoreGoalId,
+    });
+    if (!selectedCoreGoalId) {
+      console.warn('selectedCoreGoalId가 유효하지 않음');
+      return;
+    }
+    recommendAiSubGoal(
+      {
+        coreGoal: subGoals[selectedGoalIndex],
+        subGoal: todos.filter(todo => todo.title.trim()).map(todo => ({ title: todo.title })),
+      },
+      {
+        onSuccess: (res) => {
+          console.log('[4] AI 추천 성공', res);
+          const aiList = (res as any)?.data?.aiRecommendedList ?? (res as any)?.aiRecommendedList;
+          setAiRecommendList(aiList);
+          setAiModalOpen(true);
+        },
+        onError: (err) => {
+          console.log('[4] AI 추천 실패', err);
+          const code =
+            err && typeof err === 'object' && 'response' in err && (err as any).response?.data?.code
+              ? (err as any).response.data.code
+              : undefined;
+          if (code === 500) {
+            setAiFailModalOpen(true);
+          } else if (code === 409) {
+            alert('이미 8개가 모두 작성되었거나, AI 추천을 이미 사용했습니다.');
+          } else if (code === 404) {
+            alert('존재하지 않는 상위 목표입니다.');
+          } else if (code === 403) {
+            alert('다른 유저의 목표에는 추천을 요청할 수 없습니다.');
+          } else if (code === 400) {
+            alert('coreGoalId가 올바르지 않습니다.');
+          } else {
+            alert('알 수 없는 오류가 발생했습니다.');
+          }
+          setAiFailModalOpen(false);
+        },
+      }
     );
   };
 
@@ -267,7 +318,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
                 type="button"
                 aria-label="AI로 빈칸 채우기"
                 onClick={handleOpenAiModal}
-                disabled={isCurrentGoalAiUsed}
+                disabled={isCurrentGoalAiUsed || !selectedCoreGoalId}
               >
                 AI로 빈칸 채우기
               </button>
@@ -340,6 +391,15 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           />
         </button>
         {ModalWrapper}
+        {aiModalOpen && (
+          <AiRecommendModal
+            onClose={() => setAiModalOpen(false)}
+            onSubmit={handleAiSubmit}
+            values={todos.map((todo) => todo.title)}
+            options={aiRecommendList.map((item) => item.title)}
+          />
+        )}
+        {aiFailModalOpen && <AiFailModal onClose={() => setAiFailModalOpen(false)} />}
       </section>
     </main>
   );

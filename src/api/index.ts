@@ -33,6 +33,7 @@ export const get = <T>(...args: Parameters<typeof api.get>) => {
 };
 
 export const post = <T>(...args: Parameters<typeof api.post>) => {
+  console.log('[3] axios post 호출', args);
   return api.post<T>(...args);
 };
 

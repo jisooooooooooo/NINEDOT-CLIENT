@@ -2,6 +2,10 @@ import type { GetCoreGoalsResponse } from './type/coreGoals';
 import type { GetSubGoalsRequest, GetSubGoalsResponse } from './type/subGoals';
 import type { GetSubGoalIdsRequest, GetSubGoalIdsResponse } from './type/subGoalIds';
 import type { CreateSubGoalRequest, CreateSubGoalResponse } from './type/createSubGoal';
+import type {
+  AiRecommendSubGoalRequest,
+  AiRecommendSubGoalResponse,
+} from './type/aiRecommendSubGoal';
 
 import { get, post } from '@/api';
 import { END_POINT } from '@/api/constant/endPoint';
@@ -42,5 +46,14 @@ export const createSubGoal = async (coreGoalId: number, request: CreateSubGoalRe
     `/core-goals/${coreGoalId}/sub-goals`,
     request,
   );
+  return data;
+};
+
+export const postAiRecommendSubGoal = async (
+  coreGoalId: number,
+  body: AiRecommendSubGoalRequest,
+) => {
+  console.log('[2] postAiRecommendSubGoal 호출', { coreGoalId, body });
+  const { data } = await post<AiRecommendSubGoalResponse>(`/core-goals/${coreGoalId}/ai`, body);
   return data;
 };
