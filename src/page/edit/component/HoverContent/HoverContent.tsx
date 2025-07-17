@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import * as styles from './HoverContent.css';
-import { MANDALART_MOCK_DATA } from './mock';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import ModifyTextField from '@/common/component/ModifyTextField';
@@ -18,18 +17,18 @@ type SubGoalWithCycle = SubGoal & {
 interface HoverContentProps {
   content: string;
   onChange: (value: string) => void;
-  initialSubGoals?: SubGoal[];
-  position?: number;
-  id?: number;
-  onSubGoalsChange?: (subGoals: SubGoal[]) => void;
+  initialSubGoals: SubGoal[];
+  position: number;
+  id: number;
+  onSubGoalsChange: (subGoals: SubGoal[]) => void;
 }
 
 const HoverContent = ({
   content,
   onChange,
-  initialSubGoals = MANDALART_MOCK_DATA.subGoals,
-  position = 0,
-  id = 0,
+  initialSubGoals,
+  position,
+  id,
   onSubGoalsChange,
 }: HoverContentProps) => {
   const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(() => {
@@ -71,7 +70,7 @@ const HoverContent = ({
   const handleTodoChange = (index: number, value: string) => {
     setSubGoals((prev) => {
       const newSubGoals = prev.map((goal, i) => (i === index ? { ...goal, title: value } : goal));
-      onSubGoalsChange?.(newSubGoals);
+      onSubGoalsChange(newSubGoals);
       return newSubGoals;
     });
   };
@@ -79,7 +78,7 @@ const HoverContent = ({
   const handleCycleChange = (index: number, cycle: CycleType) => {
     setSubGoals((prev) => {
       const newSubGoals = prev.map((goal, i) => (i === index ? { ...goal, cycle } : goal));
-      onSubGoalsChange?.(newSubGoals);
+      onSubGoalsChange(newSubGoals);
       return newSubGoals;
     });
   };

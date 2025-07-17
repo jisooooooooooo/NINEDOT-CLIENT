@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 
 import * as styles from './Content.css';
 import HoverContent from '../HoverContent/HoverContent';
@@ -31,12 +31,9 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     mandalartData,
   });
 
-  const { data: subGoalIdsResponse, isLoading: isSubGoalsLoading } = useSubGoalIds(
-    hoveredGoal?.id || 0,
-    {
-      enabled: !!hoveredGoal,
-    },
-  );
+  const { isLoading: isSubGoalsLoading } = useSubGoalIds(hoveredGoal?.id || 0, {
+    enabled: !!hoveredGoal,
+  });
   const { mutate: updateGoal } = useUpdateCoreGoal(MANDAL_ID);
 
   const isLoading = isMandalLoading || (hoveredGoal && isSubGoalsLoading);
@@ -206,19 +203,17 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   );
 
   const renderEditContent = useCallback(() => {
-    if (isLoading) {
+    if (isLoading || !hoveredGoal) {
       return <div className={styles.loadingContainer}>로딩중...</div>;
     }
 
-    const subGoals: SubGoal[] = hoveredGoal?.subGoals || [];
-
     return (
       <HoverContent
-        content={hoveredGoal?.title || ''}
+        content={hoveredGoal.title}
         onChange={handleTitleChange}
-        initialSubGoals={subGoals}
-        position={hoveredGoal?.position || 0}
-        id={hoveredGoal?.id || 0}
+        initialSubGoals={hoveredGoal.subGoals}
+        position={hoveredGoal.position}
+        id={hoveredGoal.id}
         onSubGoalsChange={handleSubGoalsChange}
       />
     );

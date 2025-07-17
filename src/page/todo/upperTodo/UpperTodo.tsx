@@ -97,8 +97,9 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
             type="TODO_MAIN"
             mainGoal={mainGoal}
             subGoals={subGoals.map((v, i) => ({
+              id: i + 1,
               title: v,
-              position: i,
+              position: i + 1,
               cycle: 'ONCE' as const,
             }))}
           />

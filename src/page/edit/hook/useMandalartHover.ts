@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CoreGoal } from '@/page/mandal/types/mandal';
 
 interface UseMandalartHoverProps {
@@ -23,6 +23,7 @@ export const useMandalartHover = ({
 }: UseMandalartHoverProps): UseMandalartHoverReturn => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredGoal, setHoveredGoal] = useState<CoreGoal | null>(null);
+  const lastPositionRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!mandalartData) {
@@ -40,28 +41,26 @@ export const useMandalartHover = ({
       const target = e.target as HTMLElement;
       const cell = target.closest('[data-position]');
 
-      // 만다라트 셀을 찾지 못한 경우 상태 변경하지 않음
       if (!cell) {
         return;
       }
 
       const position = parseInt(cell.getAttribute('data-position') || '0');
 
-      // 유효하지 않은 position이거나 중앙(5번) 칸인 경우 무시
-      if (!position || position === 5) {
+      if (!position || position === 5 || position === lastPositionRef.current) {
         return;
       }
 
       const adjustedPosition = position > 5 ? position - 1 : position;
       const goal = mandalartData.coreGoals.find((g) => g.position === adjustedPosition);
 
-      // 이전 상태와 동일한 goal인 경우 상태 업데이트 하지 않음
-      if (goal && (hoveredGoal?.id !== goal.id || !isHovered)) {
+      if (goal) {
+        lastPositionRef.current = position;
         setHoveredGoal(goal);
         setIsHovered(true);
       }
     },
-    [isEditing, mandalartData, hoveredGoal, isHovered],
+    [isEditing, mandalartData],
   );
 
   const handleMouseLeave = useCallback(
@@ -71,6 +70,7 @@ export const useMandalartHover = ({
       const isMovingToMandalartContent = relatedTarget?.closest('#mandalartContent');
 
       if (!isMovingToHoverContent && !isMovingToMandalartContent) {
+        lastPositionRef.current = null;
         setIsHovered(false);
         if (!isEditing) {
           setHoveredGoal(null);
