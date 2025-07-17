@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Mandalart from './Mandalart';
+
+const queryClient = new QueryClient();
 
 const meta = {
   title: 'Components/Mandalart',
@@ -18,6 +21,13 @@ const meta = {
       options: ['TODO_SUB', 'TODO_MAIN', 'TODO_EDIT', 'MY_MANDAL', 'MY_MANDAL_CENTER'],
     },
   },
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+      </QueryClientProvider>
+    ),
+  ],
 } satisfies Meta<typeof Mandalart>;
 
 export default meta;
@@ -35,11 +45,20 @@ const mockCoreGoal = {
   })),
 };
 
+const mockMainGoalData = {
+  title: '대표 목표',
+  subGoals: Array.from({ length: 8 }, (_, i) => ({
+    ...mockCoreGoal,
+    id: i + 1,
+    position: i + 1,
+    title: `목표 ${i + 1}`,
+  })),
+};
+
 export const Default: Story = {
   args: {
     type: 'TODO_MAIN',
     data: mockCoreGoal,
-    mainGoal: '대표 목표',
   },
 };
 
@@ -47,7 +66,6 @@ export const AllTypes: Story = {
   args: {
     type: 'TODO_MAIN',
     data: mockCoreGoal,
-    mainGoal: '대표 목표',
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
@@ -61,7 +79,7 @@ export const AllTypes: Story = {
       </div>
       <div>
         <h3 style={{ marginBottom: '1rem' }}>TODO_EDIT (160px)</h3>
-        <Mandalart type="TODO_EDIT" data={{ ...mockCoreGoal, id: 3, position: 3 }} />
+        <Mandalart type="TODO_EDIT" data={mockMainGoalData} />
       </div>
       <div>
         <h3 style={{ marginBottom: '1rem' }}>MY_MANDAL (298px)</h3>
