@@ -60,7 +60,7 @@ export const usePostAiRecommendCoreGoal = () => {
       coreGoal: { title: string }[];
     }) => {
       const response = await postAiRecommendCoreGoal(mandalartId, { mandalart, coreGoal });
-      return response.data.aiRecommendedList;
+      return response;
     },
   });
 };

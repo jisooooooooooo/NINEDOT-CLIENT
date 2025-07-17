@@ -38,7 +38,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
           있어요
         </p>
         <div className={styles.listWrapper}>
-          {options.map((option) => {
+          {options?.map((option) => {
             const isChecked = selectedOptions.includes(option);
             const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
             const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;

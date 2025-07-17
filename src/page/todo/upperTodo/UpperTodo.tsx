@@ -24,12 +24,13 @@ interface UpperTodoProps {
   mainGoal?: string;
 }
 
-const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
+const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
   const [subGoals, setSubGoals] = useState(Array(8).fill(''));
   const [isAiUsed, setIsAiUsed] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
+  const [recommendedGoals, setRecommendedGoals] = useState<{ title: string }[]>([]);
 
   const mandalartId = 1;
   const { data } = useGetMandalAll(mandalartId);
@@ -85,13 +86,16 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
 
   const handleAiSubmit = (selected: string[]) => {
     const updated = [...subGoals];
-    let selectedIndex = 0;
-    for (let i = 0; i < updated.length; i++) {
-      if (updated[i].trim() === '' && selectedIndex < selected.length) {
-        updated[i] = selected[selectedIndex];
-        selectedIndex++;
+    const matched = recommendedGoals.filter((goal) => selected.includes(goal.title));
+
+    let fillIndex = 0;
+    for (let i = 0; i < updated.length && fillIndex < matched.length; i++) {
+      if (updated[i].trim() === '') {
+        updated[i] = matched[fillIndex].title;
+        fillIndex++;
       }
     }
+
     setSubGoals(updated);
   };
 
@@ -108,12 +112,17 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
         coreGoal: coreGoals,
       });
 
+      const recommendList = response || [];
+      const titles = recommendList.map((item: { title: string }) => item.title);
+
+      setRecommendedGoals(recommendList);
+
       const aiModalContent = (
         <AiRecommendModal
           onClose={closeModal}
           onSubmit={handleAiSubmit}
           values={subGoals}
-          options={response.recommendGoals}
+          options={titles}
         />
       );
 

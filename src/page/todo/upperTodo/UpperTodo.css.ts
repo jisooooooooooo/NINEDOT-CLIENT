@@ -60,7 +60,7 @@ export const aiAssistWrapper = style({
 });
 
 export const aiAssistTooltip = style({
-  marginRight: 'calc((100% - 24.5rem) / 2)',
+  marginRight: 'calc((10% - 25rem) / 2)',
 });
 
 const aiAssistBase = {
