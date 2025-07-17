@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import { IcDropdown } from '@/assets/svg';
 import * as styles from '@/page/signup/component/JobDropDown/JobDropDown.css';
 import JobList from '@/page/signup/component/JobDropDown/JobList';
-import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
-import type { JobType, JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import SignupTextField from '@/common/component/SignupTextField';
+import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
+import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
+import { useGetJobList } from '@/api/domain/signup/hook/useGetJobList';
 
 type JobDropDownProps = {
   id: string;
@@ -28,12 +29,15 @@ const JobDropDown = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const handleJob = (job: JobType) => {
+  const handleJob = (job: JobItem) => {
     setSelectedJob(job);
     setIsOpen(false);
   };
 
   const state = isOpen ? 'clicked' : 'default';
+
+  const { data, isLoading } = useGetJobList();
+  const jobList = data?.jobList ?? [];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -51,6 +55,10 @@ const JobDropDown = ({
     };
   }, [isOpen]);
 
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+
   return (
     <div className={styles.dropdownContainer} ref={dropdownRef}>
       <button id={id} className={styles.jobContainer} onClick={toggleDropdown}>
@@ -60,9 +68,9 @@ const JobDropDown = ({
         <IcDropdown className={styles.dropdownIcon({ state })} />
       </button>
 
-      {isOpen && <JobList jobList={JOB_LIST} selectedJob={selectedJob} onSelect={handleJob} />}
+      {isOpen && <JobList jobList={jobList} selectedJob={selectedJob} onSelect={handleJob} />}
 
-      {!isPlaceHolder && selectedJob.id === JOB_LIST[JOB_LIST.length - 1].id && (
+      {!isPlaceHolder && selectedJob.id === jobList[jobList.length - 1].id && (
         <div className={styles.etcContainer}>
           <SignupTextField
             type="job"

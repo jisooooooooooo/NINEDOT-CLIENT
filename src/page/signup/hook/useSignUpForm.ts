@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import { JOB_LIST } from '@/page/signup/component/JobDropDown/constants/job';
-import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import { userData } from '@/page/signup/userData';
 import { validateField } from '@/common/component/SignupTextField/validation';
+import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 
 const PLACE_HOLDER = '직업을 선택하세요';
+const ETC_JOB_KEYWORD = '기타';
 
 export const useSignUpForm = () => {
   const [name, setName] = useState(userData.name);
@@ -21,14 +21,14 @@ export const useSignUpForm = () => {
   const isPlaceholder = (job: JobValue): job is typeof PLACE_HOLDER => job === PLACE_HOLDER;
 
   const isOtherJob = (job: JobValue): boolean =>
-    !isPlaceholder(job) && job.id === JOB_LIST[JOB_LIST.length - 1].id;
+    !isPlaceholder(job) && typeof job !== 'string' && job.job.includes(ETC_JOB_KEYWORD);
 
   const isOtherSelected = isOtherJob(selectedJob);
 
   const finalJob = isPlaceholder(selectedJob)
     ? ''
-    : isOtherSelected
-      ? inputJob.trim()
+    : typeof selectedJob === 'string'
+      ? ''
       : selectedJob.job;
 
   const isValid =
@@ -42,6 +42,6 @@ export const useSignUpForm = () => {
   return {
     formState: { name, email, birth, selectedJob, inputJob, isChecked },
     actions: { setName, setEmail, setBirth, setSelectedJob, setInputJob, setIsChecked },
-    computed: { finalJob, isValid },
+    computed: { finalJob, isValid, isOtherSelected },
   };
 };
