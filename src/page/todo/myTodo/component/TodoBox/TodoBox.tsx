@@ -7,21 +7,9 @@ import {
   checkboxButton,
   checkboxIcon,
 } from './TodoBox.css';
+import type { TodoBoxProps, TodoItemTypes } from './TodoBox.types';
 
-import { IcCheckboxChecked, IcCheckboxDefault } from '@/assets/svg';
-
-interface TodoBoxProps {
-  type: 'recommend' | 'todo';
-  items: TodoItemProps[];
-  onItemClick?: (item: TodoItemProps) => void;
-  className?: string;
-}
-
-interface TodoItemProps {
-  id: string;
-  content: string;
-  completed?: boolean;
-}
+import { IcFilledcheckCheck, IcFilledcheckDefault } from '@/assets/svg';
 
 const TodoBox = ({ type, items, onItemClick, className }: TodoBoxProps) => (
   <div className={clsx(todoBoxContainer[type], className)}>
@@ -31,18 +19,17 @@ const TodoBox = ({ type, items, onItemClick, className }: TodoBoxProps) => (
   </div>
 );
 
-const TodoItem = ({
-  item,
-  type,
-  onItemClick,
-}: {
-  item: TodoItemProps;
+export type TodoItemProps = {
+  item: TodoItemTypes;
   type: 'recommend' | 'todo';
-  onItemClick?: (item: TodoItemProps) => void;
-}) => {
+  onItemClick?: (item: TodoItemTypes) => void;
+};
+
+const TodoItem = ({ item, type, onItemClick }: TodoItemProps) => {
   const handleClick = () => {
     onItemClick?.(item);
   };
+  const CheckIcon = item.completed ? IcFilledcheckCheck : IcFilledcheckDefault;
   return (
     <div className={todoItemContainer[type]}>
       <span className={todoText[type]}>{item.content}</span>
@@ -51,13 +38,10 @@ const TodoItem = ({
         onClick={handleClick}
         aria-label={item.completed ? '완료 취소하기' : '완료하기'}
       >
-        {(() => {
-          const CheckIcon = item.completed ? IcCheckboxChecked : IcCheckboxDefault;
-          return <CheckIcon className={checkboxIcon} />;
-        })()}
+        <CheckIcon className={checkboxIcon} />
       </button>
     </div>
   );
 };
 
-export default TodoBox;
+export { TodoBox };
