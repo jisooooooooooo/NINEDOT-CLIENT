@@ -45,3 +45,14 @@ export const patchOnboardingCoreGoal = async ({
   );
   return response.data.data;
 };
+
+export const postAiRecommendCoreGoal = async (
+  mandalartId: number,
+  body: {
+    mandalart: string;
+    coreGoal: { title: string }[];
+  },
+) => {
+  const res = await axiosInstance.post(`/${END_POINT.MANDALART}/${mandalartId}/ai`, body);
+  return res.data;
+};

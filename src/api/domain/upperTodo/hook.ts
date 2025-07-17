@@ -5,6 +5,7 @@ import {
   getCoreGoalIdPositions,
   postOnboardingCoreGoal,
   patchOnboardingCoreGoal,
+  postAiRecommendCoreGoal,
 } from './index';
 
 import { QUERY_KEY } from '@/api/constant/queryKey';
@@ -43,5 +44,23 @@ export const usePatchOnboardingCoreGoal = () => {
   return useMutation({
     mutationKey: QUERY_KEY.PATCH_ONBOARDING_CORE_GOAL,
     mutationFn: (params: { coreGoalId: number; title: string }) => patchOnboardingCoreGoal(params),
+  });
+};
+
+export const usePostAiRecommendCoreGoal = () => {
+  return useMutation({
+    mutationKey: QUERY_KEY.POST_AI_RECOMMEND_CORE_GOAL,
+    mutationFn: async ({
+      mandalartId,
+      mandalart,
+      coreGoal,
+    }: {
+      mandalartId: number;
+      mandalart: string;
+      coreGoal: { title: string }[];
+    }) => {
+      const response = await postAiRecommendCoreGoal(mandalartId, { mandalart, coreGoal });
+      return response.data.aiRecommendedList;
+    },
   });
 };

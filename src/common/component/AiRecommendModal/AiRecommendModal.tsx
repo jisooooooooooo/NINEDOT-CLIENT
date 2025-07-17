@@ -9,20 +9,10 @@ interface AiRecommendModalProps {
   onClose: () => void;
   onSubmit: (selected: string[]) => void;
   values: string[];
+  options: string[];
 }
 
-const options = [
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜1',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜2',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜3',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜4',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜5',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜6',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜7',
-  '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜8',
-];
-
-const AiRecommendModal = ({ onClose, onSubmit, values }: AiRecommendModalProps) => {
+const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const emptyCount = values.filter((v) => v.trim() === '').length;

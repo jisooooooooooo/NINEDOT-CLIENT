@@ -16,6 +16,7 @@ import {
   useGetCoreGoalIdPositions,
   usePostOnboardingCoreGoal,
   usePatchOnboardingCoreGoal,
+  usePostAiRecommendCoreGoal,
 } from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
@@ -46,6 +47,7 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
 
   const postMutation = usePostOnboardingCoreGoal();
   const patchMutation = usePatchOnboardingCoreGoal();
+  const postAiRecommend = usePostAiRecommendCoreGoal();
 
   const handleSubGoalEnter = async (index: number, value: string) => {
     if (!value.trim()) {
@@ -93,14 +95,32 @@ const UpperTodo = ({ userName = '@@' }: UpperTodoProps) => {
     setSubGoals(updated);
   };
 
-  const aiModalContent = (
-    <AiRecommendModal onClose={closeModal} onSubmit={handleAiSubmit} values={subGoals} />
-  );
-
-  const handleOpenAiModal = () => {
+  const handleOpenAiModal = async () => {
     setIsAiUsed(true);
     setIsTooltipOpen(false);
-    openModal(aiModalContent);
+
+    try {
+      const coreGoals = subGoals.filter((v) => v.trim() !== '').map((v) => ({ title: v }));
+
+      const response = await postAiRecommend.mutateAsync({
+        mandalartId,
+        mandalart: mainGoal,
+        coreGoal: coreGoals,
+      });
+
+      const aiModalContent = (
+        <AiRecommendModal
+          onClose={closeModal}
+          onSubmit={handleAiSubmit}
+          values={subGoals}
+          options={response.recommendGoals}
+        />
+      );
+
+      openModal(aiModalContent);
+    } catch (error) {
+      console.error('AI 추천 호출 실패:', error);
+    }
   };
 
   return (
