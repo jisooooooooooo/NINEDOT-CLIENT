@@ -3,6 +3,7 @@
   "installCommand": "pnpm install",
   "framework": "vite",
   "outputDirectory": "dist",
+  "cleanUrls": true,
   "functions": {
     "app/api/**/*.ts": {
       "runtime": "nodejs20.x"
