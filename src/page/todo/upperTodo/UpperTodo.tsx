@@ -101,7 +101,6 @@ const UpperTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
               position: i,
               cycle: 'ONCE' as const,
             }))}
-            disableInteraction
           />
           <SubGoalFields values={subGoals} onChange={setSubGoals} />
         </div>

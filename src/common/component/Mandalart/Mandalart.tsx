@@ -5,7 +5,7 @@ import * as styles from './Mandalart.css';
 import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
 
-import type { CoreGoal } from '@/page/mandal/types/mandal';
+import type { CoreGoal, MainGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
 export type MandalartType =
@@ -13,7 +13,8 @@ export type MandalartType =
   | 'TODO_MAIN'
   | 'TODO_EDIT'
   | 'MY_MANDAL'
-  | 'MY_MANDAL_CENTER';
+  | 'MY_MANDAL_CENTER'
+  | 'TODO_SUB_COLORED';
 
 interface SubGoal {
   title: string;
@@ -23,9 +24,8 @@ interface SubGoal {
 
 interface MandalartProps {
   type: MandalartType;
-  data?: CoreGoal;
+  data?: CoreGoal | MainGoal;
   onGoalClick?: (position: number) => void;
-  disableInteraction?: boolean;
   isCenter?: boolean;
   mainGoal?: string;
   subGoals?: SubGoal[];
@@ -38,7 +38,6 @@ const Mandalart = ({
   data,
   onGoalClick,
   isCenter = false,
-  disableInteraction,
   mainGoal,
   subGoals,
 }: MandalartProps) => {
@@ -68,14 +67,16 @@ const Mandalart = ({
       data?.subGoals?.[subGoalIndex] ||
       MOCK_MANDALART_DATA.subGoals[subGoalIndex];
 
+    const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
+
     return (
       <Sub
         key={index}
         content={subGoal.title}
         isCompleted={selectedGoal === subGoalIndex}
         onClick={() => handleGoalClick(subGoalIndex)}
-        disableInteraction={disableInteraction}
         type={squareType}
+        disableInteraction={isEmptyGoal}
       />
     );
   };
