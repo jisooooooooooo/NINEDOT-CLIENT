@@ -7,6 +7,7 @@ import type { MandalartData } from './constant/mock';
 
 import { DatePicker } from '@/page/todo/myTodo/component/DatePicker';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
+import { useGetMandalAll } from '@/api/domain/myTodo/hook/useMyMandal';
 
 interface MyTodoProps {
   userName?: string;
@@ -42,6 +43,11 @@ const MyTodo = ({
     initialMyTodos,
   });
 
+  const mandalartId = 1;
+  const { data } = useGetMandalAll(mandalartId);
+
+  const mainGoal = data?.title || '사용자가 작성한 대목표';
+
   return (
     <>
       <div className={styles.myTodoBg} />
@@ -64,7 +70,10 @@ const MyTodo = ({
             <TodoCheckSection
               selectedCycle={selectedCycle}
               todos={todos}
-              mandalartData={mandalartData || DEFAULT_MANDALART_DATA}
+              mandalartData={{
+                ...(mandalartData || DEFAULT_MANDALART_DATA),
+                title: data?.title || mandalartData?.title || DEFAULT_MANDALART_DATA.title,
+              }}
               onCycleClick={handleCycleClick}
               onTodoClick={handleMyTodoClick}
               onMandalartClick={setSelectedParentId}

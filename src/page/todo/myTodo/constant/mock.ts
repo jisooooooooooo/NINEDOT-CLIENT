@@ -9,6 +9,7 @@ export interface SubGoal {
 }
 
 export interface MandalartData {
+  title: string;
   mainGoal: string;
   subGoals: SubGoal[];
 }
@@ -25,6 +26,7 @@ export const DEFAULT_MANDALART_DATA: MandalartData = {
     { title: '세부 목표 작성완료', position: 6, cycle: 'DAILY' },
     { title: '세부 목표 작성완료', position: 7, cycle: 'DAILY' },
   ],
+  title: '',
 };
 
 export const DEFAULT_RECOMMEND_TODOS: TodoItemTypes[] = [

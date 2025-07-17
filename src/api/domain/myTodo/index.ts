@@ -12,3 +12,10 @@ export const getRecommendation = async (mandalartId: number, params: Recommendat
   );
   return data.data;
 };
+
+export const getMandalAll = async (mandalartId: number) => {
+  const response = await axiosInstance.get<BaseResponse<{ title: string }>>(
+    `/${END_POINT.MANDALART}/${mandalartId}`,
+  );
+  return response.data.data;
+};

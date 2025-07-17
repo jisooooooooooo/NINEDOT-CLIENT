@@ -55,7 +55,7 @@ const Mandalart = ({
       return (
         <Main
           key={index}
-          content={mainGoal || data?.title || MOCK_MANDALART_DATA.mainGoal}
+          content={data?.title || mainGoal || MOCK_MANDALART_DATA.mainGoal}
           type={squareType}
         />
       );
