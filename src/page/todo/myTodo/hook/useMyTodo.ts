@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
 import type { CycleType } from '../constant/mock';
-import { DEFAULT_RECOMMEND_TODOS } from '../constant/mock';
 
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
-import { createDate } from '@/common/util/format';
+import { createDate, formatDateDot } from '@/common/util/format';
+import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
+
+const MANDALART_ID = 1;
 
 const mockSubGoals = Array.from({ length: 8 * 8 }, (_, i) => {
   const parentId = Math.floor(i / 8) + 1;
@@ -31,15 +33,24 @@ interface UseMyTodoProps {
 const MIN_DATE = createDate(2025, 1, 1);
 const MAX_DATE = createDate(2025, 1, 31);
 
-export const useMyTodo = ({
-  initialDate = createDate(2025, 1, 15),
-  initialRecommendTodos = DEFAULT_RECOMMEND_TODOS,
-}: UseMyTodoProps = {}) => {
+export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoProps = {}) => {
   const [currentDate, setCurrentDate] = useState(initialDate);
   const [selectedCycle, setSelectedCycle] = useState<CycleType | undefined>(undefined);
   const [selectedParentId, setSelectedParentId] = useState<number | undefined>(undefined);
   const [todos, setTodos] = useState<TodoItemTypes[]>([]);
-  const [recommendTodos, setRecommendTodos] = useState(initialRecommendTodos);
+
+  const formattedDate = formatDateDot(currentDate);
+  const { data: recommendationData } = useGetRecommendation(MANDALART_ID, formattedDate);
+
+  const recommendTodos: TodoItemTypes[] =
+    recommendationData?.subGoals.map((goal, index) => ({
+      id: goal.id.toString(),
+      content: goal.title,
+      completed: false,
+      cycle: goal.cycle as CycleType,
+      parentId: 0,
+      order: index,
+    })) ?? [];
 
   useEffect(() => {
     setTodos(mockSubGoals);
@@ -57,12 +68,9 @@ export const useMyTodo = ({
     setSelectedCycle(selectedCycle === cycle ? undefined : cycle);
   };
 
-  const handleRecommendTodoClick = (item: TodoItemTypes) => {
-    setRecommendTodos((prev) =>
-      prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
-    );
-    // API 호출 -> 추천 할 일 완료 상태 업데이트
-  };
+  const handleRecommendTodoClick = () =>
+    //item: TodoItemTypes
+    {};
 
   const handleMyTodoClick = (item: TodoItemTypes) => {
     setTodos((prev) =>
