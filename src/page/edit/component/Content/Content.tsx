@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import * as styles from './Content.css';
 import HoverContent from '../HoverContent/HoverContent';
@@ -41,42 +41,51 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
 
   const isLoading = isMandalLoading || (hoveredGoal && isSubGoalsLoading);
 
-  const handleSave = () => {
-    if (hoveredGoal) {
-      const requestData = {
-        coreGoal: {
-          position: hoveredGoal.position,
-          title: hoveredGoal.title,
-        },
-        subGoals: hoveredGoal.subGoals.map((subGoal) => ({
-          position: subGoal.position,
-          title: subGoal.title,
-          cycle: subGoal.cycle || 'DAILY',
-        })),
-      };
-
-      updateGoal(requestData);
-      setIsEditing(false);
-      setHoveredGoal(null);
+  const handleSave = useCallback(() => {
+    if (!hoveredGoal) {
+      return;
     }
-  };
+
+    const requestData = {
+      coreGoal: {
+        position: hoveredGoal.position,
+        title: hoveredGoal.title,
+      },
+      subGoals: hoveredGoal.subGoals.map((subGoal) => ({
+        position: subGoal.position,
+        title: subGoal.title,
+        cycle: subGoal.cycle || 'DAILY',
+      })),
+    };
+
+    updateGoal(requestData, {
+      onSuccess: () => {
+        setIsEditing(false);
+        setIsHovered(true);
+      },
+    });
+  }, [hoveredGoal, updateGoal, setIsEditing, setIsHovered]);
 
   useEffect(() => {
     if (!isEditing && hoveredGoal) {
       handleSave();
     }
-  }, [isEditing]);
+  }, [isEditing, hoveredGoal, handleSave]);
 
-  const handleGoalClick = (position: number, goalId?: number) => {
-    if (!mandalartData || (!isEditing && position === 5)) {
-      return;
-    }
+  const handleGoalClick = useCallback(
+    (position: number, goalId?: number) => {
+      if (!mandalartData || (!isEditing && position === 5)) {
+        return;
+      }
 
-    const goal = goalId
-      ? mandalartData.coreGoals.find((g: CoreGoal) => g.id === goalId)
-      : mandalartData.coreGoals.find((g: CoreGoal) => g.position === position);
+      const goal = goalId
+        ? mandalartData.coreGoals.find((g) => g.id === goalId)
+        : mandalartData.coreGoals.find((g) => g.position === position);
 
-    if (goal) {
+      if (!goal) {
+        return;
+      }
+
       if (isEditing && hoveredGoal) {
         const requestData = {
           coreGoal: {
@@ -103,20 +112,29 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       setHoveredGoal(goal);
       setIsHovered(true);
       setIsEditing(true);
-    }
-  };
-
-  const renderHoverGuide = () => (
-    <div className={styles.hoverGuideContainer}>
-      <p className={styles.hoverGuideText}>
-        {HOVER_GUIDE_MESSAGES.DESCRIPTION[0]}
-        <br />
-        {HOVER_GUIDE_MESSAGES.DESCRIPTION[1]}
-      </p>
-    </div>
+    },
+    [mandalartData, isEditing, hoveredGoal, updateGoal, setHoveredGoal, setIsHovered, setIsEditing],
   );
 
-  const mainGoalData = () => {
+  const handleTitleChange = useCallback(
+    (value: string) => {
+      if (hoveredGoal) {
+        setHoveredGoal({ ...hoveredGoal, title: value });
+      }
+    },
+    [hoveredGoal, setHoveredGoal],
+  );
+
+  const handleSubGoalsChange = useCallback(
+    (newSubGoals: SubGoal[]) => {
+      if (hoveredGoal) {
+        setHoveredGoal({ ...hoveredGoal, subGoals: newSubGoals });
+      }
+    },
+    [hoveredGoal, setHoveredGoal],
+  );
+
+  const mainGoalData = useMemo(() => {
     if (!mandalartData) {
       return undefined;
     }
@@ -172,9 +190,22 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
           };
         }),
     };
-  };
+  }, [mandalartData]);
 
-  const renderEditContent = () => {
+  const renderHoverGuide = useCallback(
+    () => (
+      <div className={styles.hoverGuideContainer}>
+        <p className={styles.hoverGuideText}>
+          {HOVER_GUIDE_MESSAGES.DESCRIPTION[0]}
+          <br />
+          {HOVER_GUIDE_MESSAGES.DESCRIPTION[1]}
+        </p>
+      </div>
+    ),
+    [],
+  );
+
+  const renderEditContent = useCallback(() => {
     if (isLoading) {
       return <div className={styles.loadingContainer}>로딩중...</div>;
     }
@@ -184,24 +215,16 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     return (
       <HoverContent
         content={hoveredGoal?.title || ''}
-        onChange={(value) => {
-          if (hoveredGoal) {
-            setHoveredGoal({ ...hoveredGoal, title: value });
-          }
-        }}
+        onChange={handleTitleChange}
         initialSubGoals={subGoals}
         position={hoveredGoal?.position || 0}
         id={hoveredGoal?.id || 0}
-        onSubGoalsChange={(newSubGoals) => {
-          if (hoveredGoal) {
-            setHoveredGoal({ ...hoveredGoal, subGoals: newSubGoals });
-          }
-        }}
+        onSubGoalsChange={handleSubGoalsChange}
       />
     );
-  };
+  }, [isLoading, hoveredGoal, handleTitleChange, handleSubGoalsChange]);
 
-  const renderSubGoals = () => {
+  const renderSubGoals = useCallback(() => {
     if (isLoading) {
       return <div className={styles.loadingContainer}>로딩중...</div>;
     }
@@ -215,9 +238,9 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         <Mandalart type="TODO_MAIN" data={hoveredGoal} />
       </div>
     );
-  };
+  }, [isLoading, hoveredGoal, renderHoverGuide]);
 
-  const renderContent = () => {
+  const renderContent = useCallback(() => {
     if (!isHovered && !isEditing) {
       return renderHoverGuide();
     }
@@ -225,29 +248,39 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       return renderEditContent();
     }
     return renderSubGoals();
-  };
+  }, [isHovered, isEditing, renderHoverGuide, renderEditContent, renderSubGoals]);
+
+  const handleMandalartClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isEditing) {
+        const target = e.target as HTMLElement;
+        const position = parseInt(target.getAttribute('data-position') || '0');
+        const goalId = parseInt(target.getAttribute('data-goal-id') || '0');
+        if (position) {
+          handleGoalClick(position, goalId || undefined);
+        }
+      }
+    },
+    [isEditing, handleGoalClick],
+  );
 
   return (
-    <div className={styles.contentContainer}>
+    <div
+      className={styles.contentContainer}
+      onMouseEnter={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <div
         id="mandalartContent"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onClick={(e) => {
-          if (!isEditing) {
-            const target = e.target as HTMLElement;
-            const position = parseInt(target.getAttribute('data-position') || '0');
-            const goalId = parseInt(target.getAttribute('data-goal-id') || '0');
-            if (position) {
-              handleGoalClick(position, goalId || undefined);
-            }
-          }
-        }}
+        onClick={handleMandalartClick}
       >
         {isMandalLoading ? (
           <div className={styles.loadingContainer}>로딩중...</div>
         ) : (
-          <Mandalart type="TODO_EDIT" data={mainGoalData()} onGoalClick={handleGoalClick} />
+          <Mandalart type="TODO_EDIT" data={mainGoalData} onGoalClick={handleGoalClick} />
         )}
       </div>
       <div id="hoverContent" onMouseLeave={handleMouseLeave}>

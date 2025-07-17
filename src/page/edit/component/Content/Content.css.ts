@@ -7,6 +7,8 @@ export const contentContainer = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '128rem',
+  position: 'relative',
+  isolation: 'isolate',
 });
 
 export const hoverGuideContainer = style({
@@ -18,6 +20,7 @@ export const hoverGuideContainer = style({
   alignItems: 'center',
   backgroundColor: colors.grey05_32,
   borderRadius: '12px',
+  position: 'relative', // 추가
 });
 
 export const hoverGuideText = style([
@@ -36,6 +39,7 @@ export const todoMainContainer = style({
   alignItems: 'center',
   backgroundColor: colors.grey05_32,
   borderRadius: '12px',
+  position: 'relative', // 추가
 });
 
 export const loadingContainer = style({

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { CoreGoal } from '@/page/mandal/types/mandal';
 
 interface UseMandalartHoverProps {
@@ -24,44 +24,44 @@ export const useMandalartHover = ({
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredGoal, setHoveredGoal] = useState<CoreGoal | null>(null);
 
+  useEffect(() => {
+    if (!mandalartData) {
+      setIsHovered(false);
+      setHoveredGoal(null);
+    }
+  }, [mandalartData]);
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
-      if (isEditing) {
+      if (isEditing || !mandalartData) {
         return;
       }
 
-      const container = e.currentTarget;
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const target = e.target as HTMLElement;
+      const cell = target.closest('[data-position]');
 
-      const cellWidth = rect.width / 3;
-      const cellHeight = rect.height / 3;
-
-      const col = Math.floor(x / cellWidth);
-      const row = Math.floor(y / cellHeight);
-
-      if (row === 1 && col === 1) {
-        setIsHovered(true);
+      // 만다라트 셀을 찾지 못한 경우 상태 변경하지 않음
+      if (!cell) {
         return;
       }
 
-      const position = row * 3 + col + 1;
+      const position = parseInt(cell.getAttribute('data-position') || '0');
 
-      if (!mandalartData) {
+      // 유효하지 않은 position이거나 중앙(5번) 칸인 경우 무시
+      if (!position || position === 5) {
         return;
       }
 
-      const goal = mandalartData.coreGoals.find(
-        (g: CoreGoal) => g.position === (position > 5 ? position - 1 : position),
-      );
+      const adjustedPosition = position > 5 ? position - 1 : position;
+      const goal = mandalartData.coreGoals.find((g) => g.position === adjustedPosition);
 
-      if (goal) {
+      // 이전 상태와 동일한 goal인 경우 상태 업데이트 하지 않음
+      if (goal && (hoveredGoal?.id !== goal.id || !isHovered)) {
         setHoveredGoal(goal);
         setIsHovered(true);
       }
     },
-    [isEditing, mandalartData],
+    [isEditing, mandalartData, hoveredGoal, isHovered],
   );
 
   const handleMouseLeave = useCallback(
