@@ -232,7 +232,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   const handleOpenAiModal = () => {
     console.log('[1] AI 버튼 클릭', {
       coreGoal: subGoals[selectedGoalIndex],
-      subGoal: todos.filter(todo => todo.title.trim()).map(todo => ({ title: todo.title })),
+      subGoal: todos.filter((todo) => todo.title.trim()).map((todo) => ({ title: todo.title })),
       selectedCoreGoalId,
     });
     if (!selectedCoreGoalId) {
@@ -242,7 +242,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     recommendAiSubGoal(
       {
         coreGoal: subGoals[selectedGoalIndex],
-        subGoal: todos.filter(todo => todo.title.trim()).map(todo => ({ title: todo.title })),
+        subGoal: todos.filter((todo) => todo.title.trim()).map((todo) => ({ title: todo.title })),
       },
       {
         onSuccess: (res) => {
@@ -272,7 +272,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
           }
           setAiFailModalOpen(false);
         },
-      }
+      },
     );
   };
 
