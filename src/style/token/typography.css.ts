@@ -19,6 +19,11 @@ export const fonts = {
     fontWeight: '800',
     lineHeight: '140%',
   },
+  display05: {
+    fontSize: '4.8rem',
+    fontWeight: '800',
+    lineHeight: '140%',
+  },
   title01: {
     fontSize: '2.8rem',
     fontWeight: '600',
