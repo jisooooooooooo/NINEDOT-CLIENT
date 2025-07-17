@@ -8,7 +8,11 @@ import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
 import { useModal } from '@/common/hook/useModal';
+import mandalAnimation from '@/assets/lottie/mandalart.json';
+import aiAnimation from '@/assets/lottie/ai.json';
+import todoAnimation from '@/assets/lottie/todo.json';
 
+const animationDataArray = [mandalAnimation, aiAnimation, todoAnimation];
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
@@ -34,6 +38,7 @@ const Home = () => {
               title={INTRO_MESSAGE[key].title}
               content={INTRO_MESSAGE[key].content}
               index={index}
+              animationData={animationDataArray[index]}
             />
           </div>
         );
