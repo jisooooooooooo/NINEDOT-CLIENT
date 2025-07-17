@@ -68,13 +68,15 @@ const LowerTodo = ({
     setAllTodos((prev) => prev.map((arr, idx) => (idx === selectedGoalIndex ? newTodos : arr)));
   };
 
-  const handleAiSubmit = (selected: string[]) => {
+  const handleAiSubmit = (selected: { id: number; position: number; title: string }[]) => {
     setAllTodos((prev) => {
       let selectedIdx = 0;
       return prev.map((arr, idx) =>
         idx === selectedGoalIndex
           ? arr.map((todo) =>
-              todo.trim() === '' && selectedIdx < selected.length ? selected[selectedIdx++] : todo,
+              todo.trim() === '' && selectedIdx < selected.length
+                ? selected[selectedIdx++].title
+                : todo,
             )
           : arr,
       );
@@ -91,7 +93,13 @@ const LowerTodo = ({
 
   const handleOpenAiModal = () => {
     openModal(
-      <AiRecommendModal onClose={handleAiModalClose} onSubmit={handleAiSubmit} values={todos} />,
+      <AiRecommendModal
+        onClose={handleAiModalClose}
+        onSubmit={handleAiSubmit}
+        values={todos}
+        options={[]}
+        mandalartId={0}
+      />,
     );
   };
 

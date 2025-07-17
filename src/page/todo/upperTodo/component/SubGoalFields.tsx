@@ -17,9 +17,18 @@ const ORDER_LABELS = [
 interface SubGoalFieldsProps {
   values: string[];
   onChange: (values: string[]) => void;
+  idPositions?: { id: number; position: number }[];
+  onEnter?: (index: number, value: string, coreGoalId?: number) => void;
+  aiResponseData?: { id: number; position: number; title: string }[];
 }
 
-const SubGoalFields = ({ values, onChange }: SubGoalFieldsProps) => {
+const SubGoalFields = ({
+  values,
+  onChange,
+  idPositions,
+  onEnter,
+  aiResponseData,
+}: SubGoalFieldsProps) => {
   const updatedValues = (index: number, newValue: string) =>
     values.map((v, i) => (i === index ? newValue : v));
 
@@ -28,15 +37,29 @@ const SubGoalFields = ({ values, onChange }: SubGoalFieldsProps) => {
     onChange(newValues);
   };
 
+  const appliedValues = [...values];
+  if (aiResponseData) {
+    aiResponseData.forEach(({ position, title }) => {
+      appliedValues[position - 1] = title;
+    });
+  }
+
   return (
     <div className={styles.textFieldColumn}>
-      {values.map((value, index) => (
+      {appliedValues.map((value, index) => (
         <TextField
           key={index}
           variant="subGoal"
           value={value}
           onChange={(val) => handleChange(index, val)}
           placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
+          data-id={idPositions?.[index]?.id?.toString()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && onEnter) {
+              e.preventDefault();
+              onEnter(index, e.currentTarget.value, idPositions?.[index]?.id);
+            }
+          }}
         />
       ))}
     </div>

@@ -3,6 +3,7 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 
 import { getUpperGoalIds, getSubGoals, getCoreGoals, updateSubGoal } from '.';
 import type { UpdateSubGoalRequest, SubGoalsResponse } from '.';
+
 import type { BaseResponse } from '@/type/api';
 import { QUERY_KEY } from '@/api/constant/queryKey';
 
