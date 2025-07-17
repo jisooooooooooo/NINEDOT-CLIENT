@@ -17,7 +17,7 @@ interface MyTodoProps {
 }
 
 const MyTodo = ({
-  userName = '지수',
+  userName = '김도트',
   mandalartData,
   selectedDate,
   initialRecommendTodos,

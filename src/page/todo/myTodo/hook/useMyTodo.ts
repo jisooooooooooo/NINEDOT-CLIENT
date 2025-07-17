@@ -32,7 +32,7 @@ const MIN_DATE = createDate(2025, 1, 1);
 const MAX_DATE = createDate(2025, 1, 31);
 
 export const useMyTodo = ({
-  initialDate = createDate(2025, 1, 15),
+  initialDate = createDate(2025, 7, 18),
   initialRecommendTodos = DEFAULT_RECOMMEND_TODOS,
 }: UseMyTodoProps = {}) => {
   const [currentDate, setCurrentDate] = useState(initialDate);
@@ -50,7 +50,6 @@ export const useMyTodo = ({
 
   const handleDateChange = (newDate: Date) => {
     setCurrentDate(newDate);
-    // API 호출 -> 해당 날짜의 추천 할 일 가져오기
   };
 
   const handleCycleClick = (cycle: CycleType) => {
