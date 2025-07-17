@@ -31,10 +31,13 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const [isAiUsed, setIsAiUsed] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const [recommendedGoals, setRecommendedGoals] = useState<{ title: string }[]>([]);
+  const [aiResponseData, setAiResponseData] = useState<
+    { id: number; position: number; title: string }[]
+  >([]);
 
   const mandalartId = 1;
-  const { data } = useGetMandalAll(mandalartId);
-  const { data: coreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
+  const { data, refetch } = useGetMandalAll(mandalartId);
+  const { data: coreGoalIds, refetch: refetchCoreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
 
   const coreGoalIdMap = useMemo(() => {
     const map: Record<number, number> = {};
@@ -64,6 +67,8 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
       } else {
         await postMutation.mutateAsync({ mandalartId, title: value, position });
       }
+      // 데이터 리페치하여 최신 상태 반영
+      await refetchCoreGoalIds();
     } catch (error) {
       console.error('상위 목표 저장 실패:', error);
     }
@@ -84,22 +89,32 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
     navigate(PATH.TODO_LOWER);
   };
 
-  const handleAiSubmit = (selected: string[]) => {
-    const updated = [...subGoals];
-    const matched = recommendedGoals.filter((goal) => selected.includes(goal.title));
+  // AI 추천 모달에서 선택한 목표들을 처리하는 함수
+  const handleAiSubmit = (responseData: { id: number; position: number; title: string }[]) => {
+    setAiResponseData(responseData);
 
-    let fillIndex = 0;
-    for (let i = 0; i < updated.length && fillIndex < matched.length; i++) {
-      if (updated[i].trim() === '') {
-        updated[i] = matched[fillIndex].title;
-        fillIndex++;
-      }
-    }
+    // subGoals 상태 업데이트
+    const updatedSubGoals = [...subGoals];
+    responseData.forEach(({ position, title }) => {
+      updatedSubGoals[position - 1] = title;
+    });
+    setSubGoals(updatedSubGoals);
 
-    setSubGoals(updated);
+    // 데이터 리페치하여 최신 상태 반영
+    refetchCoreGoalIds();
+    refetch();
   };
 
   const handleOpenAiModal = async () => {
+    // 현재 채워진 목표 개수 확인
+    const currentFilledCount = subGoals.filter((v) => v.trim() !== '').length;
+    const maxGoals = 8;
+
+    if (currentFilledCount >= maxGoals) {
+      alert('이미 모든 목표가 채워져 있습니다.');
+      return;
+    }
+
     setIsAiUsed(true);
     setIsTooltipOpen(false);
 
@@ -123,12 +138,14 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
           onSubmit={handleAiSubmit}
           values={subGoals}
           options={titles}
+          mandalartId={mandalartId}
         />
       );
 
       openModal(aiModalContent);
     } catch (error) {
       console.error('AI 추천 호출 실패:', error);
+      setIsAiUsed(false); // 에러 시 AI 사용 상태 리셋
     }
   };
 
@@ -180,6 +197,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
             onChange={setSubGoals}
             idPositions={coreGoalIds?.coreGoalIds || []}
             onEnter={handleSubGoalEnter}
+            aiResponseData={aiResponseData}
           />
         </div>
 

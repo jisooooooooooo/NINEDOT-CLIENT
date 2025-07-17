@@ -4,4 +4,5 @@ export const QUERY_KEY = {
   POST_ONBOARDING_CORE_GOAL: ['postOnboardingCoreGoal'],
   PATCH_ONBOARDING_CORE_GOAL: ['patchOnboardingCoreGoal'],
   POST_AI_RECOMMEND_CORE_GOAL: ['postAiRecommendCoreGoal'],
+  POST_AI_RECOMMEND_TO_CORE_GOALS: ['postAiRecommendToCoreGoals'],
 } as const;

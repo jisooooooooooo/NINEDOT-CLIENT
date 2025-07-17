@@ -19,9 +19,16 @@ interface SubGoalFieldsProps {
   onChange: (values: string[]) => void;
   idPositions?: { id: number; position: number }[];
   onEnter?: (index: number, value: string, coreGoalId?: number) => void;
+  aiResponseData?: { id: number; position: number; title: string }[];
 }
 
-const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFieldsProps) => {
+const SubGoalFields = ({
+  values,
+  onChange,
+  idPositions,
+  onEnter,
+  aiResponseData,
+}: SubGoalFieldsProps) => {
   const updatedValues = (index: number, newValue: string) =>
     values.map((v, i) => (i === index ? newValue : v));
 
@@ -30,9 +37,16 @@ const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFields
     onChange(newValues);
   };
 
+  const appliedValues = [...values];
+  if (aiResponseData) {
+    aiResponseData.forEach(({ position, title }) => {
+      appliedValues[position - 1] = title;
+    });
+  }
+
   return (
     <div className={styles.textFieldColumn}>
-      {values.map((value, index) => (
+      {appliedValues.map((value, index) => (
         <TextField
           key={index}
           variant="subGoal"

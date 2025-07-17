@@ -59,3 +59,13 @@ export const postAiRecommendCoreGoal = async (
   );
   return res.data.data.aiRecommendedList;
 };
+
+export const postAiRecommendToCoreGoals = async (
+  mandalartId: number,
+  body: { goals: string[] },
+) => {
+  const response = await axiosInstance.post<
+    BaseResponse<{ coreGoals: { id: number; position: number; title: string }[] }>
+  >(`/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}/ai`, body);
+  return response.data.data;
+};

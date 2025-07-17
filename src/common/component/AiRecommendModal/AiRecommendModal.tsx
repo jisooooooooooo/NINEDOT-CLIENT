@@ -3,17 +3,26 @@ import { useState } from 'react';
 import * as styles from './AiRecommendModal.css';
 import Button from '../Button/Button';
 
+import { usePostAiRecommendToCoreGoals } from '@/api/domain/upperTodo/hook';
 import { IcModalDelete, IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
 interface AiRecommendModalProps {
   onClose: () => void;
-  onSubmit: (selected: string[]) => void;
+  onSubmit: (aiResponseData: { id: number; position: number; title: string }[]) => void;
   values: string[];
   options: string[];
+  mandalartId: number;
 }
 
-const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendModalProps) => {
+const AiRecommendModal = ({
+  onClose,
+  onSubmit,
+  values,
+  options,
+  mandalartId,
+}: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const postRecommend = usePostAiRecommendToCoreGoals();
 
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
@@ -21,6 +30,24 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) =>
       prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option],
+    );
+  };
+
+  const handleClick = () => {
+    const goals = selectedOptions.slice(0, emptyCount);
+
+    postRecommend.mutate(
+      { mandalartId, goals },
+      {
+        onSuccess: (response) => {
+          const aiResponseData = response.coreGoals;
+          onSubmit(aiResponseData);
+          onClose();
+        },
+        onError: (error) => {
+          console.error('AI 추천 목표 저장 실패:', error);
+        },
+      },
     );
   };
 
@@ -62,13 +89,7 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
           })}
         </div>
         <div className={styles.buttonWrapper}>
-          <Button
-            text="내 만다라트에 넣기"
-            onClick={() => {
-              onSubmit(selectedOptions);
-              onClose();
-            }}
-          />
+          <Button text="내 만다라트에 넣기" onClick={handleClick} />
         </div>
       </div>
     </div>
