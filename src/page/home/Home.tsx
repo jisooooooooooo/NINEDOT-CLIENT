@@ -28,7 +28,7 @@ const Home = () => {
   return (
     <div className={HomeContainer}>
       {ModalWrapper}
-      <StartSection onClick={handleOpenLogin} />
+      <StartSection />
 
       {sectionKeys.map((key, index) => {
         const { ref, visible } = scrolls[index];
@@ -44,7 +44,7 @@ const Home = () => {
         );
       })}
 
-      <EndSection fadeInRef={end.ref} visible={end.visible} onClick={handleOpenLogin} />
+      <EndSection fadeInRef={end.ref} visible={end.visible} />
     </div>
   );
 };
