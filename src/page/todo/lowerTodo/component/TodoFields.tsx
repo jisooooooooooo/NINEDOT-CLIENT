@@ -19,11 +19,6 @@ interface TodoFieldsProps {
   disabled?: boolean;
 }
 
-const CYCLE_LABELS: Record<TodoItem['cycle'], '매일' | '매주' | '한 번'> = {
-  DAILY: '매일',
-  WEEKLY: '매주',
-  ONCE: '한 번',
-};
 const LABEL_TO_CYCLE: Record<'매일' | '매주' | '한 번', TodoItem['cycle']> = {
   매일: 'DAILY',
   매주: 'WEEKLY',

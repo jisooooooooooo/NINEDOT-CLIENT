@@ -30,9 +30,12 @@ interface TodoItem {
   cycle: 'DAILY' | 'WEEKLY' | 'ONCE';
 }
 
-const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: LowerTodoProps) => {
+const LowerTodo = ({
+  userName = '김도트',
+  mainGoal = '사용자가 작성한 대목표',
+}: LowerTodoProps) => {
   const navigate = useNavigate();
-  const { closeModal } = useModal();
+  const { ModalWrapper } = useModal();
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(0);
   const [allTodos, setAllTodos] = useState<TodoItem[][]>(
     Array(8)
