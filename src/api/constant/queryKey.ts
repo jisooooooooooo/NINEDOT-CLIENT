@@ -7,4 +7,7 @@ export const QUERY_KEY = {
   SUB_GOALS: (mandalartId: number, coreGoalId?: number, cycle?: string) =>
     ['subGoals', mandalartId, coreGoalId, cycle].filter(Boolean),
   AI_RECOMMEND_SUB_GOAL: (coreGoalId: number) => ['aiRecommendSubGoal', coreGoalId],
+  JOB_LIST: ['jobList'],
+  RECOMMENDED_TODO: (mandalartId: number) => ['recommendedTodo', mandalartId],
+  MANDAL_ALL: ['mandalAll'] as const,
 } as const;
