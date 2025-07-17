@@ -20,7 +20,7 @@ const History = () => {
   };
 
   if (isLoading || !data) {
-    return <Loading />;
+    return <Loading type="history" />;
   }
 
   return (

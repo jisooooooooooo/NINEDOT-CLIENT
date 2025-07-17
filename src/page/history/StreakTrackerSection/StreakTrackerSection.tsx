@@ -22,7 +22,7 @@ const StreakTracker = ({ selectedDay, setSelectedDay }: StreakTrackerProps) => {
   const { data, isLoading } = useGetStreak(MANDALART_ID);
 
   if (isLoading || !data) {
-    return <Loading />;
+    return <Loading type="history" />;
   }
   const detailData =
     visibleDay !== null
