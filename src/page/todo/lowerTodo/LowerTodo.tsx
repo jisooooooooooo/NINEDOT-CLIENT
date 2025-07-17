@@ -22,12 +22,21 @@ interface LowerTodoProps {
   mainGoal?: string;
 }
 
+interface TodoItem {
+  title: string;
+  cycle: 'DAILY' | 'WEEKLY' | 'ONCE';
+}
+
 const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: LowerTodoProps) => {
   const navigate = useNavigate();
   const { openModal, ModalWrapper, closeModal } = useModal();
 
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(-1);
-  const [allTodos, setAllTodos] = useState([...EMPTY_TODOS]);
+  const [allTodos, setAllTodos] = useState<TodoItem[][]>(
+    Array(8)
+      .fill(null)
+      .map(() => Array(8).fill({ title: '', cycle: 'DAILY' })),
+  );
   const [aiUsedByGoal, setAiUsedByGoal] = useState([...EMPTY_BOOL_ARR]);
   const [tooltipOpenArr, setTooltipOpenArr] = useState(Array(8).fill(true));
   const [subGoalIdsByPosition, setSubGoalIdsByPosition] = useState<{
@@ -81,10 +90,13 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     if (subGoalsData && selectedGoalIndex !== -1) {
       setAllTodos((prev) => {
         const newTodos = [...prev];
-        const apiTodos = subGoalsData.data.subGoals.map((subGoal) => subGoal.title);
+        const apiTodos = subGoalsData.data.subGoals.map((subGoal) => ({
+          title: subGoal.title,
+          cycle: subGoal.cycle,
+        }));
         const filledTodos = Array(8)
-          .fill('')
-          .map((_, idx) => apiTodos[idx] || '');
+          .fill({ title: '', cycle: 'DAILY' })
+          .map((_, idx) => apiTodos[idx] || { title: '', cycle: 'DAILY' });
         newTodos[selectedGoalIndex] = filledTodos;
         return newTodos;
       });
@@ -94,7 +106,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   useEffect(() => {
     if (coreGoalsData && selectedGoalIndex !== -1) {
       const todos = allTodos[selectedGoalIndex];
-      if (todos && todos.every((todo) => todo.trim() !== '')) {
+      if (todos && todos.every((todo) => todo.title.trim() !== '')) {
         setTooltipOpenArr((arr) => arr.map((v, i) => (i === selectedGoalIndex ? false : v)));
       }
     }
@@ -105,7 +117,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
   }
 
   const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
-  const todos = selectedGoalIndex === -1 ? Array(8).fill('') : allTodos[selectedGoalIndex];
+  const todos = selectedGoalIndex === -1 ? Array(8).fill({ title: '', cycle: 'DAILY' }) : allTodos[selectedGoalIndex];
 
   const updateTooltipState = (index: number, value: boolean) => {
     setTooltipOpenArr((arr) => arr.map((v, i) => (i === index ? value : v)));
@@ -116,11 +128,11 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     updateTooltipState(selectedGoalIndex, false);
   };
 
-  const hasAnyTodos = allTodos.some((goalTodos) => goalTodos.some((todo) => todo.trim() !== ''));
+  const hasAnyTodos = allTodos.some((goalTodos) => goalTodos.some((todo) => todo.title.trim() !== ''));
   const isCurrentGoalAiUsed = selectedGoalIndex === -1 ? false : aiUsedByGoal[selectedGoalIndex];
   const isCurrentGoalValid =
     selectedGoalIndex !== -1 && isValidSubGoal(subGoals[selectedGoalIndex]);
-  const isAllCurrentTodosFilled = todos.every((todo) => todo.trim() !== '');
+  const isAllCurrentTodosFilled = todos.every((todo) => todo.title.trim() !== '');
   const shouldShowTooltip = isTooltipOpen && !isAllCurrentTodosFilled;
 
   const handleSubGoalClick = (position: number) => {
@@ -130,7 +142,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     setSelectedGoalIndex(position);
   };
 
-  const handleTodoChange = (newTodos: string[]) => {
+  const handleTodoChange = (newTodos: TodoItem[]) => {
     setAllTodos((prev) => prev.map((arr, idx) => (idx === selectedGoalIndex ? newTodos : arr)));
   };
 
@@ -140,7 +152,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
       return prev.map((arr, idx) =>
         idx === selectedGoalIndex
           ? arr.map((todo) =>
-              todo.trim() === '' && selectedIdx < selected.length ? selected[selectedIdx++] : todo,
+              todo.title.trim() === '' && selectedIdx < selected.length ? selected[selectedIdx++] : todo,
             )
           : arr,
       );
@@ -237,7 +249,7 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
                   title: truncateText(subGoals[selectedGoalIndex] || '', 23),
                   subGoals: todos.map((todo, idx) => ({
                     id: idx,
-                    title: todo ? truncateText(todo, 23) : '',
+                    title: todo ? truncateText(todo.title, 23) : '',
                     position: idx,
                   })),
                 }}

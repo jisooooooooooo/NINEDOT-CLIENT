@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { IcDropdown } from '@/assets/svg';
 import CycleList from '@/common/component/CycleDropDown/CycleList';
@@ -16,6 +16,10 @@ type CycleDropDownProps = {
 const CycleDropDown = ({ initialType = CYCLE_TYPE[0], onChange }: CycleDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<CycleType>(initialType);
+
+  useEffect(() => {
+    setSelectedType(initialType);
+  }, [initialType]);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
