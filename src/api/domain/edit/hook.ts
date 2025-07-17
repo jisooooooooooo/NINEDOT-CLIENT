@@ -42,14 +42,12 @@ export const useUpdateSubGoal = (mandalartId: number) => {
 
   return useMutation({
     mutationFn: (data: UpdateSubGoalRequest) => updateSubGoal(mandalartId, data),
-    onSuccess: (_, data) => {
-      // 만달아트 전체 데이터 갱신 (mandalartId 포함)
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [...QUERY_KEY.MANDAL_ALL, mandalartId],
         exact: true,
       });
 
-      // 편집 관련 쿼리들 갱신
       queryClient.invalidateQueries({
         queryKey: EDIT_QUERY_KEY.subGoals(mandalartId),
         exact: true,
