@@ -5,8 +5,6 @@ import * as styles from './Header.css';
 
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
-import LoginModal from '@/common/component/LoginModal/LoginModal';
-import { useModal } from '@/common/hook/useModal';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
