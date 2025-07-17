@@ -38,14 +38,12 @@ export const contentText = style({
   ...fonts.subtitle04,
 });
 
-export const sectionContainer = style({
+export const LottieContainer = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   width: '90rem',
   height: '52.6rem',
   borderRadius: '30px',
-  backgroundColor: '#D9D9D9',
-  color: colors.black01_70,
-  ...fonts.display01,
+  overflow: 'hidden',
 });

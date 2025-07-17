@@ -42,6 +42,13 @@ const SQUARE_TYPES = {
     mainFont: fonts.body04,
     subFont: fonts.caption01,
   },
+  TODO_SUB_COLORED: {
+    width: '9.6rem',
+    height: '9.6rem',
+    padding: '0.6rem',
+    mainFont: fonts.body04,
+    subFont: fonts.caption01,
+  },
 } as const;
 
 const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
@@ -55,7 +62,10 @@ const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
     height: SQUARE_TYPES[type].height,
     padding: SQUARE_TYPES[type].padding,
     boxSizing: 'border-box',
-    cursor: type === 'MY_MANDAL' || type === 'MY_MANDAL_CENTER' ? 'default' : 'pointer',
+    cursor:
+      type === 'MY_MANDAL' || type === 'MY_MANDAL_CENTER' || type === 'TODO_SUB_COLORED'
+        ? 'default'
+        : 'pointer',
   });
 
 export const mainCell = {
@@ -97,6 +107,14 @@ export const mainCell = {
     {
       color: colors.grey10,
       backgroundImage: colors.gradient05,
+    },
+  ]),
+  TODO_SUB_COLORED: style([
+    createBaseCell('TODO_SUB_COLORED'),
+    SQUARE_TYPES.TODO_SUB_COLORED.mainFont,
+    {
+      color: colors.grey10,
+      backgroundImage: colors.gradient04,
     },
   ]),
 };
@@ -162,6 +180,17 @@ export const subCell = {
     {
       color: colors.grey10,
       backgroundImage: colors.gradient04,
+    },
+  ]),
+  TODO_SUB_COLORED: style([
+    createBaseCell('TODO_SUB_COLORED'),
+    SQUARE_TYPES.TODO_SUB_COLORED.subFont,
+    {
+      color: colors.grey8,
+      background: colors.grey3,
+      ':hover': {
+        background: colors.grey2,
+      },
     },
   ]),
 };

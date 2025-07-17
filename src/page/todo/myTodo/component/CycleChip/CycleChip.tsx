@@ -1,6 +1,12 @@
 import { chipBase, selectorChip, displayChip } from './CycleChip.css';
 
-export type CycleType = '매일' | '매주' | '한번';
+export type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
+
+const CYCLE_LABEL_MAP = {
+  DAILY: '매일',
+  WEEKLY: '매주',
+  ONCE: '한 번',
+} as const;
 
 export interface CycleChipProps {
   type: 'selector' | 'display';
@@ -17,10 +23,10 @@ const CycleChip = ({ type, value, selected, onClick }: CycleChipProps) => {
       className={`${chipBase} ${selected ? selectorChip.selected : selectorChip.deselected}`}
       onClick={() => onClick?.(value)}
     >
-      {value}
+      {CYCLE_LABEL_MAP[value]}
     </button>
   ) : (
-    <span className={`${chipBase} ${displayChip}`}>{value}</span>
+    <span className={`${chipBase} ${displayChip}`}>{CYCLE_LABEL_MAP[value]}</span>
   );
 };
 

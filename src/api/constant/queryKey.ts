@@ -6,4 +6,7 @@ export const QUERY_KEY = {
   DELETE_ONBOARDING_CORE_GOAL: ['deleteOnboardingCoreGoal'],
   POST_AI_RECOMMEND_CORE_GOAL: ['postAiRecommendCoreGoal'],
   POST_AI_RECOMMEND_TO_CORE_GOALS: ['postAiRecommendToCoreGoals'],
+  JOB_LIST: ['jobList'],
+  RECOMMENDED_TODO: (mandalartId: number) => ['recommendedTodo', mandalartId],
+  MANDAL_ALL: ['mandalAll'] as const,
 } as const;
