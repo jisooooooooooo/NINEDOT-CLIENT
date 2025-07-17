@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
-import { MOCK_MANDALART_DATA } from './mock';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
 
-import type { CoreGoal, MainGoal } from '@/page/mandal/types/mandal';
+import { useMandalAll } from '@/api/domain/mandalAll/hook';
+import type { CoreGoal, MainGoal, SubGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
 export type MandalartType =
@@ -16,22 +16,20 @@ export type MandalartType =
   | 'MY_MANDAL_CENTER'
   | 'TODO_SUB_COLORED';
 
-interface SubGoal {
-  title: string;
-  position: number;
-  cycle: string;
-}
-
 interface MandalartProps {
   type: MandalartType;
   data?: CoreGoal | MainGoal;
-  onGoalClick?: (position: number) => void;
+  onGoalClick?: (position: number, id?: number) => void;
   isCenter?: boolean;
   mainGoal?: string;
   subGoals?: SubGoal[];
 }
 
 const CENTER_INDEX = 4;
+
+const indexToPosition = (index: number): number => {
+  return index + 1;
+};
 
 const Mandalart = ({
   type,
@@ -42,10 +40,12 @@ const Mandalart = ({
   subGoals,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
+  const { data: mandalartData } = useMandalAll(1);
 
-  const handleGoalClick = (position: number) => {
+  const handleGoalClick = (index: number, subGoal: SubGoal) => {
+    const position = indexToPosition(index);
     setSelectedGoal(selectedGoal === position ? null : position);
-    onGoalClick?.(position);
+    onGoalClick?.(position, subGoal.id);
   };
 
   const renderSquare = (index: number) => {
@@ -55,28 +55,34 @@ const Mandalart = ({
       return (
         <Main
           key={index}
-          content={mainGoal || data?.title || MOCK_MANDALART_DATA.mainGoal}
+          content={mainGoal || data?.title || mandalartData?.title || ''}
           type={squareType}
         />
       );
     }
 
     const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
-    const subGoal =
-      subGoals?.[subGoalIndex] ||
+    const subGoal = subGoals?.[subGoalIndex] ||
       data?.subGoals?.[subGoalIndex] ||
-      MOCK_MANDALART_DATA.subGoals[subGoalIndex];
+      mandalartData?.coreGoals?.[subGoalIndex]?.subGoals?.[0] || {
+        title: '',
+        id: 0,
+        position: indexToPosition(index),
+      };
 
     const isEmptyGoal = !subGoal?.title || subGoal.title.trim() === '';
+    const position = indexToPosition(index);
 
     return (
       <Sub
         key={index}
         content={subGoal.title}
-        isCompleted={selectedGoal === subGoalIndex}
-        onClick={() => handleGoalClick(subGoalIndex)}
+        isCompleted={selectedGoal === position}
+        onClick={() => handleGoalClick(index, subGoal)}
         type={squareType}
         disableInteraction={isEmptyGoal}
+        position={position}
+        goalId={subGoal.id}
       />
     );
   };

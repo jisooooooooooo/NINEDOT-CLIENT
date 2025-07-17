@@ -14,6 +14,8 @@ export interface SubCellProps extends CellProps {
   isCompleted: boolean;
   onClick: () => void;
   disableInteraction?: boolean;
+  position?: number;
+  goalId?: number;
 }
 
 export const Root = ({ children }: SquareProps) => {
@@ -28,13 +30,23 @@ export const Main = ({ content, type }: CellProps) => {
   );
 };
 
-export const Sub = ({ content, isCompleted, onClick, type, disableInteraction }: SubCellProps) => {
+export const Sub = ({
+  content,
+  isCompleted,
+  onClick,
+  type,
+  disableInteraction,
+  position,
+  goalId,
+}: SubCellProps) => {
   return (
     <div className={styles.squareContainer}>
       <div
         className={styles.subCell[type]}
         data-completed={!disableInteraction && isCompleted}
         data-disabled={disableInteraction}
+        data-position={position}
+        data-goal-id={goalId}
         onClick={!disableInteraction ? onClick : undefined}
       >
         {content}

@@ -1,8 +1,8 @@
 import SignupTextField from '@/common/component/SignupTextField';
 import JobDropDown from '@/page/signup/component/JobDropDown/JobDropDown';
 import * as styles from '@/page/signup/BasicInfoSection/BasicInfoSection.css';
-import type { JobValue } from '@/page/signup/component/JobDropDown/constants/job';
 import LabeledField from '@/page/signup/component/LabelField/LabelField';
+import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 
 type BasicInfoProps = {
   name: string;
