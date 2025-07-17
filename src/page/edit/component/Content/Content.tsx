@@ -268,6 +268,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     >
       <div
         id="mandalartContent"
+        className={styles.mandalartSection}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handleMandalartClick}
@@ -278,7 +279,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
           <Mandalart type="TODO_EDIT" data={mainGoalData} onGoalClick={handleGoalClick} />
         )}
       </div>
-      <div id="hoverContent" onMouseLeave={handleMouseLeave}>
+      <div id="hoverContent" className={styles.hoverContentSection} onMouseLeave={handleMouseLeave}>
         {renderContent()}
       </div>
     </div>

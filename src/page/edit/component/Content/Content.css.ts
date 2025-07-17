@@ -11,16 +11,30 @@ export const contentContainer = style({
   isolation: 'isolate',
 });
 
-export const hoverGuideContainer = style({
+export const mandalartSection = style({
+  width: '56.4rem',
+  height: '66.4rem',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'relative',
+});
+
+export const hoverContentSection = style({
   width: '66.4rem',
   height: '66.4rem',
+  position: 'relative',
+});
+
+export const hoverGuideContainer = style({
+  width: '100%',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: colors.grey05_32,
   borderRadius: '12px',
-  position: 'relative', // 추가
 });
 
 export const hoverGuideText = style([
@@ -32,14 +46,13 @@ export const hoverGuideText = style([
 ]);
 
 export const todoMainContainer = style({
-  width: '66.4rem',
-  height: '66.4rem',
+  width: '100%',
+  height: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: colors.grey05_32,
   borderRadius: '12px',
-  position: 'relative', // 추가
 });
 
 export const loadingContainer = style({
