@@ -1,22 +1,23 @@
-import { useState, useEffect, useMemo } from 'react';
-import Mandalart from '@common/component/Mandalart/Mandalart';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Mandalart from '@common/component/Mandalart/Mandalart';
 
 import * as styles from './UpperTodo.css';
 import SubGoalFields from './component/SubGoalFields';
 
-import { PATH } from '@/route';
-import { IcSmallNext } from '@/assets/svg';
+import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
 import { useModal } from '@/common/hook/useModal';
-import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import { PATH } from '@/route';
+import { IcSmallNext } from '@/assets/svg';
 import {
-  useGetMandalAll,
+  useDeleteOnboardingCoreGoal,
   useGetCoreGoalIdPositions,
-  usePostOnboardingCoreGoal,
+  useGetMandalAll,
   usePatchOnboardingCoreGoal,
   usePostAiRecommendCoreGoal,
+  usePostOnboardingCoreGoal,
 } from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
@@ -25,8 +26,19 @@ interface UpperTodoProps {
 }
 
 const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
+  const mandalartId = 1;
+
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
+
+  const { data, refetch } = useGetMandalAll(mandalartId);
+  const { data: coreGoalIds, refetch: refetchCoreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
+
+  const postMutation = usePostOnboardingCoreGoal();
+  const patchMutation = usePatchOnboardingCoreGoal();
+  const postAiRecommend = usePostAiRecommendCoreGoal();
+  const deleteMutation = useDeleteOnboardingCoreGoal();
+
   const [subGoals, setSubGoals] = useState(Array(8).fill(''));
   const [isAiUsed, setIsAiUsed] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
@@ -34,10 +46,6 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const [aiResponseData, setAiResponseData] = useState<
     { id: number; position: number; title: string }[]
   >([]);
-
-  const mandalartId = 1;
-  const { data, refetch } = useGetMandalAll(mandalartId);
-  const { data: coreGoalIds, refetch: refetchCoreGoalIds } = useGetCoreGoalIdPositions(mandalartId);
 
   const coreGoalIdMap = useMemo(() => {
     const map: Record<number, number> = {};
@@ -49,31 +57,6 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
     return map;
   }, [coreGoalIds]);
 
-  const postMutation = usePostOnboardingCoreGoal();
-  const patchMutation = usePatchOnboardingCoreGoal();
-  const postAiRecommend = usePostAiRecommendCoreGoal();
-
-  const handleSubGoalEnter = async (index: number, value: string) => {
-    if (!value.trim()) {
-      return;
-    }
-
-    const position = index + 1;
-    const coreGoalId = coreGoalIdMap[position];
-
-    try {
-      if (coreGoalId) {
-        await patchMutation.mutateAsync({ coreGoalId, title: value });
-      } else {
-        await postMutation.mutateAsync({ mandalartId, title: value, position });
-      }
-      // 데이터 리페치하여 최신 상태 반영
-      await refetchCoreGoalIds();
-    } catch (error) {
-      console.error('상위 목표 저장 실패:', error);
-    }
-  };
-
   const mainGoal = data?.title || '사용자가 작성한 대목표';
 
   useEffect(() => {
@@ -83,30 +66,49 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
     }
   }, [subGoals]);
 
-  const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
+  const handleSubGoalEnter = async (index: number, value: string) => {
+    const position = index + 1;
+    const coreGoalId = coreGoalIdMap[position];
+
+    try {
+      if (value.trim() === '') {
+        if (coreGoalId) {
+          await deleteMutation.mutateAsync(coreGoalId);
+          await refetchCoreGoalIds();
+        }
+        return;
+      }
+
+      if (coreGoalId) {
+        await patchMutation.mutateAsync({ coreGoalId, title: value });
+      } else {
+        await postMutation.mutateAsync({ mandalartId, title: value, position });
+      }
+
+      await refetchCoreGoalIds();
+    } catch (error) {
+      console.error('상위 목표 저장 실패 또는 삭제 실패:', error);
+    }
+  };
 
   const handleNavigateLower = () => {
     navigate(PATH.TODO_LOWER);
   };
 
-  // AI 추천 모달에서 선택한 목표들을 처리하는 함수
   const handleAiSubmit = (responseData: { id: number; position: number; title: string }[]) => {
     setAiResponseData(responseData);
 
-    // subGoals 상태 업데이트
     const updatedSubGoals = [...subGoals];
     responseData.forEach(({ position, title }) => {
       updatedSubGoals[position - 1] = title;
     });
     setSubGoals(updatedSubGoals);
 
-    // 데이터 리페치하여 최신 상태 반영
     refetchCoreGoalIds();
     refetch();
   };
 
   const handleOpenAiModal = async () => {
-    // 현재 채워진 목표 개수 확인
     const currentFilledCount = subGoals.filter((v) => v.trim() !== '').length;
     const maxGoals = 8;
 
@@ -145,9 +147,11 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
       openModal(aiModalContent);
     } catch (error) {
       console.error('AI 추천 호출 실패:', error);
-      setIsAiUsed(false); // 에러 시 AI 사용 상태 리셋
+      setIsAiUsed(false);
     }
   };
+
+  const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
   return (
     <main className={styles.upperTodoContainer}>

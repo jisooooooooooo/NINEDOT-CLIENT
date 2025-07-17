@@ -7,6 +7,7 @@ import {
   patchOnboardingCoreGoal,
   postAiRecommendCoreGoal,
   postAiRecommendToCoreGoals,
+  deleteOnboardingCoreGoal,
 } from './index';
 
 import { QUERY_KEY } from '@/api/constant/queryKey';
@@ -45,6 +46,13 @@ export const usePatchOnboardingCoreGoal = () => {
   return useMutation({
     mutationKey: QUERY_KEY.PATCH_ONBOARDING_CORE_GOAL,
     mutationFn: (params: { coreGoalId: number; title: string }) => patchOnboardingCoreGoal(params),
+  });
+};
+
+export const useDeleteOnboardingCoreGoal = () => {
+  return useMutation({
+    mutationKey: QUERY_KEY.DELETE_ONBOARDING_CORE_GOAL,
+    mutationFn: (coreGoalId: number) => deleteOnboardingCoreGoal(coreGoalId),
   });
 };
 

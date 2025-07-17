@@ -46,6 +46,13 @@ export const patchOnboardingCoreGoal = async ({
   return response.data.data;
 };
 
+export const deleteOnboardingCoreGoal = async (coreGoalId: number) => {
+  const response = await axiosInstance.delete<BaseResponse<null>>(
+    `/${END_POINT.ONBOARDING}/${END_POINT.CORE_GOAL}/${coreGoalId}`,
+  );
+  return response.data;
+};
+
 export const postAiRecommendCoreGoal = async (
   mandalartId: number,
   body: {
