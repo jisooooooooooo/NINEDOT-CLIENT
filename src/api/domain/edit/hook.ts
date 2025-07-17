@@ -3,6 +3,7 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 
 import { getUpperGoalIds, getSubGoals, getCoreGoals, updateSubGoal } from '.';
 import type { UpdateSubGoalRequest, SubGoalsResponse } from '.';
+
 import type { BaseResponse } from '@/type/api';
 import { QUERY_KEY } from '@/api/constant/queryKey';
 
@@ -42,7 +43,7 @@ export const useUpdateSubGoal = (mandalartId: number) => {
 
   return useMutation({
     mutationFn: (data: UpdateSubGoalRequest) => updateSubGoal(mandalartId, data),
-    onSuccess: (_, data) => {
+    onSuccess: (_) => {
       // 만달아트 전체 데이터 갱신 (mandalartId 포함)
       queryClient.invalidateQueries({
         queryKey: [...QUERY_KEY.MANDAL_ALL, mandalartId],

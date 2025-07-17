@@ -1,4 +1,4 @@
-import { useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import { useRef, forwardRef, useImperativeHandle } from 'react';
 
 import * as styles from '../LowerTodo.css';
 
@@ -95,7 +95,7 @@ const TodoFields = forwardRef(function TodoFields(
         <div key={index} className={styles.todoFieldWrapper}>
           <div className={styles.dropdownWrapper}>
             <CycleDropDown
-              initialType={CYCLE_LABELS[item.cycle]}
+              initialType={item.cycle}
               onChange={(label) => handleCycleChange(index, label as CycleLabel)}
             />
           </div>

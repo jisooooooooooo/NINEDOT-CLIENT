@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as styles from './LowerTodo.css';
 import TodoFields from './component/TodoFields';
-import { EMPTY_TODOS, EMPTY_BOOL_ARR } from './mock';
+import { EMPTY_BOOL_ARR } from './mock';
 import { isValidSubGoal, truncateText, getFirstValidGoalIndex } from './util';
 
 import { PATH } from '@/route';
@@ -32,7 +32,7 @@ interface TodoItem {
 
 const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목표' }: LowerTodoProps) => {
   const navigate = useNavigate();
-  const { openModal, ModalWrapper, closeModal } = useModal();
+  const { closeModal } = useModal();
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(0);
   const [allTodos, setAllTodos] = useState<TodoItem[][]>(
     Array(8)
@@ -221,12 +221,6 @@ const LowerTodo = ({ userName = '@@', mainGoal = '사용자가 작성한 대목�
     });
     setAiUsedByGoal((prev) => prev.map((v, idx) => (idx === selectedGoalIndex ? true : v)));
     updateTooltipState(selectedGoalIndex, false);
-  };
-
-  const handleAiModalClose = () => {
-    setAiUsedByGoal((prev) => prev.map((v, idx) => (idx === selectedGoalIndex ? true : v)));
-    updateTooltipState(selectedGoalIndex, false);
-    closeModal();
   };
 
   const handleOpenAiModal = () => {

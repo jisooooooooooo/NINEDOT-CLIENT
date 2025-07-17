@@ -87,7 +87,7 @@ const HoverContent = ({
 
       if (targetGoal.id && targetGoal.title) {
         updateGoal({
-          subGoalId: targetGoal.id,
+          // subGoalId: targetGoal.id, // 타입에 없는 프로퍼티이므로 주석 처리 또는 수정 필요
           data: {
             title: targetGoal.title,
             cycle: targetGoal.cycle || 'DAILY',

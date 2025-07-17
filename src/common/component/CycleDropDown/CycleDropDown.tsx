@@ -28,7 +28,14 @@ const CycleDropDown = ({ initialType = 'DAILY', onChange }: CycleDropDownProps) 
   );
 
   useEffect(() => {
-    setSelectedType(initialType);
+    if (initialType) {
+      const label =
+        typeof initialType === 'string' &&
+        (initialType === 'DAILY' || initialType === 'WEEKLY' || initialType === 'ONCE')
+          ? CYCLE_TYPE[Object.values(CYCLE_MAPPING).indexOf(initialType)]
+          : initialType;
+      setSelectedType(label);
+    }
   }, [initialType]);
 
   const toggleDropdown = () => {
