@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
@@ -7,6 +7,8 @@ import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
 import * as styles from '@/page/signup/SignUp.css';
 import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 import { PATH } from '@/route';
+import { usePostSignUp } from '@/api/domain/signup/hook/usePostSignup';
+import type { SignupResponse } from '@/api/domain/signup/type/SignupResponse';
 
 const SIGNUP_MESSAGE = '회원가입 후 NiNE DOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
@@ -14,16 +16,43 @@ const PERSONAL_INFO_AGREEMENT = '(필수) 개인정보 수집 및 이용약관 �
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { formState, actions, computed } = useSignUpForm();
+  const location = useLocation();
+  const userData = location.state?.userData;
+
+  const { formState, actions, computed } = useSignUpForm(userData);
 
   const { name, email, birth, selectedJob, inputJob, isChecked } = formState;
   const { setName, setEmail, setBirth, setSelectedJob, setInputJob, setIsChecked } = actions;
-  const { isValid } = computed;
+  const { finalJob, isValid } = computed;
 
   const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
 
+  const { mutate: signUp } = usePostSignUp();
+
   const handleSignUp = () => {
-    navigate(PATH.INTRO);
+    const payload: SignupResponse = {
+      socialProvider: 'GOOGLE',
+      socialToken: '소셜토큰',
+      name,
+      email,
+      birthday: birth,
+      job: finalJob,
+      profileImageUrl: '사진URL',
+      answers: [
+        { questionId: 1, choiceId: 1 },
+        { questionId: 2, choiceId: 2 },
+        { questionId: 3, choiceId: 3 },
+      ],
+    };
+
+    signUp(payload, {
+      onSuccess: () => {
+        navigate(PATH.INTRO);
+      },
+      onError: (err) => {
+        console.error('회원가입 실패:', err);
+      },
+    });
   };
 
   return (

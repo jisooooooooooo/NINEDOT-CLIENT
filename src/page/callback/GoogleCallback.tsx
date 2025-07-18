@@ -4,15 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useGoogleAuth } from '@/common/hook/useGoogleAuth';
 import { PATH } from '@/route';
 
-interface UserData {
-  email: string;
-  name: string;
-  profileImageUrl: string;
-  socialProvider: string;
-  socialToken: string;
-  exists: boolean;
-}
-
 const GoogleCallback = () => {
   const userData = useGoogleAuth();
 
