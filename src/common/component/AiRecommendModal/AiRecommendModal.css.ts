@@ -16,12 +16,14 @@ export const contentWrapper = style({
   width: '55.6rem',
   display: 'flex',
   flexDirection: 'column',
+  padding: '0 9.5rem',
 });
 
 export const iconWrapper = style({
   display: 'flex',
   justifyContent: 'flex-end',
   alignItems: 'center',
+  alignSelf: 'flex-end',
 });
 
 export const closeIcon = style({
@@ -50,7 +52,7 @@ export const highlight = style({
 export const listWrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   gap: '2rem',
   marginTop: '3.9rem',
   marginBottom: '5rem',
