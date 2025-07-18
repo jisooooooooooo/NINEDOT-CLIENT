@@ -24,6 +24,8 @@ export const getMandalAll = async (mandalartId: number) => {
 export const getMandalCoreGoals = async (
   mandalartId: number,
 ): Promise<BaseResponse<{ coreGoals: CoreGoal[] }>> => {
-  const res = await axiosInstance.get(`/api/v1/mandalarts/${mandalartId}/core-goals`);
+  const res = await axiosInstance.get(
+    `/${END_POINT.ONBOARDING}/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}`,
+  );
   return res.data;
 };
