@@ -3,6 +3,7 @@ import type { CycleType } from '../../constant/mock';
 export type TodoModeTypes = 'recommend' | 'todo';
 
 export interface TodoItemTypes {
+  isCompleted: unknown;
   id: string | number;
   content: string;
   completed?: boolean;

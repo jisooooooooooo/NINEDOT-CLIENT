@@ -22,7 +22,7 @@ const mockSubGoals = Array.from({ length: 8 * 8 }, (_, i) => {
     cycle,
     parentId,
     order,
-    completed: false,
+    isCompleted: false,
   };
 });
 
@@ -52,7 +52,7 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
       const formatted = recommendationData.subGoals.map((goal, index) => ({
         id: goal.id.toString(),
         content: goal.title,
-        completed: goal.isCompleted,
+        isCompleted: goal.isCompleted,
         cycle: goal.cycle as CycleType,
         parentId: 0,
         order: index,

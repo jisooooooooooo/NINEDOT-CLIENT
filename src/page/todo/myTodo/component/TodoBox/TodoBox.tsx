@@ -29,14 +29,14 @@ const TodoItem = ({ item, type, onItemClick }: TodoItemProps) => {
   const handleClick = () => {
     onItemClick?.(item);
   };
-  const CheckIcon = item.completed ? IcFilledcheckCheck : IcFilledcheckDefault;
+  const CheckIcon = item.isCompleted ? IcFilledcheckCheck : IcFilledcheckDefault;
   return (
     <div className={todoItemContainer[type]}>
       <span className={todoText[type]}>{item.content}</span>
       <button
         className={checkboxButton}
         onClick={handleClick}
-        aria-label={item.completed ? '완료 취소하기' : '완료하기'}
+        aria-label={item.isCompleted ? '완료 취소하기' : '완료하기'}
       >
         <CheckIcon className={checkboxIcon} />
       </button>
