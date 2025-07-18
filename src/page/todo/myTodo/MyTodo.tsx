@@ -29,7 +29,6 @@ const MyTodo = ({
     selectedCycle,
     selectedParentId,
     setSelectedParentId,
-    todos,
     recommendTodos,
     hasPreviousDate,
     hasNextDate,
@@ -45,8 +44,6 @@ const MyTodo = ({
 
   const mandalartId = 1;
   const { data } = useGetMandalAll(mandalartId);
-
-  const mainGoal = data?.title || '사용자가 작성한 대목표';
 
   return (
     <>
@@ -69,7 +66,6 @@ const MyTodo = ({
             />
             <TodoCheckSection
               selectedCycle={selectedCycle}
-              todos={todos}
               mandalartData={{
                 ...(mandalartData || DEFAULT_MANDALART_DATA),
                 title: data?.title || mandalartData?.title || DEFAULT_MANDALART_DATA.title,
