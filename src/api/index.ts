@@ -5,8 +5,7 @@ const getAccessToken = (): string | null => {
 
   if (user) {
     const userObj = JSON.parse(user);
-
-    return userObj || '';
+    return userObj?.accessToken || '';
   }
 
   return '';
@@ -26,14 +25,11 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-//더욱 빠르게 api 요청을 할 수 있도록 작성된 유틸 함수
-
 export const get = <T>(...args: Parameters<typeof api.get>) => {
   return api.get<T>(...args);
 };
 
 export const post = <T>(...args: Parameters<typeof api.post>) => {
-  console.log('[3] axios post 호출', args);
   return api.post<T>(...args);
 };
 

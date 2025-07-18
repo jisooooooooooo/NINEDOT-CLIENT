@@ -79,10 +79,10 @@ const AiRecommendModal = ({
 
   return (
     <div className={styles.container} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div className={styles.iconWrapper}>
+        <IcModalDelete className={styles.closeIcon} onClick={onClose} />
+      </div>
       <div className={styles.contentWrapper}>
-        <div className={styles.iconWrapper}>
-          <IcModalDelete className={styles.closeIcon} onClick={onClose} />
-        </div>
         <h2 id="modal-title" className={styles.title}>
           AI가 추천해 준 할 일이에요!
         </h2>

@@ -7,6 +7,7 @@ import type { MandalartData } from './constant/mock';
 
 import { DatePicker } from '@/page/todo/myTodo/component/DatePicker';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
+import { useGetMandalAll } from '@/api/domain/myTodo/hook/useMyMandal';
 
 interface MyTodoProps {
   userName?: string;
@@ -28,7 +29,6 @@ const MyTodo = ({
     selectedCycle,
     selectedParentId,
     setSelectedParentId,
-    todos,
     recommendTodos,
     hasPreviousDate,
     hasNextDate,
@@ -41,6 +41,9 @@ const MyTodo = ({
     initialRecommendTodos,
     initialMyTodos,
   });
+
+  const mandalartId = 1;
+  const { data } = useGetMandalAll(mandalartId);
 
   return (
     <>
@@ -63,8 +66,10 @@ const MyTodo = ({
             />
             <TodoCheckSection
               selectedCycle={selectedCycle}
-              todos={todos}
-              mandalartData={mandalartData || DEFAULT_MANDALART_DATA}
+              mandalartData={{
+                ...(mandalartData || DEFAULT_MANDALART_DATA),
+                title: data?.title || mandalartData?.title || DEFAULT_MANDALART_DATA.title,
+              }}
               onCycleClick={handleCycleClick}
               onTodoClick={handleMyTodoClick}
               onMandalartClick={setSelectedParentId}

@@ -25,6 +25,7 @@ interface CoreGoalsResponse {
 type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
 
 interface SubGoal {
+  [x: string]: any;
   id: number;
   title: string;
   position: number;
