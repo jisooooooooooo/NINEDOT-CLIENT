@@ -328,7 +328,7 @@ const LowerTodo = ({
   const handleNavigateComplete = async () => {
     try {
       await completeMandalart(mandalartId);
-      navigate(PATH.MANDAL);
+      navigate(PATH.TODO_MY);
     } catch (error) {
       console.error('만다라트 완성 처리 중 오류 발생:', error);
       alert('만다라트 완성 처리 중 오류가 발생했습니다.');
