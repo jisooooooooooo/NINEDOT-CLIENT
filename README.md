@@ -1,19 +1,45 @@
-![image](https://github.com/user-attachments/assets/23f8c862-ffe7-4b7a-8f42-962cc218f2a5)
 
-# NiNE Dot˙
+<img width="1920" height="1080" alt="60" src="https://github.com/user-attachments/assets/536931a0-e061-4ddc-841b-81769219a65d" />
+<img width="1920" height="1080" alt="67" src="https://github.com/user-attachments/assets/be2f7541-c9a1-4c74-ae74-0989d59750af" />
+<img width="1920" height="1080" alt="65" src="https://github.com/user-attachments/assets/f3783ab0-b23a-479f-81dd-777bfda7bec1" />
+<img width="1920" height="1080" alt="68" src="https://github.com/user-attachments/assets/394a39cd-2a76-48c9-9fbd-7543577f65ab" />
+<img width="1920" height="1080" alt="74" src="https://github.com/user-attachments/assets/3602e313-fe47-4fb7-b24a-5dba7ab21ebc" />
+<img width="1920" height="1080" alt="218" src="https://github.com/user-attachments/assets/6c210613-496e-4b72-8a0e-f1d1d841d9f0" />
+<img width="1920" height="1080" alt="76" src="https://github.com/user-attachments/assets/f7055f22-3bf0-4c23-be30-10ad275c4775" />
+<img width="1920" height="1080" alt="62" src="https://github.com/user-attachments/assets/4d2d2e64-a728-4599-9d0b-66fdaaa7d722" />
 
-**목표 관리를 시스템화하세요. 생각은 우리가 도와드릴게요.**
 
-- 만다르트 작성
-- AI 할 일 추천
-- 진척도 및 주간 회고
+<h2>⚒️ FE Developer</h2>
 
-## ⚒️ FE Developer
+<table>
+  <tr>
+    <td align="center">
+      <img width="200" alt="image 3" src="https://github.com/user-attachments/assets/716b2c08-c65e-42b8-87d1-b9db0f22f914" />
+      <br />
+      <b>임지수</b><br />
+      <a href="https://github.com/jisooooooooooo">@jisooooooooooo</a>
+    </td>
+    <td align="center">
+      <img width="200" alt="image 1" src="https://github.com/user-attachments/assets/2679a003-8106-44a5-9309-dbc5da40023a" />
+      <br />
+      <b>권새봄</b><br />
+      <a href="https://github.com/kwonsaebom">@kwonsaebom</a>
+    </td>
+    <td align="center">
+      <img width="200" alt="image 2" src="https://github.com/user-attachments/assets/c33a5bbc-26a4-4855-a46d-b82e51875ff9" />
+      <br />
+      <b>신지수</b><br />
+      <a href="https://github.com/shinjigu">@shinjigu</a>
+    </td>
+    <td align="center">
+      <img width="200" alt="image 4" src="https://github.com/user-attachments/assets/587b2637-9350-46b3-845f-3aa44b567909" />
+      <br />
+      <b>이윤지</b><br />
+      <a href="https://github.com/Leeyoonji23">@Leeyoonji23</a>
+    </td>
+  </tr>
+</table>
 
-|                      임지수</br>[@jisooooooooooo](https://github.com/jisooooooooooo)                       |             권새봄</br>[@kwonsaebom](https://github.com/kwonsaebom)             |               신지수</br>[@shinjigu](https://github.com/shinjigu)                |            이윤지</br>[@Leeyoonji23](https://github.com/Leeyoonji23)            |
-| :--------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: |
-| <img src = "https://github.com/user-attachments/assets/99ee54a2-eae0-4ccd-94a3-419d6266000c" width ="250"> | <img src = "https://avatars.githubusercontent.com/u/94830364?v=4" width ="250"> | <img src = "https://avatars.githubusercontent.com/u/130023628?v=4" width ="250"> | <img src = "https://avatars.githubusercontent.com/u/90778858?v=4" width ="250"> |
-|                               `전체 목표 작성`</br>`만다르트 상위 목표 작성`                               |                          `로그인`</br>`나의 히스토리`                           |                    `만다르트 하위 목표 작성`</br>`나의 할 일`                    |                    `나의 만다르트`</br>`나의 만다르트 수정`                     |
 
 ## 📘 Tech Stack
 
@@ -126,5 +152,5 @@
 ```
 
 ## ⚪️ 나인도트 웨비들의 자세한 컨벤션은?
+[<img width="1920" height="1080" alt="Web팀 단체사진" src="https://github.com/user-attachments/assets/4374de39-aab5-40ca-a12e-5335b5bd91d3" />](https://www.notion.so/216f2c0149da81aa86ebf5a8c6ceb628)
 
-[![KakaoTalk_Photo_2025-07-03-15-15-32](https://github.com/user-attachments/assets/55c401f9-22cc-4f3c-a32a-32c57d192d16)](https://fantastic-kumquat-2d3.notion.site/216f2c0149da81aa86ebf5a8c6ceb628)

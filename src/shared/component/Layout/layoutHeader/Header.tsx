@@ -5,7 +5,6 @@ import * as styles from './Header.css';
 
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
-import UserModal from '@/common/component/UserModal/UserModal';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -21,16 +20,10 @@ const Header = () => {
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
 
   const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [openProfile, setOpenProfile] = useState<boolean>(false);
 
   const handleMenuClick = (menuLabel: string, path: string) => {
     setActiveMenu(menuLabel);
     navigate(path);
-  };
-
-  const handleProfile = () => {
-    setOpenProfile((prev) => !prev);
   };
 
   const renderNavMenu = () => (
@@ -52,10 +45,6 @@ const Header = () => {
           );
         })}
       </nav>
-      {/* <button className={styles.profilePlaceholder} onClick={handleProfile} /> */}
-      {isLoggedIn && openProfile && (
-        <UserModal setIsLoggedIn={setIsLoggedIn} onClose={handleProfile} />
-      )}
     </>
   );
 
@@ -67,7 +56,6 @@ const Header = () => {
         </Link>
 
         {renderNavMenu()}
-        {isLoggedIn ? renderNavMenu() : null}
       </div>
     </header>
   );

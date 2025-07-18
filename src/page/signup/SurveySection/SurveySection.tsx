@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import SurveyItem from '@/page/signup/component/SurveyItem/SurveyItem';
 import {
   surveyWrapper,
@@ -8,8 +6,14 @@ import {
 } from '@/page/signup/SurveySection/SurveySection.css';
 import { useGetPersona } from '@/api/domain/signup/hook/useGetPersona';
 
-const SurveySection = () => {
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+type AnswerMap = Record<number, number>;
+
+type SurveySectionProps = {
+  answers: AnswerMap;
+  setAnswers: (answers: AnswerMap | ((prev: AnswerMap) => AnswerMap)) => void;
+};
+
+const SurveySection = ({ answers, setAnswers }: SurveySectionProps) => {
   const { data, isLoading, isError } = useGetPersona();
 
   const handleSelect = (questionId: number, optionId: number) => {

@@ -9,8 +9,20 @@ const GoogleCallback = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData) {
-      navigate(PATH.SIGNUP);
+    if (!userData) {
+      return;
+    }
+
+    const isExistingUser = userData.exists;
+
+    if (isExistingUser) {
+      navigate(PATH.INTRO, {
+        state: { isWritten: userData.onboardingCompleted },
+      });
+    } else {
+      navigate(PATH.SIGNUP, {
+        state: { userData },
+      });
     }
   }, [userData, navigate]);
 
