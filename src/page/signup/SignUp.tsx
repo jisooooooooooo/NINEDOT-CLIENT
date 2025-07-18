@@ -9,6 +9,7 @@ import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 import { PATH } from '@/route';
 import { usePostSignUp } from '@/api/domain/signup/hook/usePostSignup';
 import type { SignupResponse } from '@/api/domain/signup/type/SignupResponse';
+import { useState } from 'react';
 
 const SIGNUP_MESSAGE = '회원가입 후 NiNE DOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
@@ -18,6 +19,8 @@ const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userData = location.state?.userData;
+
+  const [answers, setAnswers] = useState<Record<number, number>>({});
 
   const { formState, actions, computed } = useSignUpForm(userData);
 
@@ -37,12 +40,11 @@ const SignUp = () => {
       email,
       birthday: birth,
       job: finalJob,
-      profileImageUrl: '사진URL',
-      answers: [
-        { questionId: 1, choiceId: 1 },
-        { questionId: 2, choiceId: 2 },
-        { questionId: 3, choiceId: 3 },
-      ],
+      profileImageUrl: userData.profileImageUrl,
+      answers: Object.entries(answers).map(([questionId, choiceId]) => ({
+        questionId: Number(questionId),
+        choiceId,
+      })),
     };
 
     signUp(payload, {
@@ -93,7 +95,7 @@ const SignUp = () => {
             <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
           </div>
           <div className={styles.surveySection}>
-            <SurveySection />
+            <SurveySection answers={answers} setAnswers={setAnswers} />
           </div>
         </section>
 
