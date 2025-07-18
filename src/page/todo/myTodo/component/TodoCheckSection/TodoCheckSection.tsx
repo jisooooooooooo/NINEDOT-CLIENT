@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import * as styles from '../../MyTodo.css';
 import type { MandalartData } from '../../constant/mock';
 
@@ -5,6 +7,7 @@ import {
   useGetMandalCoreGoals,
   useGetMandalartSubGoals,
 } from '@/api/domain/myTodo/hook/useMyMandal';
+import { useCheckSubGoal, useUncheckSubGoal } from '@/api/domain/myTodo/hook/useMyMandal';
 import { CycleChip } from '@/page/todo/myTodo/component/CycleChip';
 import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
 import type { CycleType } from '@/page/todo/myTodo/component/CycleChip';
@@ -31,20 +34,67 @@ const TodoCheckSection = ({
   selectedCycle,
   mandalartData,
   onCycleClick,
-  onTodoClick,
   onMandalartClick,
   selectedParentId,
 }: TodoCheckSectionProps) => {
   const mandalartId = 1;
   const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
   const { data: subGoalResponse } = useGetMandalartSubGoals(1, selectedParentId, selectedCycle);
-  const subGoals: TodoItemTypes[] = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
-    id: goal.id,
-    title: goal.title,
-    cycle: goal.cycle,
-    isCompleted: goal.isCompleted,
-    content: goal.title,
-  }));
+
+  const [localSubGoals, setLocalSubGoals] = useState<TodoItemTypes[]>([]);
+
+  useEffect(() => {
+    const subGoals: TodoItemTypes[] = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
+      id: goal.id,
+      title: goal.title,
+      cycle: goal.cycle,
+      isCompleted: goal.isCompleted,
+      content: goal.title,
+    }));
+    setLocalSubGoals(subGoals);
+  }, [subGoalResponse]);
+
+  const checkSubGoalMutation = useCheckSubGoal();
+  const uncheckSubGoalMutation = useUncheckSubGoal();
+
+  const handleTodoClick = (item: TodoItemTypes) => {
+    const today = new Date().toISOString().split('T')[0];
+    const originalCompleted = item.isCompleted;
+
+    setLocalSubGoals((prev) =>
+      prev.map((goal) =>
+        goal.id === item.id ? { ...goal, isCompleted: !goal.isCompleted } : goal,
+      ),
+    );
+
+    if (originalCompleted === true) {
+      uncheckSubGoalMutation.mutate(Number(item.id), {
+        onError: () => {
+          setLocalSubGoals((prev) =>
+            prev.map((goal) =>
+              goal.id === item.id ? { ...goal, isCompleted: originalCompleted } : goal,
+            ),
+          );
+        },
+      });
+    } else {
+      checkSubGoalMutation.mutate(
+        {
+          subGoalId: Number(item.id),
+          date: today,
+        },
+        {
+          onError: () => {
+            setLocalSubGoals((prev) =>
+              prev.map((goal) =>
+                goal.id === item.id ? { ...goal, isCompleted: originalCompleted } : goal,
+              ),
+            );
+          },
+        },
+      );
+    }
+  };
 
   return (
     <section className={styles.checkSection}>
@@ -99,20 +149,20 @@ const TodoCheckSection = ({
 
               <div
                 className={
-                  subGoals.length === 0
+                  localSubGoals.length === 0
                     ? styles.noScrollTodoCheckContainer
                     : styles.todoCheckContainer
                 }
               >
-                {subGoals.length === 0 ? (
+                {localSubGoals.length === 0 ? (
                   <div className={styles.emptyTodoBox}>
                     <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
                   </div>
                 ) : (
-                  subGoals.map((todo) => (
+                  localSubGoals.map((todo) => (
                     <div key={todo.id} className={styles.todoCheckLine}>
                       <CycleChip type="display" value={todo.cycle as CycleType} />
-                      <TodoBox type="todo" items={[todo]} onItemClick={onTodoClick} />
+                      <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
                     </div>
                   ))
                 )}

@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
+import { uncheckSubGoal, checkSubGoal } from './../index';
 import { getMandalAll } from '../../mandalAll';
 import { getMandalCoreGoals } from '..';
 import type { CoreGoal } from '../type/myTodo';
@@ -36,5 +38,18 @@ export const useGetMandalartSubGoals = (
     queryKey: QUERY_KEY.MANDALART_SUB_GOALS(mandalartId, coreGoalId, cycle),
     queryFn: () => getSubGoals(mandalartId, coreGoalId, cycle as CycleType),
     enabled: !!mandalartId,
+  });
+};
+
+export const useCheckSubGoal = () => {
+  return useMutation({
+    mutationFn: ({ subGoalId, date }: { subGoalId: number; date: string }) =>
+      checkSubGoal(subGoalId, date),
+  });
+};
+
+export const useUncheckSubGoal = () => {
+  return useMutation({
+    mutationFn: (subGoalId: number) => uncheckSubGoal(subGoalId),
   });
 };

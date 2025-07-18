@@ -23,6 +23,16 @@ export const getMandalAll = async (mandalartId: number) => {
   return response.data.data;
 };
 
+export const checkSubGoal = async (subGoalId: number, date: string): Promise<void> => {
+  await axiosInstance.post(`/${END_POINT.SUB_GOAL}/${subGoalId}/histories`, null, {
+    params: { date },
+  });
+};
+
+export const uncheckSubGoal = async (subGoalId: number): Promise<void> => {
+  await axiosInstance.delete(`/${END_POINT.SUB_GOAL}/${subGoalId}/histories`);
+};
+
 export const getMandalCoreGoals = async (
   mandalartId: number,
 ): Promise<BaseResponse<{ coreGoals: CoreGoal[] }>> => {
