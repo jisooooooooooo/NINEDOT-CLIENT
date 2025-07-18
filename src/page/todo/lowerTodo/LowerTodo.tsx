@@ -74,6 +74,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   const recommendAiSubGoal = aiRecommendMutation.mutate;
 
   const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
+    console.log('handleSaveSubGoalSync called:', { todo, position, subGoalIdsByPosition, selectedGoalIndex });
     const subGoalId = subGoalIdsByPosition[position];
 
     if (!selectedCoreGoalId) {
@@ -92,6 +93,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
             setAllTodos((prev) => {
               const newTodos = [...prev];
               newTodos[selectedGoalIndex][position] = { title: '', cycle: 'DAILY' };
+              console.log('Deleted subGoal, newTodos:', newTodos);
               return newTodos;
             });
             setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: null }));
@@ -123,6 +125,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
               setAllTodos((prev) => {
                 const newTodos = [...prev];
                 newTodos[selectedGoalIndex][position] = { ...todo };
+                console.log('Updated subGoal, newTodos:', newTodos);
                 return newTodos;
               });
               if (done) {
@@ -163,6 +166,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
           setAllTodos((prev) => {
             const newTodos = [...prev];
             newTodos[selectedGoalIndex][position] = { ...todo };
+            console.log('Created subGoal, newTodos:', newTodos);
             return newTodos;
           });
           if (done) {
@@ -185,9 +189,11 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   };
 
   const handleTodoChange = (newTodos: TodoItem[]) => {
+    console.log('handleTodoChange called:', { newTodos, selectedGoalIndex });
     setAllTodos((prev) => {
       const newState = [...prev];
       newState[selectedGoalIndex] = [...newTodos];
+      console.log('setAllTodos in handleTodoChange, newState:', newState);
       return newState;
     });
   };
@@ -212,6 +218,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
       setAllTodos((prev) => {
         // 이미 값이 있으면 덮어쓰지 않음
         if (prev[selectedGoalIndex].some((todo) => todo.title.trim() !== '')) {
+          console.log('useEffect: 값이 이미 있으므로 덮어쓰지 않음', prev);
           return prev;
         }
         const newTodos = [...prev];
@@ -231,14 +238,16 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
           );
 
         if (isSame) {
+          console.log('useEffect: filledTodos와 prevFilled가 같으므로 덮어쓰지 않음', prev);
           return prev;
         }
 
         newTodos[selectedGoalIndex] = filledTodos;
+        console.log('useEffect: setAllTodos로 덮어씀', newTodos);
         return newTodos;
       });
     }
-  }, [subGoalsData, selectedGoalIndex, allTodos, subGoalsData?.data?.subGoals]);
+  }, [subGoalsData, selectedGoalIndex]);
 
   useEffect(() => {
     if (coreGoalsData && selectedGoalIndex !== -1) {
@@ -508,7 +517,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
                 onGoalClick={() => {}}
               />
               <TodoFields
-                values={todos}
+                values={allTodos[selectedGoalIndex]}
                 onChange={handleTodoChange}
                 onSave={handleSaveSubGoalSync}
                 lastSavedTodos={[]}
