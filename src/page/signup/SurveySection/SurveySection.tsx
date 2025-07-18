@@ -1,15 +1,17 @@
 import { useState } from 'react';
 
 import SurveyItem from '@/page/signup/component/SurveyItem/SurveyItem';
-import { questionList } from '@/page/signup/surveyData';
 import {
   surveyWrapper,
   surveyContainer,
   surveyTitle,
 } from '@/page/signup/SurveySection/SurveySection.css';
+import { useGetPersona } from '@/api/domain/signup/hook/useGetPersona';
+import Loading from '@/common/component/Loading/Loading';
 
 const SurveySection = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  const { data, isLoading, isError } = useGetPersona();
 
   const handleSelect = (questionId: number, optionId: number) => {
     setAnswers((prev) => ({
@@ -18,9 +20,16 @@ const SurveySection = () => {
     }));
   };
 
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError || !data) {
+    return <p>질문을 불러오는 데 실패했어요.</p>;
+  }
+
   return (
     <div className={surveyWrapper}>
-      {questionList.map((question) => (
+      {data.questionList.map((question) => (
         <div key={question.id} className={surveyContainer}>
           <h3 className={surveyTitle}>{question.content}</h3>
           {question.optionList.map((option) => (
@@ -36,4 +45,5 @@ const SurveySection = () => {
     </div>
   );
 };
+
 export default SurveySection;
