@@ -17,7 +17,6 @@ import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
 import { useOverallGoal } from '@/api/domain/lowerTodo/hook/useOverallGoal';
 import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
-import { useSubGoalIds } from '@/api/domain/lowerTodo/hook/useSubGoalIds';
 import { useCreateSubGoal } from '@/api/domain/lowerTodo/hook/useCreateSubGoal';
 import { useUpdateSubGoal } from '@/api/domain/lowerTodo/hook/useUpdateSubGoal';
 import { useDeleteSubGoal } from '@/api/domain/lowerTodo/hook/useDeleteSubGoal';
@@ -35,7 +34,7 @@ interface TodoItem {
   cycle: 'DAILY' | 'WEEKLY' | 'ONCE';
 }
 
-const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }: LowerTodoProps) => {
+const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
   const navigate = useNavigate();
   const { openModal, ModalWrapper, closeModal } = useModal();
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(0);
@@ -63,8 +62,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     mandalartId,
     coreGoalId: selectedCoreGoalId,
   });
-
-  const { data: subGoalIdsData } = useSubGoalIds(selectedCoreGoalId || 0);
 
   const createSubGoalMutation = useCreateSubGoal(selectedCoreGoalId ?? 0);
   const updateSubGoalMutation = useUpdateSubGoal(selectedCoreGoalId ?? 0);
@@ -333,8 +330,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     goalTodos.some((todo) => todo.title.trim() !== ''),
   );
   const isCurrentGoalAiUsed = selectedGoalIndex === -1 ? false : aiUsedByGoal[selectedGoalIndex];
-  const isCurrentGoalValid =
-    selectedGoalIndex !== -1 && isValidSubGoal(subGoals[selectedGoalIndex]);
   // 렌더링 직전 값 점검
   console.log('selectedGoalIndex:', selectedGoalIndex);
   console.log('subGoals:', subGoals);

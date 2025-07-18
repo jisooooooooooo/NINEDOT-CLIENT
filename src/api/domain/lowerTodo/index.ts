@@ -1,5 +1,3 @@
-import type { AxiosInstance } from 'axios';
-
 import type { GetCoreGoalsResponse } from './type/coreGoals';
 import type { GetSubGoalsRequest, GetSubGoalsResponse } from './type/subGoals';
 import type { GetSubGoalIdsRequest, GetSubGoalIdsResponse } from './type/subGoalIds';
