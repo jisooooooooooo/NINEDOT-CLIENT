@@ -20,7 +20,12 @@ export const postSignUp = async (payload: SignupResponse) => {
   return data.data;
 };
 
-export const getUser = async (): Promise<UserInfoResponse> => {
+export const getUser = async () => {
   const { data } = await axiosInstance.get<BaseResponse<UserInfoResponse>>('/users/info');
+  return data.data;
+};
+
+export const postLogout = async () => {
+  const { data } = await axiosInstance.post('/auth/logout');
   return data.data;
 };
