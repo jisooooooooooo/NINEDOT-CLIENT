@@ -1,5 +1,4 @@
 import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
-
 import { startButton } from '@/page/home/StartButton/StartButton.css';
 
 const StartButton = ({ onClick }: buttonHandlerType) => {

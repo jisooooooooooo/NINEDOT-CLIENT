@@ -6,10 +6,12 @@ import type {
   AiRecommendSubGoalRequest,
   AiRecommendSubGoalResponse,
 } from './type/aiRecommendSubGoal';
+import type { UpdateSubGoalRequest } from './type/updateSubGoal.request';
 
-import { get, post } from '@/api';
+import { get, post, api } from '@/api';
 import { END_POINT } from '@/api/constant/endPoint';
 import type { BaseResponse } from '@/type/api';
+import axiosInstance from '@/api/axiosInstance';
 
 export const getCoreGoals = async (mandalartId: number) => {
   const { data } = await get<BaseResponse<GetCoreGoalsResponse>>(
@@ -82,4 +84,17 @@ export const postAiRecommendSubGoals = async (
 ) => {
   const { data } = await post(`/core-goals/${coreGoalSnapshotId}/sub-goals/ai`, { goals });
   return data;
+};
+
+export const updateSubGoal = async (subGoalId: number, payload: UpdateSubGoalRequest) => {
+  return (await api.patch(`/sub-goals/${subGoalId}`, payload)).data;
+};
+
+export const deleteSubGoal = async (subGoalId: number) => {
+  return (await api.delete(`/sub-goals/${subGoalId}`)).data;
+};
+
+export const getOverallGoal = async (mandalartId: number): Promise<{ title: string }> => {
+  const response = await axiosInstance.get(`/mandalarts/${mandalartId}`);
+  return response.data.data;
 };

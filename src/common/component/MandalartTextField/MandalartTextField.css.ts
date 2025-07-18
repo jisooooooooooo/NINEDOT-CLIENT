@@ -15,6 +15,7 @@ const bigGoalBase = {
   fontSize: fonts.title01.fontSize,
   fontWeight: fonts.title01.fontWeight,
   lineHeight: fonts.title01.lineHeight,
+  color: colors.grey10,
 };
 const subGoalBase = {
   display: 'flex',
@@ -27,6 +28,7 @@ const subGoalBase = {
   fontSize: fonts.subtitle03.fontSize,
   fontWeight: fonts.subtitle03.fontWeight,
   lineHeight: fonts.subtitle03.lineHeight,
+  color: colors.grey10,
 };
 const todoBase = {
   display: 'flex',
@@ -39,6 +41,7 @@ const todoBase = {
   fontSize: fonts.subtitle03.fontSize,
   fontWeight: fonts.subtitle03.fontWeight,
   lineHeight: fonts.subtitle03.lineHeight,
+  color: '#111111',
 };
 
 export const bigGoalBaseClass = style(bigGoalBase);
@@ -53,7 +56,7 @@ export const inputBase = style({
   border: 'none',
   outline: 'none',
   padding: 0,
-  color: 'inherit',
+  color: colors.grey10,
 });
 
 const makeInputStyle = (font: Record<string, string | number>) =>
