@@ -6,15 +6,19 @@ import { PATH } from '@/route';
 
 const GoogleCallback = () => {
   const userData = useGoogleAuth();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData) {
-      navigate(PATH.SIGNUP);
+    if (!userData) {
+      return;
     }
-  }, [userData, navigate]);
 
-  return null;
+    console.log('userData 있음:', userData);
+    navigate(PATH.SIGNUP, {
+      state: { userData },
+    });
+  }, [userData, navigate]);
 };
 
 export default GoogleCallback;

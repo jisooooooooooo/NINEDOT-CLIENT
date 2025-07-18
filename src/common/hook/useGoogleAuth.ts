@@ -20,6 +20,7 @@ export const useGoogleAuth = (): UserData | null => {
       try {
         const data = await getAccessToken(code);
         localStorage.setItem('accessToken', data.accessToken);
+        console.log(data);
         setUserData(data);
       } catch (error) {
         console.error('로그인 실패:', error);

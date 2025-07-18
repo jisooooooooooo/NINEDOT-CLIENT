@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
@@ -21,6 +21,11 @@ const SignUp = () => {
   const { isValid } = computed;
 
   const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
+
+  const location = useLocation();
+  const userData = location.state?.userData;
+
+  console.log('구글에서 받은 유저 정보:', userData);
 
   const handleSignUp = () => {
     navigate(PATH.INTRO);
