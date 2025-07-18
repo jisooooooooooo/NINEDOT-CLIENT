@@ -7,7 +7,6 @@ import {
   surveyTitle,
 } from '@/page/signup/SurveySection/SurveySection.css';
 import { useGetPersona } from '@/api/domain/signup/hook/useGetPersona';
-import Loading from '@/common/component/Loading/Loading';
 
 const SurveySection = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
