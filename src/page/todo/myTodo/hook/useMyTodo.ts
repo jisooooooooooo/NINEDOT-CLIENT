@@ -5,6 +5,8 @@ import type { CycleType } from '../constant/mock';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { createDate, formatDateDot } from '@/common/util/format';
 import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
+import { usePostRecommendation } from '@/api/domain/myTodo/hook/usePostRecommendation';
+import { useDeleteRecommendation } from '@/api/domain/myTodo/hook/useDeleteRecommendation';
 
 const MANDALART_ID = 1;
 
@@ -35,22 +37,29 @@ const MAX_DATE = createDate(2025, 1, 31);
 
 export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoProps = {}) => {
   const [currentDate, setCurrentDate] = useState(initialDate);
-  const [selectedCycle, setSelectedCycle] = useState<CycleType | undefined>(undefined);
-  const [selectedParentId, setSelectedParentId] = useState<number | undefined>(undefined);
+  const [selectedCycle, setSelectedCycle] = useState<CycleType>();
+  const [selectedParentId, setSelectedParentId] = useState<number>();
   const [todos, setTodos] = useState<TodoItemTypes[]>([]);
+  const [recommendTodos, setRecommendTodos] = useState<TodoItemTypes[]>([]);
 
   const formattedDate = formatDateDot(currentDate);
-  const { data: recommendationData } = useGetRecommendation(MANDALART_ID, formattedDate);
+  const { data: recommendationData, refetch } = useGetRecommendation(MANDALART_ID, formattedDate);
+  const { mutate: completeTodo } = usePostRecommendation();
+  const { mutate: deleteTodo } = useDeleteRecommendation();
 
-  const recommendTodos: TodoItemTypes[] =
-    recommendationData?.subGoals.map((goal, index) => ({
-      id: goal.id.toString(),
-      content: goal.title,
-      completed: false,
-      cycle: goal.cycle as CycleType,
-      parentId: 0,
-      order: index,
-    })) ?? [];
+  useEffect(() => {
+    if (recommendationData?.subGoals) {
+      const formatted = recommendationData.subGoals.map((goal, index) => ({
+        id: goal.id.toString(),
+        content: goal.title,
+        completed: goal.isCompleted,
+        cycle: goal.cycle as CycleType,
+        parentId: 0,
+        order: index,
+      }));
+      setRecommendTodos(formatted);
+    }
+  }, [recommendationData]);
 
   useEffect(() => {
     setTodos(mockSubGoals);
@@ -61,26 +70,43 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
 
   const handleDateChange = (newDate: Date) => {
     setCurrentDate(newDate);
-    // API 호출 -> 해당 날짜의 추천 할 일 가져오기
   };
 
   const handleCycleClick = (cycle: CycleType) => {
     setSelectedCycle(selectedCycle === cycle ? undefined : cycle);
   };
 
-  const handleRecommendTodoClick = () =>
-    //item: TodoItemTypes
-    {};
+  const handleRecommendTodoClick = (item: TodoItemTypes) => {
+    const isCompleted = item.completed;
+
+    setRecommendTodos((prev) =>
+      prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
+    );
+
+    if (isCompleted) {
+      deleteTodo(Number(item.id), {
+        onSuccess: () => {
+          refetch();
+        },
+      });
+    } else {
+      completeTodo(Number(item.id), {
+        onSuccess: () => {
+          refetch();
+        },
+      });
+    }
+  };
 
   const handleMyTodoClick = (item: TodoItemTypes) => {
     setTodos((prev) =>
       prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
     );
-    // API 호출 -> 할 일 완료 상태 업데이트
+    // TODO: 할 일 완료 상태 API 호출 필요 시 추가
   };
 
   const handleMandalartClick = () => {
-    // 만다라트 칸 선택 로직 구현
+    // TODO: 만다라트 클릭 로직
   };
 
   const filteredTodos = todos
