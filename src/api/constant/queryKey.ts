@@ -17,7 +17,9 @@ export const QUERY_KEY = {
   STREAK: (mandalartId: number) => ['streaks', mandalartId],
   JOB_LIST: ['jobList'],
   RECOMMENDED_TODO: (mandalartId: number) => ['recommendedTodo', mandalartId],
-  MANDAL_ALL: ['mandalAll'] as const,
+  MANDAL_ALL: ['mandaclAll'] as const,
   CORE_GOALS: ['coreGoals'],
   PERSONA: 'persona',
+  UPDATE_SUB_GOAL: (id: number) => ['updateSubGoal', id],
+  DELETE_SUB_GOAL: (id: number) => ['deleteSubGoal', id],
 } as const;

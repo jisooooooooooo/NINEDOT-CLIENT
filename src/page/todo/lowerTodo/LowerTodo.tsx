@@ -1,4 +1,3 @@
-// feat/#134/lowerGoalApi 브랜치를 기준으로 한 충돌 해결
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -177,7 +176,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   }
 
   const mandalartOrder = [0, 1, 2, 5, 8, 7, 6, 3];
-  // 메인 만다라트 9칸짜리 배열을 완전히 독립된 객체로 초기화
   const coreGoalsGrid = Array(9)
     .fill(null)
     .map(() => ({ title: '', id: 0, position: 0, aiGeneratable: false }));
@@ -192,7 +190,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
         coreGoalsGrid[gridIdx] = goal;
       });
   }
-  // 중앙만 mainGoal, 나머지는 빈 값
   coreGoalsGrid[4] = { title: mainGoal, id: 0, position: 0, aiGeneratable: false };
 
   const subGoals = coreGoalsGrid.map((goal) => goal.title);
@@ -214,15 +211,12 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   const selectedGoal = coreGoalsGrid[selectedGridIndex];
   const selectedGoalTitle = selectedGoal?.title || '';
 
-  // 하위 만다라트 9칸 배열 생성 (완전히 독립된 객체)
   const mandalartSubGoals = Array(9)
     .fill(null)
     .map(() => ({ title: '', cycle: 'DAILY' as 'DAILY' | 'WEEKLY' | 'ONCE', id: 0, position: 0 }));
 
-  // 중앙에 선택된 목표 설정
   mandalartSubGoals[4] = { title: selectedGoalTitle, cycle: 'DAILY', id: 0, position: 0 };
 
-  // 중복을 제거한 todos 배열 생성
   const uniqueTodos = todos.filter((todo) => todo.title !== selectedGoalTitle);
 
   let todoIdx = 0;
@@ -258,7 +252,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     setSelectedGoalIndex(position - 1);
   };
 
-  // AI 추천값을 하위 목표로 저장하는 함수
   const handleApplyAiRecommendedGoals = async (
     selected: { id: number; position: number; title: string; cycle?: string }[],
   ) => {
@@ -285,7 +278,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     }
   };
 
-  // AI 추천 성공 시
   const handleAiRecommendSuccess = (aiList: { title: string; cycle: string }[]) => {
     openModal(
       <AiRecommendModal
@@ -327,7 +319,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
       await completeMandalart(mandalartId);
       navigate(PATH.TODO_MY);
     } catch (error) {
-      console.error('만다라트 완성 처리 중 오류 발생:', error);
       alert('만다라트 완성 처리 중 오류가 발생했습니다.');
     }
   };
