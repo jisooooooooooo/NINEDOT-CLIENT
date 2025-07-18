@@ -1,13 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
 
 import { startButton } from '@/page/home/StartButton/StartButton.css';
-import { PATH } from '@/route';
 
-const StartButton = () => {
-  const navigate = useNavigate();
-
+const StartButton = ({ onClick }: buttonHandlerType) => {
   return (
-    <button onClick={() => navigate(PATH.TODO)} className={startButton}>
+    <button onClick={onClick} className={startButton}>
       시작하기
     </button>
   );
