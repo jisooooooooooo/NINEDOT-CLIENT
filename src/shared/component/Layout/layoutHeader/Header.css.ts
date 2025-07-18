@@ -31,6 +31,9 @@ export const logoImage = style({
 export const navWrapper = style({
   display: 'flex',
   gap: '2rem',
+  position: 'absolute',
+  left: '50%',
+  transform: 'translateX(-50%)',
 });
 
 export const navItem = style({
