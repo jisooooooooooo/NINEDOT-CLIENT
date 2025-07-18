@@ -14,6 +14,10 @@ export const useDeleteSubGoal = () => {
         queryKey: QUERY_KEY.SUB_GOAL_IDS(subGoalId),
         exact: true,
       });
+      queryClient.invalidateQueries({
+        queryKey: ['subGoals'],
+        refetchType: 'active',
+      });
     },
   });
 };

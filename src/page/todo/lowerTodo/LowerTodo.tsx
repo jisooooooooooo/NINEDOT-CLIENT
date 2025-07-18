@@ -76,116 +76,87 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
     console.log('handleSaveSubGoalSync called:', { todo, position, subGoalIdsByPosition, selectedGoalIndex });
     const subGoalId = subGoalIdsByPosition[position];
+    const trimmedTitle = todo.title.trim();
 
-    if (!selectedCoreGoalId) {
-      if (done) {
-        done();
-      }
+    // 1. subGoalId가 있고 title이 빈 문자열이면 DELETE 호출
+    if (subGoalId && !trimmedTitle) {
+      deleteSubGoalMutation.mutate(subGoalId, {
+        onSuccess: () => {
+          setAllTodos((prev) => {
+            const newTodos = [...prev];
+            newTodos[selectedGoalIndex][position] = { title: '', cycle: 'DAILY' };
+            return newTodos;
+          });
+          setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: null }));
+          if (done) done();
+        },
+        onError: () => {
+          alert('하위 목표 삭제 중 오류가 발생했습니다.');
+          if (done) done();
+        },
+      });
       return;
     }
 
-    const trimmedTitle = todo.title.trim();
-
-    if (subGoalId) {
-      if (!trimmedTitle) {
-        deleteSubGoalMutation.mutate(subGoalId, {
+    // 2. subGoalId가 있고 title이 있으면 PATCH 호출 (주기만 바꿔도 포함)
+    if (subGoalId && trimmedTitle) {
+      updateSubGoalMutation.mutate(
+        {
+          title: trimmedTitle,
+          cycle: todo.cycle,
+        },
+        {
           onSuccess: () => {
             setAllTodos((prev) => {
               const newTodos = [...prev];
-              newTodos[selectedGoalIndex][position] = { title: '', cycle: 'DAILY' };
-              console.log('Deleted subGoal, newTodos:', newTodos);
+              newTodos[selectedGoalIndex][position] = { ...todo };
               return newTodos;
             });
-            setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: null }));
-            if (done) {
-              done();
-            }
+            if (done) done();
           },
           onError: () => {
-            alert('하위 목표 삭제 중 오류가 발생했습니다.');
-            if (done) {
-              done();
+            alert('하위 목표 수정 중 오류가 발생했습니다.');
+            if (done) done();
+          },
+        },
+      );
+      return;
+    }
+
+    // 3. subGoalId가 없고 title이 있으면 POST 호출
+    if (!subGoalId && trimmedTitle) {
+      createSubGoalMutation.mutate(
+        {
+          title: trimmedTitle,
+          position: position + 1,
+          cycle: todo.cycle,
+        },
+        {
+          onSuccess: (res) => {
+            setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: res.id }));
+            setAllTodos((prev) => {
+              const newTodos = [...prev];
+              newTodos[selectedGoalIndex][position] = { ...todo };
+              return newTodos;
+            });
+            if (done) done();
+          },
+          onError: (err) => {
+            const error = err as any;
+            if (error.response?.data?.message) {
+              alert(error.response.data.message);
+            } else {
+              alert('하위 목표 저장 중 오류가 발생했습니다.');
             }
+            if (done) done();
           },
-        });
-        return;
-      }
-      const prevTodo = allTodos[selectedGoalIndex][position];
-      const isTitleChanged = prevTodo.title !== trimmedTitle;
-      const isCycleChanged = prevTodo.cycle !== todo.cycle;
-
-      if (trimmedTitle && (isTitleChanged || isCycleChanged)) {
-        updateSubGoalMutation.mutate(
-          {
-            title: trimmedTitle,
-            cycle: todo.cycle,
-          },
-          {
-            onSuccess: () => {
-              setAllTodos((prev) => {
-                const newTodos = [...prev];
-                newTodos[selectedGoalIndex][position] = { ...todo };
-                console.log('Updated subGoal, newTodos:', newTodos);
-                return newTodos;
-              });
-              if (done) {
-                done();
-              }
-            },
-            onError: () => {
-              alert('하위 목표 수정 중 오류가 발생했습니다.');
-              if (done) {
-                done();
-              }
-            },
-          },
-        );
-      } else {
-        if (done) {
-          done();
-        }
-      }
+        },
+      );
       return;
     }
 
-    if (!trimmedTitle) {
-      if (done) {
-        done();
-      }
-      return;
-    }
-    createSubGoalMutation.mutate(
-      {
-        title: trimmedTitle,
-        position: position + 1,
-        cycle: todo.cycle,
-      },
-      {
-        onSuccess: (res) => {
-          setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: res.id }));
-          setAllTodos((prev) => {
-            const newTodos = [...prev];
-            newTodos[selectedGoalIndex][position] = { ...todo };
-            console.log('Created subGoal, newTodos:', newTodos);
-            return newTodos;
-          });
-          if (done) {
-            done();
-          }
-        },
-        onError: (err) => {
-          const error = err as any;
-          if (error.response?.data?.message) {
-            alert(error.response.data.message);
-          } else {
-            alert('하위 목표 저장 중 오류가 발생했습니다.');
-          }
-          if (done) {
-            done();
-          }
-        },
-      },
-    );
+    // 4. subGoalId가 없고 title도 없으면 아무것도 안 함
+    if (done) done();
   };
 
   const handleTodoChange = (newTodos: TodoItem[]) => {
