@@ -186,13 +186,13 @@ const LowerTodo = ({
     .map(() => ({ title: '', id: 0, position: 0, aiGeneratable: false }));
   if (coreGoalsData.data.coreGoals && coreGoalsData.data.coreGoals.length > 0) {
     coreGoalsData.data.coreGoals
-      .filter((goal) => goal.title !== mainGoal)
+      .filter((goal) => {
+        const gridIdx = mandalartOrder[goal.position - 1];
+        return goal.title !== mainGoal && gridIdx !== 4;
+      })
       .forEach((goal) => {
         const gridIdx = mandalartOrder[goal.position - 1];
-        // mainGoal이 들어갈 가능성 완전 차단
-        if (gridIdx !== 4) {
-          coreGoalsGrid[gridIdx] = goal;
-        }
+        coreGoalsGrid[gridIdx] = goal;
       });
   }
   // 중앙만 mainGoal, 나머지는 빈 값
@@ -221,29 +221,20 @@ const LowerTodo = ({
   const mandalartSubGoals = Array(9)
     .fill(null)
     .map(() => ({ title: '', cycle: 'DAILY' as 'DAILY' | 'WEEKLY' | 'ONCE', id: 0, position: 0 }));
-  mandalartSubGoals[4] = { title: selectedGoalTitle, cycle: 'DAILY', id: 0, position: 0 };
-  let todoIdx = 0;
-  for (let i = 0; i < 9; i++) {
-    if (i === 4) {
-      continue;
-    }
-    mandalartSubGoals[i] = todos[todoIdx];
-    todoIdx++;
-  }
 
-  // 디버깅: 각 배열의 title 값 확인
-  console.log(
-    'coreGoalsGrid',
-    coreGoalsGrid.map((g) => g.title),
-  );
-  console.log(
-    'todos',
-    todos.map((g) => g.title),
-  );
-  console.log(
-    'mandalartSubGoals',
-    mandalartSubGoals.map((g) => g.title),
-  );
+  // 중앙에 선택된 목표 설정
+  mandalartSubGoals[4] = { title: selectedGoalTitle, cycle: 'DAILY', id: 0, position: 0 };
+
+  // 중복을 제거한 todos 배열 생성
+  const uniqueTodos = todos.filter((todo) => todo.title !== selectedGoalTitle);
+
+  let todoIdx = 0;
+  mandalartOrder.forEach((gridIdx) => {
+    if (gridIdx !== 4 && todoIdx < uniqueTodos.length) {
+      mandalartSubGoals[gridIdx] = uniqueTodos[todoIdx];
+      todoIdx++;
+    }
+  });
 
   const updateTooltipState = (index: number, value: boolean) => {
     setTooltipOpenArr((arr) => arr.map((v, i) => (i === index ? value : v)));
@@ -397,11 +388,14 @@ const LowerTodo = ({
                 id: 0,
                 position: 0,
                 title: truncateText(mainGoal, 23),
-                subGoals: coreGoalsGrid.map((goal) => ({
-                  id: goal.id,
-                  title: truncateText(goal.title, 23),
-                  position: goal.position,
-                })),
+                subGoals: mandalartOrder.map((gridIdx) => {
+                  const goal = coreGoalsGrid[gridIdx];
+                  return {
+                    id: goal.id,
+                    title: truncateText(goal.title, 23),
+                    position: goal.position,
+                  };
+                }),
               }}
               onGoalClick={handleSubGoalClick}
             />
@@ -414,7 +408,15 @@ const LowerTodo = ({
                   id: selectedGoalIndex,
                   position: selectedGoalIndex,
                   title: truncateText(selectedGoalTitle, 23),
-                  subGoals: mandalartSubGoals,
+                  subGoals: mandalartOrder.map((gridIdx) => {
+                    const goal = mandalartSubGoals[gridIdx];
+                    return {
+                      id: goal.id,
+                      title: truncateText(goal.title, 23),
+                      position: goal.position,
+                      cycle: goal.cycle,
+                    };
+                  }),
                 }}
                 onGoalClick={() => {}}
               />
