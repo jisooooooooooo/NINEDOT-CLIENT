@@ -22,4 +22,5 @@ export const QUERY_KEY = {
   PERSONA: 'persona',
   UPDATE_SUB_GOAL: (id: number) => ['updateSubGoal', id],
   DELETE_SUB_GOAL: (id: number) => ['deleteSubGoal', id],
+  OVERALL_GOAL: ['overallGoal'],
 } as const;

@@ -1,3 +1,5 @@
+import type { AxiosInstance } from 'axios';
+
 import type { GetCoreGoalsResponse } from './type/coreGoals';
 import type { GetSubGoalsRequest, GetSubGoalsResponse } from './type/subGoals';
 import type { GetSubGoalIdsRequest, GetSubGoalIdsResponse } from './type/subGoalIds';
@@ -11,6 +13,7 @@ import type { UpdateSubGoalRequest } from './type/updateSubGoal.request';
 import { get, post, api } from '@/api';
 import { END_POINT } from '@/api/constant/endPoint';
 import type { BaseResponse } from '@/type/api';
+import axiosInstance from '@/api/axiosInstance';
 
 export const getCoreGoals = async (mandalartId: number) => {
   const { data } = await get<BaseResponse<GetCoreGoalsResponse>>(
@@ -91,4 +94,9 @@ export const updateSubGoal = async (subGoalId: number, payload: UpdateSubGoalReq
 
 export const deleteSubGoal = async (subGoalId: number) => {
   return (await api.delete(`/sub-goals/${subGoalId}`)).data;
+};
+
+export const getOverallGoal = async (mandalartId: number): Promise<{ title: string }> => {
+  const response = await axiosInstance.get(`/mandalarts/${mandalartId}`);
+  return response.data.data;
 };

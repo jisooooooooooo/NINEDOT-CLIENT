@@ -15,9 +15,12 @@ import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendMod
 import AiFailModal from '@/common/component/AiFailModal/AiFailModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useCoreGoals } from '@/api/domain/lowerTodo/hook/useCoreGoals';
+import { useOverallGoal } from '@/api/domain/lowerTodo/hook/useOverallGoal';
 import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
 import { useSubGoalIds } from '@/api/domain/lowerTodo/hook/useSubGoalIds';
 import { useCreateSubGoal } from '@/api/domain/lowerTodo/hook/useCreateSubGoal';
+import { useUpdateSubGoal } from '@/api/domain/lowerTodo/hook/useUpdateSubGoal';
+import { useDeleteSubGoal } from '@/api/domain/lowerTodo/hook/useDeleteSubGoal';
 import { useAiRecommendSubGoal } from '@/api/domain/lowerTodo/hook/useAiRecommendSubGoal';
 import { completeMandalart } from '@/api/domain/lowerTodo';
 import { postAiRecommendSubGoals } from '@/api/domain/lowerTodo';
@@ -49,6 +52,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
 
   const mandalartId = 1;
   const { data: coreGoalsData } = useCoreGoals(mandalartId);
+  const { data: overallGoalData } = useOverallGoal(mandalartId);
 
   const selectedCoreGoalId =
     selectedGoalIndex !== -1 && coreGoalsData
@@ -63,18 +67,85 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   const { data: subGoalIdsData } = useSubGoalIds(selectedCoreGoalId || 0);
 
   const createSubGoalMutation = useCreateSubGoal(selectedCoreGoalId ?? 0);
+  const updateSubGoalMutation = useUpdateSubGoal(selectedCoreGoalId ?? 0);
+  const deleteSubGoalMutation = useDeleteSubGoal();
 
   const aiRecommendMutation = useAiRecommendSubGoal(selectedCoreGoalId ?? 0);
   const recommendAiSubGoal = aiRecommendMutation.mutate;
 
   const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
-    if (!selectedCoreGoalId || subGoalIdsByPosition[position] != null) {
+    const subGoalId = subGoalIdsByPosition[position];
+
+    if (!selectedCoreGoalId) {
       if (done) {
         done();
       }
       return;
     }
-    if (!todo.title.trim()) {
+
+    const trimmedTitle = todo.title.trim();
+
+    if (subGoalId) {
+      if (!trimmedTitle) {
+        deleteSubGoalMutation.mutate(subGoalId, {
+          onSuccess: () => {
+            setAllTodos((prev) => {
+              const newTodos = [...prev];
+              newTodos[selectedGoalIndex][position] = { title: '', cycle: 'DAILY' };
+              return newTodos;
+            });
+            setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: null }));
+            if (done) {
+              done();
+            }
+          },
+          onError: () => {
+            alert('하위 목표 삭제 중 오류가 발생했습니다.');
+            if (done) {
+              done();
+            }
+          },
+        });
+        return;
+      }
+      const prevTodo = allTodos[selectedGoalIndex][position];
+      const isTitleChanged = prevTodo.title !== trimmedTitle;
+      const isCycleChanged = prevTodo.cycle !== todo.cycle;
+
+      if (trimmedTitle && (isTitleChanged || isCycleChanged)) {
+        updateSubGoalMutation.mutate(
+          {
+            title: trimmedTitle,
+            cycle: todo.cycle,
+          },
+          {
+            onSuccess: () => {
+              setAllTodos((prev) => {
+                const newTodos = [...prev];
+                newTodos[selectedGoalIndex][position] = { ...todo };
+                return newTodos;
+              });
+              if (done) {
+                done();
+              }
+            },
+            onError: () => {
+              alert('하위 목표 수정 중 오류가 발생했습니다.');
+              if (done) {
+                done();
+              }
+            },
+          },
+        );
+      } else {
+        if (done) {
+          done();
+        }
+      }
+      return;
+    }
+
+    if (!trimmedTitle) {
       if (done) {
         done();
       }
@@ -82,7 +153,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     }
     createSubGoalMutation.mutate(
       {
-        title: todo.title.trim(),
+        title: trimmedTitle,
         position: position + 1,
         cycle: todo.cycle,
       },
@@ -114,10 +185,16 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   };
 
   const handleTodoChange = (newTodos: TodoItem[]) => {
-    setAllTodos((prev) => prev.map((arr, idx) => (idx === selectedGoalIndex ? newTodos : arr)));
+    setAllTodos((prev) => {
+      const newState = [...prev];
+      newState[selectedGoalIndex] = [...newTodos];
+      return newState;
+    });
   };
 
   useEffect(() => {
+    console.log('useEffect - coreGoalsData 변경됨');
+    console.log('coreGoalsData:', coreGoalsData);
     if (coreGoalsData && coreGoalsData.data.coreGoals.length > 0) {
       const subGoals = coreGoalsData.data.coreGoals.map((goal) => goal.title);
       setSelectedGoalIndex(getFirstValidGoalIndex(subGoals));
@@ -125,29 +202,18 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   }, [coreGoalsData]);
 
   useEffect(() => {
+    console.log('useEffect - subGoalsData 변경됨');
+    console.log('subGoalsData:', subGoalsData);
     if (
-      subGoalIdsData &&
-      subGoalIdsData.data &&
-      subGoalIdsData.data.subgoalIds &&
-      selectedGoalIndex !== -1
+      subGoalsData &&
+      selectedGoalIndex !== -1 &&
+      allTodos[selectedGoalIndex].every((todo) => !todo.title?.trim())
     ) {
-      const newIdMap: { [position: number]: number | null } = {};
-
-      for (let i = 0; i < 8; i++) {
-        newIdMap[i] = null;
-      }
-
-      subGoalIdsData.data.subgoalIds.forEach(({ id, position }) => {
-        newIdMap[position - 1] = id;
-      });
-
-      setSubGoalIdsByPosition(newIdMap);
-    }
-  }, [subGoalIdsData, selectedGoalIndex]);
-
-  useEffect(() => {
-    if (subGoalsData && selectedGoalIndex !== -1) {
       setAllTodos((prev) => {
+        // 이미 값이 있으면 덮어쓰지 않음
+        if (prev[selectedGoalIndex].some((todo) => todo.title.trim() !== '')) {
+          return prev;
+        }
         const newTodos = [...prev];
         const apiTodos = subGoalsData.data.subGoals.map((subGoal) => ({
           title: subGoal.title,
@@ -156,11 +222,23 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
         const filledTodos = Array(8)
           .fill({ title: '', cycle: 'DAILY' })
           .map((_, idx) => apiTodos[idx] || { title: '', cycle: 'DAILY' });
+
+        const prevFilled = prev[selectedGoalIndex];
+        const isSame =
+          filledTodos.length === prevFilled.length &&
+          filledTodos.every(
+            (t, i) => t.title === prevFilled[i].title && t.cycle === prevFilled[i].cycle,
+          );
+
+        if (isSame) {
+          return prev;
+        }
+
         newTodos[selectedGoalIndex] = filledTodos;
         return newTodos;
       });
     }
-  }, [subGoalsData, selectedGoalIndex]);
+  }, [subGoalsData, selectedGoalIndex, allTodos, subGoalsData?.data?.subGoals]);
 
   useEffect(() => {
     if (coreGoalsData && selectedGoalIndex !== -1) {
@@ -172,6 +250,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   }, [coreGoalsData, allTodos, selectedGoalIndex]);
 
   if (!coreGoalsData) {
+    console.warn('coreGoalsData가 비어 있습니다!');
     return null;
   }
 
@@ -183,14 +262,23 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     coreGoalsData.data.coreGoals
       .filter((goal) => {
         const gridIdx = mandalartOrder[goal.position - 1];
-        return goal.title !== mainGoal && gridIdx !== 4;
+        return goal.title !== (overallGoalData?.title || '') && gridIdx !== 4;
       })
       .forEach((goal) => {
         const gridIdx = mandalartOrder[goal.position - 1];
         coreGoalsGrid[gridIdx] = goal;
       });
   }
-  coreGoalsGrid[4] = { title: mainGoal, id: 0, position: 0, aiGeneratable: false };
+  coreGoalsGrid[4] = {
+    title: overallGoalData?.title || '',
+    id: 0,
+    position: 0,
+    aiGeneratable: false,
+  };
+
+  // 디버깅: coreGoalsGrid/subGoals 생성 직후 값 점검
+  console.log('coreGoalsGrid 생성 후:', coreGoalsGrid.map((g) => g.title));
+  console.log('subGoals 생성 후:', coreGoalsGrid.map((g) => g.title));
 
   const subGoals = coreGoalsGrid.map((goal) => goal.title);
   const getGridIndex = (selectedGoalIndex: number) => {
@@ -242,6 +330,12 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   const isCurrentGoalAiUsed = selectedGoalIndex === -1 ? false : aiUsedByGoal[selectedGoalIndex];
   const isCurrentGoalValid =
     selectedGoalIndex !== -1 && isValidSubGoal(subGoals[selectedGoalIndex]);
+  // 렌더링 직전 값 점검
+  console.log('selectedGoalIndex:', selectedGoalIndex);
+  console.log('subGoals:', subGoals);
+  console.log('subGoals[selectedGoalIndex]:', subGoals[selectedGoalIndex]);
+  console.log('coreGoalsData:', coreGoalsData);
+  console.log('isValidSubGoal:', isValidSubGoal(subGoals[selectedGoalIndex]));
   const isAllCurrentTodosFilled = todos.every((todo) => todo.title.trim() !== '');
   const shouldShowTooltip = isTooltipOpen && !isAllCurrentTodosFilled;
 
@@ -249,7 +343,12 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     if (position < 1 || position > 8) {
       return;
     }
-    setSelectedGoalIndex(position - 1);
+    const newIndex = position - 1;
+    setSelectedGoalIndex(newIndex);
+    // 클릭 시점에 값 점검
+    console.log('클릭한 position:', position);
+    console.log('선택될 selectedGoalIndex:', newIndex);
+    console.log('subGoals[newIndex]:', subGoals[newIndex]);
   };
 
   const handleApplyAiRecommendedGoals = async (
@@ -336,7 +435,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
                 '
                 {isValidSubGoal(subGoals[selectedGoalIndex])
                   ? subGoals[selectedGoalIndex]
-                  : '토익 935점 맞기'}
+                  : overallGoalData?.title || '전체 목표 없음'}
                 '
               </span>
               에<br />
@@ -375,12 +474,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
               data={{
                 id: 0,
                 position: 0,
-                title: truncateText(
-                  isValidSubGoal(subGoals[selectedGoalIndex])
-                    ? subGoals[selectedGoalIndex]
-                    : '토익 935점 맞기',
-                  23,
-                ),
+                title: truncateText(overallGoalData?.title || '전체 목표 없음', 23),
                 subGoals: mandalartOrder.map((gridIdx) => {
                   const goal = coreGoalsGrid[gridIdx];
                   return {
@@ -417,7 +511,6 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
                 values={todos}
                 onChange={handleTodoChange}
                 onSave={handleSaveSubGoalSync}
-                disabled={!isCurrentGoalValid}
                 lastSavedTodos={[]}
                 selectedGoalIndex={selectedGoalIndex}
               />

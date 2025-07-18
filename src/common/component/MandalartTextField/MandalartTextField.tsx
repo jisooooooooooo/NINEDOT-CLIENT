@@ -107,11 +107,7 @@ const TextField = ({
   const effectivePlaceholder = getPlaceholder(variant, placeholder);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    if (effectiveMaxLength && newValue.length > effectiveMaxLength) {
-      return;
-    }
-    onChange(newValue);
+    onChange(e.target.value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
