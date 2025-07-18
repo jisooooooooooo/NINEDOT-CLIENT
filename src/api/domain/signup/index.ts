@@ -17,7 +17,7 @@ export const getPersona = async () => {
 };
 
 export const postSignUp = async (payload: SignupResponse) => {
-  const { data } = await axiosInstance.post('/signup', payload);
+  const { data } = await axiosInstance.post('/auth/signup', payload);
   return data.data;
 };
 
