@@ -6,8 +6,6 @@ import * as styles from './Header.css';
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
 import UserModal from '@/common/component/UserModal/UserModal';
-import LoginModal from '@/common/component/LoginModal/LoginModal';
-import { useModal } from '@/common/hook/useModal';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -26,13 +24,6 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [openProfile, setOpenProfile] = useState<boolean>(false);
 
-  const { openModal, closeModal, ModalWrapper } = useModal();
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    openModal(<LoginModal onClose={closeModal} />);
-  };
-
   const handleMenuClick = (menuLabel: string, path: string) => {
     setActiveMenu(menuLabel);
     navigate(path);
@@ -43,27 +34,24 @@ const Header = () => {
   };
 
   const renderNavMenu = () => (
-    <nav className={styles.navWrapper}>
-      {MENUS.map((menu) => {
-        const isActive = activeMenu === menu.label;
-        const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
-
-        return (
-          <button
-            key={menu.label}
-            className={buttonClass}
-            onClick={() => handleMenuClick(menu.label, menu.path)}
-            aria-current={isActive ? 'page' : undefined}
-          >
-            {menu.label}
-          </button>
-        );
-      })}
-    </nav>
-  );
-
-  const renderProfileSection = () => (
     <>
+      <nav className={styles.navWrapper}>
+        {MENUS.map((menu) => {
+          const isActive = activeMenu === menu.label;
+          const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
+
+          return (
+            <button
+              key={menu.label}
+              className={buttonClass}
+              onClick={() => handleMenuClick(menu.label, menu.path)}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {menu.label}
+            </button>
+          );
+        })}
+      </nav>
       <button className={styles.profilePlaceholder} onClick={handleProfile} />
       {isLoggedIn && openProfile && (
         <UserModal setIsLoggedIn={setIsLoggedIn} onClose={handleProfile} />
@@ -79,14 +67,8 @@ const Header = () => {
         </Link>
 
         {renderNavMenu()}
-        {isLoggedIn
-          ? renderProfileSection()
-          : // <button className={styles.loginButton} onClick={handleLogin}>
-            //   로그인
-            // </button>
-            null}
+        {isLoggedIn ? renderNavMenu() : null}
       </div>
-      {ModalWrapper}
     </header>
   );
 };
