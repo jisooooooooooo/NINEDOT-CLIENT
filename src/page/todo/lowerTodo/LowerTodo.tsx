@@ -345,7 +345,7 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
                 '
                 {isValidSubGoal(subGoals[selectedGoalIndex])
                   ? subGoals[selectedGoalIndex]
-                  : '세부 목표를 선택해주세요'}
+                  : '토익 935점 맞기'}
                 '
               </span>
               에<br />
