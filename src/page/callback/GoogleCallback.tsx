@@ -4,6 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { useGoogleAuth } from '@/common/hook/useGoogleAuth';
 import { PATH } from '@/route';
 
+interface UserData {
+  email: string;
+  name: string;
+  profileImageUrl: string;
+  socialProvider: string;
+  socialToken: string;
+  exists: boolean;
+}
+
 const GoogleCallback = () => {
   const userData = useGoogleAuth();
 
@@ -14,11 +23,18 @@ const GoogleCallback = () => {
       return;
     }
 
-    console.log('userData 있음:', userData);
-    navigate(PATH.SIGNUP, {
-      state: { userData },
-    });
+    const isExistingUser = userData.exists;
+
+    if (isExistingUser) {
+      navigate(PATH.INTRO);
+    } else {
+      navigate(PATH.SIGNUP, {
+        state: { userData },
+      });
+    }
   }, [userData, navigate]);
+
+  return null;
 };
 
 export default GoogleCallback;

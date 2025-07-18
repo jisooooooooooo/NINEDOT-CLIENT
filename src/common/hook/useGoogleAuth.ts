@@ -4,7 +4,12 @@ import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
 import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
 
 interface UserData {
-  accessToken: string;
+  email: string;
+  name: string;
+  profileImageUrl: string;
+  socialProvider: string;
+  socialToken: string;
+  exists: boolean;
 }
 
 export const useGoogleAuth = (): UserData | null => {
@@ -20,7 +25,6 @@ export const useGoogleAuth = (): UserData | null => {
       try {
         const data = await getAccessToken(code);
         localStorage.setItem('accessToken', data.accessToken);
-        console.log(data);
         setUserData(data);
       } catch (error) {
         console.error('로그인 실패:', error);
