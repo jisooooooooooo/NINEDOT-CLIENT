@@ -43,24 +43,27 @@ const Header = () => {
   };
 
   const renderNavMenu = () => (
-    <>
-      <nav className={styles.navWrapper}>
-        {MENUS.map((menu) => {
-          const isActive = activeMenu === menu.label;
-          const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
+    <nav className={styles.navWrapper}>
+      {MENUS.map((menu) => {
+        const isActive = activeMenu === menu.label;
+        const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
 
-          return (
-            <button
-              key={menu.label}
-              className={buttonClass}
-              onClick={() => handleMenuClick(menu.label, menu.path)}
-              aria-current={isActive ? 'page' : undefined}
-            >
-              {menu.label}
-            </button>
-          );
-        })}
-      </nav>
+        return (
+          <button
+            key={menu.label}
+            className={buttonClass}
+            onClick={() => handleMenuClick(menu.label, menu.path)}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {menu.label}
+          </button>
+        );
+      })}
+    </nav>
+  );
+
+  const renderProfileSection = () => (
+    <>
       <button className={styles.profilePlaceholder} onClick={handleProfile} />
       {isLoggedIn && openProfile && (
         <UserModal setIsLoggedIn={setIsLoggedIn} onClose={handleProfile} />
@@ -76,13 +79,12 @@ const Header = () => {
         </Link>
 
         {renderNavMenu()}
-        {isLoggedIn ? (
-          renderNavMenu()
-        ) : (
-          <button className={styles.loginButton} onClick={handleLogin}>
-            로그인
-          </button>
-        )}
+        {isLoggedIn
+          ? renderProfileSection()
+          : // <button className={styles.loginButton} onClick={handleLogin}>
+            //   로그인
+            // </button>
+            null}
       </div>
       {ModalWrapper}
     </header>
