@@ -33,10 +33,7 @@ interface TodoItem {
   cycle: 'DAILY' | 'WEEKLY' | 'ONCE';
 }
 
-const LowerTodo = ({
-  userName = '김도트',
-  mainGoal = '사용자가 작성한 대목표',
-}: LowerTodoProps) => {
+const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }: LowerTodoProps) => {
   const navigate = useNavigate();
   const { openModal, ModalWrapper, closeModal } = useModal();
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(0);
@@ -387,7 +384,12 @@ const LowerTodo = ({
               data={{
                 id: 0,
                 position: 0,
-                title: truncateText(mainGoal, 23),
+                title: truncateText(
+                  isValidSubGoal(subGoals[selectedGoalIndex])
+                    ? subGoals[selectedGoalIndex]
+                    : '토익 935점 맞기',
+                  23,
+                ),
                 subGoals: mandalartOrder.map((gridIdx) => {
                   const goal = coreGoalsGrid[gridIdx];
                   return {
