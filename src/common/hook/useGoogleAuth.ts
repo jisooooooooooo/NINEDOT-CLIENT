@@ -10,6 +10,8 @@ interface UserData {
   socialProvider: string;
   socialToken: string;
   exists: boolean;
+  accessToken?: string;
+  onboardingCompleted?: boolean;
 }
 
 export const useGoogleAuth = (): UserData | null => {
