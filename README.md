@@ -14,27 +14,27 @@
 <table>
   <tr>
     <td align="center">
-      <img width="640" height="1066" alt="image 3" src="https://github.com/user-attachments/assets/716b2c08-c65e-42b8-87d1-b9db0f22f914" />
-<br/>
-      <b>임지수</b><br/>
+      <img width="200" alt="image 3" src="https://github.com/user-attachments/assets/716b2c08-c65e-42b8-87d1-b9db0f22f914" />
+      <br />
+      <b>임지수</b><br />
       <a href="https://github.com/jisooooooooooo">@jisooooooooooo</a>
     </td>
     <td align="center">
-      <img width="640" height="1066" alt="image 1" src="https://github.com/user-attachments/assets/2679a003-8106-44a5-9309-dbc5da40023a" />
-<br/>
-      <b>권새봄</b><br/>
+      <img width="200" alt="image 1" src="https://github.com/user-attachments/assets/2679a003-8106-44a5-9309-dbc5da40023a" />
+      <br />
+      <b>권새봄</b><br />
       <a href="https://github.com/kwonsaebom">@kwonsaebom</a>
     </td>
     <td align="center">
-      <img width="640" height="1066" alt="image 2" src="https://github.com/user-attachments/assets/c33a5bbc-26a4-4855-a46d-b82e51875ff9" />
-<br/>
-      <b>신지수</b><br/>
+      <img width="200" alt="image 2" src="https://github.com/user-attachments/assets/c33a5bbc-26a4-4855-a46d-b82e51875ff9" />
+      <br />
+      <b>신지수</b><br />
       <a href="https://github.com/shinjigu">@shinjigu</a>
     </td>
     <td align="center">
-      <img width="640" height="1066" alt="image 4" src="https://github.com/user-attachments/assets/587b2637-9350-46b3-845f-3aa44b567909" />
-<br/>
-      <b>이윤지</b><br/>
+      <img width="200" alt="image 4" src="https://github.com/user-attachments/assets/587b2637-9350-46b3-845f-3aa44b567909" />
+      <br />
+      <b>이윤지</b><br />
       <a href="https://github.com/Leeyoonji23">@Leeyoonji23</a>
     </td>
   </tr>
