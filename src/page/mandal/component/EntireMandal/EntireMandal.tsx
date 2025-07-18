@@ -18,6 +18,7 @@ const EntireMandal = ({ coreGoals, mainTitle }: EntireMandalProps) => {
       id: goal.id,
       title: goal.title,
       position: goal.position,
+      subGoals: [],
     })),
   };
 

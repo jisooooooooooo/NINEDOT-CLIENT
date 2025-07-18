@@ -1,14 +1,14 @@
-import { listContainer, listItem, listText } from '@/common/component/CycleDropDown/CycleList.css';
+import { listContainer, listItem, listText } from './CycleList.css';
 
 const CYCLE_TYPE = ['매일', '매주', '한 번'] as const;
-type CycleType = (typeof CYCLE_TYPE)[number];
+type DisplayCycleType = (typeof CYCLE_TYPE)[number];
 
-type CycleProps = {
-  selectedType: CycleType;
-  onSelect: (type: CycleType) => void;
-};
+interface CycleListProps {
+  selectedType: DisplayCycleType;
+  onSelect: (type: DisplayCycleType) => void;
+}
 
-const CycleList = ({ selectedType, onSelect }: CycleProps) => {
+const CycleList = ({ selectedType, onSelect }: CycleListProps) => {
   return (
     <div className={listContainer}>
       {CYCLE_TYPE.map((type) => {
