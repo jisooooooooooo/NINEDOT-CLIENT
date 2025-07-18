@@ -1,6 +1,7 @@
 import * as styles from '../../MyTodo.css';
 import type { MandalartData } from '../../constant/mock';
 
+import { useGetMandalCoreGoals } from '@/api/domain/myTodo/hook/useMyMandal';
 import { CycleChip } from '@/page/todo/myTodo/component/CycleChip';
 import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
 import type { CycleType } from '@/page/todo/myTodo/component/CycleChip';
@@ -32,66 +33,82 @@ const TodoCheckSection = ({
   onTodoClick,
   onMandalartClick,
   selectedParentId,
-}: TodoCheckSectionProps) => (
-  <section className={styles.checkSection}>
-    <header className={styles.checkTextWrapper}>
-      <h2 className={styles.checkTitle}>{CHECK_MESSAGES.TITLE}</h2>
-      <p className={styles.checkSubtitle}>{CHECK_MESSAGES.SUBTITLE}</p>
-    </header>
+}: TodoCheckSectionProps) => {
+  const mandalartId = 1;
+  const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
 
-    <section className={styles.checkMainContainer}>
-      <div className={styles.mainContentSection}>
-        <div className={styles.mandalartWithTodoSection}>
-          <Mandalart
-            type="TODO_MAIN"
-            data={{
-              id: 0,
-              position: 0,
-              title: mandalartData.title || mandalartData.mainGoal,
-              subGoals: mandalartData.subGoals.map((sg) => ({ ...sg, id: sg.position })),
-            }}
-            onGoalClick={(position) => {
-              const parentId = position + 1;
-              onMandalartClick(selectedParentId === parentId ? undefined : parentId);
-            }}
-          />
+  return (
+    <section className={styles.checkSection}>
+      <header className={styles.checkTextWrapper}>
+        <h2 className={styles.checkTitle}>{CHECK_MESSAGES.TITLE}</h2>
+        <p className={styles.checkSubtitle}>{CHECK_MESSAGES.SUBTITLE}</p>
+      </header>
 
-          <div className={styles.todoCheckArea}>
-            <div className={styles.selectorChipsContainer}>
-              {CYCLE_LIST.map((cycle) => (
-                <CycleChip
-                  key={cycle}
-                  type="selector"
-                  value={cycle}
-                  selected={selectedCycle === cycle}
-                  onClick={onCycleClick}
-                />
-              ))}
-            </div>
+      <section className={styles.checkMainContainer}>
+        <div className={styles.mainContentSection}>
+          <div className={styles.mandalartWithTodoSection}>
+            <Mandalart
+              type="TODO_MAIN"
+              data={{
+                id: 0,
+                position: 4,
+                title: mandalartData.title || mandalartData.mainGoal,
+                subGoals: Array.isArray(coreGoalsData?.data?.coreGoals)
+                  ? coreGoalsData.data.coreGoals.map(
+                      (
+                        goal: { title: string; position: number; subGoals?: unknown[] },
+                        idx: number,
+                      ) => ({
+                        id: idx < 4 ? idx : idx + 1,
+                        title: goal.title,
+                        position: goal.position,
+                        subGoals: goal.subGoals ?? [],
+                      }),
+                    )
+                  : [],
+              }}
+              onGoalClick={(position) => {
+                const parentId = position + 1;
+                onMandalartClick(selectedParentId === parentId ? undefined : parentId);
+              }}
+            />
+            <div className={styles.todoCheckArea}>
+              <div className={styles.selectorChipsContainer}>
+                {CYCLE_LIST.map((cycle) => (
+                  <CycleChip
+                    key={cycle}
+                    type="selector"
+                    value={cycle}
+                    selected={selectedCycle === cycle}
+                    onClick={onCycleClick}
+                  />
+                ))}
+              </div>
 
-            <div
-              className={
-                todos.length === 0 ? styles.noScrollTodoCheckContainer : styles.todoCheckContainer
-              }
-            >
-              {todos.length === 0 ? (
-                <div className={styles.emptyTodoBox}>
-                  <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
-                </div>
-              ) : (
-                todos.map((todo) => (
-                  <div key={todo.id} className={styles.todoCheckLine}>
-                    <CycleChip type="display" value={todo.cycle} />
-                    <TodoBox type="todo" items={[todo]} onItemClick={onTodoClick} />
+              <div
+                className={
+                  todos.length === 0 ? styles.noScrollTodoCheckContainer : styles.todoCheckContainer
+                }
+              >
+                {todos.length === 0 ? (
+                  <div className={styles.emptyTodoBox}>
+                    <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
                   </div>
-                ))
-              )}
+                ) : (
+                  todos.map((todo) => (
+                    <div key={todo.id} className={styles.todoCheckLine}>
+                      <CycleChip type="display" value={todo.cycle} />
+                      <TodoBox type="todo" items={[todo]} onItemClick={onTodoClick} />
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </section>
-  </section>
-);
+  );
+};
 
 export { TodoCheckSection };

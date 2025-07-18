@@ -1,4 +1,5 @@
 import type { RecommendationResponse } from './type/recommendation';
+import type { CoreGoal } from './type/myTodo';
 
 import { END_POINT } from '@/api/constant/endPoint';
 import axiosInstance from '@/api/axiosInstance';
@@ -18,4 +19,11 @@ export const getMandalAll = async (mandalartId: number) => {
     `/${END_POINT.MANDALART}/${mandalartId}`,
   );
   return response.data.data;
+};
+
+export const getMandalCoreGoals = async (
+  mandalartId: number,
+): Promise<BaseResponse<{ coreGoals: CoreGoal[] }>> => {
+  const res = await axiosInstance.get(`/api/v1/mandalarts/${mandalartId}/core-goals`);
+  return res.data;
 };
