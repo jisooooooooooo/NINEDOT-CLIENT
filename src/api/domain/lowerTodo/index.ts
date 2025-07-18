@@ -57,3 +57,18 @@ export const postAiRecommendSubGoal = async (
   const { data } = await post<AiRecommendSubGoalResponse>(`/core-goals/${coreGoalId}/ai`, body);
   return data;
 };
+
+export const postSubGoal = async (mandalartId: number, request: CreateSubGoalRequest) => {
+  const { data } = await post<CreateSubGoalResponse>(
+    `/mandalarts/${mandalartId}/onboarding/recommendation`,
+    request,
+  );
+  return data;
+};
+
+export const completeMandalart = async (mandalartId: number) => {
+  const { data } = await post<BaseResponse<void>>(
+    `/mandalarts/${mandalartId}/onboarding/recommendation`,
+  );
+  return data;
+};

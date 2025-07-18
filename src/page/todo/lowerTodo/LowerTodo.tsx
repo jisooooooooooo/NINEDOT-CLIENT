@@ -20,6 +20,7 @@ import { useSubGoals } from '@/api/domain/lowerTodo/hook/useSubGoals';
 import { useSubGoalIds } from '@/api/domain/lowerTodo/hook/useSubGoalIds';
 import { useCreateSubGoal } from '@/api/domain/lowerTodo/hook/useCreateSubGoal';
 import { useAiRecommendSubGoal } from '@/api/domain/lowerTodo/hook/useAiRecommendSubGoal';
+import { completeMandalart } from '@/api/domain/lowerTodo';
 
 interface LowerTodoProps {
   userName?: string;
@@ -281,8 +282,14 @@ const LowerTodo = ({
     );
   };
 
-  const handleNavigateComplete = () => {
-    navigate(PATH.MANDAL);
+  const handleNavigateComplete = async () => {
+    try {
+      await completeMandalart(mandalartId);
+      navigate(PATH.MANDAL);
+    } catch (error) {
+      console.error('만다라트 완성 처리 중 오류 발생:', error);
+      alert('만다라트 완성 처리 중 오류가 발생했습니다.');
+    }
   };
 
   return (
