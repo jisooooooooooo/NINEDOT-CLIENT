@@ -4,7 +4,14 @@ import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
 import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
 
 interface UserData {
-  accessToken: string;
+  email: string;
+  name: string;
+  profileImageUrl: string;
+  socialProvider: string;
+  socialToken: string;
+  exists: boolean;
+  accessToken?: string;
+  onboardingCompleted?: boolean;
 }
 
 export const useGoogleAuth = (): UserData | null => {

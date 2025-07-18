@@ -20,4 +20,5 @@ export const QUERY_KEY = {
   MANDAL_ALL: ['mandalAll'] as const,
   CORE_GOALS: ['coreGoals'],
   PERSONA: 'persona',
+  USER_INFO: ['userInfo'],
 } as const;
