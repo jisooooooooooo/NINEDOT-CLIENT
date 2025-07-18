@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import * as styles from './Header.css';
@@ -6,8 +6,9 @@ import * as styles from './Header.css';
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
-import { useModal } from '@/common/hook/useModal';
 import UserModal from '@/common/component/UserModal/UserModal';
+import { useModal } from '@/common/hook/useModal';
+import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -18,18 +19,23 @@ const MENUS = [
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const accessToken = localStorage.getItem('accessToken');
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
-
   const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [openProfile, setOpenProfile] = useState<boolean>(false);
 
+  const [openProfile, setOpenProfile] = useState<boolean>(false);
   const { openModal, closeModal, ModalWrapper } = useModal();
 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!accessToken);
+  const { data: user, isLoading } = useGetUser();
+
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem('accessToken'));
+  }, []);
+
   const handleLogin = () => {
-    setIsLoggedIn(true);
     openModal(<LoginModal onClose={closeModal} />);
   };
 
@@ -61,9 +67,17 @@ const Header = () => {
           );
         })}
       </nav>
-      {/* <button className={styles.profilePlaceholder} onClick={handleProfile} /> */}
-      {isLoggedIn && openProfile && (
-        <UserModal setIsLoggedIn={setIsLoggedIn} onClose={handleProfile} />
+
+      {!isLoading && user && (
+        <>
+          <img
+            src={user.profileImageUrl}
+            alt="유저 프로필"
+            className={styles.profilePlaceholder}
+            onClick={handleProfile}
+          />
+          {openProfile && <UserModal onClose={handleProfile} />}
+        </>
       )}
     </>
   );
@@ -87,4 +101,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;
