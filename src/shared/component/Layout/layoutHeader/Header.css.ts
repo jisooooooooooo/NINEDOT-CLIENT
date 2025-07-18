@@ -18,16 +18,12 @@ export const headerInner = style({
   width: '100%',
   padding: '2.8rem 8rem',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center',
   height: '8rem',
-  position: 'relative',
 });
 
 export const logoImage = style({
-  position: 'absolute',
-  top: '2.8rem',
-  left: '8rem',
   height: '2.4rem',
   flexShrink: 0,
 });
