@@ -1,5 +1,5 @@
 export interface SignupResponse {
-  socialProvider: 'string';
+  socialProvider: string;
   socialToken: string;
   name: string;
   email: string;

@@ -35,7 +35,7 @@ const SignUp = () => {
   const handleSignUp = () => {
     const payload: SignupResponse = {
       socialProvider: 'GOOGLE',
-      socialToken: '소셜토큰',
+      socialToken: userData.socialToken,
       name,
       email,
       birthday: birth,
