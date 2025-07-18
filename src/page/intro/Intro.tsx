@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as styles from '@/page/intro/Intro.css';
 
 const MESSAGE = {
@@ -14,8 +13,9 @@ const MESSAGE = {
 };
 
 const Intro = () => {
-  const isWritten = true;
   const navigate = useNavigate();
+  const location = useLocation();
+  const isWritten = location.state?.isWritten ?? false; // 기본값 false
 
   const handleNavigateToTodo = () => {
     navigate('/todo');

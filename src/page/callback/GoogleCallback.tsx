@@ -6,7 +6,6 @@ import { PATH } from '@/route';
 
 const GoogleCallback = () => {
   const userData = useGoogleAuth();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +16,9 @@ const GoogleCallback = () => {
     const isExistingUser = userData.exists;
 
     if (isExistingUser) {
-      navigate(PATH.INTRO);
+      navigate(PATH.INTRO, {
+        state: { isWritten: userData.onboardingCompleted },
+      });
     } else {
       navigate(PATH.SIGNUP, {
         state: { userData },

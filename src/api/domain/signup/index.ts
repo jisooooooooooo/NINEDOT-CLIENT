@@ -15,7 +15,6 @@ export const getPersona = async () => {
   const { data } = await axiosInstance.get<BaseResponse<PersonaResponse>>(`/${END_POINT.PERSONA}`);
   return data.data;
 };
-
 export const postSignUp = async (payload: SignupResponse) => {
   const { data } = await axiosInstance.post('/auth/signup', payload);
   return data.data;
