@@ -4,7 +4,6 @@ import { Main, Sub } from './Square';
 import * as styles from './Mandalart.css';
 import MandalartGrid from './MandalartGrid/MandalartGrid';
 
-import { useMandalAll } from '@/api/domain/mandalAll/hook';
 import type { CoreGoal, MainGoal, SubGoal } from '@/page/mandal/types/mandal';
 
 export type Cycle = 'DAILY' | 'WEEKLY' | 'ONCE';
@@ -40,7 +39,6 @@ const Mandalart = ({
   subGoals,
 }: MandalartProps) => {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
-  const { data: mandalartData } = useMandalAll(1);
 
   const handleGoalClick = (index: number, subGoal: SubGoal) => {
     const position = indexToPosition(index);
@@ -52,19 +50,12 @@ const Mandalart = ({
     const squareType = type === 'MY_MANDAL' ? 'MY_MANDAL' : isCenter ? 'MY_MANDAL_CENTER' : type;
 
     if (index === CENTER_INDEX) {
-      return (
-        <Main
-          key={index}
-          content={mainGoal || data?.title || mandalartData?.title || ''}
-          type={squareType}
-        />
-      );
+      return <Main key={index} content={data?.title || mainGoal || ''} type={squareType} />;
     }
 
-    const subGoalIndex = index > CENTER_INDEX ? index - 1 : index;
-    const subGoal = subGoals?.[subGoalIndex] ||
-      data?.subGoals?.[subGoalIndex] ||
-      mandalartData?.coreGoals?.[subGoalIndex]?.subGoals?.[0] || {
+    const adjustedIndex = index < CENTER_INDEX ? index : index - 1;
+    const subGoal = subGoals?.[adjustedIndex] ||
+      data?.subGoals?.[adjustedIndex] || {
         title: '',
         id: 0,
         position: indexToPosition(index),
