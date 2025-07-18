@@ -3,15 +3,16 @@ import { useEffect, useRef } from 'react';
 import { IcDivider } from '@/assets/svg';
 import * as styles from '@/common/component/UserModal/UserModal.css';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
+import { usePostLogout } from '@/api/domain/signup/hook/usePostLogout';
 
 interface UserModalProps {
-  setIsLoggedIn: (value: boolean) => void;
   onClose: () => void;
 }
 
-const UserModal = ({ setIsLoggedIn, onClose }: UserModalProps) => {
+const UserModal = ({ onClose }: UserModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { data: user, isLoading, isError } = useGetUser();
+  const { mutate: logoutMutate } = usePostLogout();
 
   const handleClickOutside = (e: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -20,8 +21,17 @@ const UserModal = ({ setIsLoggedIn, onClose }: UserModalProps) => {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    onClose();
+    logoutMutate(undefined, {
+      onSuccess: () => {
+        localStorage.removeItem('accessToken');
+        onClose();
+        window.location.reload();
+      },
+      onError: (error) => {
+        console.error('로그아웃 실패:', error);
+        onClose();
+      },
+    });
   };
 
   useEffect(() => {
