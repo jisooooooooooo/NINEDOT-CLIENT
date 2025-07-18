@@ -49,19 +49,17 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
 
   useEffect(() => {
     if (recommendationData?.subGoals) {
-      setRecommendTodos(parsedRecommendTodos);
+      const formatted = recommendationData.subGoals.map((goal, index) => ({
+        id: goal.id.toString(),
+        content: goal.title,
+        isCompleted: goal.isCompleted,
+        cycle: goal.cycle as CycleType,
+        parentId: 0,
+        order: index,
+      }));
+      setRecommendTodos(formatted);
     }
   }, [recommendationData]);
-
-  const parsedRecommendTodos: TodoItemTypes[] =
-    recommendationData?.subGoals.map((goal, index) => ({
-      id: goal.id.toString(),
-      content: goal.title,
-      isCompleted: false,
-      cycle: goal.cycle as CycleType,
-      parentId: 0,
-      order: index,
-    })) ?? [];
 
   useEffect(() => {
     setTodos(mockSubGoals);
