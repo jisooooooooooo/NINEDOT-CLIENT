@@ -113,6 +113,17 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
+  const [submittedIndices, setSubmittedIndices] = useState<Set<number>>(new Set());
+
+  const handleDebouncedSubGoalEnter = (index: number, value: string) => {
+    if (submittedIndices.has(index)) {
+      return;
+    }
+
+    handleSubGoalEnter(index, value);
+    setSubmittedIndices((prev) => new Set(prev).add(index));
+  };
+
   return (
     <main className={styles.upperTodoContainer}>
       <GradientBackground />
@@ -142,7 +153,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
             values={subGoals}
             onChange={setSubGoals}
             idPositions={coreGoalIds?.coreGoalIds || []}
-            onEnter={handleSubGoalEnter}
+            onEnter={handleDebouncedSubGoalEnter}
             aiResponseData={aiResponseData}
           />
         </div>
