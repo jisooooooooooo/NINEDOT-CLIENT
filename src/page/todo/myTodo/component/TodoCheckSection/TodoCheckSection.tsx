@@ -1,7 +1,10 @@
 import * as styles from '../../MyTodo.css';
 import type { MandalartData } from '../../constant/mock';
 
-import { useGetMandalCoreGoals } from '@/api/domain/myTodo/hook/useMyMandal';
+import {
+  useGetMandalCoreGoals,
+  useGetMandalartSubGoals,
+} from '@/api/domain/myTodo/hook/useMyMandal';
 import { CycleChip } from '@/page/todo/myTodo/component/CycleChip';
 import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
 import type { CycleType } from '@/page/todo/myTodo/component/CycleChip';
@@ -10,7 +13,6 @@ import Mandalart from '@/common/component/Mandalart/Mandalart';
 
 interface TodoCheckSectionProps {
   selectedCycle: CycleType | undefined;
-  todos: TodoItemTypes[];
   mandalartData: MandalartData;
   onCycleClick: (cycle: CycleType) => void;
   onTodoClick: (item: TodoItemTypes) => void;
@@ -27,7 +29,6 @@ const CHECK_MESSAGES = {
 
 const TodoCheckSection = ({
   selectedCycle,
-  todos,
   mandalartData,
   onCycleClick,
   onTodoClick,
@@ -36,6 +37,14 @@ const TodoCheckSection = ({
 }: TodoCheckSectionProps) => {
   const mandalartId = 1;
   const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
+  const { data: subGoalResponse } = useGetMandalartSubGoals(1, selectedParentId, selectedCycle);
+  const subGoals: TodoItemTypes[] = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
+    id: goal.id,
+    title: goal.title,
+    cycle: goal.cycle,
+    isCompleted: goal.isCompleted,
+    content: goal.title,
+  }));
 
   return (
     <section className={styles.checkSection}>
@@ -68,7 +77,10 @@ const TodoCheckSection = ({
                   : [],
               }}
               onGoalClick={(position) => {
-                const parentId = position + 1;
+                const coreGoal = coreGoalsData?.data?.coreGoals.find(
+                  (goal) => goal.position === position,
+                );
+                const parentId = coreGoal?.id;
                 onMandalartClick(selectedParentId === parentId ? undefined : parentId);
               }}
             />
@@ -87,17 +99,19 @@ const TodoCheckSection = ({
 
               <div
                 className={
-                  todos.length === 0 ? styles.noScrollTodoCheckContainer : styles.todoCheckContainer
+                  subGoals.length === 0
+                    ? styles.noScrollTodoCheckContainer
+                    : styles.todoCheckContainer
                 }
               >
-                {todos.length === 0 ? (
+                {subGoals.length === 0 ? (
                   <div className={styles.emptyTodoBox}>
                     <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
                   </div>
                 ) : (
-                  todos.map((todo) => (
+                  subGoals.map((todo) => (
                     <div key={todo.id} className={styles.todoCheckLine}>
-                      <CycleChip type="display" value={todo.cycle} />
+                      <CycleChip type="display" value={todo.cycle as CycleType} />
                       <TodoBox type="todo" items={[todo]} onItemClick={onTodoClick} />
                     </div>
                   ))
