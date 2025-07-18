@@ -74,7 +74,12 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   const recommendAiSubGoal = aiRecommendMutation.mutate;
 
   const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
-    console.log('handleSaveSubGoalSync called:', { todo, position, subGoalIdsByPosition, selectedGoalIndex });
+    console.log('handleSaveSubGoalSync called:', {
+      todo,
+      position,
+      subGoalIdsByPosition,
+      selectedGoalIndex,
+    });
     const subGoalId = subGoalIdsByPosition[position];
     const trimmedTitle = todo.title.trim();
 
@@ -88,11 +93,15 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
             return newTodos;
           });
           setSubGoalIdsByPosition((prev) => ({ ...prev, [position]: null }));
-          if (done) done();
+          if (done) {
+            done();
+          }
         },
         onError: () => {
           alert('하위 목표 삭제 중 오류가 발생했습니다.');
-          if (done) done();
+          if (done) {
+            done();
+          }
         },
       });
       return;
@@ -112,11 +121,15 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
               newTodos[selectedGoalIndex][position] = { ...todo };
               return newTodos;
             });
-            if (done) done();
+            if (done) {
+              done();
+            }
           },
           onError: () => {
             alert('하위 목표 수정 중 오류가 발생했습니다.');
-            if (done) done();
+            if (done) {
+              done();
+            }
           },
         },
       );
@@ -139,7 +152,9 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
               newTodos[selectedGoalIndex][position] = { ...todo };
               return newTodos;
             });
-            if (done) done();
+            if (done) {
+              done();
+            }
           },
           onError: (err) => {
             const error = err as any;
@@ -148,7 +163,9 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
             } else {
               alert('하위 목표 저장 중 오류가 발생했습니다.');
             }
-            if (done) done();
+            if (done) {
+              done();
+            }
           },
         },
       );
@@ -156,7 +173,9 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
     }
 
     // 4. subGoalId가 없고 title도 없으면 아무것도 안 함
-    if (done) done();
+    if (done) {
+      done();
+    }
   };
 
   const handleTodoChange = (newTodos: TodoItem[]) => {
@@ -257,8 +276,14 @@ const LowerTodo = ({ userName = '김도트', mainGoal = '토익 935점 맞기' }
   };
 
   // 디버깅: coreGoalsGrid/subGoals 생성 직후 값 점검
-  console.log('coreGoalsGrid 생성 후:', coreGoalsGrid.map((g) => g.title));
-  console.log('subGoals 생성 후:', coreGoalsGrid.map((g) => g.title));
+  console.log(
+    'coreGoalsGrid 생성 후:',
+    coreGoalsGrid.map((g) => g.title),
+  );
+  console.log(
+    'subGoals 생성 후:',
+    coreGoalsGrid.map((g) => g.title),
+  );
 
   const subGoals = coreGoalsGrid.map((goal) => goal.title);
   const getGridIndex = (selectedGoalIndex: number) => {
