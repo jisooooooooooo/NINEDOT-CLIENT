@@ -1,29 +1,17 @@
-import * as styles from './AiFailModal.css';
-
 import Button from '@/common/component/Button/Button';
-import { IcModalDelete } from '@/assets/svg';
+import Modal from '@/common/component/Modal/Modal';
 
 interface AiFailModalProps {
   onClose: () => void;
+  message?: string;
 }
 
-const AiFailModal = ({ onClose }: AiFailModalProps) => {
-  return (
-    <div className={styles.modalContainer}>
-      <div className={styles.contentWrapper}>
-        <button type="button" className={styles.iconWrapper} onClick={onClose}>
-          <IcModalDelete className={styles.closeIcon} />
-        </button>
-        <div className={styles.textWrapper}>
-          <h2 className={styles.title}>AI 추천 실패</h2>
-          <p className={styles.description}>다시 한 번 시도해주세요.</p>
-        </div>
-        <div className={styles.buttonWrapper}>
-          <Button text="다시 시도" />
-        </div>
-      </div>
-    </div>
-  );
-};
+const AiFailModal = ({ onClose, message = '다시 한 번 시도해주세요.' }: AiFailModalProps) => (
+  <Modal onClose={onClose}>
+    <h2>AI 추천 실패</h2>
+    <p>{message}</p>
+    <Button text="다시 시도" onClick={onClose} />
+  </Modal>
+);
 
 export default AiFailModal;
