@@ -45,7 +45,7 @@ const LowerTodo = ({
       .fill(null)
       .map(() => Array(8).fill({ title: '', cycle: 'DAILY' })),
   );
-  const [aiUsedByGoal, setAiUsedByGoal] = useState([...EMPTY_BOOL_ARR]);
+  const [aiUsedByGoal] = useState([...EMPTY_BOOL_ARR]);
   const [tooltipOpenArr, setTooltipOpenArr] = useState(Array(8).fill(true));
   const [subGoalIdsByPosition, setSubGoalIdsByPosition] = useState<{
     [position: number]: number | null;
@@ -70,7 +70,6 @@ const LowerTodo = ({
 
   const aiRecommendMutation = useAiRecommendSubGoal(selectedCoreGoalId ?? 0);
   const recommendAiSubGoal = aiRecommendMutation.mutate;
-  const [aiRecommendList, setAiRecommendList] = useState<{ title: string; cycle: string }[]>([]);
 
   const handleSaveSubGoalSync = (todo: TodoItem, position: number, done?: () => void) => {
     if (!selectedCoreGoalId || subGoalIdsByPosition[position] != null) {
@@ -182,11 +181,13 @@ const LowerTodo = ({
 
   const mandalartOrder = [0, 1, 2, 5, 8, 7, 6, 3];
   // 메인 만다라트 9칸짜리 배열을 완전히 독립된 객체로 초기화
-  const coreGoalsGrid = Array(9).fill(null).map(() => ({ title: '', id: 0, position: 0, aiGeneratable: false }));
+  const coreGoalsGrid = Array(9)
+    .fill(null)
+    .map(() => ({ title: '', id: 0, position: 0, aiGeneratable: false }));
   if (coreGoalsData.data.coreGoals && coreGoalsData.data.coreGoals.length > 0) {
     coreGoalsData.data.coreGoals
-      .filter(goal => goal.title !== mainGoal)
-      .forEach(goal => {
+      .filter((goal) => goal.title !== mainGoal)
+      .forEach((goal) => {
         const gridIdx = mandalartOrder[goal.position - 1];
         // mainGoal이 들어갈 가능성 완전 차단
         if (gridIdx !== 4) {
@@ -197,14 +198,16 @@ const LowerTodo = ({
   // 중앙만 mainGoal, 나머지는 빈 값
   coreGoalsGrid[4] = { title: mainGoal, id: 0, position: 0, aiGeneratable: false };
 
-  const subGoals = coreGoalsGrid.map(goal => goal.title);
+  const subGoals = coreGoalsGrid.map((goal) => goal.title);
   const getGridIndex = (selectedGoalIndex: number) => {
     return selectedGoalIndex < 4 ? selectedGoalIndex : selectedGoalIndex + 1;
   };
 
   const selectedGridIndex = getGridIndex(selectedGoalIndex);
 
-  const todos = Array(8).fill(null).map(() => ({ title: '', cycle: 'DAILY' as 'DAILY' | 'WEEKLY' | 'ONCE', id: 0, position: 0 }));
+  const todos = Array(8)
+    .fill(null)
+    .map(() => ({ title: '', cycle: 'DAILY' as 'DAILY' | 'WEEKLY' | 'ONCE', id: 0, position: 0 }));
   if (subGoalsData && subGoalsData.data && subGoalsData.data.subGoals) {
     subGoalsData.data.subGoals.forEach((goal, idx) => {
       todos[idx] = { ...goal, cycle: goal.cycle || 'DAILY', id: goal.id ?? 0, position: idx + 1 };
@@ -215,19 +218,32 @@ const LowerTodo = ({
   const selectedGoalTitle = selectedGoal?.title || '';
 
   // 하위 만다라트 9칸 배열 생성 (완전히 독립된 객체)
-  const mandalartSubGoals = Array(9).fill(null).map(() => ({ title: '', cycle: 'DAILY' as 'DAILY' | 'WEEKLY' | 'ONCE', id: 0, position: 0 }));
+  const mandalartSubGoals = Array(9)
+    .fill(null)
+    .map(() => ({ title: '', cycle: 'DAILY' as 'DAILY' | 'WEEKLY' | 'ONCE', id: 0, position: 0 }));
   mandalartSubGoals[4] = { title: selectedGoalTitle, cycle: 'DAILY', id: 0, position: 0 };
   let todoIdx = 0;
   for (let i = 0; i < 9; i++) {
-    if (i === 4) continue;
+    if (i === 4) {
+      continue;
+    }
     mandalartSubGoals[i] = todos[todoIdx];
     todoIdx++;
   }
 
   // 디버깅: 각 배열의 title 값 확인
-  console.log('coreGoalsGrid', coreGoalsGrid.map(g => g.title));
-  console.log('todos', todos.map(g => g.title));
-  console.log('mandalartSubGoals', mandalartSubGoals.map(g => g.title));
+  console.log(
+    'coreGoalsGrid',
+    coreGoalsGrid.map((g) => g.title),
+  );
+  console.log(
+    'todos',
+    todos.map((g) => g.title),
+  );
+  console.log(
+    'mandalartSubGoals',
+    mandalartSubGoals.map((g) => g.title),
+  );
 
   const updateTooltipState = (index: number, value: boolean) => {
     setTooltipOpenArr((arr) => arr.map((v, i) => (i === index ? value : v)));
@@ -248,47 +264,24 @@ const LowerTodo = ({
   const shouldShowTooltip = isTooltipOpen && !isAllCurrentTodosFilled;
 
   const handleSubGoalClick = (position: number) => {
-    if (position < 1 || position > 8) return;
+    if (position < 1 || position > 8) {
+      return;
+    }
     setSelectedGoalIndex(position - 1);
   };
 
-  const handleAiSubmit = (selected: { id: number; position: number; title: string }[]) => {
-    const selectedTitles = selected.map((item) => item.title);
-    setAllTodos((prev) => {
-      const updated = [...prev];
-      let fillIndex = 0;
-      for (
-        let i = 0;
-        i < updated[selectedGoalIndex].length && fillIndex < selectedTitles.length;
-        i++
-      ) {
-        if (updated[selectedGoalIndex][i].title.trim() === '') {
-          updated[selectedGoalIndex][i] = {
-            ...updated[selectedGoalIndex][i],
-            title: selectedTitles[fillIndex],
-          };
-          fillIndex++;
-        }
-      }
-      return updated;
-    });
-    setAiUsedByGoal((prev) => prev.map((v, idx) => (idx === selectedGoalIndex ? true : v)));
-    updateTooltipState(selectedGoalIndex, false);
-  };
-
   // AI 추천값을 하위 목표로 저장하는 함수
-  const handleApplyAiRecommendedGoals = async (selected: { id: number; position: number; title: string; cycle?: string }[]) => {
-    const goals = selected.map(item => ({
+  const handleApplyAiRecommendedGoals = async (
+    selected: { id: number; position: number; title: string; cycle?: string }[],
+  ) => {
+    const goals = selected.map((item) => ({
       title: item.title,
       cycle: item.cycle || 'DAILY',
     }));
     try {
       if (!selectedCoreGoalId) {
         openModal(
-          <AiFailModal
-            onClose={closeModal}
-            message="coreGoalSnapshotId가 올바르지 않습니다."
-          />
+          <AiFailModal onClose={closeModal} message="coreGoalSnapshotId가 올바르지 않습니다." />,
         );
         return;
       }
@@ -299,7 +292,7 @@ const LowerTodo = ({
         <AiFailModal
           onClose={closeModal}
           message={error?.response?.data?.message || 'AI 추천값 저장에 실패했습니다.'}
-        />
+        />,
       );
     }
   };
@@ -350,20 +343,6 @@ const LowerTodo = ({
       alert('만다라트 완성 처리 중 오류가 발생했습니다.');
     }
   };
-
-  const CENTER_INDEX = 4;
-  const todosForMandalart = (() => {
-    if (!todos) {
-      return [];
-    }
-    const arr = [...todos];
-    if (selectedGoalIndex !== CENTER_INDEX) {
-      const selected = arr[selectedGoalIndex];
-      arr.splice(selectedGoalIndex, 1);
-      arr.splice(CENTER_INDEX, 0, selected);
-    }
-    return arr;
-  })();
 
   return (
     <main className={styles.lowerTodoContainer}>
@@ -418,7 +397,7 @@ const LowerTodo = ({
                 id: 0,
                 position: 0,
                 title: truncateText(mainGoal, 23),
-                subGoals: coreGoalsGrid.map(goal => ({
+                subGoals: coreGoalsGrid.map((goal) => ({
                   id: goal.id,
                   title: truncateText(goal.title, 23),
                   position: goal.position,

@@ -1,7 +1,4 @@
-import * as styles from './AiFailModal.css';
-
 import Button from '@/common/component/Button/Button';
-import { IcModalDelete } from '@/assets/svg';
 import Modal from '@/common/component/Modal/Modal';
 
 interface AiFailModalProps {

@@ -54,7 +54,10 @@ export const postAiRecommendSubGoal = async (
   body: AiRecommendSubGoalRequest,
 ) => {
   console.log('[2] postAiRecommendSubGoal 호출', { coreGoalSnapshotId, body });
-  const { data } = await post<AiRecommendSubGoalResponse>(`/core-goals/${coreGoalSnapshotId}/ai`, body);
+  const { data } = await post<AiRecommendSubGoalResponse>(
+    `/core-goals/${coreGoalSnapshotId}/ai`,
+    body,
+  );
   return data;
 };
 
