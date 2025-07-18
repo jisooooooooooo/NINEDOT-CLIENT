@@ -4,6 +4,7 @@ const END_POINT = {
   SUB_GOAL: 'sub-goals',
   ONBOARDING: 'onboarding',
   AUTH: 'auth',
+  PERSONA: 'persona',
 } as const;
 
 export { END_POINT };

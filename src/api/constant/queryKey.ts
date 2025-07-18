@@ -19,4 +19,5 @@ export const QUERY_KEY = {
   RECOMMENDED_TODO: (mandalartId: number) => ['recommendedTodo', mandalartId],
   MANDAL_ALL: ['mandalAll'] as const,
   CORE_GOALS: ['coreGoals'],
+  PERSONA: 'persona',
 } as const;
