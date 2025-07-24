@@ -11,34 +11,55 @@
 
 <h2>⚒️ FE Developer</h2>
 
-<table>
+<table style="margin: 0 auto; table-layout: fixed;">
   <tr>
-    <td align="center">
-      <img width="200" alt="image 3" src="https://github.com/user-attachments/assets/716b2c08-c65e-42b8-87d1-b9db0f22f914" />
-      <br />
-      <b>임지수</b><br />
-      <a href="https://github.com/jisooooooooooo">@jisooooooooooo</a>
+    <td style="width: 250px; height: 350px; text-align: center; vertical-align: top;">
+      <div style="height: 100%; display: flex; flex-direction: column; align-items: center;">
+        <img src="https://github.com/user-attachments/assets/716b2c08-c65e-42b8-87d1-b9db0f22f914"
+             alt="image 3"
+             style="width: 200px; height: 250px; object-fit: cover;" />
+        <div style="width: 200px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;" align="center">
+          <b>임지수</b><br />
+          <a href="https://github.com/jisooooooooooo">@jisooooooooooo</a>
+        </div>
+      </div>
     </td>
-    <td align="center">
-      <img width="200" alt="image 1" src="https://github.com/user-attachments/assets/2679a003-8106-44a5-9309-dbc5da40023a" />
-      <br />
-      <b>권새봄</b><br />
-      <a href="https://github.com/kwonsaebom">@kwonsaebom</a>
+    <td style="width: 250px; height: 350px; text-align: center; vertical-align: top;">
+      <div style="height: 100%; display: flex; flex-direction: column; align-items: center;">
+        <img src="https://github.com/user-attachments/assets/2679a003-8106-44a5-9309-dbc5da40023a"
+             alt="image 1"
+             style="width: 200px; height: 250px; object-fit: cover;" />
+        <div style="width: 200px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;" align="center">
+          <b>권새봄</b><br />
+          <a href="https://github.com/kwonsaebom">@kwonsaebom</a>
+        </div>
+      </div>
     </td>
-    <td align="center">
-      <img width="200" alt="image 2" src="https://github.com/user-attachments/assets/c33a5bbc-26a4-4855-a46d-b82e51875ff9" />
-      <br />
-      <b>신지수</b><br />
-      <a href="https://github.com/shinjigu">@shinjigu</a>
+    <td style="width: 250px; height: 350px; text-align: center; vertical-align: top;">
+      <div style="height: 100%; display: flex; flex-direction: column; align-items: center;">
+        <img src="https://github.com/user-attachments/assets/c33a5bbc-26a4-4855-a46d-b82e51875ff9"
+             alt="image 2"
+             style="width: 200px; height: 250px; object-fit: cover;" />
+        <div style="width: 200px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;" align="center">
+          <b>신지수</b><br />
+          <a href="https://github.com/shinjigu">@shinjigu</a>
+        </div>
+      </div>
     </td>
-    <td align="center">
-      <img width="200" alt="image 4" src="https://github.com/user-attachments/assets/587b2637-9350-46b3-845f-3aa44b567909" />
-      <br />
-      <b>이윤지</b><br />
-      <a href="https://github.com/Leeyoonji23">@Leeyoonji23</a>
+    <td style="width: 250px; height: 350px; text-align: center; vertical-align: top;">
+      <div style="height: 100%; display: flex; flex-direction: column; align-items: center;">
+        <img src="https://github.com/user-attachments/assets/587b2637-9350-46b3-845f-3aa44b567909"
+             alt="image 4"
+             style="width: 200px; height: 250px; object-fit: cover;" />
+        <div style="width: 200px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;" align="center">
+          <b>이윤지</b><br />
+          <a href="https://github.com/Leeyoonji23">@Leeyoonji23</a>
+        </div>
+      </div>
     </td>
   </tr>
 </table>
+
 
 
 ## 📘 Tech Stack
