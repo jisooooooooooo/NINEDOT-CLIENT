@@ -37,7 +37,7 @@ const Todo = () => {
   };
 
   if (isPending) {
-    return <Loading type="entireGoal" />;
+    return <Loading type="entireTodo" />;
   }
 
   return (
