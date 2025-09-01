@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const useTypingEffect = (fullText: string, duration: number) => {
   const [displayedText, setDisplayedText] = useState('');
+  const rafIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     let startTime: number | null = null;
@@ -18,21 +19,24 @@ const useTypingEffect = (fullText: string, duration: number) => {
       }
 
       const elapsed = timestamp - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min(duration === 0 ? 1 : elapsed / duration, 1);
       const charsToShow = Math.floor(progress * totalChars);
 
       setDisplayedText(charArray.slice(0, charsToShow).join(''));
 
       if (progress < 1) {
-        requestAnimationFrame(step);
+        rafIdRef.current = requestAnimationFrame(step);
       }
     };
 
-    const rafId = requestAnimationFrame(step);
+    rafIdRef.current = requestAnimationFrame(step);
 
     return () => {
       isMounted = false;
-      cancelAnimationFrame(rafId);
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
     };
   }, [fullText, duration]);
 

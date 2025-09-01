@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { FULL_TEXT, TYPING_DURATION, PLACEHOLDER_TEXT } from './constant/constants';
+import { FULL_TEXT, TYPING_DURATION, PLACEHOLDER_TEXT } from './constant/typing';
 import * as styles from './Todo.css';
 
 import { useCreateOverallTodo } from '@/api/domain/entireTodo/hook/useCreateMandalart';
