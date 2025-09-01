@@ -18,6 +18,7 @@ export const todoTitle = style({
   color: colors.white01,
   ...fonts.display01,
   textAlign: 'center',
+  whiteSpace: 'pre-line',
   marginBottom: '5.6rem',
   position: 'relative',
   zIndex: 1,

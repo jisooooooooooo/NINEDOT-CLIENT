@@ -4,7 +4,7 @@ import loadingAnimation from '@/assets/lottie/loading.json';
 import * as styles from '@/common/component/Loading/Loading.css';
 
 type LoadingProps = {
-  type: 'goal' | 'todo' | 'history';
+  type: 'goal' | 'todo' | 'history' | 'entireGoal';
 };
 
 const Loading = ({ type }: LoadingProps) => {
@@ -19,6 +19,9 @@ const Loading = ({ type }: LoadingProps) => {
       break;
     case 'history':
       message = '내가 한 일을 불러오고 있어요';
+      break;
+    case 'entireGoal':
+      message = '목표를 작성중입니다';
       break;
   }
 
