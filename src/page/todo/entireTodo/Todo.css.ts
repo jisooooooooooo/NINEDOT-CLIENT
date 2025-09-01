@@ -1,34 +1,26 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors } from '@/style/token';
-import { fonts } from '@/style/token/typography.css';
+import { colors, fonts, layout } from '@/style/token';
 
 export const todoContainer = style({
+  ...layout.columnCenter,
   height: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
   backgroundColor: colors.bg_black01,
   position: 'relative',
-  overflow: 'hidden',
 });
 
 export const todoTitle = style({
-  color: colors.white01,
   ...fonts.display01,
+  color: colors.white01,
   textAlign: 'center',
   whiteSpace: 'pre-line',
   marginBottom: '5.6rem',
   position: 'relative',
-  zIndex: 1,
   height: '15.2rem',
 });
 
 export const todoInputContainer = style({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
+  ...layout.rowCenter,
   gap: '2rem',
   position: 'relative',
 });
