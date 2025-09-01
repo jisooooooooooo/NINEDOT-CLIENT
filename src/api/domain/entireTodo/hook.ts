@@ -11,7 +11,7 @@ export const useCreateEntireTodo = (
   options?: UseMutationOptions<CreateEntireTodoResponse, unknown, CreateEntireTodoRequest>,
 ) => {
   return useMutation<CreateEntireTodoResponse, unknown, CreateEntireTodoRequest>({
-    mutationKey: [...QUERY_KEY.OVERALL_TODO, 'create'],
+    mutationKey: [...QUERY_KEY.ENTIRE_TODO, 'create'],
     mutationFn: postEntireTodo,
     ...options,
   });
