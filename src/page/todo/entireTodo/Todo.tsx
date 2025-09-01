@@ -9,7 +9,7 @@ import GoButton from '@/common/component/GoButton/GoButton';
 import Loading from '@/common/component/Loading/Loading';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
 import useTypingEffect from '@/common/hook/useTypingEffect';
-import { useCreateOverallTodo } from '@/api/domain/entireTodo/hook/useCreateMandalart';
+import { useCreateOverallTodo } from '@/api/domain/entireTodo/hook';
 import { PATH } from '@/route';
 
 const Todo = () => {
