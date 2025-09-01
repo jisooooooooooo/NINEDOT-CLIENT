@@ -103,8 +103,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
       );
 
       openModal(aiModalContent);
-    } catch (error) {
-      console.error('AI 추천 호출 실패:', error);
+    } catch {
       setIsAiUsed(false);
     }
   };

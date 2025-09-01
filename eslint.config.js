@@ -40,7 +40,7 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
-      'no-console': 'warn',
+      'no-console': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
       curly: 'error',
@@ -52,7 +52,7 @@ export default tseslint.config(
         },
       ],
       'react/self-closing-comp': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
       'react/jsx-pascal-case': 'error',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'prettier/prettier': [

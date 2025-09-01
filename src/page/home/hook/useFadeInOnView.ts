@@ -24,11 +24,12 @@ export const useFadeInOnView = <T extends HTMLElement>({
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (current) {
+        observer.unobserve(current);
       }
+      observer.disconnect();
     };
-  }, []);
+  }, [rootMargin, threshold]);
 
   return { ref, visible };
 };

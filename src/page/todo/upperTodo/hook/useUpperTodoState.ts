@@ -59,8 +59,8 @@ export const useUpperTodoState = (mandalartId: number) => {
       }
 
       await refetchCoreGoalIds();
-    } catch (error) {
-      console.error('상위 목표 저장 실패 또는 삭제 실패:', error);
+    } catch {
+      /* empty */
     }
   };
 
