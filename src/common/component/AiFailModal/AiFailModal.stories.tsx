@@ -9,6 +9,9 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    onClose: { action: 'closed' },
+  },
 } satisfies Meta<typeof AiFailModal>;
 
 export default meta;
@@ -17,5 +20,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     onClose: () => {},
+    message: '다시 한 번 시도해주세요.',
   },
 };

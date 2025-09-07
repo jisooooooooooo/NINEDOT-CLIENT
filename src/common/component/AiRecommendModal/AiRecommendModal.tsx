@@ -19,7 +19,7 @@ const AiRecommendModal = ({
   onSubmit,
   values,
   options,
-  mandalartId = 0, // 기본값 설정
+  mandalartId = 0,
 }: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const postRecommend = usePostAiRecommendToCoreGoals();
@@ -61,14 +61,11 @@ const AiRecommendModal = ({
             onSubmit(aiResponseData);
             onClose();
           },
-          onError: (error) => {
-            console.error('AI 추천 목표 저장 실패:', error);
-          },
         },
       );
     } else {
       const mockAiResponseData = goals.map((title, index) => ({
-        id: Date.now() + index, // 임시 ID
+        id: Date.now() + index,
         position: index + 1,
         title,
       }));
