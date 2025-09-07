@@ -1,49 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors, fonts, zIndex } from '@/style/token';
-
-export const container = style({
-  display: 'inline-flex',
-  padding: '4rem',
-  flexDirection: 'column',
-  alignItems: 'center',
-  borderRadius: '16px',
-  background: colors.grey3,
-  zIndex: zIndex.modal,
-});
-
-export const contentWrapper = style({
-  width: '55.6rem',
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '0 9.5rem',
-});
-
-export const iconWrapper = style({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  alignSelf: 'flex-end',
-});
-
-export const closeIcon = style({
-  width: '3.2rem',
-  height: '3.2rem',
-  cursor: 'pointer',
-});
-
-export const title = style({
-  color: colors.white01,
-  textAlign: 'center',
-  ...fonts.display02,
-});
-
-export const subtitle = style({
-  color: colors.grey6,
-  textAlign: 'center',
-  ...fonts.subtitle06,
-  marginTop: '0.9rem',
-});
+import { colors, fonts } from '@/style/token';
 
 export const highlight = style({
   color: colors.white01,
