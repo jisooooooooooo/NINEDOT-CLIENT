@@ -10,7 +10,7 @@ import { useUpperTodoState } from './hook/useUpperTodoState';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import { useModal } from '@/common/hook/useModal';
+import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { PATH } from '@/route';
 import { usePostAiRecommendCoreGoal } from '@/api/domain/upperTodo/hook';
 
@@ -35,7 +35,7 @@ const extractTitles = (goals: { title: string }[]) => goals.map((item) => item.t
 const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const mandalartId = 1;
 
-  const { openModal, ModalWrapper, closeModal } = useModal();
+  const { openModal, closeModal } = useOverlayModal();
   const navigate = useNavigate();
 
   const {
@@ -162,7 +162,6 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
           hasFilledSubGoals={hasFilledSubGoals}
           handleNavigateLower={handleNavigateLower}
         />
-        {ModalWrapper}
       </section>
     </main>
   );
