@@ -28,21 +28,7 @@ const AiRecommendModal = ({
   const emptyCount = values.filter((v) => v.trim() === '').length;
   const remainingSelections = emptyCount - selectedOptions.length;
 
-  const displayOptions =
-    options && options.length > 0
-      ? options
-      : options === undefined
-        ? [
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜1',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜2',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜3',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜4',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜5',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜6',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜7',
-            '와 이거 진짜같은데 와이거 진짜같은데 와 이거 진짜8',
-          ]
-        : [];
+  const displayOptions = Array.isArray(options) && options.length > 0 ? options : [];
 
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) =>
