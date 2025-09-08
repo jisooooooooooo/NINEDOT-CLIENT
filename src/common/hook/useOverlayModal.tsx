@@ -1,29 +1,43 @@
 import React, { useRef } from 'react';
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import { overlay } from 'overlay-kit';
 
 import Modal from '@/common/component/Modal/Modal';
 
-export const useOverlayModal = () => {
-  const lastIdRef = useRef<string | null>(null);
+type Closeable = { onClose: () => void };
+type OpenOptions = { withWrapper?: boolean };
 
-  const openModal = (node: ReactNode) => {
+export const useOverlayModal = () => {
+  const idsRef = useRef<string[]>([]);
+
+  const openModal = (node: ReactNode, options: OpenOptions = {}) => {
+    const { withWrapper = true } = options;
+
     const id = overlay.open(({ unmount }) => {
       const handleClose = () => unmount();
       const content = React.isValidElement(node)
-        ? React.cloneElement(node as any, { onClose: handleClose })
+        ? React.cloneElement(node as ReactElement<Partial<Closeable>>, { onClose: handleClose })
         : node;
-      return <Modal onClose={handleClose}>{content}</Modal>;
+      return withWrapper ? <Modal onClose={handleClose}>{content}</Modal> : <>{content}</>;
     });
-    lastIdRef.current = id;
+
+    idsRef.current.push(id);
+    return { id, close: () => overlay.unmount(id) };
   };
 
   const closeModal = () => {
-    if (lastIdRef.current) {
-      overlay.unmount(lastIdRef.current);
-      lastIdRef.current = null;
+    const id = idsRef.current.pop();
+    if (id) {
+      overlay.unmount(id);
     }
   };
 
-  return { openModal, closeModal };
+  const closeAll = () => {
+    while (idsRef.current.length) {
+      const id = idsRef.current.pop()!;
+      overlay.unmount(id);
+    }
+  };
+
+  return { openModal, closeModal, closeAll };
 };
