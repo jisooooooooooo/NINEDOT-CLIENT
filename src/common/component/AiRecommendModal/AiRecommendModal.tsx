@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import * as styles from './AiRecommendModal.css';
 import Button from '../Button/Button';
+import SelectableOption from '../SelectableOption/SelectableOption';
 
 import AiModalBase from '@/common/component/AiModalBase/AiModalBase';
-import { IcCheckboxDefault, IcCheckboxChecked } from '@/assets/svg';
 
 interface AiRecommendModalProps {
   onClose: () => void;
@@ -55,27 +55,18 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
       titleId="modal-title"
       footer={<Button text={TEXT.confirmButton} onClick={handleClick} />}
     >
-      <div className={styles.listWrapper}>
+      <div className={styles.listWrapper} role="group" aria-labelledby="modal-title">
         {displayOptions.map((option) => {
           const isChecked = selectedOptions.includes(option);
           const isDisabled = !isChecked && selectedOptions.length >= emptyCount;
-          const CheckIcon = isChecked ? IcCheckboxChecked : IcCheckboxDefault;
-
           return (
-            <div
+            <SelectableOption
               key={option}
-              className={`${styles.listItem} ${isDisabled ? styles.listItemDisabled : ''}`}
-              role="button"
-              tabIndex={0}
-              onClick={() => {
-                if (!isDisabled) {
-                  toggleOption(option);
-                }
-              }}
-            >
-              <CheckIcon className={styles.checkboxIcon} />
-              <span>{option}</span>
-            </div>
+              label={option}
+              checked={isChecked}
+              disabled={isDisabled}
+              onToggle={() => toggleOption(option)}
+            />
           );
         })}
       </div>

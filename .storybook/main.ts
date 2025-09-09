@@ -23,7 +23,6 @@ const config: StorybookConfig = {
       ...(config.optimizeDeps || {}),
       include: ['@vanilla-extract/css'],
     };
-    // Align aliases with app's Vite config
     config.resolve = {
       ...(config.resolve || {}),
       alias: {
