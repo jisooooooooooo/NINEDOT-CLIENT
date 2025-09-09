@@ -65,7 +65,6 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   };
 
   const handleAiSubmit = (goals: { title: string }[]) => {
-    // Save selected goals to core goals, then update UI with server response
     postRecommendToCore.mutate(
       { mandalartId, goals: goals.map((g) => g.title) },
       {

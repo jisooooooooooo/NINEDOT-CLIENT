@@ -1,4 +1,5 @@
 import AiModalBase from '@/common/component/AiModalBase/AiModalBase';
+import * as modalStyles from '@/common/component/AiModalBase/AiModalBase.css';
 import Button from '@/common/component/Button/Button';
 
 interface AiFailModalProps {
@@ -17,6 +18,7 @@ const AiFailModal = ({ onClose, message = TEXT.defaultMessage }: AiFailModalProp
     onClose={onClose}
     title={TEXT.title}
     description={message}
+    descriptionClassName={modalStyles.failDescription}
     titleId="ai-fail-title"
     footer={<Button text={TEXT.retryButton} onClick={onClose} />}
   />

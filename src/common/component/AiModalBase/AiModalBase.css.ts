@@ -45,10 +45,14 @@ export const title = style({
 });
 
 export const description = style({
-  color: colors.grey6,
+  color: colors.grey7,
   textAlign: 'center',
   ...fonts.subtitle06,
   marginTop: '0.9rem',
+});
+
+export const failDescription = style({
+  marginTop: '1.6rem',
 });
 
 export const footerWrapper = style({
