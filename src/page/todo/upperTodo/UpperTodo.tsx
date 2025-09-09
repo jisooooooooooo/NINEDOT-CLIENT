@@ -12,7 +12,10 @@ import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendMod
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { PATH } from '@/route';
-import { usePostAiRecommendCoreGoal } from '@/api/domain/upperTodo/hook';
+import {
+  usePostAiRecommendCoreGoal,
+  usePostAiRecommendToCoreGoals,
+} from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
   userName?: string;
@@ -53,6 +56,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   } = useUpperTodoState(mandalartId);
 
   const postAiRecommend = usePostAiRecommendCoreGoal();
+  const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
   const mainGoal = data?.title || '사용자가 작성한 대목표';
 
@@ -60,12 +64,28 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
     navigate(PATH.TODO_LOWER);
   };
 
-  const handleAiSubmit = (responseData: { id: number; position: number; title: string }[]) => {
-    setAiResponseData(responseData);
-    const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
-    setSubGoals(updatedSubGoals);
-    refetchCoreGoalIds();
-    refetch();
+  const handleAiSubmit = (goals: { title: string }[]) => {
+    // Save selected goals to core goals, then update UI with server response
+    postRecommendToCore.mutate(
+      { mandalartId, goals: goals.map((g) => g.title) },
+      {
+        onSuccess: (response) => {
+          const responseData = response.coreGoals as {
+            id: number;
+            position: number;
+            title: string;
+          }[];
+          setAiResponseData(responseData);
+          const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
+          setSubGoals(updatedSubGoals);
+          refetchCoreGoalIds();
+          refetch();
+        },
+        onError: (error) => {
+          console.error('AI 추천 목표 저장 실패:', error);
+        },
+      },
+    );
   };
 
   const handleOpenAiModal = async () => {
@@ -98,7 +118,6 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
           onSubmit={handleAiSubmit}
           values={subGoals}
           options={titles}
-          mandalartId={mandalartId}
         />
       );
 

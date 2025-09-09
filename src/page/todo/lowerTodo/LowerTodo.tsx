@@ -351,12 +351,10 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     console.log('subGoals[newIndex]:', subGoals[newIndex]);
   };
 
-  const handleApplyAiRecommendedGoals = async (
-    selected: { id: number; position: number; title: string; cycle?: string }[],
-  ) => {
+  const handleApplyAiRecommendedGoals = async (selected: { title: string }[]) => {
     const goals = selected.map((item) => ({
       title: item.title,
-      cycle: item.cycle || 'DAILY',
+      cycle: 'DAILY',
     }));
     try {
       if (!selectedCoreGoalId) {

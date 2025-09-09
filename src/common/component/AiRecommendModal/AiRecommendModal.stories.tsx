@@ -30,10 +30,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     onClose: () => {},
-    onSubmit: (selected) => console.log('Selected options:', selected),
+    onSubmit: (goals) => console.log('Selected goals:', goals),
     values: ['', '', '', '', '', '', '', ''],
     options: ['옵션1', '옵션2', '옵션3', '옵션4'],
-    mandalartId: 0,
   },
 };
 
@@ -54,10 +53,9 @@ export const InOverlay: Story = {
     return <Demo />;
   },
   args: {
-    onSubmit: (selected) => console.log('Selected:', selected),
+    onSubmit: (goals) => console.log('Selected:', goals),
     values: ['', '', '', '', '', '', '', ''],
     options: ['추천1', '추천2', '추천3', '추천4'],
-    mandalartId: 0,
     onClose: () => {},
   },
 };
