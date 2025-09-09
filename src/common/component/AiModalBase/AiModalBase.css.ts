@@ -50,3 +50,10 @@ export const description = style({
   ...fonts.subtitle06,
   marginTop: '0.9rem',
 });
+
+export const footerWrapper = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '5rem',
+});

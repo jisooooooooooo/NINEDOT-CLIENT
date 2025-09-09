@@ -12,7 +12,6 @@ export const listWrapper = style({
   alignItems: 'flex-start',
   gap: '2rem',
   marginTop: '3.9rem',
-  marginBottom: '5rem',
 });
 
 export const listItem = style({

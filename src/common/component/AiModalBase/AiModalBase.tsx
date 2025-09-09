@@ -13,6 +13,7 @@ interface AiModalBaseProps {
   titleClassName?: string;
   descriptionClassName?: string;
   titleId?: string;
+  footer?: ReactNode;
 }
 
 const AiModalBase = ({
@@ -23,6 +24,7 @@ const AiModalBase = ({
   titleClassName,
   descriptionClassName,
   titleId = 'ai-modal-title',
+  footer,
 }: AiModalBaseProps) => {
   return (
     <div className={styles.container} role="dialog" aria-modal="true" aria-labelledby={titleId}>
@@ -39,6 +41,7 @@ const AiModalBase = ({
           ) : null}
         </div>
         {children}
+        {footer ? <div className={styles.footerWrapper}>{footer}</div> : null}
       </div>
     </div>
   );

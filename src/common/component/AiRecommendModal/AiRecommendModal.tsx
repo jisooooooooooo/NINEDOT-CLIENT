@@ -72,6 +72,7 @@ const AiRecommendModal = ({
         </>
       }
       titleId="modal-title"
+      footer={<Button text="내 만다라트에 넣기" onClick={handleClick} />}
     >
       <div className={styles.listWrapper}>
         {displayOptions.map((option) => {
@@ -96,9 +97,6 @@ const AiRecommendModal = ({
             </div>
           );
         })}
-      </div>
-      <div className={styles.buttonWrapper}>
-        <Button text="내 만다라트에 넣기" onClick={handleClick} />
       </div>
     </AiModalBase>
   );
