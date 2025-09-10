@@ -39,11 +39,8 @@ const BaseTextField = ({
   const [isFocused, setIsFocused] = useState(false);
   const lastCommittedRef = useRef<string | null>(null);
   const skipBlurOnceRef = useRef(false);
-  const localRef = useRef<HTMLInputElement>(null);
 
   const isLocked = !!locked;
-  const trimToMaxLength = (v: string, max?: number) =>
-    typeof max === 'number' && v.length > max ? v.slice(0, max) : v;
 
   const hasValue = Boolean(value);
   const length = value.length;
@@ -68,8 +65,12 @@ const BaseTextField = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (isLocked) return;
       const raw = e.target.value;
-      const next = isComposing ? raw : trimToMaxLength(raw, maxLength);
-      onChange(next);
+      if (typeof maxLength === 'number' && raw.length > maxLength) {
+        if (isComposing) return;
+        onChange(raw.slice(0, maxLength));
+        return;
+      }
+      onChange(raw);
     },
     [isLocked, isComposing, maxLength, onChange],
   );
@@ -107,24 +108,21 @@ const BaseTextField = ({
     setIsComposing(true);
   }, []);
 
-  const handleCompositionEnd = useCallback(() => {
-    setIsComposing(false);
-    if (typeof maxLength === 'number') {
-      const current = localRef.current?.value ?? '';
-      const trimmed = trimToMaxLength(current, maxLength);
-      if (trimmed !== current) {
-        onChange(trimmed);
+  const handleCompositionEnd = useCallback(
+    (e: React.CompositionEvent<HTMLInputElement>) => {
+      setIsComposing(false);
+      if (typeof maxLength === 'number') {
+        const current = e.currentTarget.value ?? '';
+        if (current.length > maxLength) {
+          onChange(current.slice(0, maxLength));
+        }
       }
-    }
-  }, [maxLength, onChange]);
+    },
+    [maxLength, onChange],
+  );
 
   const inputProps = useMemo(() => {
-    const assignRef = (node: HTMLInputElement | null) => {
-      localRef.current = node;
-    };
-
     const base: React.ComponentPropsWithRef<'input'> = {
-      ref: assignRef,
       id,
       value,
       onChange: handleChange,
@@ -133,6 +131,7 @@ const BaseTextField = ({
       onBlur: handleBlur,
       onCompositionStart: handleCompositionStart,
       onCompositionEnd: handleCompositionEnd,
+      maxLength: typeof maxLength === 'number' ? maxLength : undefined,
       readOnly: isLocked,
       'aria-readonly': isLocked,
       'aria-disabled': undefined,
