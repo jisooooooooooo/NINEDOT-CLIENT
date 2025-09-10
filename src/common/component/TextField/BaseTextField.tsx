@@ -1,4 +1,4 @@
-import type { ReactNode, Ref } from 'react';
+import type { ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 type CommitReason = 'enter' | 'blur';
@@ -12,7 +12,6 @@ export interface BaseTextFieldProps {
   maxLength?: number;
   locked?: boolean;
   invalid?: boolean;
-  ref?: Ref<HTMLInputElement>;
   children: (args: {
     inputProps: React.ComponentPropsWithRef<'input'>;
     hasValue: boolean;
@@ -34,7 +33,6 @@ const BaseTextField = ({
   maxLength,
   locked,
   invalid,
-  ref: externalRef,
   children,
 }: BaseTextFieldProps) => {
   const [isComposing, setIsComposing] = useState(false);
@@ -123,10 +121,6 @@ const BaseTextField = ({
   const inputProps = useMemo(() => {
     const assignRef = (node: HTMLInputElement | null) => {
       localRef.current = node;
-      if (typeof externalRef === 'function') externalRef(node);
-      else if (externalRef && typeof externalRef === 'object') {
-        (externalRef as { current: HTMLInputElement | null }).current = node;
-      }
     };
 
     const base: React.ComponentPropsWithRef<'input'> = {
@@ -146,7 +140,6 @@ const BaseTextField = ({
     };
     return base;
   }, [
-    externalRef,
     id,
     value,
     isLocked,
