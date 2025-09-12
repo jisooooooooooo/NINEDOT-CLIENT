@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import { HomeContainer } from '@/page/home/Home.css';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
