@@ -20,7 +20,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: user, isLoading, refetch } = useGetUser();
+  const { data: user, isLoading } = useGetUser();
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
