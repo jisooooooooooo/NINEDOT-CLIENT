@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthStoreType>()(
     (set) => ({
       user: defaultUser,
       setUser: (newUser) => set({ user: newUser }),
-      reset: () => set({ user: defaultUser }),
+      resetUser: () => set({ user: defaultUser }),
     }),
     {
       name: 'auth-storage',

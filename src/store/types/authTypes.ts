@@ -15,5 +15,5 @@ export interface UserType {
 export interface AuthStoreType {
   user: UserType;
   setUser: (newUser: UserType) => void;
-  reset: () => void;
+  resetUser: () => void;
 }
