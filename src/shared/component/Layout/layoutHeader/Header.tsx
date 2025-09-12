@@ -34,11 +34,10 @@ const Header = () => {
   const { data: user, isLoading } = useGetUser();
 
   useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem('accessToken'));
+    setIsLoggedIn(!!accessToken);
   }, []);
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
     openModal(<LoginModal onClose={closeModal} />);
   };
 
