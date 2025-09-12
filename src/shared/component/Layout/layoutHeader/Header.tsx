@@ -99,7 +99,7 @@ const Header = () => {
           <IcLogo className={styles.logoImage} />
         </Link>
 
-        {!isLoading && user ? (
+        {!isLoading && user.email ? (
           renderNavMenu()
         ) : (
           <button className={styles.loginButton} onClick={handleLogin} type="button">
