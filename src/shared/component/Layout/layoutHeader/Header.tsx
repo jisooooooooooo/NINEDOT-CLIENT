@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import * as styles from './Header.css';
