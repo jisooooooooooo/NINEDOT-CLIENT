@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import * as styles from './Header.css';
@@ -9,6 +9,7 @@ import LoginModal from '@/common/component/LoginModal/LoginModal';
 import { useModal } from '@/common/hook/useModal';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 import UserModal from '@/common/component/UserModal/UserModal';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -20,7 +21,12 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: user, isLoading } = useGetUser();
+  const { data: userData, isLoading } = useGetUser();
+
+  const setUser = useAuthStore((state) => state.setUser);
+  const resetUser = useAuthStore((state) => state.resetUser);
+
+  const user = useAuthStore((state) => state.user);
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
@@ -29,6 +35,16 @@ const Header = () => {
   const [openProfile, setOpenProfile] = useState<boolean>(false);
 
   const { openModal, closeModal, ModalWrapper } = useModal();
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    if (userData) {
+      setUser(userData);
+    } else {
+      resetUser();
+    }
+  }, [userData, setUser, resetUser]);
 
   const handleLogin = () => {
     openModal(<LoginModal onClose={closeModal} />);
@@ -62,7 +78,7 @@ const Header = () => {
           );
         })}
       </nav>
-      {!isLoading && user && (
+      {user && (
         <>
           <img
             src={user.profileImageUrl}
