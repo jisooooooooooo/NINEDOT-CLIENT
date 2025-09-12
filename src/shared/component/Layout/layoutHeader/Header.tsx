@@ -20,22 +20,15 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const accessToken = localStorage.getItem('accessToken');
+  const { data: user, isLoading, refetch } = useGetUser();
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
 
   const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!accessToken);
   const [openProfile, setOpenProfile] = useState<boolean>(false);
 
   const { openModal, closeModal, ModalWrapper } = useModal();
-
-  const { data: user, isLoading } = useGetUser();
-
-  useEffect(() => {
-    setIsLoggedIn(!!accessToken);
-  }, []);
 
   const handleLogin = () => {
     openModal(<LoginModal onClose={closeModal} />);
@@ -52,7 +45,7 @@ const Header = () => {
 
   const renderNavMenu = () => (
     <>
-      <nav className={styles.navWrapper}>
+      <nav className={styles.navWrapper} aria-label="주요 메뉴">
         {MENUS.map((menu) => {
           const isActive = activeMenu === menu.label;
           const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
@@ -73,7 +66,7 @@ const Header = () => {
         <>
           <img
             src={user.profileImageUrl}
-            alt="유저 프로필"
+            alt="유저 프로필 이미지"
             className={styles.profilePlaceholder}
             onClick={handleProfile}
           />
@@ -90,10 +83,10 @@ const Header = () => {
           <IcLogo className={styles.logoImage} />
         </Link>
 
-        {isLoggedIn ? (
+        {!isLoading && user ? (
           renderNavMenu()
         ) : (
-          <button className={styles.loginButton} onClick={handleLogin}>
+          <button className={styles.loginButton} onClick={handleLogin} type="button">
             로그인
           </button>
         )}
