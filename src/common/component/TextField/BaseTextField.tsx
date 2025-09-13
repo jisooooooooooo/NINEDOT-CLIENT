@@ -49,7 +49,9 @@ const BaseTextField = ({
 
   const commit = useCallback(
     (reason: CommitReason) => {
-      if (lastCommittedRef.current === value) return;
+      if (lastCommittedRef.current === value) {
+        return;
+      }
       onCommit?.(value, reason);
       lastCommittedRef.current = value;
     },
@@ -58,15 +60,21 @@ const BaseTextField = ({
 
   const clear = useCallback(() => {
     onChange('');
-    if (onClear) onClear();
+    if (onClear) {
+      onClear();
+    }
   }, [onChange, onClear]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (isLocked) return;
+      if (isLocked) {
+        return;
+      }
       const raw = e.target.value;
       if (typeof maxLength === 'number' && raw.length > maxLength) {
-        if (isComposing) return;
+        if (isComposing) {
+          return;
+        }
         onChange(raw.slice(0, maxLength));
         return;
       }
@@ -148,6 +156,7 @@ const BaseTextField = ({
     handleBlur,
     handleCompositionStart,
     handleCompositionEnd,
+    maxLength,
   ]);
 
   return (

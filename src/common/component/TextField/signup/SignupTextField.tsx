@@ -21,9 +21,15 @@ const computeFieldState = (args: {
   locked: boolean;
 }): FieldState => {
   const { hasValue, isFocused, isHovered, locked } = args;
-  if (locked) return 'locked';
-  if (isFocused) return hasValue ? 'typing' : 'clicked';
-  if (hasValue) return 'filled';
+  if (locked) {
+    return 'locked';
+  }
+  if (isFocused) {
+    return hasValue ? 'typing' : 'clicked';
+  }
+  if (hasValue) {
+    return 'filled';
+  }
   return isHovered ? 'hover' : 'default';
 };
 

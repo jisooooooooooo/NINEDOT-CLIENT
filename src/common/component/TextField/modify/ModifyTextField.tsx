@@ -17,8 +17,12 @@ const computeFieldState = (args: {
   isHovered: boolean;
 }): FieldState => {
   const { hasValue, isFocused, isHovered } = args;
-  if (isFocused) return hasValue ? 'typing' : 'clicked';
-  if (hasValue) return 'filled';
+  if (isFocused) {
+    return hasValue ? 'typing' : 'clicked';
+  }
+  if (hasValue) {
+    return 'filled';
+  }
   return isHovered ? 'hover' : 'default';
 };
 
