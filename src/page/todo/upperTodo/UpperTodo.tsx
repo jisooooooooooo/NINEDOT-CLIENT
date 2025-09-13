@@ -13,10 +13,11 @@ import GradientBackground from '@/common/component/Background/GradientBackground
 import { useModal } from '@/common/hook/useModal';
 import { PATH } from '@/route';
 import { usePostAiRecommendCoreGoal } from '@/api/domain/upperTodo/hook';
+import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 
 interface UpperTodoProps {
-  userName?: string;
-  mainGoal?: string;
+  userName: string;
+  mainGoal: string;
 }
 
 const updateSubGoalsWithAiResponse = (
@@ -32,11 +33,14 @@ const updateSubGoalsWithAiResponse = (
 
 const extractTitles = (goals: { title: string }[]) => goals.map((item) => item.title);
 
-const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
-  const mandalartId = 1;
+const UpperTodo = ({ userName }: UpperTodoProps) => {
+  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+  const mandalartId = storedId ? Number(storedId) : 0;
 
   const { openModal, ModalWrapper, closeModal } = useModal();
   const navigate = useNavigate();
+
+  const { data: user } = useGetUser();
 
   const {
     data,
@@ -55,6 +59,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
   const postAiRecommend = usePostAiRecommendCoreGoal();
 
   const mainGoal = data?.title || '사용자가 작성한 대목표';
+  const displayUserName = user?.name ?? userName;
 
   const handleNavigateLower = () => {
     navigate(PATH.TODO_LOWER);
@@ -104,7 +109,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
 
       openModal(aiModalContent);
     } catch (error) {
-      console.error('AI 추천 호출 실패:', error);
+      // 추천 실패 모달 추가 예정
       setIsAiUsed(false);
     }
   };
@@ -130,7 +135,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
 
       <section className={styles.upperTodoBoxWrapper}>
         <UpperTodoHeader
-          userName={userName}
+          userName={displayUserName}
           mainGoal={mainGoal}
           isTooltipOpen={isTooltipOpen}
           setIsTooltipOpen={setIsTooltipOpen}

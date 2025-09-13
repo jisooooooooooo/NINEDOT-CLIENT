@@ -29,11 +29,16 @@ const Todo = () => {
       mutate(
         { title: inputText.trim() },
         {
-          onSuccess: () => {
+          onSuccess: (res) => {
+            try {
+              const newId = res?.data?.id;
+              if (newId) {
+                localStorage.setItem('mandalartId', String(newId));
+              }
+            } catch (_) {
+              // noop
+            }
             navigate(PATH.TODO_UPPER);
-          },
-          onError: () => {
-            // 생성 실패 시 처리 로직
           },
         },
       );
