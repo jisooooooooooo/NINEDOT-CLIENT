@@ -134,7 +134,6 @@ const BaseTextField = ({
       maxLength: typeof maxLength === 'number' ? maxLength : undefined,
       readOnly: isLocked,
       'aria-readonly': isLocked,
-      'aria-disabled': undefined,
       'aria-invalid': invalid || undefined,
     };
     return base;
