@@ -4,8 +4,7 @@ import IcLock from '@/assets/svg/IcLock';
 import IcMediumTextdelete from '@/assets/svg/IcMediumTextdelete';
 
 import BaseTextField from '../BaseTextField';
-import type { SignupVariant } from './constants';
-import { DEFAULT_PLACEHOLDER } from './constants';
+import { DEFAULT_PLACEHOLDER, type SignupVariant } from './constants';
 import * as s from './SignupTextField.css';
 import { formatBirthDate } from './format';
 import { validateSignupField } from './validation';
