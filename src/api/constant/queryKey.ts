@@ -1,5 +1,5 @@
 export const QUERY_KEY = {
-  OVERALL_TODO: ['overallTodo'],
+  ENTIRE_TODO: ['entireTodo'],
   MANDALART_CORE_GOALS: (mandalartId: number) => ['mandalartCoreGoals', mandalartId],
   MANDALART_SUB_GOALS: (mandalartId: number, coreGoalId?: number, cycle?: string) =>
     ['mandalartSubGoals', mandalartId, coreGoalId, cycle].filter(Boolean),
@@ -22,6 +22,6 @@ export const QUERY_KEY = {
   PERSONA: 'persona',
   UPDATE_SUB_GOAL: (id: number) => ['updateSubGoal', id],
   DELETE_SUB_GOAL: (id: number) => ['deleteSubGoal', id],
-  OVERALL_GOAL: ['overallGoal'],
+  ENTIRE_GOAL: ['entireGoal'],
   USER_INFO: ['userInfo'],
 } as const;

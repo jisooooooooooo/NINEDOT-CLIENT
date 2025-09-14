@@ -17,7 +17,7 @@ type MandalCoreGoalsResponse = BaseResponse<{
 
 export const useGetMandalAll = (mandalartId: number) => {
   return useQuery({
-    queryKey: [QUERY_KEY.OVERALL_TODO, mandalartId],
+    queryKey: [QUERY_KEY.ENTIRE_GOAL, mandalartId],
     queryFn: () => getMandalAll(mandalartId),
   });
 };

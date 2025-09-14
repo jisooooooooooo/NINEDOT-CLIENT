@@ -234,7 +234,7 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
         return newTodos;
       });
     }
-  }, [subGoalsData, selectedGoalIndex]);
+  }, [subGoalsData, selectedGoalIndex, allTodos]);
 
   useEffect(() => {
     if (coreGoalsData && selectedGoalIndex !== -1) {
@@ -417,7 +417,7 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     try {
       await completeMandalart(mandalartId);
       navigate(PATH.TODO_MY);
-    } catch (error) {
+    } catch {
       alert('만다라트 완성 처리 중 오류가 발생했습니다.');
     }
   };
