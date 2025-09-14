@@ -76,6 +76,7 @@ export const profilePlaceholder = style({
   borderRadius: '50%',
   backgroundColor: colors.grey6,
   flexShrink: 0,
+  cursor: 'pointer',
 });
 
 export const loginButton = style({

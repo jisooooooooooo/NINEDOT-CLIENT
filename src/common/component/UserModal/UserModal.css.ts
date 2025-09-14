@@ -23,7 +23,7 @@ export const profileContainer = style({
 export const profileImage = style({
   width: '5rem',
   height: '5rem',
-  borderRadius: '25%',
+  borderRadius: '50%',
   objectFit: 'cover',
 });
 

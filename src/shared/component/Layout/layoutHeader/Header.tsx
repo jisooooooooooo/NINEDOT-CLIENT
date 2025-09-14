@@ -5,6 +5,10 @@ import * as styles from './Header.css';
 
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
+import LoginModal from '@/common/component/LoginModal/LoginModal';
+import { useModal } from '@/common/hook/useModal';
+import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
+import UserModal from '@/common/component/UserModal/UserModal';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -16,19 +20,32 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { data: user, isLoading } = useGetUser();
+
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
 
   const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
+  const [openProfile, setOpenProfile] = useState<boolean>(false);
+
+  const { openModal, closeModal, ModalWrapper } = useModal();
+
+  const handleLogin = () => {
+    openModal(<LoginModal onClose={closeModal} />);
+  };
 
   const handleMenuClick = (menuLabel: string, path: string) => {
     setActiveMenu(menuLabel);
     navigate(path);
   };
 
+  const handleProfile = () => {
+    setOpenProfile((prev) => !prev);
+  };
+
   const renderNavMenu = () => (
     <>
-      <nav className={styles.navWrapper}>
+      <nav className={styles.navWrapper} aria-label="주요 메뉴">
         {MENUS.map((menu) => {
           const isActive = activeMenu === menu.label;
           const buttonClass = `${styles.navItem} ${isActive ? styles.navItemActive : ''}`;
@@ -45,6 +62,17 @@ const Header = () => {
           );
         })}
       </nav>
+      {!isLoading && user && (
+        <>
+          <img
+            src={user.profileImageUrl}
+            alt="유저 프로필 이미지"
+            className={styles.profilePlaceholder}
+            onClick={handleProfile}
+          />
+          {openProfile && <UserModal onClose={handleProfile} />}
+        </>
+      )}
     </>
   );
 
@@ -55,8 +83,15 @@ const Header = () => {
           <IcLogo className={styles.logoImage} />
         </Link>
 
-        {renderNavMenu()}
+        {!isLoading && user ? (
+          renderNavMenu()
+        ) : (
+          <button className={styles.loginButton} onClick={handleLogin} type="button">
+            로그인
+          </button>
+        )}
       </div>
+      {ModalWrapper}
     </header>
   );
 };
