@@ -8,19 +8,15 @@ const useTypingEffect = (fullText: string, duration: number) => {
     let startTime: number | null = null;
     const charArray = Array.from(fullText);
     const totalChars = charArray.length;
-    let isMounted = true;
 
     const step = (timestamp: number) => {
-      if (!isMounted) {
-        return;
-      }
       if (startTime === null) {
         startTime = timestamp;
       }
 
       const elapsed = timestamp - startTime;
-      const progress = Math.min(duration === 0 ? 1 : elapsed / duration, 1);
-      const charsToShow = Math.floor(progress * totalChars);
+      const progress = duration <= 0 ? 1 : Math.min(elapsed / duration, 1);
+      const charsToShow = Math.round(progress * totalChars);
 
       setDisplayedText(charArray.slice(0, charsToShow).join(''));
 
@@ -32,7 +28,6 @@ const useTypingEffect = (fullText: string, duration: number) => {
     rafIdRef.current = requestAnimationFrame(step);
 
     return () => {
-      isMounted = false;
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
         rafIdRef.current = null;
