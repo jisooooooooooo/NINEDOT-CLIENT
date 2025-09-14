@@ -25,6 +25,18 @@ export const closeIcon = style({
   cursor: 'pointer',
 });
 
+export const closeButton = style({
+  width: '3.2rem',
+  height: '3.2rem',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  cursor: 'pointer',
+});
+
 export const contentWrapper = style({
   width: '55.6rem',
   display: 'flex',

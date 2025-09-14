@@ -29,7 +29,15 @@ const AiModalBase = ({
   return (
     <div className={styles.container} role="dialog" aria-modal="true" aria-labelledby={titleId}>
       <div className={styles.iconWrapper}>
-        <IcModalDelete className={styles.closeIcon} onClick={onClose} />
+        <button
+          type="button"
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label="모달 닫기"
+          title="닫기"
+        >
+          <IcModalDelete className={styles.closeIcon} />
+        </button>
       </div>
       <div className={styles.contentWrapper}>
         <div className={styles.textWrapper}>

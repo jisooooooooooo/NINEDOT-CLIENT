@@ -2,6 +2,10 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import svgr from 'vite-plugin-svgr';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],

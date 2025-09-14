@@ -24,15 +24,19 @@ const isCloseable = (element: ReactNode): element is ReactElement<Closeable> => 
 export const useOverlayModal = () => {
   const lastIdRef = useRef<string | null>(null);
 
+  const removeLastId = (id: string) => {
+    if (lastIdRef.current === id) {
+      lastIdRef.current = null;
+    }
+  };
+
   const openModal = (node: ReactNode, options: OpenOptions = {}) => {
     const { withWrapper = true } = options;
 
     const id = overlay.open(({ unmount }) => {
       const handleClose = () => {
         unmount();
-        if (lastIdRef.current === id) {
-          lastIdRef.current = null;
-        }
+        removeLastId(id);
       };
       const content = isCloseable(node) ? React.cloneElement(node, { onClose: handleClose }) : node;
       return withWrapper ? <Modal onClose={handleClose}>{content}</Modal> : <>{content}</>;
@@ -43,9 +47,7 @@ export const useOverlayModal = () => {
       id,
       close: () => {
         overlay.unmount(id);
-        if (lastIdRef.current === id) {
-          lastIdRef.current = null;
-        }
+        removeLastId(id);
       },
     };
   };
@@ -56,9 +58,7 @@ export const useOverlayModal = () => {
       return;
     }
     overlay.unmount(id);
-    if (lastIdRef.current === id) {
-      lastIdRef.current = null;
-    }
+    removeLastId(id);
   };
 
   return { openModal, closeModal };
