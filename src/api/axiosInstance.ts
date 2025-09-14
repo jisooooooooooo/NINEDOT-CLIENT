@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { HTTP_STATUS } from '@/api/constant/httpStatus';
 
 const axiosInstance = axios.create({
@@ -28,11 +29,11 @@ axiosInstance.interceptors.response.use(
       const { status } = error.response;
 
       if (status === HTTP_STATUS.UNAUTHORIZED) {
-        console.warn('인증 실패');
+        // 인증 실패 처리
       }
 
       if (status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
-        console.error('서버 오류가 발생');
+        // 서버 오류 처리
       }
     }
     return Promise.reject(error);

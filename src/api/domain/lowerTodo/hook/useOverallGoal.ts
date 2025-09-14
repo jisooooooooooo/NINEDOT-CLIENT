@@ -6,7 +6,7 @@ import { QUERY_KEY } from '@/api/constant/queryKey';
 
 export const useOverallGoal = (mandalartId: number) => {
   return useQuery({
-    queryKey: [QUERY_KEY.OVERALL_GOAL, mandalartId],
+    queryKey: [QUERY_KEY.ENTIRE_GOAL, mandalartId],
     queryFn: () => getOverallGoal(mandalartId),
     enabled: !!mandalartId,
   });
