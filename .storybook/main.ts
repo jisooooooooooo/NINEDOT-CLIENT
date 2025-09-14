@@ -1,11 +1,11 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import svgr from 'vite-plugin-svgr';
-import path from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -31,15 +31,15 @@ const config: StorybookConfig = {
       ...(config.resolve || {}),
       alias: {
         ...(config.resolve?.alias || {}),
-        '@': path.resolve(__dirname, '../src'),
-        '@api': path.resolve(__dirname, '../src/api'),
-        '@assets': path.resolve(__dirname, '../src/assets'),
-        '@common': path.resolve(__dirname, '../src/common'),
-        '@page': path.resolve(__dirname, '../src/page'),
-        '@route': path.resolve(__dirname, '../src/route'),
-        '@shared': path.resolve(__dirname, '../src/shared'),
-        '@style': path.resolve(__dirname, '../src/style'),
-        '@type': path.resolve(__dirname, '../src/type'),
+        '@': resolve(__dirname, '../src'),
+        '@api': resolve(__dirname, '../src/api'),
+        '@assets': resolve(__dirname, '../src/assets'),
+        '@common': resolve(__dirname, '../src/common'),
+        '@page': resolve(__dirname, '../src/page'),
+        '@route': resolve(__dirname, '../src/route'),
+        '@shared': resolve(__dirname, '../src/shared'),
+        '@style': resolve(__dirname, '../src/style'),
+        '@type': resolve(__dirname, '../src/type'),
       },
     };
     return config;
