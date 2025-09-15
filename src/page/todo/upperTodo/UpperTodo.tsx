@@ -4,6 +4,8 @@ import Mandalart from '@common/component/Mandalart/Mandalart';
 import * as styles from './UpperTodo.css';
 import { SubGoalFields, UpperTodoHeader, MandalCompleteButton } from './component';
 import { useUpperTodoState, useUpperTodoAI } from './hook';
+import { toMainSubGoals } from './utils/goal';
+import { DEFAULT_TEXT, ALERT } from './constants';
 
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import { PATH } from '@/route';
@@ -28,12 +30,12 @@ const UpperTodo = () => {
     refetchCoreGoalIds,
   } = useUpperTodoState(mandalartId);
 
-  const mainGoal = data?.title || '사용자가 작성한 대목표';
+  const mainGoal = data?.title || DEFAULT_TEXT.mainGoal;
   const displayUserName = user?.name ?? '김도트';
 
   const handleNavigateLower = () => {
     if (!mandalartId) {
-      alert('전체 목표가 설정되지 않았습니다.');
+      alert(ALERT.noMandalartId);
       return;
     }
     navigate(PATH.TODO_LOWER);
@@ -70,16 +72,7 @@ const UpperTodo = () => {
         />
 
         <div className={styles.upperTodoBox}>
-          <Mandalart
-            type="TODO_MAIN"
-            mainGoal={mainGoal}
-            subGoals={subGoals.map((v, i) => ({
-              id: i + 1,
-              title: v,
-              position: i + 1,
-              cycle: 'ONCE' as const,
-            }))}
-          />
+          <Mandalart type="TODO_MAIN" mainGoal={mainGoal} subGoals={toMainSubGoals(subGoals)} />
           <SubGoalFields
             values={subGoals}
             onChange={setSubGoals}

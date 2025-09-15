@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { extractTitles, updateSubGoalsWithAiResponse } from '../utils/goal';
+import { ALERT, GOAL_COUNT } from '../constants';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
@@ -50,7 +51,7 @@ export const useUpperTodoAI = ({
           refetch();
         },
         onError: () => {
-          alert('AI 추천 목표 저장 실패');
+          alert(ALERT.aiSaveFail);
         },
       },
     );
@@ -58,10 +59,10 @@ export const useUpperTodoAI = ({
 
   const handleOpenAiModal = async () => {
     const currentFilledCount = subGoals.filter((v) => v.trim() !== '').length;
-    const maxGoals = 8;
+    const maxGoals = GOAL_COUNT;
 
     if (currentFilledCount >= maxGoals) {
-      alert('이미 모든 목표가 채워져 있습니다.');
+      alert(ALERT.goalsAlreadyFilled);
       return;
     }
 
@@ -91,7 +92,7 @@ export const useUpperTodoAI = ({
       openModal(aiModalContent);
     } catch {
       setIsAiUsed(false);
-      alert('AI 추천을 불러오지 못했어요. 잠시 후 다시 시도해주세요.');
+      alert(ALERT.aiFetchFail);
     }
   };
 

@@ -1,18 +1,8 @@
 import * as styles from '../UpperTodo.css';
+import { ORDER_LABELS } from '../constants';
 
 import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
 import TextField from '@/common/component/MandalartTextField/MandalartTextField';
-
-const ORDER_LABELS = [
-  '첫번째',
-  '두번째',
-  '세번째',
-  '네번째',
-  '다섯번째',
-  '여섯번째',
-  '일곱번째',
-  '여덟번째',
-];
 
 interface SubGoalFieldsProps {
   values: string[];
