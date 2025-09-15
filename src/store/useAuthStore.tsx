@@ -11,13 +11,15 @@ const defaultUser: UserType = {
   profileImageUrl: '',
   answers: [],
 };
+const token = localStorage.getItem('accessToken');
 
 export const useAuthStore = create<AuthStoreType>()(
   persist(
     (set) => ({
       user: defaultUser,
-      setUser: (newUser) => set({ user: newUser }),
-      resetUser: () => set({ user: defaultUser }),
+      isLoggedIn: !!token,
+      setUser: (newUser) => set({ user: newUser, isLoggedIn: true }),
+      resetUser: () => set({ user: defaultUser, isLoggedIn: false }),
     }),
     {
       name: 'auth-storage',
