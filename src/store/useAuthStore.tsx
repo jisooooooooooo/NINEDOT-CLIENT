@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { AuthStoreType, UserType } from '@/store/types/authTypes';
 
@@ -20,6 +20,18 @@ export const useAuthStore = create<AuthStoreType>()(
     }),
     {
       name: 'auth-storage',
+      storage: createJSONStorage(() => ({
+        getItem: (name) => localStorage.getItem(name),
+        setItem: (name, value) => {
+          const { state } = JSON.parse(value) as { state: AuthStoreType };
+          if (!state.isLoggedIn) {
+            localStorage.removeItem(name);
+            return;
+          }
+          localStorage.setItem(name, value);
+        },
+        removeItem: (name) => localStorage.removeItem(name),
+      })),
     },
   ),
 );
