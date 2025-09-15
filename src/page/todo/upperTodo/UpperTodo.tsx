@@ -20,7 +20,6 @@ import {
 
 interface UpperTodoProps {
   userName: string;
-  mainGoal: string;
 }
 
 const updateSubGoalsWithAiResponse = (
@@ -51,8 +50,6 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
     setSubGoals,
     isTooltipOpen,
     setIsTooltipOpen,
-    aiResponseData,
-    setAiResponseData,
     coreGoalIds,
     handleSubGoalEnter,
     refetch,
@@ -66,6 +63,10 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
   const displayUserName = user?.name ?? userName;
 
   const handleNavigateLower = () => {
+    if (!mandalartId) {
+      alert('전체 목표가 설정되지 않았습니다.');
+      return;
+    }
     navigate(PATH.TODO_LOWER);
   };
 
@@ -79,14 +80,13 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
             position: number;
             title: string;
           }[];
-          setAiResponseData(responseData);
           const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
           setSubGoals(updatedSubGoals);
           refetchCoreGoalIds();
           refetch();
         },
-        onError: (error) => {
-          console.error('AI 추천 목표 저장 실패:', error);
+        onError: () => {
+          alert('AI 추천 목표 저장 실패');
         },
       },
     );
@@ -135,15 +135,8 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
-  const [submittedIndices, setSubmittedIndices] = useState<Set<number>>(new Set());
-
-  const handleDebouncedSubGoalEnter = (index: number, value: string) => {
-    if (submittedIndices.has(index)) {
-      return;
-    }
-
+  const handleEnter = (index: number, value: string) => {
     handleSubGoalEnter(index, value);
-    setSubmittedIndices((prev) => new Set(prev).add(index));
   };
 
   return (
@@ -175,8 +168,7 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
             values={subGoals}
             onChange={setSubGoals}
             idPositions={coreGoalIds?.coreGoalIds || []}
-            onEnter={handleDebouncedSubGoalEnter}
-            aiResponseData={aiResponseData}
+            onEnter={handleEnter}
           />
         </div>
 
