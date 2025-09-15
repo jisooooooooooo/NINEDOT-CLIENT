@@ -6,10 +6,7 @@ import type { AuthStoreType, UserType } from '@/store/types/authTypes';
 const defaultUser: UserType = {
   name: '',
   email: '',
-  birthday: '',
-  job: '',
   profileImageUrl: '',
-  answers: [],
 };
 const token = localStorage.getItem('accessToken');
 

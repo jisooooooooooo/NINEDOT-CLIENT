@@ -4,6 +4,7 @@ export interface AnswerType {
 }
 
 export interface UserType {
+  id?: number;
   name: string;
   email: string;
   birthday?: string;
