@@ -10,10 +10,13 @@ import { useUpperTodoState } from './hook/useUpperTodoState';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import { useModal } from '@/common/hook/useModal';
+import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { PATH } from '@/route';
-import { usePostAiRecommendCoreGoal } from '@/api/domain/upperTodo/hook';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
+import {
+  usePostAiRecommendCoreGoal,
+  usePostAiRecommendToCoreGoals,
+} from '@/api/domain/upperTodo/hook';
 
 interface UpperTodoProps {
   userName: string;
@@ -37,7 +40,7 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
   const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
   const mandalartId = storedId ? Number(storedId) : 0;
 
-  const { openModal, ModalWrapper, closeModal } = useModal();
+  const { openModal, closeModal } = useOverlayModal();
   const navigate = useNavigate();
 
   const { data: user } = useGetUser();
@@ -57,6 +60,7 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
   } = useUpperTodoState(mandalartId);
 
   const postAiRecommend = usePostAiRecommendCoreGoal();
+  const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
   const mainGoal = data?.title || '사용자가 작성한 대목표';
   const displayUserName = user?.name ?? userName;
@@ -65,12 +69,27 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
     navigate(PATH.TODO_LOWER);
   };
 
-  const handleAiSubmit = (responseData: { id: number; position: number; title: string }[]) => {
-    setAiResponseData(responseData);
-    const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
-    setSubGoals(updatedSubGoals);
-    refetchCoreGoalIds();
-    refetch();
+  const handleAiSubmit = (goals: { title: string }[]) => {
+    postRecommendToCore.mutate(
+      { mandalartId, goals: goals.map((g) => g.title) },
+      {
+        onSuccess: (response) => {
+          const responseData = response.coreGoals as {
+            id: number;
+            position: number;
+            title: string;
+          }[];
+          setAiResponseData(responseData);
+          const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
+          setSubGoals(updatedSubGoals);
+          refetchCoreGoalIds();
+          refetch();
+        },
+        onError: (error) => {
+          console.error('AI 추천 목표 저장 실패:', error);
+        },
+      },
+    );
   };
 
   const handleOpenAiModal = async () => {
@@ -103,13 +122,11 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
           onSubmit={handleAiSubmit}
           values={subGoals}
           options={titles}
-          mandalartId={mandalartId}
         />
       );
 
       openModal(aiModalContent);
-    } catch (error) {
-      // 추천 실패 모달 추가 예정
+    } catch {
       setIsAiUsed(false);
     }
   };
@@ -167,7 +184,6 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
           hasFilledSubGoals={hasFilledSubGoals}
           handleNavigateLower={handleNavigateLower}
         />
-        {ModalWrapper}
       </section>
     </main>
   );

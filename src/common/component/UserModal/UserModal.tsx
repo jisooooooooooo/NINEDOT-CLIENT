@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { IcDivider } from '@/assets/svg';
 import * as styles from '@/common/component/UserModal/UserModal.css';
@@ -14,11 +14,14 @@ const UserModal = ({ onClose }: UserModalProps) => {
   const { data: user, isLoading, isError } = useGetUser();
   const { mutate: logoutMutate } = usePostLogout();
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      onClose();
-    }
-  };
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    },
+    [onClose],
+  );
 
   const handleLogout = () => {
     logoutMutate(undefined, {
@@ -39,7 +42,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [handleClickOutside]);
 
   if (isLoading || isError || !user) {
     return null;
