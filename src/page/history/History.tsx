@@ -3,6 +3,7 @@ import { useState } from 'react';
 import * as styles from '@/page/history/History.css';
 import StreakTracker from '@/page/history/StreakTrackerSection/StreakTrackerSection';
 import { useGetHistory } from '@/api/domain/history/hook/useGetHistory';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 import Loading from '@/common/component/Loading/Loading';
 
 const STREAK_BANNER_MESSAGE = '작은 실천을 66일 이어가면 나의 목표에 도달합니다';
@@ -10,8 +11,7 @@ const STREAK_DESCRIPTION_MESSAGE = '하루에 하나라도 실천하면 오늘�
 
 const History = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
-  const mandalartId = storedId ? Number(storedId) : 0;
+  const mandalartId = useMandalartId();
 
   const { data, isLoading } = useGetHistory(mandalartId);
 

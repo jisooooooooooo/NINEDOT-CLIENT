@@ -5,12 +5,12 @@ import EntireMandal from './component/EntireMandal/EntireMandal';
 import EditBtn from './component/EditBtn/EditBtn';
 
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 
 const Mandal = () => {
   const { viewType, handleViewChange } = useMandalView();
-  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
-  const mandalartId = storedId ? Number(storedId) : 0;
+  const mandalartId = useMandalartId();
   const { data: mandalartData } = useMandalAll(mandalartId);
 
   if (!mandalartData) {

@@ -7,6 +7,7 @@ import {
   useGetMandalCoreGoals,
   useGetMandalartSubGoals,
 } from '@/api/domain/myTodo/hook/useMyMandal';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 import { useCheckSubGoal, useUncheckSubGoal } from '@/api/domain/myTodo/hook/useMyMandal';
 import { CycleChip } from '@/page/todo/myTodo/component/CycleChip';
 import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
@@ -37,8 +38,7 @@ const TodoCheckSection = ({
   onMandalartClick,
   selectedParentId,
 }: TodoCheckSectionProps) => {
-  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
-  const mandalartId = storedId ? Number(storedId) : 0;
+  const mandalartId = useMandalartId();
   const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
   const { data: subGoalResponse } = useGetMandalartSubGoals(
     mandalartId,

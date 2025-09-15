@@ -1,45 +1,17 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 
 import * as styles from './UpperTodo.css';
-import SubGoalFields from './component/SubGoalFields';
-import UpperTodoHeader from './component/UpperTodoHeader';
-import MandalCompleteButton from './component/MandalCompleteButton';
-import { useUpperTodoState } from './hook/useUpperTodoState';
+import { SubGoalFields, UpperTodoHeader, MandalCompleteButton } from './component';
+import { useUpperTodoState, useUpperTodoAI } from './hook';
 
-import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { PATH } from '@/route';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
-import {
-  usePostAiRecommendCoreGoal,
-  usePostAiRecommendToCoreGoals,
-} from '@/api/domain/upperTodo/hook';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
-interface UpperTodoProps {
-  userName: string;
-}
-
-const updateSubGoalsWithAiResponse = (
-  original: string[],
-  responseData: { position: number; title: string }[],
-): string[] => {
-  const updated = [...original];
-  responseData.forEach(({ position, title }) => {
-    updated[position - 1] = title;
-  });
-  return updated;
-};
-
-const extractTitles = (goals: { title: string }[]) => goals.map((item) => item.title);
-
-const UpperTodo = ({ userName }: UpperTodoProps) => {
-  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
-  const mandalartId = storedId ? Number(storedId) : 0;
-
-  const { openModal, closeModal } = useOverlayModal();
+const UpperTodo = () => {
+  const mandalartId = useMandalartId();
   const navigate = useNavigate();
 
   const { data: user } = useGetUser();
@@ -56,11 +28,8 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
     refetchCoreGoalIds,
   } = useUpperTodoState(mandalartId);
 
-  const postAiRecommend = usePostAiRecommendCoreGoal();
-  const postRecommendToCore = usePostAiRecommendToCoreGoals();
-
   const mainGoal = data?.title || '사용자가 작성한 대목표';
-  const displayUserName = user?.name ?? userName;
+  const displayUserName = user?.name ?? '김도트';
 
   const handleNavigateLower = () => {
     if (!mandalartId) {
@@ -70,68 +39,15 @@ const UpperTodo = ({ userName }: UpperTodoProps) => {
     navigate(PATH.TODO_LOWER);
   };
 
-  const handleAiSubmit = (goals: { title: string }[]) => {
-    postRecommendToCore.mutate(
-      { mandalartId, goals: goals.map((g) => g.title) },
-      {
-        onSuccess: (response) => {
-          const responseData = response.coreGoals as {
-            id: number;
-            position: number;
-            title: string;
-          }[];
-          const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
-          setSubGoals(updatedSubGoals);
-          refetchCoreGoalIds();
-          refetch();
-        },
-        onError: () => {
-          alert('AI 추천 목표 저장 실패');
-        },
-      },
-    );
-  };
-
-  const handleOpenAiModal = async () => {
-    const currentFilledCount = subGoals.filter((v) => v.trim() !== '').length;
-    const maxGoals = 8;
-
-    if (currentFilledCount >= maxGoals) {
-      alert('이미 모든 목표가 채워져 있습니다.');
-      return;
-    }
-
-    setIsAiUsed(true);
-    setIsTooltipOpen(false);
-
-    try {
-      const coreGoals = subGoals.filter((v) => v.trim() !== '').map((v) => ({ title: v }));
-
-      const response = await postAiRecommend.mutateAsync({
-        mandalartId,
-        mandalart: mainGoal,
-        coreGoal: coreGoals,
-      });
-
-      const recommendList = response || [];
-      const titles = extractTitles(recommendList);
-
-      const aiModalContent = (
-        <AiRecommendModal
-          onClose={closeModal}
-          onSubmit={handleAiSubmit}
-          values={subGoals}
-          options={titles}
-        />
-      );
-
-      openModal(aiModalContent);
-    } catch {
-      setIsAiUsed(false);
-    }
-  };
-
-  const [isAiUsed, setIsAiUsed] = useState(false);
+  const { isAiUsed, handleOpenAiModal } = useUpperTodoAI({
+    mandalartId,
+    mainGoal,
+    subGoals,
+    setSubGoals,
+    refetch,
+    refetchCoreGoalIds,
+    setIsTooltipOpen,
+  });
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 

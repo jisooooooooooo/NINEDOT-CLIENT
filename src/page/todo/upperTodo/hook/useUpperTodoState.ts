@@ -18,9 +18,6 @@ export const useUpperTodoState = (mandalartId: number) => {
 
   const [subGoals, setSubGoals] = useState(Array(8).fill(''));
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
-  const [aiResponseData, setAiResponseData] = useState<
-    { id: number; position: number; title: string }[]
-  >([]);
 
   const coreGoalIdMap = useMemo(() => {
     const map: Record<number, number> = {};
@@ -70,8 +67,6 @@ export const useUpperTodoState = (mandalartId: number) => {
     setSubGoals,
     isTooltipOpen,
     setIsTooltipOpen,
-    aiResponseData,
-    setAiResponseData,
     coreGoalIds,
     handleSubGoalEnter,
     refetch,
