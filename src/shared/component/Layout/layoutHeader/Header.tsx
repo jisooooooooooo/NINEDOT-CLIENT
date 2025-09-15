@@ -38,7 +38,9 @@ const Header = () => {
   const { openModal, closeModal, ModalWrapper } = useModal();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) {
+      return;
+    }
 
     if (userData) {
       setUser(userData);
