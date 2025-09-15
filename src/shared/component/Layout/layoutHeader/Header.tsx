@@ -27,6 +27,7 @@ const Header = () => {
   const resetUser = useAuthStore((state) => state.resetUser);
 
   const user = useAuthStore((state) => state.user);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
@@ -78,17 +79,13 @@ const Header = () => {
           );
         })}
       </nav>
-      {user && (
-        <>
-          <img
-            src={user.profileImageUrl}
-            alt="유저 프로필 이미지"
-            className={styles.profilePlaceholder}
-            onClick={handleProfile}
-          />
-          {openProfile && <UserModal onClose={handleProfile} />}
-        </>
-      )}
+      <img
+        src={user.profileImageUrl}
+        alt="유저 프로필 이미지"
+        className={styles.profilePlaceholder}
+        onClick={handleProfile}
+      />
+      {openProfile && <UserModal onClose={handleProfile} />}
     </>
   );
 
@@ -99,7 +96,7 @@ const Header = () => {
           <IcLogo className={styles.logoImage} />
         </Link>
 
-        {!isLoading && user.id ? (
+        {isLoggedIn ? (
           renderNavMenu()
         ) : (
           <button className={styles.loginButton} onClick={handleLogin} type="button">
