@@ -37,9 +37,14 @@ const TodoCheckSection = ({
   onMandalartClick,
   selectedParentId,
 }: TodoCheckSectionProps) => {
-  const mandalartId = 1;
+  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+  const mandalartId = storedId ? Number(storedId) : 0;
   const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
-  const { data: subGoalResponse } = useGetMandalartSubGoals(1, selectedParentId, selectedCycle);
+  const { data: subGoalResponse } = useGetMandalartSubGoals(
+    mandalartId,
+    selectedParentId,
+    selectedCycle,
+  );
 
   const [localSubGoals, setLocalSubGoals] = useState<TodoItemTypes[]>([]);
 

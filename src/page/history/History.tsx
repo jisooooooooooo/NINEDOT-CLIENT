@@ -8,12 +8,12 @@ import Loading from '@/common/component/Loading/Loading';
 const STREAK_BANNER_MESSAGE = '작은 실천을 66일 이어가면 나의 목표에 도달합니다';
 const STREAK_DESCRIPTION_MESSAGE = '하루에 하나라도 실천하면 오늘의 점이 찍혀요!';
 
-const MANDALART_ID = 1;
-
 const History = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+  const mandalartId = storedId ? Number(storedId) : 0;
 
-  const { data, isLoading } = useGetHistory(MANDALART_ID);
+  const { data, isLoading } = useGetHistory(mandalartId);
 
   const handleOutsideClick = () => {
     setSelectedDay(null);

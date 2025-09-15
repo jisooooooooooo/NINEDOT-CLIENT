@@ -9,7 +9,9 @@ import Mandalart from '@/common/component/Mandalart/Mandalart';
 
 const Mandal = () => {
   const { viewType, handleViewChange } = useMandalView();
-  const { data: mandalartData } = useMandalAll(1);
+  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+  const mandalartId = storedId ? Number(storedId) : 0;
+  const { data: mandalartData } = useMandalAll(mandalartId);
 
   if (!mandalartData) {
     return null;

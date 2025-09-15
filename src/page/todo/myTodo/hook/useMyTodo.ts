@@ -8,7 +8,8 @@ import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendat
 import { usePostRecommendation } from '@/api/domain/myTodo/hook/usePostRecommendation';
 import { useDeleteRecommendation } from '@/api/domain/myTodo/hook/useDeleteRecommendation';
 
-const MANDALART_ID = 1;
+const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+const MANDALART_ID = storedId ? Number(storedId) : 0;
 
 const mockSubGoals = Array.from({ length: 8 * 8 }, (_, i) => {
   const parentId = Math.floor(i / 8) + 1;

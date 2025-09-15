@@ -6,8 +6,6 @@ import * as styles from '@/page/history/StreakTrackerSection/StreakTrackerSectio
 import { useGetStreak } from '@/api/domain/history/hook/useGetStreak';
 import Loading from '@/common/component/Loading/Loading';
 
-const MANDALART_ID = 1;
-
 type StreakTrackerProps = {
   selectedDay: number | null;
   setSelectedDay: (day: number | null) => void;
@@ -19,7 +17,10 @@ const StreakTracker = ({ selectedDay, setSelectedDay }: StreakTrackerProps) => {
   const isLocked = selectedDay !== null;
   const visibleDay = isLocked ? selectedDay : hoveredDay;
 
-  const { data, isLoading } = useGetStreak(MANDALART_ID);
+  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+  const mandalartId = storedId ? Number(storedId) : 0;
+
+  const { data, isLoading } = useGetStreak(mandalartId);
 
   if (isLoading || !data) {
     return <Loading type="history" />;

@@ -49,7 +49,8 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     [position: number]: number | null;
   }>({});
 
-  const mandalartId = 1;
+  const storedId = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
+  const mandalartId = storedId ? Number(storedId) : 0;
   const { data: coreGoalsData } = useCoreGoals(mandalartId);
   const { data: overallGoalData } = useOverallGoal(mandalartId);
 
