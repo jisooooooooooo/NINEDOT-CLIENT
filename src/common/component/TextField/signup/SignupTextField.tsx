@@ -34,6 +34,7 @@ const computeFieldState = (args: {
 };
 
 export interface SignupTextFieldProps {
+  id?: string;
   variant: SignupVariant;
   value: string;
   onChange: (value: string) => void;
@@ -42,6 +43,7 @@ export interface SignupTextFieldProps {
 }
 
 const SignupTextField = ({
+  id,
   variant,
   value,
   onChange,
@@ -67,7 +69,7 @@ const SignupTextField = ({
   );
 
   return (
-    <BaseTextField value={value} onChange={handleChange} locked={disabled}>
+    <BaseTextField id={id} value={value} onChange={handleChange} locked={disabled}>
       {({ inputProps, hasValue, isFocused, clear }) => {
         const state = computeFieldState({ hasValue, isFocused, isHovered, locked: !!disabled });
         const wrapperClass = s.fieldBox[state];
