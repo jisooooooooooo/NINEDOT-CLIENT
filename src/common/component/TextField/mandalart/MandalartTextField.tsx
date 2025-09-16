@@ -34,6 +34,7 @@ export interface MandalartTextFieldProps {
   variant?: MandalartVariant;
   value: string;
   onChange: (value: string) => void;
+  onCommit?: (value: string, reason: 'enter' | 'blur') => void;
   placeholder?: string;
   maxLength?: number;
   disabled?: boolean;
@@ -43,6 +44,7 @@ const MandalartTextField = ({
   variant = 'bigGoal',
   value,
   onChange,
+  onCommit,
   placeholder,
   maxLength,
   disabled,
@@ -65,6 +67,7 @@ const MandalartTextField = ({
     <BaseTextField
       value={value}
       onChange={onChange}
+      onCommit={onCommit}
       maxLength={effectiveMaxLength}
       locked={disabled}
     >
