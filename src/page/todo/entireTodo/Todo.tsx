@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { FULL_TEXT, TYPING_DURATION, PLACEHOLDER_TEXT } from './constant/constants';
+import { FULL_TEXT, TYPING_DURATION } from './constant/constants';
 import * as styles from './Todo.css';
 
 import { useCreateOverallTodo } from '@/api/domain/entireTodo/hook/useCreateMandalart';
 import useTypingEffect from '@/common/hook/useTypingEffect';
 import GoButton from '@/common/component/GoButton/GoButton';
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import { MandalartTextField } from '@/common/component/TextField/mandalart';
 import { PATH } from '@/route';
 
 const Todo = () => {
@@ -18,8 +18,8 @@ const Todo = () => {
 
   const { mutate } = useCreateOverallTodo();
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+  const handleFieldCommit = (_value: string, reason: 'enter' | 'blur') => {
+    if (reason === 'enter') {
       handleGoNext();
     }
   };
@@ -53,12 +53,11 @@ const Todo = () => {
       <GradientBackground />
       <h1 className={styles.todoTitle}>{renderTextWithLineBreaks()}</h1>
       <section className={styles.todoInputContainer}>
-        <TextField
+        <MandalartTextField
           variant="bigGoal"
           value={inputText}
           onChange={setInputText}
-          onKeyDown={handleKeyDown}
-          placeholder={PLACEHOLDER_TEXT}
+          onCommit={handleFieldCommit}
         />
         <GoButton isActive={inputText.length > 0} onClick={handleGoNext} />
       </section>

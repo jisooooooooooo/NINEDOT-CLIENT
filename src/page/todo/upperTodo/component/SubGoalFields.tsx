@@ -1,7 +1,7 @@
 import * as styles from '../UpperTodo.css';
 
-import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
-import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import { DEFAULT_PLACEHOLDER } from '@/common/component/TextField/mandalart/constants';
+import { MandalartTextField } from '@/common/component/TextField/mandalart';
 
 const ORDER_LABELS = [
   '첫번째',
@@ -37,6 +37,13 @@ const SubGoalFields = ({
     onChange(newValues);
   };
 
+  const getHandleFieldCommit =
+    (index: number, id?: number) => (value: string, reason: 'enter' | 'blur') => {
+      if (reason === 'enter' && onEnter) {
+        onEnter(index, value, id);
+      }
+    };
+
   const appliedValues = [...values];
   if (aiResponseData) {
     aiResponseData.forEach(({ position, title }) => {
@@ -47,19 +54,13 @@ const SubGoalFields = ({
   return (
     <div className={styles.textFieldColumn}>
       {appliedValues.map((value, index) => (
-        <TextField
+        <MandalartTextField
           key={index}
           variant="subGoal"
           value={value}
           onChange={(val) => handleChange(index, val)}
+          onCommit={getHandleFieldCommit(index, idPositions?.[index]?.id)}
           placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
-          data-id={idPositions?.[index]?.id?.toString()}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && onEnter) {
-              e.preventDefault();
-              onEnter(index, e.currentTarget.value, idPositions?.[index]?.id);
-            }
-          }}
         />
       ))}
     </div>
