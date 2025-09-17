@@ -20,12 +20,9 @@ const GoogleCallback = () => {
         state: { isWritten: userData.onboardingCompleted },
       });
     } else {
-      navigate(PATH.INTRO, {
-        state: { isWritten: userData.onboardingCompleted },
+      navigate(PATH.SIGNUP, {
+        state: { userData },
       });
-      // navigate(PATH.SIGNUP, {
-      //   state: { userData },
-      // });
     }
   }, [userData, navigate]);
 
