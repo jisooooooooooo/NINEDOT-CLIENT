@@ -85,12 +85,13 @@ const Header = () => {
           );
         })}
       </nav>
-      <img
-        src={user.profileImageUrl}
-        alt="유저 프로필 이미지"
-        className={styles.profilePlaceholder}
-        onClick={handleProfile}
-      />
+      <button onClick={handleProfile}>
+        <img
+          src={user.profileImageUrl}
+          alt="유저 프로필 이미지"
+          className={styles.profilePlaceholder}
+        />
+      </button>
       {openProfile && <UserModal onClose={handleProfile} />}
     </>
   );
