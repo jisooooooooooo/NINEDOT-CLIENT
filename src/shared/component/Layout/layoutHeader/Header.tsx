@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 
 import * as styles from './Header.css';
 
@@ -23,11 +24,14 @@ const Header = () => {
 
   const { data: userData, isLoading } = useGetUser();
 
-  const setUser = useAuthStore((state) => state.setUser);
-  const resetUser = useAuthStore((state) => state.resetUser);
-
-  const user = useAuthStore((state) => state.user);
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { user, isLoggedIn, setUser, resetUser } = useAuthStore(
+    useShallow((s) => ({
+      user: s.user,
+      isLoggedIn: s.isLoggedIn,
+      setUser: s.setUser,
+      resetUser: s.resetUser,
+    })),
+  );
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
