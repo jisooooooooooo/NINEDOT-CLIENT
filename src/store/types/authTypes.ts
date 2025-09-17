@@ -18,4 +18,5 @@ export interface AuthStoreType {
   isLoggedIn: boolean;
   setUser: (newUser: UserType) => void;
   resetUser: () => void;
+  updateLoginStatus: () => void;
 }

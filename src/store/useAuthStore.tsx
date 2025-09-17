@@ -8,23 +8,31 @@ const defaultUser: UserType = {
   email: '',
   profileImageUrl: '',
 };
-const token = localStorage.getItem('accessToken');
+const getToken = () => localStorage.getItem('accessToken');
 
 export const useAuthStore = create<AuthStoreType>()(
   persist(
     (set) => ({
       user: defaultUser,
-      isLoggedIn: !!token,
-      setUser: (newUser) => set({ user: newUser, isLoggedIn: true }),
-      resetUser: () => set({ user: defaultUser, isLoggedIn: false }),
+      isLoggedIn: false,
+      setUser: (newUser) => set({ user: newUser, isLoggedIn: !!getToken() }),
+      resetUser: () => {
+        localStorage.removeItem('accessToken');
+        set({ user: defaultUser, isLoggedIn: false });
+      },
+      updateLoginStatus: () => set({ isLoggedIn: !!getToken() }),
     }),
     {
       name: 'auth-storage',
+      partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        state?.updateLoginStatus();
+      },
       storage: createJSONStorage(() => ({
         getItem: (name) => localStorage.getItem(name),
         setItem: (name, value) => {
-          const { state } = JSON.parse(value) as { state: AuthStoreType };
-          if (!state.isLoggedIn) {
+          const hasToken = !!getToken();
+          if (!hasToken) {
             localStorage.removeItem(name);
             return;
           }

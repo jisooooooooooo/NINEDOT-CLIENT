@@ -29,7 +29,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
   const handleLogout = () => {
     logoutMutate(undefined, {
       onSuccess: () => {
-        localStorage.removeItem('accessToken');
         resetUser();
         onClose();
         navigate(PATH.ROOT);
