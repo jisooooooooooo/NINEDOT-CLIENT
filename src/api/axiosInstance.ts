@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { HTTP_STATUS } from '@/api/constant/httpStatus';
+import { postRefreshToken } from '@/api/auth/refreshToken';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -23,12 +24,23 @@ axiosInstance.interceptors.request.use(
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
     if (error.response) {
       const { status } = error.response;
 
       if (status === HTTP_STATUS.UNAUTHORIZED) {
-        console.warn('인증 실패');
+        try {
+          const { accessToken } = await postRefreshToken();
+          localStorage.setItem('accessToken', accessToken);
+
+          axiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        } catch (refreshError) {
+          console.error('리프레시 토큰 만료, 재로그인 필요');
+          return Promise.reject(refreshError);
+        }
       }
 
       if (status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
