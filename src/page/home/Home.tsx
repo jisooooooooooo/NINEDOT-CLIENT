@@ -9,7 +9,7 @@ import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnVie
 import mandalAnimation from '@/assets/lottie/mandalart.json';
 import aiAnimation from '@/assets/lottie/ai.json';
 import todoAnimation from '@/assets/lottie/todo.json';
-import { useModal } from '@/common/hook/useModal';
+import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
 
 const animationDataArray = [mandalAnimation, aiAnimation, todoAnimation];
@@ -19,7 +19,7 @@ const Home = () => {
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
 
-  const { openModal, closeModal, ModalWrapper } = useModal();
+  const { openModal, closeModal } = useOverlayModal();
 
   const handleOpenLogin = () => {
     openModal(<LoginModal onClose={closeModal} />);
@@ -44,7 +44,6 @@ const Home = () => {
       })}
 
       <EndSection fadeInRef={end.ref} visible={end.visible} onClick={handleOpenLogin} />
-      {ModalWrapper}
     </div>
   );
 };

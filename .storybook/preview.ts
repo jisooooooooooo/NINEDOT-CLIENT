@@ -1,6 +1,11 @@
 import type { Preview } from '@storybook/react';
-import '../src/style/reset.css';
-import '../src/style/global.css';
+import React from 'react';
+import { OverlayProvider } from 'overlay-kit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import '../src/style/reset.css.ts';
+import '../src/style/global.css.ts';
+
+const queryClient = new QueryClient();
 
 const preview: Preview = {
   parameters: {
@@ -31,6 +36,14 @@ const preview: Preview = {
       test: 'todo',
     },
   },
+  decorators: [
+    (Story) =>
+      React.createElement(
+        QueryClientProvider,
+        { client: queryClient },
+        React.createElement(OverlayProvider, null, React.createElement(Story)),
+      ),
+  ],
 };
 
 export default preview;

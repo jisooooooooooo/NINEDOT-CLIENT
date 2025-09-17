@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { HTTP_STATUS } from '@/api/constant/httpStatus';
 import { postRefreshToken } from '@/api/auth/refreshToken';
 
@@ -44,7 +45,7 @@ axiosInstance.interceptors.response.use(
       }
 
       if (status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
-        console.error('서버 오류가 발생');
+        // 서버 오류 처리
       }
     }
     return Promise.reject(error);

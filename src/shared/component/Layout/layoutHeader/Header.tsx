@@ -7,7 +7,7 @@ import * as styles from './Header.css';
 import { PATH } from '@/route/path';
 import IcLogo from '@/assets/svg/IcLogo';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
-import { useModal } from '@/common/hook/useModal';
+import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 import UserModal from '@/common/component/UserModal/UserModal';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -39,7 +39,7 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string>(initialMenu);
   const [openProfile, setOpenProfile] = useState<boolean>(false);
 
-  const { openModal, closeModal, ModalWrapper } = useModal();
+  const { openModal, closeModal } = useOverlayModal();
 
   useEffect(() => {
     if (isLoading) {
@@ -111,7 +111,6 @@ const Header = () => {
           </button>
         )}
       </div>
-      {ModalWrapper}
     </header>
   );
 };

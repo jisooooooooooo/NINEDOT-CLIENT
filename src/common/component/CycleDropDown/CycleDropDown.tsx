@@ -23,7 +23,7 @@ type CycleDropDownProps = {
 const CycleDropDown = ({ initialType = 'DAILY', onChange }: CycleDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<DisplayCycleType>(
-    (Object.entries(CYCLE_MAPPING).find(([_, v]) => v === initialType)?.[0] as DisplayCycleType) ||
+    (Object.entries(CYCLE_MAPPING).find(([, v]) => v === initialType)?.[0] as DisplayCycleType) ||
       '매일',
   );
 
