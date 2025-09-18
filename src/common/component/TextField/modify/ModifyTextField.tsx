@@ -61,7 +61,7 @@ const ModifyTextField = ({
     <BaseTextField value={value} onChange={handleChange} disabled={disabled}>
       {({ inputProps, hasValue, isFocused, clear }) => {
         const state = computeFieldState({ hasValue, isFocused, isHovered });
-        const wrapperClass = variant === 'subGoal' ? s.subGoalBox[state] : s.todoBox[state];
+        const wrapperClass = variant === 'subGoal' ? s.subGoalBox : s.todoBox[state];
         const inputClass = variant === 'subGoal' ? s.subGoalInput[state] : s.todoInput[state];
 
         return (

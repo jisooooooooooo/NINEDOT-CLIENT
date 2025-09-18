@@ -33,12 +33,11 @@ const subGoalBase = {
   background: colors.grey2,
 };
 
-export const subGoalBox = styleVariants({
-  default: subGoalBase,
-  hover: { ...subGoalBase, cursor: 'pointer' },
-  clicked: subGoalBase,
-  typing: subGoalBase,
-  filled: subGoalBase,
+export const subGoalBox = style({
+  ...subGoalBase,
+  ':hover': {
+    cursor: 'pointer',
+  },
 });
 
 const createVariants = (box: object, opts: { borderWidth: string; activeBorderColor: string }) => {
