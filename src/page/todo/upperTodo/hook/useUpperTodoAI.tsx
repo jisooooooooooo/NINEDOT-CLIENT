@@ -10,15 +10,21 @@ import {
   usePostAiRecommendToCoreGoals,
 } from '@/api/domain/upperTodo/hook';
 
-type UseUpperTodoAIParams = {
+interface UseUpperTodoAIParams {
   mandalartId: number;
   mainGoal: string;
   subGoals: string[];
-  setSubGoals: (values: string[]) => void;
+  setSubGoals: (values: string[] | ((prev: string[]) => string[])) => void;
   refetch: () => void;
   refetchCoreGoalIds: () => void;
   setIsTooltipOpen: (open: boolean) => void;
-};
+}
+
+interface CoreGoalResponse {
+  id: number;
+  position: number;
+  title: string;
+}
 
 export const useUpperTodoAI = ({
   mandalartId,
@@ -40,13 +46,8 @@ export const useUpperTodoAI = ({
       { mandalartId, goals: goals.map((g) => g.title) },
       {
         onSuccess: (response) => {
-          const responseData = response.coreGoals as {
-            id: number;
-            position: number;
-            title: string;
-          }[];
-          const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
-          setSubGoals(updatedSubGoals);
+          const responseData: CoreGoalResponse[] = response.coreGoals;
+          setSubGoals((prev) => updateSubGoalsWithAiResponse(prev, responseData));
           refetchCoreGoalIds();
           refetch();
         },

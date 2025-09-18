@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
 
+const readMandalartId = () => {
+  if (typeof window === 'undefined') {
+    return 0;
+  }
+  const value = localStorage.getItem('mandalartId');
+  return value ? Number(value) : 0;
+};
+
 export const useMandalartId = () => {
   const [mandalartId, setMandalartId] = useState(0);
 
   useEffect(() => {
-    const read = () => {
-      const value = typeof window !== 'undefined' ? localStorage.getItem('mandalartId') : null;
-      setMandalartId(value ? Number(value) : 0);
-    };
+    const syncMandalartId = () => setMandalartId(readMandalartId());
 
-    read();
+    syncMandalartId();
 
     const handleStorage = (e: StorageEvent) => {
       if (e.key === 'mandalartId') {
-        read();
+        syncMandalartId();
       }
     };
 
