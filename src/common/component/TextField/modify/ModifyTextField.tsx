@@ -48,17 +48,10 @@ const ModifyTextField = ({
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
-  const handleChange = useCallback(
-    (nextValue: string) => {
-      onChange(nextValue);
-    },
-    [onChange],
-  );
-
   const isTodo = variant === 'todo';
 
   return (
-    <BaseTextField value={value} onChange={handleChange} disabled={disabled}>
+    <BaseTextField value={value} onChange={onChange} disabled={disabled}>
       {({ inputProps, hasValue, isFocused, clear }) => {
         const state = computeFieldState({ hasValue, isFocused, isHovered });
         const wrapperClass = variant === 'subGoal' ? s.subGoalBox : s.todoBox[state];
