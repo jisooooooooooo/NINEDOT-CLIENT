@@ -68,23 +68,23 @@ const SignupTextField = ({
     [onChange, variant],
   );
 
+  const signupType = variant === 'email' ? undefined : (variant as 'name' | 'birth' | 'job');
+  let computedInvalid: boolean | undefined;
+  let computedError: string | undefined;
+  if (signupType) {
+    const msg = validateSignupField(signupType, value);
+    if (msg) {
+      computedInvalid = true;
+      computedError = msg;
+    }
+  }
+
   return (
     <BaseTextField id={id} value={value} onChange={handleChange} disabled={disabled}>
       {({ inputProps, hasValue, isFocused, clear }) => {
         const state = computeFieldState({ hasValue, isFocused, isHovered, disabled: !!disabled });
         const wrapperClass = s.fieldBox[state];
         const inputClass = s.inputState[state];
-
-        let computedInvalid: boolean | undefined;
-        let computedError: string | undefined;
-        const signupType = variant === 'email' ? undefined : (variant as 'name' | 'birth' | 'job');
-        if (signupType) {
-          const msg = validateSignupField(signupType, value);
-          if (msg) {
-            computedInvalid = true;
-            computedError = msg;
-          }
-        }
 
         return (
           <div
