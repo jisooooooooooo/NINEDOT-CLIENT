@@ -65,21 +65,23 @@ const ModifyTextField = ({
         const inputClass = variant === 'subGoal' ? s.subGoalInput[state] : s.todoInput[state];
 
         return (
-          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <div className={wrapperClass}>
-              <input className={inputClass} {...inputProps} placeholder={effectivePlaceholder} />
-              {isTodo && state === 'typing' && (
-                <button
-                  type="button"
-                  onClick={clear}
-                  onMouseDown={(e) => e.preventDefault()}
-                  aria-label="입력값 삭제"
-                  className={s.clearButton}
-                >
-                  <IcTextdelete />
-                </button>
-              )}
-            </div>
+          <div
+            className={wrapperClass}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <input className={inputClass} {...inputProps} placeholder={effectivePlaceholder} />
+            {isTodo && state === 'typing' && (
+              <button
+                type="button"
+                onClick={clear}
+                onMouseDown={(e) => e.preventDefault()}
+                aria-label="입력값 삭제"
+                className={s.clearButton}
+              >
+                <IcTextdelete />
+              </button>
+            )}
           </div>
         );
       }}
