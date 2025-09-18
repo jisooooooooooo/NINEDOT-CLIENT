@@ -71,16 +71,9 @@ const BaseTextField = ({
         return;
       }
       const raw = e.target.value;
-      if (typeof maxLength === 'number' && raw.length > maxLength) {
-        if (isComposing) {
-          return;
-        }
-        onChange(raw.slice(0, maxLength));
-        return;
-      }
       onChange(raw);
     },
-    [isLocked, isComposing, maxLength, onChange],
+    [isLocked, onChange],
   );
 
   const handleKeyDown = useCallback(
@@ -116,18 +109,9 @@ const BaseTextField = ({
     setIsComposing(true);
   }, []);
 
-  const handleCompositionEnd = useCallback(
-    (e: React.CompositionEvent<HTMLInputElement>) => {
-      setIsComposing(false);
-      if (typeof maxLength === 'number') {
-        const current = e.currentTarget.value ?? '';
-        if (current.length > maxLength) {
-          onChange(current.slice(0, maxLength));
-        }
-      }
-    },
-    [maxLength, onChange],
-  );
+  const handleCompositionEnd = useCallback((e: React.CompositionEvent<HTMLInputElement>) => {
+    setIsComposing(false);
+  }, []);
 
   const inputProps = useMemo(() => {
     const base: React.ComponentPropsWithRef<'input'> = {
