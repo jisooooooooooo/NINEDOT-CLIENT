@@ -74,38 +74,31 @@ type VariantOptions = {
 
 const createVariants = (box: object, opts: VariantOptions) => {
   const { borderWidth, activeBorderColor } = opts;
-  const baseDefault = {
-    ...box,
-    border: `${borderWidth} solid transparent`,
-    background: colors.grey4,
-  };
-  const baseActive = {
-    ...box,
-    border: `${borderWidth} solid ${activeBorderColor}`,
-    background: colors.grey3,
-  };
-  const baseHoverOrFilled = {
-    ...box,
-    border: `${borderWidth} solid transparent`,
-    background: colors.grey4,
-  };
-
   return {
     default: {
-      ...baseDefault,
+      ...box,
+      border: `${borderWidth} solid transparent`,
+      background: colors.grey4,
     },
     clicked: {
-      ...baseActive,
+      ...box,
+      border: `${borderWidth} solid ${activeBorderColor}`,
+      background: colors.grey3,
     },
     typing: {
-      ...baseActive,
+      ...box,
+      border: `${borderWidth} solid ${activeBorderColor}`,
+      background: colors.grey3,
       justifyContent: 'space-between',
     },
     filled: {
-      ...baseHoverOrFilled,
+      ...box,
+      border: `${borderWidth} solid transparent`,
+      background: colors.grey4,
     },
     hover: {
-      ...baseHoverOrFilled,
+      ...box,
+      border: `${borderWidth} solid transparent`,
       background: colors.grey3,
     },
   };
