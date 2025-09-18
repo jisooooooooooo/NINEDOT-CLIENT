@@ -109,7 +109,7 @@ const BaseTextField = ({
     setIsComposing(true);
   }, []);
 
-  const handleCompositionEnd = useCallback((e: React.CompositionEvent<HTMLInputElement>) => {
+  const handleCompositionEnd = useCallback(() => {
     setIsComposing(false);
   }, []);
 
