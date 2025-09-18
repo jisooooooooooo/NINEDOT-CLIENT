@@ -39,29 +39,40 @@ const createInputStateVariants = () =>
 export const inputState = createInputStateVariants();
 
 const createBoxVariants = (activeBorderColor: string) => {
-  const baseDefault = {
-    ...box,
-    border: `2px solid transparent`,
-    background: colors.grey4,
-  } as const;
-  const baseActive = {
-    ...box,
-    border: `2px solid ${activeBorderColor}`,
-    background: colors.grey3,
-  } as const;
-  const baseHoverOrFilled = {
-    ...box,
-    border: `2px solid transparent`,
-    background: colors.grey4,
-  } as const;
-
   return styleVariants({
-    default: baseDefault,
-    clicked: baseActive,
-    typing: { ...baseActive, justifyContent: 'space-between' },
-    filled: baseHoverOrFilled,
-    hover: { ...baseHoverOrFilled, background: colors.grey3 },
-    disabled: { ...baseHoverOrFilled, justifyContent: 'space-between', pointerEvents: 'none' },
+    default: {
+      ...box,
+      border: `2px solid transparent`,
+      background: colors.grey4,
+    },
+    clicked: {
+      ...box,
+      border: `2px solid ${activeBorderColor}`,
+      background: colors.grey3,
+    },
+    typing: {
+      ...box,
+      border: `2px solid ${activeBorderColor}`,
+      background: colors.grey3,
+      justifyContent: 'space-between',
+    },
+    filled: {
+      ...box,
+      border: `2px solid transparent`,
+      background: colors.grey4,
+    },
+    hover: {
+      ...box,
+      border: `2px solid transparent`,
+      background: colors.grey3,
+    },
+    disabled: {
+      ...box,
+      border: `2px solid transparent`,
+      background: colors.grey4,
+      justifyContent: 'space-between',
+      pointerEvents: 'none',
+    },
   });
 };
 
