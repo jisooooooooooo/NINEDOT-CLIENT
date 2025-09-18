@@ -10,7 +10,7 @@ export interface BaseTextFieldProps {
   onCommit?: (value: string, reason: CommitReason) => void;
   onClear?: () => void;
   maxLength?: number;
-  locked?: boolean;
+  disabled?: boolean;
   invalid?: boolean;
   children: (args: {
     inputProps: React.ComponentPropsWithRef<'input'>;
@@ -31,7 +31,7 @@ const BaseTextField = ({
   onCommit,
   onClear,
   maxLength,
-  locked,
+  disabled,
   invalid,
   children,
 }: BaseTextFieldProps) => {
@@ -40,7 +40,7 @@ const BaseTextField = ({
   const lastCommittedRef = useRef<string | null>(null);
   const skipBlurOnceRef = useRef(false);
 
-  const isLocked = !!locked;
+  const isDisabled = !!disabled;
 
   const hasValue = Boolean(value);
   const length = value.length;
@@ -67,13 +67,13 @@ const BaseTextField = ({
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (isLocked) {
+      if (isDisabled) {
         return;
       }
       const raw = e.target.value;
       onChange(raw);
     },
-    [isLocked, onChange],
+    [isDisabled, onChange],
   );
 
   const handleKeyDown = useCallback(
@@ -124,15 +124,15 @@ const BaseTextField = ({
       onCompositionStart: handleCompositionStart,
       onCompositionEnd: handleCompositionEnd,
       maxLength: typeof maxLength === 'number' ? maxLength : undefined,
-      readOnly: isLocked,
-      'aria-readonly': isLocked,
+      readOnly: isDisabled,
+      'aria-readonly': isDisabled,
       'aria-invalid': invalid || undefined,
     };
     return base;
   }, [
     id,
     value,
-    isLocked,
+    isDisabled,
     invalid,
     handleChange,
     handleKeyDown,

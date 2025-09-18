@@ -9,7 +9,7 @@ import * as s from './SignupTextField.css';
 import { formatBirthDate } from './format';
 import { validateSignupField } from './validation';
 
-type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover' | 'locked';
+type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover' | 'disabled';
 
 const pickPlaceholder = (variant: SignupVariant, placeholder?: string) =>
   placeholder ?? DEFAULT_PLACEHOLDER[variant];
@@ -18,11 +18,11 @@ const computeFieldState = (args: {
   hasValue: boolean;
   isFocused: boolean;
   isHovered: boolean;
-  locked: boolean;
+  disabled: boolean;
 }): FieldState => {
-  const { hasValue, isFocused, isHovered, locked } = args;
-  if (locked) {
-    return 'locked';
+  const { hasValue, isFocused, isHovered, disabled } = args;
+  if (disabled) {
+    return 'disabled';
   }
   if (isFocused) {
     return hasValue ? 'typing' : 'clicked';
@@ -69,9 +69,9 @@ const SignupTextField = ({
   );
 
   return (
-    <BaseTextField id={id} value={value} onChange={handleChange} locked={disabled}>
+    <BaseTextField id={id} value={value} onChange={handleChange} disabled={disabled}>
       {({ inputProps, hasValue, isFocused, clear }) => {
-        const state = computeFieldState({ hasValue, isFocused, isHovered, locked: !!disabled });
+        const state = computeFieldState({ hasValue, isFocused, isHovered, disabled: !!disabled });
         const wrapperClass = s.fieldBox[state];
         const inputClass = s.inputState[state];
 
@@ -109,7 +109,7 @@ const SignupTextField = ({
                   <IcMediumTextdelete />
                 </button>
               )}
-              {state === 'locked' && (
+              {state === 'disabled' && (
                 <span className={s.lockIcon} aria-hidden>
                   <IcLock />
                 </span>

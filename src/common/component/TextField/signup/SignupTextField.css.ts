@@ -33,7 +33,7 @@ const createInputStateVariants = () =>
     typing: { color: colors.grey10 },
     filled: { color: colors.grey10 },
     hover: { color: colors.grey6 },
-    locked: { color: colors.grey5 },
+    disabled: { color: colors.grey5 },
   });
 
 export const inputState = createInputStateVariants();
@@ -61,7 +61,7 @@ const createBoxVariants = (activeBorderColor: string) => {
     typing: { ...baseActive, justifyContent: 'space-between' },
     filled: baseHoverOrFilled,
     hover: { ...baseHoverOrFilled, background: colors.grey3 },
-    locked: { ...baseHoverOrFilled, justifyContent: 'space-between', pointerEvents: 'none' },
+    disabled: { ...baseHoverOrFilled, justifyContent: 'space-between', pointerEvents: 'none' },
   });
 };
 

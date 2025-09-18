@@ -23,7 +23,7 @@ export const Name: Story = {
   },
 };
 
-export const EmailLocked: Story = {
+export const EmailDisabled: Story = {
   args: { variant: 'email', value: '', onChange: () => {} },
   render: () => {
     const [value] = useState('user@example.com');

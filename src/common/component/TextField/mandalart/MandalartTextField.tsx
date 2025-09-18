@@ -69,7 +69,7 @@ const MandalartTextField = ({
       onChange={onChange}
       onCommit={onCommit}
       maxLength={effectiveMaxLength}
-      locked={disabled}
+      disabled={disabled}
     >
       {({ inputProps, hasValue, isFocused, clear }) => {
         const state = computeFieldState({ hasValue, isFocused, isHovered });
