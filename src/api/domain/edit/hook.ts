@@ -22,6 +22,7 @@ export const useUpperGoalIds = (mandalartId: number) => {
   return useQuery({
     queryKey: EDIT_QUERY_KEY.upperGoalIds(mandalartId),
     queryFn: () => getUpperGoalIds(mandalartId),
+    enabled: !!mandalartId,
   });
 };
 
@@ -31,10 +32,13 @@ export const useSubGoals = (
   cycle?: CycleType,
   options?: Omit<UseQueryOptions<BaseResponse<SubGoalsResponse>>, 'queryKey' | 'queryFn'>,
 ) => {
+  const enabled = !!mandalartId && (options?.enabled ?? true);
+
   return useQuery({
     queryKey: EDIT_QUERY_KEY.subGoals(mandalartId, coreGoalId, cycle),
     queryFn: () => getSubGoals(mandalartId, coreGoalId, cycle),
     ...options,
+    enabled,
   });
 };
 
@@ -61,5 +65,6 @@ export const useCoreGoals = (mandalartId: number) => {
   return useQuery({
     queryKey: EDIT_QUERY_KEY.coreGoals(mandalartId),
     queryFn: () => getCoreGoals(mandalartId),
+    enabled: !!mandalartId,
   });
 };

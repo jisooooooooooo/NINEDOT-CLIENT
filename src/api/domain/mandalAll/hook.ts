@@ -11,5 +11,6 @@ export const useMandalAll = (mandalartId: number) => {
   return useQuery({
     queryKey: MANDAL_ALL_KEY.detail(mandalartId),
     queryFn: () => getMandalAll(mandalartId),
+    enabled: !!mandalartId,
   });
 };
