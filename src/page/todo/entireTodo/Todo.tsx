@@ -18,22 +18,25 @@ const Todo = () => {
   const isValid = trimmed.length > 0;
   const displayedText = useTypingEffect(FULL_TEXT, TYPING_DURATION);
 
-  const { mutate, isPending } = useCreateEntireTodo();
+  const { mutateAsync, isPending } = useCreateEntireTodo();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isValid || isPending) {
       return;
     }
 
     const title = trimmed;
-    mutate(
-      { title },
-      {
-        onSuccess: () => navigate(PATH.TODO_UPPER),
-      },
-    );
+    try {
+      const data = await mutateAsync({ title });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('mandalartId', String(data.id));
+      }
+      navigate(PATH.TODO_UPPER);
+    } catch {
+      alert('목표 생성에 실패했습니다.');
+    }
   };
 
   if (isPending) {

@@ -7,8 +7,7 @@ import { formatDateDot } from '@/common/util/format';
 import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
 import { usePostRecommendation } from '@/api/domain/myTodo/hook/usePostRecommendation';
 import { useDeleteRecommendation } from '@/api/domain/myTodo/hook/useDeleteRecommendation';
-
-const MANDALART_ID = 1;
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
 const mockSubGoals = Array.from({ length: 8 * 8 }, (_, i) => {
   const parentId = Math.floor(i / 8) + 1;
@@ -43,8 +42,9 @@ export const useMyTodo = ({ initialDate }: UseMyTodoProps = {}) => {
   const [todos, setTodos] = useState<TodoItemTypes[]>([]);
   const [recommendTodos, setRecommendTodos] = useState<TodoItemTypes[]>([]);
 
+  const mandalartId = useMandalartId();
   const formattedDate = formatDateDot(currentDate);
-  const { data: recommendationData, refetch } = useGetRecommendation(MANDALART_ID, formattedDate);
+  const { data: recommendationData, refetch } = useGetRecommendation(mandalartId, formattedDate);
   const { mutate: completeTodo } = usePostRecommendation();
   const { mutate: deleteTodo } = useDeleteRecommendation();
 

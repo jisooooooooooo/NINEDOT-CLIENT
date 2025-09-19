@@ -23,6 +23,7 @@ import { useDeleteSubGoal } from '@/api/domain/lowerTodo/hook/useDeleteSubGoal';
 import { useAiRecommendSubGoal } from '@/api/domain/lowerTodo/hook/useAiRecommendSubGoal';
 import { completeMandalart } from '@/api/domain/lowerTodo';
 import { postAiRecommendSubGoals } from '@/api/domain/lowerTodo';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
 interface LowerTodoProps {
   userName?: string;
@@ -49,7 +50,7 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     [position: number]: number | null;
   }>({});
 
-  const mandalartId = 1;
+  const mandalartId = useMandalartId();
   const { data: coreGoalsData } = useCoreGoals(mandalartId);
   const { data: overallGoalData } = useOverallGoal(mandalartId);
 

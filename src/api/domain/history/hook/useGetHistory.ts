@@ -8,5 +8,6 @@ export const useGetHistory = (mandalartId: number) => {
   return useQuery<historyResponse>({
     queryKey: QUERY_KEY.HISTORY(mandalartId),
     queryFn: () => getHistory(mandalartId),
+    enabled: !!mandalartId,
   });
 };

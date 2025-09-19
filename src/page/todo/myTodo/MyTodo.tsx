@@ -8,6 +8,7 @@ import type { MandalartData } from './constant/mock';
 import { DatePicker } from '@/page/todo/myTodo/component/DatePicker';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { useGetMandalAll } from '@/api/domain/myTodo/hook/useMyMandal';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
 interface MyTodoProps {
   userName?: string;
@@ -42,7 +43,7 @@ const MyTodo = ({
     initialMyTodos,
   });
 
-  const mandalartId = 1;
+  const mandalartId = useMandalartId();
   const { data } = useGetMandalAll(mandalartId);
 
   return (
