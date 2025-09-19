@@ -1,7 +1,7 @@
 import { SignupTextField } from '@/common/component/TextField/signup';
 import JobDropDown from '@/page/signup/component/JobDropDown/JobDropDown';
 import * as styles from '@/page/signup/BasicInfoSection/BasicInfoSection.css';
-import LabeledField from '@/page/signup/component/LabelField/LabelField';
+import LabelField from '@/page/signup/component/LabelField/LabelField';
 import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 
 type BasicInfoProps = {
@@ -31,7 +31,7 @@ const BasicInfoSection = ({
 }: BasicInfoProps) => {
   return (
     <div className={styles.TextFieldContainer}>
-      <LabeledField id="name-input" label="이름">
+      <LabelField id="name-input" label="이름">
         <SignupTextField
           id="name-input"
           variant="name"
@@ -39,9 +39,9 @@ const BasicInfoSection = ({
           onChange={setName}
           placeholder="이름을 입력해주세요"
         />
-      </LabeledField>
+      </LabelField>
 
-      <LabeledField id="email-input" label="이메일">
+      <LabelField id="email-input" label="이메일">
         <SignupTextField
           id="email-input"
           variant="email"
@@ -49,13 +49,13 @@ const BasicInfoSection = ({
           onChange={setEmail}
           disabled
         />
-      </LabeledField>
+      </LabelField>
 
-      <LabeledField id="birth-input" label="생년월일">
+      <LabelField id="birth-input" label="생년월일">
         <SignupTextField id="birth-input" variant="birth" value={birth} onChange={setBirth} />
-      </LabeledField>
+      </LabelField>
 
-      <LabeledField id="job-button" label="직업">
+      <LabelField id="job-button" label="직업">
         <JobDropDown
           id="job-button"
           selectedJob={selectedJob}
@@ -63,7 +63,7 @@ const BasicInfoSection = ({
           inputJob={inputJob}
           setInputJob={setInputJob}
         />
-      </LabeledField>
+      </LabelField>
     </div>
   );
 };
