@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import * as styles from './HoverContent.css';
 
 import Mandalart from '@/common/component/Mandalart/Mandalart';
-import ModifyTextField from '@/common/component/ModifyTextField';
+import { ModifyTextField } from '@/common/component/TextField/modify';
+import { DEFAULT_PLACEHOLDER as MODIFY_PLACEHOLDER } from '@/common/component/TextField/modify/constants';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
 import { useUpdateSubGoal } from '@/api/domain/edit/hook';
 import type { SubGoal, CoreGoal } from '@/page/mandal/types/mandal';
@@ -117,12 +118,7 @@ const HoverContent = ({
     <section className={styles.hoverContentContainer} onClick={(e) => e.stopPropagation()}>
       <Mandalart type="TODO_SUB" data={coreGoalData} />
       <form className={styles.inputContainer} onSubmit={(e) => e.preventDefault()}>
-        <ModifyTextField
-          variant="subGoal"
-          value={content}
-          onChange={onChange}
-          placeholder="수정할 목표를 입력해주세요."
-        />
+        <ModifyTextField variant="subGoal" value={content} onChange={onChange} />
         <ul className={styles.todoListContainer}>
           {subGoals.map((subGoal, index) => (
             <li key={`${subGoal.id}-${subGoal.position}`} className={styles.todoInputRow}>
@@ -134,7 +130,7 @@ const HoverContent = ({
                 variant="todo"
                 value={subGoal.title}
                 onChange={(value) => handleTodoChange(index, value)}
-                placeholder={`${index + 1}번째 목표를 입력해주세요.`}
+                placeholder={`${index + 1}번째 ${MODIFY_PLACEHOLDER.todo}`}
               />
             </li>
           ))}

@@ -2,7 +2,7 @@ import { useRef, forwardRef, useImperativeHandle } from 'react';
 
 import * as styles from '../LowerTodo.css';
 
-import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import { MandalartTextField } from '@/common/component/TextField/mandalart';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
 
 interface TodoItem {
@@ -43,13 +43,6 @@ const TodoFields = forwardRef(function TodoFields(
     isComposing: isComposingArr.current,
   }));
 
-  const handleCompositionStart = (index: number) => {
-    isComposingArr.current[index] = true;
-  };
-  const handleCompositionEnd = (index: number) => {
-    isComposingArr.current[index] = false;
-  };
-
   const handleSave = (todo: TodoItem, index: number) => {
     if (isComposingArr.current[index]) {
       return;
@@ -84,6 +77,12 @@ const TodoFields = forwardRef(function TodoFields(
     onChange(newValues);
   };
 
+  const getHandleFieldCommit = (index: number) => (_value: string, reason: 'enter' | 'blur') => {
+    if (reason === 'enter') {
+      handleSave(values[index], index);
+    }
+  };
+
   return (
     <div className={styles.todoWritingSection}>
       {values.map((item, index) => (
@@ -94,20 +93,13 @@ const TodoFields = forwardRef(function TodoFields(
               onChange={(label) => handleCycleChange(index, label as CycleLabel)}
             />
           </div>
-          <TextField
+          <MandalartTextField
             variant="todo"
             value={item.title}
             onChange={(newValue) => handleTitleChange(index, newValue)}
-            placeholder="할 일을 입력해주세요"
+            onCommit={getHandleFieldCommit(index)}
             disabled={disabled}
             maxLength={30}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !isComposingArr.current[index]) {
-                handleSave(values[index], index);
-              }
-            }}
-            onCompositionStart={() => handleCompositionStart(index)}
-            onCompositionEnd={() => handleCompositionEnd(index)}
           />
         </div>
       ))}

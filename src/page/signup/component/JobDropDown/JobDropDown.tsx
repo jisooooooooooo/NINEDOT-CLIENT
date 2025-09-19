@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IcDropdown } from '@/assets/svg';
 import * as styles from '@/page/signup/component/JobDropDown/JobDropDown.css';
 import JobList from '@/page/signup/component/JobDropDown/JobList';
-import SignupTextField from '@/common/component/SignupTextField';
+import { SignupTextField } from '@/common/component/TextField/signup';
 import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
 import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 import { useGetJobList } from '@/api/domain/signup/hook/useGetJobList';
@@ -72,12 +72,7 @@ const JobDropDown = ({
 
       {!isPlaceHolder && selectedJob.id === jobList[jobList.length - 1].id && (
         <div className={styles.etcContainer}>
-          <SignupTextField
-            type="job"
-            value={inputJob}
-            onChange={setInputJob}
-            placeholder="직업을 입력해주세요"
-          />
+          <SignupTextField variant="job" value={inputJob} onChange={setInputJob} />
         </div>
       )}
     </div>

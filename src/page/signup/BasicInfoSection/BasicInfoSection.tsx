@@ -1,4 +1,4 @@
-import SignupTextField from '@/common/component/SignupTextField';
+import { SignupTextField } from '@/common/component/TextField/signup';
 import JobDropDown from '@/page/signup/component/JobDropDown/JobDropDown';
 import * as styles from '@/page/signup/BasicInfoSection/BasicInfoSection.css';
 import LabeledField from '@/page/signup/component/LabelField/LabelField';
@@ -34,7 +34,7 @@ const BasicInfoSection = ({
       <LabeledField id="name-input" label="이름">
         <SignupTextField
           id="name-input"
-          type="name"
+          variant="name"
           value={name}
           onChange={setName}
           placeholder="이름을 입력해주세요"
@@ -42,17 +42,17 @@ const BasicInfoSection = ({
       </LabeledField>
 
       <LabeledField id="email-input" label="이메일">
-        <SignupTextField id="email-input" type="email" value={email} onChange={setEmail} disabled />
+        <SignupTextField
+          id="email-input"
+          variant="email"
+          value={email}
+          onChange={setEmail}
+          disabled
+        />
       </LabeledField>
 
       <LabeledField id="birth-input" label="생년월일">
-        <SignupTextField
-          id="birth-input"
-          type="birth"
-          value={birth}
-          onChange={setBirth}
-          placeholder="생년월일을 입력해주세요"
-        />
+        <SignupTextField id="birth-input" variant="birth" value={birth} onChange={setBirth} />
       </LabeledField>
 
       <LabeledField id="job-button" label="직업">
