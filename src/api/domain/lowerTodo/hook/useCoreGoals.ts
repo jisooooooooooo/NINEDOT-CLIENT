@@ -8,5 +8,6 @@ export const useCoreGoals = (mandalartId: number) => {
   return useQuery({
     queryKey: QUERY_KEY.MANDALART_CORE_GOALS(mandalartId),
     queryFn: () => getCoreGoals(mandalartId),
+    enabled: !!mandalartId,
   });
 };

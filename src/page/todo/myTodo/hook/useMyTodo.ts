@@ -7,8 +7,7 @@ import { createDate, formatDateDot } from '@/common/util/format';
 import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
 import { usePostRecommendation } from '@/api/domain/myTodo/hook/usePostRecommendation';
 import { useDeleteRecommendation } from '@/api/domain/myTodo/hook/useDeleteRecommendation';
-
-const MANDALART_ID = 1;
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
 const mockSubGoals = Array.from({ length: 8 * 8 }, (_, i) => {
   const parentId = Math.floor(i / 8) + 1;
@@ -36,6 +35,7 @@ const MIN_DATE = createDate(2025, 1, 1);
 const MAX_DATE = createDate(2025, 1, 31);
 
 export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoProps = {}) => {
+  const MANDALART_ID = useMandalartId();
   const [currentDate, setCurrentDate] = useState(initialDate);
   const [selectedCycle, setSelectedCycle] = useState<CycleType>();
   const [selectedParentId, setSelectedParentId] = useState<number>();

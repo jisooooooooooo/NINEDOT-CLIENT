@@ -19,6 +19,7 @@ export const useGetMandalAll = (mandalartId: number) => {
   return useQuery({
     queryKey: [QUERY_KEY.ENTIRE_GOAL, mandalartId],
     queryFn: () => getMandalAll(mandalartId),
+    enabled: !!mandalartId,
   });
 };
 
@@ -26,6 +27,7 @@ export const useGetMandalCoreGoals = (mandalartId: number) => {
   return useQuery<MandalCoreGoalsResponse>({
     queryKey: [QUERY_KEY.CORE_GOALS, mandalartId],
     queryFn: () => getMandalCoreGoals(mandalartId),
+    enabled: !!mandalartId,
   });
 };
 
