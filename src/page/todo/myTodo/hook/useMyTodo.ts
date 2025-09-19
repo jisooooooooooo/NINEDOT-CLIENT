@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import type { CycleType } from '../constant/mock';
 
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
-import { createDate, formatDateDot } from '@/common/util/format';
+import { formatDateDot } from '@/common/util/format';
 import { useGetRecommendation } from '@/api/domain/myTodo/hook/useGetRecommendation';
 import { usePostRecommendation } from '@/api/domain/myTodo/hook/usePostRecommendation';
 import { useDeleteRecommendation } from '@/api/domain/myTodo/hook/useDeleteRecommendation';
@@ -32,11 +32,12 @@ interface UseMyTodoProps {
   initialMyTodos?: TodoItemTypes[];
 }
 
-const MIN_DATE = createDate(2025, 1, 1);
-const MAX_DATE = createDate(2025, 1, 31);
+export const useMyTodo = ({ initialDate }: UseMyTodoProps = {}) => {
+  const defaultDate = initialDate ?? new Date();
+  const startOfMonth = new Date(defaultDate.getFullYear(), defaultDate.getMonth(), 1);
+  const endOfMonth = new Date(defaultDate.getFullYear(), defaultDate.getMonth() + 1, 0);
 
-export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoProps = {}) => {
-  const [currentDate, setCurrentDate] = useState(initialDate);
+  const [currentDate, setCurrentDate] = useState(defaultDate);
   const [selectedCycle, setSelectedCycle] = useState<CycleType>();
   const [selectedParentId, setSelectedParentId] = useState<number>();
   const [todos, setTodos] = useState<TodoItemTypes[]>([]);
@@ -65,10 +66,13 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
     setTodos(mockSubGoals);
   }, []);
 
-  const hasPreviousDate = currentDate > MIN_DATE;
-  const hasNextDate = currentDate < MAX_DATE;
+  const hasPreviousDate = currentDate > startOfMonth;
+  const hasNextDate = currentDate < endOfMonth;
 
   const handleDateChange = (newDate: Date) => {
+    if (newDate < startOfMonth || newDate > endOfMonth) {
+      return;
+    }
     setCurrentDate(newDate);
   };
 
