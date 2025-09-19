@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { isAxiosError } from 'axios';
 
 import { extractTitles, updateSubGoalsWithAiResponse } from '../utils/goal';
 import { ALERT, GOAL_COUNT } from '../constants';
@@ -26,6 +27,22 @@ interface CoreGoalResponse {
   title: string;
 }
 
+interface ApiErrorResponse {
+  message?: string;
+}
+
+const getServerMessage = (error: unknown, fallback: string) => {
+  if (isAxiosError<ApiErrorResponse>(error)) {
+    return error.response?.data?.message ?? fallback;
+  }
+
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return fallback;
+};
+
 export const useUpperTodoAI = ({
   mandalartId,
   mainGoal,
@@ -51,8 +68,9 @@ export const useUpperTodoAI = ({
           refetchCoreGoalIds();
           refetch();
         },
-        onError: () => {
-          alert(ALERT.aiSaveFail);
+        onError: (error) => {
+          const message = getServerMessage(error, ALERT.aiSaveFail);
+          alert(message);
         },
       },
     );
@@ -91,9 +109,11 @@ export const useUpperTodoAI = ({
       );
 
       openModal(aiModalContent);
-    } catch {
+    } catch (error) {
+      const message = getServerMessage(error, ALERT.aiFetchFail);
+      alert(message);
+    } finally {
       setIsAiUsed(false);
-      alert(ALERT.aiFetchFail);
     }
   };
 

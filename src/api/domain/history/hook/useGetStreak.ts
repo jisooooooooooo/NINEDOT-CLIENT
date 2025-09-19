@@ -8,5 +8,6 @@ export const useGetStreak = (mandalartId: number) => {
   return useQuery<StreakResponse>({
     queryKey: QUERY_KEY.STREAK(mandalartId),
     queryFn: () => getStreak(mandalartId),
+    enabled: !!mandalartId,
   });
 };
