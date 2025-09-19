@@ -1,7 +1,7 @@
 import { recipe } from '@vanilla-extract/recipes';
 import { style } from '@vanilla-extract/css';
 
-import { colors, fonts } from '@/style/token';
+import { colors, fonts, layout } from '@/style/token';
 
 export const detailContainer = recipe({
   base: {
@@ -11,11 +11,7 @@ export const detailContainer = recipe({
   },
   variants: {
     state: {
-      empty: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
+      empty: layout.flexCenter,
       filled: {
         padding: '3rem',
       },
@@ -43,11 +39,12 @@ export const todoCount = style({
   ...fonts.subtitle01,
 });
 
-export const todoList = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1.2rem',
-  marginTop: '2.4rem',
-  color: colors.grey11,
-  ...fonts.body03,
-});
+export const todoList = style([
+  layout.flexColumn,
+  {
+    gap: '1.2rem',
+    marginTop: '2.4rem',
+    color: colors.grey11,
+    ...fonts.body03,
+  },
+]);
