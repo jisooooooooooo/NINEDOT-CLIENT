@@ -1,6 +1,7 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
+import { layout } from '@/style/token/layout.css.ts';
 
 export const myTodoBg = style({
   position: 'fixed',
@@ -12,167 +13,188 @@ export const myTodoBg = style({
   zIndex: 0,
 });
 
-export const myTodoContainer = style({
-  position: 'relative',
-  zIndex: 1,
-  maxWidth: '128rem',
-  margin: '0 auto',
-  minHeight: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  width: '100%',
-  marginTop: '8.6rem',
-  marginBottom: '10rem',
-});
+export const myTodoContainer = style([
+  layout.flexColumn,
+  {
+    position: 'relative',
+    zIndex: 1,
+    maxWidth: '128rem',
+    margin: '0 auto',
+    minHeight: '100vh',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: '8.6rem',
+    marginBottom: '10rem',
+  },
+]);
 
-export const contentWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  maxWidth: '128rem',
-  gap: '8.6rem',
-});
+export const contentWrapper = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    maxWidth: '128rem',
+    gap: '8.6rem',
+  },
+]);
 
-export const datePickerSection = style({
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-});
+export const datePickerSection = style([
+  layout.rowCenter,
+  {
+    width: '100%',
+  },
+]);
 
-export const mainContentWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  gap: '11.8rem',
-});
+export const mainContentWrapper = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    gap: '11.8rem',
+  },
+]);
 
-export const recommendSection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  gap: '2.8rem',
-});
+export const recommendSection = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    gap: '2.8rem',
+  },
+]);
 
-export const recommendTextWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: '0.4rem',
-});
+export const recommendTextWrapper = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    gap: '0.4rem',
+  },
+]);
 
-export const recommendTitle = style({
-  ...fonts.title01,
-  color: colors.white01,
-  margin: 0,
-});
+export const recommendTitle = style([
+  fonts.title01,
+  {
+    color: colors.white01,
+    margin: 0,
+  },
+]);
 
-export const recommendSubtitle = style({
-  ...fonts.subtitle06,
-  color: colors.grey6,
-  margin: 0,
-  alignSelf: 'stretch',
-});
+export const recommendSubtitle = style([
+  fonts.subtitle06,
+  {
+    color: colors.grey6,
+    margin: 0,
+    alignSelf: 'stretch',
+  },
+]);
 
-export const recommendBoxWrapper = style({
-  background: colors.grey05_32,
-  borderRadius: '12px',
-  display: 'flex',
-  padding: '1.5rem',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '1.6rem',
-  alignSelf: 'stretch',
-});
+export const recommendBoxWrapper = style([
+  layout.rowCenter,
+  {
+    background: colors.grey05_32,
+    borderRadius: '12px',
+    padding: '1.5rem',
+    gap: '1.6rem',
+    alignSelf: 'stretch',
+  },
+]);
 
-export const checkSection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  gap: '2.8rem',
-});
+export const checkSection = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    gap: '2.8rem',
+  },
+]);
 
-export const checkTextWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: '0.4rem',
-});
+export const checkTextWrapper = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    gap: '0.4rem',
+  },
+]);
 
-export const checkTitle = style({
-  ...fonts.title01,
-  color: colors.white01,
-  margin: 0,
-});
+export const checkTitle = style([
+  fonts.title01,
+  {
+    color: colors.white01,
+    margin: 0,
+  },
+]);
 
-export const checkSubtitle = style({
-  ...fonts.subtitle06,
-  color: colors.grey6,
-  margin: 0,
-  alignSelf: 'stretch',
-});
+export const checkSubtitle = style([
+  fonts.subtitle06,
+  {
+    color: colors.grey6,
+    margin: 0,
+    alignSelf: 'stretch',
+  },
+]);
 
-export const checkMainContainer = style({
-  background: colors.grey05_32,
-  borderRadius: '12px',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  height: '67.2rem',
-  padding: '2.6rem',
-  alignSelf: 'stretch',
-});
+export const checkMainContainer = style([
+  layout.flexColumn,
+  {
+    background: colors.grey05_32,
+    borderRadius: '12px',
+    alignItems: 'flex-start',
+    height: '67.2rem',
+    padding: '2.6rem',
+    width: '106rem',
+    minWidth: '106rem',
+    alignSelf: 'center',
+  },
+]);
 
-export const todoCheckArea = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '55.2rem',
-  minWidth: '55.2rem',
-  gap: '2.6rem',
-  height: '100%',
-  flexShrink: 0,
-  paddingRight: '1.9rem',
-  boxSizing: 'border-box',
-});
+export const todoCheckArea = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '55.2rem',
+    minWidth: '55.2rem',
+    gap: '2.6rem',
+    height: '100%',
+    flexShrink: 0,
+    paddingRight: '1.9rem',
+    boxSizing: 'border-box',
+  },
+]);
 
-export const selectorChipsContainer = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  alignSelf: 'stretch',
-  gap: '2.6rem',
-});
+export const selectorChipsContainer = style([
+  layout.rowBetween,
+  {
+    alignSelf: 'stretch',
+    gap: '2.6rem',
+  },
+]);
 
-export const todoCheckContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  height: '53.8rem',
-  gap: '2.4rem',
-  alignSelf: 'stretch',
-  overflowY: 'auto',
-  boxSizing: 'border-box',
-});
+export const todoCheckContainer = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    height: '53.8rem',
+    gap: '2.4rem',
+    alignSelf: 'stretch',
+    overflowY: 'auto',
+    boxSizing: 'border-box',
+  },
+]);
 
-export const noScrollTodoCheckContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  height: '53.8rem',
-  gap: '2.4rem',
-  alignSelf: 'stretch',
-  overflow: 'hidden',
-  paddingRight: '1.9rem',
-  boxSizing: 'border-box',
-});
+export const noScrollTodoCheckContainer = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    height: '53.8rem',
+    gap: '2.4rem',
+    alignSelf: 'stretch',
+    overflow: 'hidden',
+    paddingRight: '1.9rem',
+    boxSizing: 'border-box',
+  },
+]);
 
 export const todoCheckLine = style({
   display: 'flex',
@@ -182,19 +204,23 @@ export const todoCheckLine = style({
 });
 
 export const todoText = styleVariants({
-  recommend: {
-    width: '33.3rem',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    color: colors.grey10,
-    ...fonts.subtitle05,
-  },
-  todo: {
-    color: colors.grey10,
-    textAlign: 'center',
-    ...fonts.subtitle02,
-  },
+  recommend: [
+    fonts.subtitle05,
+    {
+      width: '33.3rem',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      color: colors.grey10,
+    },
+  ],
+  todo: [
+    fonts.subtitle02,
+    {
+      color: colors.grey10,
+      textAlign: 'center',
+    },
+  ],
 });
 
 export const emptyTodoBox = style({
@@ -211,11 +237,13 @@ export const emptyTodoBox = style({
   boxSizing: 'border-box',
 });
 
-export const emptyTodoText = style({
-  color: colors.grey10,
-  textAlign: 'center',
-  ...fonts.subtitle02,
-});
+export const emptyTodoText = style([
+  fonts.subtitle02,
+  {
+    color: colors.grey10,
+    textAlign: 'center',
+  },
+]);
 
 export const mandalartWithTodoSection = style({
   display: 'flex',
