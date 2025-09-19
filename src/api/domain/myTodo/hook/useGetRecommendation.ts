@@ -7,5 +7,6 @@ export const useGetRecommendation = (mandalartId: number, date: string) => {
   return useQuery({
     queryKey: [QUERY_KEY.RECOMMENDED_TODO(mandalartId), date],
     queryFn: () => getRecommendation(mandalartId, { date }),
+    enabled: !!mandalartId,
   });
 };

@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import { HomeContainer } from '@/page/home/Home.css';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
@@ -10,19 +8,21 @@ import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
 import mandalAnimation from '@/assets/lottie/mandalart.json';
 import aiAnimation from '@/assets/lottie/ai.json';
-import { PATH } from '@/route';
 import todoAnimation from '@/assets/lottie/todo.json';
+import { useOverlayModal } from '@/common/hook/useOverlayModal';
+import LoginModal from '@/common/component/LoginModal/LoginModal';
+
 const animationDataArray = [mandalAnimation, aiAnimation, todoAnimation];
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
-  const navigate = useNavigate();
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
 
+  const { openModal, closeModal } = useOverlayModal();
+
   const handleOpenLogin = () => {
-    // openModal(<LoginModal onClose={closeModal} />);
-    navigate(PATH.TODO);
+    openModal(<LoginModal onClose={closeModal} />);
   };
 
   return (

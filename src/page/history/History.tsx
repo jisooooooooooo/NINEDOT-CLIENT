@@ -3,17 +3,17 @@ import { useState } from 'react';
 import * as styles from '@/page/history/History.css';
 import StreakTracker from '@/page/history/StreakTrackerSection/StreakTrackerSection';
 import { useGetHistory } from '@/api/domain/history/hook/useGetHistory';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 import Loading from '@/common/component/Loading/Loading';
 
 const STREAK_BANNER_MESSAGE = '작은 실천을 66일 이어가면 나의 목표에 도달합니다';
 const STREAK_DESCRIPTION_MESSAGE = '하루에 하나라도 실천하면 오늘의 점이 찍혀요!';
 
-const MANDALART_ID = 1;
-
 const History = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const mandalartId = useMandalartId();
 
-  const { data, isLoading } = useGetHistory(MANDALART_ID);
+  const { data, isLoading } = useGetHistory(mandalartId);
 
   const handleOutsideClick = () => {
     setSelectedDay(null);

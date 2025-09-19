@@ -1,42 +1,22 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 
 import * as styles from './UpperTodo.css';
-import SubGoalFields from './component/SubGoalFields';
-import UpperTodoHeader from './component/UpperTodoHeader';
-import MandalCompleteButton from './component/MandalCompleteButton';
-import { useUpperTodoState } from './hook/useUpperTodoState';
+import { SubGoalFields, UpperTodoHeader, MandalCompleteButton } from './component';
+import { useUpperTodoState, useUpperTodoAI } from './hook';
+import { toMainSubGoals } from './utils/goal';
+import { DEFAULT_TEXT, ALERT } from './constants';
 
-import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import { useModal } from '@/common/hook/useModal';
 import { PATH } from '@/route';
-import { usePostAiRecommendCoreGoal } from '@/api/domain/upperTodo/hook';
+import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
-interface UpperTodoProps {
-  userName?: string;
-  mainGoal?: string;
-}
-
-const updateSubGoalsWithAiResponse = (
-  original: string[],
-  responseData: { position: number; title: string }[],
-): string[] => {
-  const updated = [...original];
-  responseData.forEach(({ position, title }) => {
-    updated[position - 1] = title;
-  });
-  return updated;
-};
-
-const extractTitles = (goals: { title: string }[]) => goals.map((item) => item.title);
-
-const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
-  const mandalartId = 1;
-
-  const { openModal, ModalWrapper, closeModal } = useModal();
+const UpperTodo = () => {
+  const mandalartId = useMandalartId();
   const navigate = useNavigate();
+
+  const { data: user } = useGetUser();
 
   const {
     data,
@@ -44,84 +24,37 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
     setSubGoals,
     isTooltipOpen,
     setIsTooltipOpen,
-    aiResponseData,
-    setAiResponseData,
     coreGoalIds,
     handleSubGoalEnter,
     refetch,
     refetchCoreGoalIds,
   } = useUpperTodoState(mandalartId);
 
-  const postAiRecommend = usePostAiRecommendCoreGoal();
-
-  const mainGoal = data?.title || '사용자가 작성한 대목표';
+  const mainGoal = data?.title || DEFAULT_TEXT.mainGoal;
+  const displayUserName = user?.name ?? '김도트';
 
   const handleNavigateLower = () => {
+    if (!mandalartId) {
+      alert(ALERT.noMandalartId);
+      return;
+    }
     navigate(PATH.TODO_LOWER);
   };
 
-  const handleAiSubmit = (responseData: { id: number; position: number; title: string }[]) => {
-    setAiResponseData(responseData);
-    const updatedSubGoals = updateSubGoalsWithAiResponse(subGoals, responseData);
-    setSubGoals(updatedSubGoals);
-    refetchCoreGoalIds();
-    refetch();
-  };
-
-  const handleOpenAiModal = async () => {
-    const currentFilledCount = subGoals.filter((v) => v.trim() !== '').length;
-    const maxGoals = 8;
-
-    if (currentFilledCount >= maxGoals) {
-      alert('이미 모든 목표가 채워져 있습니다.');
-      return;
-    }
-
-    setIsAiUsed(true);
-    setIsTooltipOpen(false);
-
-    try {
-      const coreGoals = subGoals.filter((v) => v.trim() !== '').map((v) => ({ title: v }));
-
-      const response = await postAiRecommend.mutateAsync({
-        mandalartId,
-        mandalart: mainGoal,
-        coreGoal: coreGoals,
-      });
-
-      const recommendList = response || [];
-      const titles = extractTitles(recommendList);
-
-      const aiModalContent = (
-        <AiRecommendModal
-          onClose={closeModal}
-          onSubmit={handleAiSubmit}
-          values={subGoals}
-          options={titles}
-          mandalartId={mandalartId}
-        />
-      );
-
-      openModal(aiModalContent);
-    } catch (error) {
-      console.error('AI 추천 호출 실패:', error);
-      setIsAiUsed(false);
-    }
-  };
-
-  const [isAiUsed, setIsAiUsed] = useState(false);
+  const { isAiUsed, handleOpenAiModal } = useUpperTodoAI({
+    mandalartId,
+    mainGoal,
+    subGoals,
+    setSubGoals,
+    refetch,
+    refetchCoreGoalIds,
+    setIsTooltipOpen,
+  });
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 
-  const [submittedIndices, setSubmittedIndices] = useState<Set<number>>(new Set());
-
-  const handleDebouncedSubGoalEnter = (index: number, value: string) => {
-    if (submittedIndices.has(index)) {
-      return;
-    }
-
+  const handleEnter = (index: number, value: string) => {
     handleSubGoalEnter(index, value);
-    setSubmittedIndices((prev) => new Set(prev).add(index));
   };
 
   return (
@@ -130,7 +63,7 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
 
       <section className={styles.upperTodoBoxWrapper}>
         <UpperTodoHeader
-          userName={userName}
+          userName={displayUserName}
           mainGoal={mainGoal}
           isTooltipOpen={isTooltipOpen}
           setIsTooltipOpen={setIsTooltipOpen}
@@ -139,22 +72,12 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
         />
 
         <div className={styles.upperTodoBox}>
-          <Mandalart
-            type="TODO_MAIN"
-            mainGoal={mainGoal}
-            subGoals={subGoals.map((v, i) => ({
-              id: i + 1,
-              title: v,
-              position: i + 1,
-              cycle: 'ONCE' as const,
-            }))}
-          />
+          <Mandalart type="TODO_MAIN" mainGoal={mainGoal} subGoals={toMainSubGoals(subGoals)} />
           <SubGoalFields
             values={subGoals}
             onChange={setSubGoals}
             idPositions={coreGoalIds?.coreGoalIds || []}
-            onEnter={handleDebouncedSubGoalEnter}
-            aiResponseData={aiResponseData}
+            onEnter={handleEnter}
           />
         </div>
 
@@ -162,7 +85,6 @@ const UpperTodo = ({ userName = '김도트' }: UpperTodoProps) => {
           hasFilledSubGoals={hasFilledSubGoals}
           handleNavigateLower={handleNavigateLower}
         />
-        {ModalWrapper}
       </section>
     </main>
   );

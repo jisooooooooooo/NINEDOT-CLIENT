@@ -10,7 +10,7 @@ import { PATH } from '@/route';
 import { IcSmallNext } from '@/assets/svg';
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import Tooltip from '@/common/component/Tooltip/Tooltip';
-import { useModal } from '@/common/hook/useModal';
+import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import AiFailModal from '@/common/component/AiFailModal/AiFailModal';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
@@ -23,6 +23,7 @@ import { useDeleteSubGoal } from '@/api/domain/lowerTodo/hook/useDeleteSubGoal';
 import { useAiRecommendSubGoal } from '@/api/domain/lowerTodo/hook/useAiRecommendSubGoal';
 import { completeMandalart } from '@/api/domain/lowerTodo';
 import { postAiRecommendSubGoals } from '@/api/domain/lowerTodo';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
 interface LowerTodoProps {
   userName?: string;
@@ -36,7 +37,7 @@ interface TodoItem {
 
 const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
   const navigate = useNavigate();
-  const { openModal, ModalWrapper, closeModal } = useModal();
+  const { openModal, closeModal } = useOverlayModal();
   const [selectedGoalIndex, setSelectedGoalIndex] = useState(0);
   const [allTodos, setAllTodos] = useState<TodoItem[][]>(
     Array(8)
@@ -49,7 +50,7 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     [position: number]: number | null;
   }>({});
 
-  const mandalartId = 1;
+  const mandalartId = useMandalartId();
   const { data: coreGoalsData } = useCoreGoals(mandalartId);
   const { data: overallGoalData } = useOverallGoal(mandalartId);
 
@@ -234,7 +235,7 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
         return newTodos;
       });
     }
-  }, [subGoalsData, selectedGoalIndex]);
+  }, [subGoalsData, selectedGoalIndex, allTodos]);
 
   useEffect(() => {
     if (coreGoalsData && selectedGoalIndex !== -1) {
@@ -351,12 +352,10 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     console.log('subGoals[newIndex]:', subGoals[newIndex]);
   };
 
-  const handleApplyAiRecommendedGoals = async (
-    selected: { id: number; position: number; title: string; cycle?: string }[],
-  ) => {
+  const handleApplyAiRecommendedGoals = async (selected: { title: string }[]) => {
     const goals = selected.map((item) => ({
       title: item.title,
-      cycle: item.cycle || 'DAILY',
+      cycle: 'DAILY',
     }));
     try {
       if (!selectedCoreGoalId) {
@@ -417,7 +416,7 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
     try {
       await completeMandalart(mandalartId);
       navigate(PATH.TODO_MY);
-    } catch (error) {
+    } catch {
       alert('만다라트 완성 처리 중 오류가 발생했습니다.');
     }
   };
@@ -538,7 +537,6 @@ const LowerTodo = ({ userName = '김도트' }: LowerTodoProps) => {
             }
           />
         </button>
-        {ModalWrapper}
       </section>
     </main>
   );

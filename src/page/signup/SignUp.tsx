@@ -51,9 +51,7 @@ const SignUp = () => {
       onSuccess: () => {
         navigate(PATH.INTRO);
       },
-      onError: (err) => {
-        console.error('회원가입 실패:', err);
-      },
+      onError: () => {},
     });
   };
 

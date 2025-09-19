@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { GOAL_COUNT } from '../constants';
 
 import {
   useDeleteOnboardingCoreGoal,
@@ -16,21 +18,15 @@ export const useUpperTodoState = (mandalartId: number) => {
   const patchMutation = usePatchOnboardingCoreGoal();
   const deleteMutation = useDeleteOnboardingCoreGoal();
 
-  const [subGoals, setSubGoals] = useState(Array(8).fill(''));
+  const [subGoals, setSubGoals] = useState(Array(GOAL_COUNT).fill(''));
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
-  const [aiResponseData, setAiResponseData] = useState<
-    { id: number; position: number; title: string }[]
-  >([]);
 
-  const coreGoalIdMap = useMemo(() => {
-    const map: Record<number, number> = {};
-    if (coreGoalIds?.coreGoalIds && Array.isArray(coreGoalIds.coreGoalIds)) {
-      coreGoalIds.coreGoalIds.forEach(({ id, position }) => {
-        map[position] = id;
-      });
-    }
-    return map;
-  }, [coreGoalIds]);
+  const coreGoalIdMap: Record<number, number> = {};
+  if (coreGoalIds?.coreGoalIds && Array.isArray(coreGoalIds.coreGoalIds)) {
+    coreGoalIds.coreGoalIds.forEach(({ id, position }) => {
+      coreGoalIdMap[position] = id;
+    });
+  }
 
   useEffect(() => {
     const allFilled = subGoals.every((v) => v.trim() !== '');
@@ -59,8 +55,8 @@ export const useUpperTodoState = (mandalartId: number) => {
       }
 
       await refetchCoreGoalIds();
-    } catch (error) {
-      console.error('상위 목표 저장 실패 또는 삭제 실패:', error);
+    } catch {
+      /* empty */
     }
   };
 
@@ -70,8 +66,6 @@ export const useUpperTodoState = (mandalartId: number) => {
     setSubGoals,
     isTooltipOpen,
     setIsTooltipOpen,
-    aiResponseData,
-    setAiResponseData,
     coreGoalIds,
     handleSubGoalEnter,
     refetch,

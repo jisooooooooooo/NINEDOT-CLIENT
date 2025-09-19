@@ -1,17 +1,27 @@
+import AiModalBase from '@/common/component/AiModalBase/AiModalBase';
+import * as modalStyles from '@/common/component/AiModalBase/AiModalBase.css';
 import Button from '@/common/component/Button/Button';
-import Modal from '@/common/component/Modal/Modal';
 
 interface AiFailModalProps {
   onClose: () => void;
   message?: string;
 }
 
-const AiFailModal = ({ onClose, message = '다시 한 번 시도해주세요.' }: AiFailModalProps) => (
-  <Modal onClose={onClose}>
-    <h2>AI 추천 실패</h2>
-    <p>{message}</p>
-    <Button text="다시 시도" onClick={onClose} />
-  </Modal>
+const TEXT = {
+  title: 'AI 추천 실패',
+  defaultMessage: '다시 한 번 시도해주세요.',
+  retryButton: '다시 시도',
+} as const;
+
+const AiFailModal = ({ onClose, message = TEXT.defaultMessage }: AiFailModalProps) => (
+  <AiModalBase
+    onClose={onClose}
+    title={TEXT.title}
+    description={message}
+    descriptionClassName={modalStyles.failDescription}
+    titleId="ai-fail-title"
+    footer={<Button text={TEXT.retryButton} onClick={onClose} />}
+  />
 );
 
 export default AiFailModal;
