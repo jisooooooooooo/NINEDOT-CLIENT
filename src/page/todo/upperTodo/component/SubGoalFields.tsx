@@ -1,8 +1,8 @@
 import * as styles from '../UpperTodo.css';
 import { ORDER_LABELS } from '../constants';
 
-import { DEFAULT_PLACEHOLDER } from '@/common/component/MandalartTextField/constant/constants';
-import TextField from '@/common/component/MandalartTextField/MandalartTextField';
+import { DEFAULT_PLACEHOLDER } from '@/common/component/TextField/mandalart/constants';
+import { MandalartTextField } from '@/common/component/TextField/mandalart';
 
 interface SubGoalFieldsProps {
   values: string[];
@@ -20,22 +20,23 @@ const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFields
     onChange(newValues);
   };
 
+  const getHandleFieldCommit =
+    (index: number, coreGoalId?: number) => (value: string, reason: 'enter' | 'blur') => {
+      if (reason === 'enter' && onEnter) {
+        onEnter(index, value, coreGoalId);
+      }
+    };
+
   return (
     <div className={styles.textFieldColumn}>
       {values.map((value, index) => (
-        <TextField
+        <MandalartTextField
           key={index}
           variant="subGoal"
           value={value}
           onChange={(val) => handleChange(index, val)}
+          onCommit={getHandleFieldCommit(index, idPositions?.[index]?.id)}
           placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
-          data-id={idPositions?.[index]?.id?.toString()}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && onEnter) {
-              e.preventDefault();
-              onEnter(index, e.currentTarget.value, idPositions?.[index]?.id);
-            }
-          }}
         />
       ))}
     </div>

@@ -2,8 +2,10 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { IcDivider } from '@/assets/svg';
 import * as styles from '@/common/component/UserModal/UserModal.css';
-import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 import { usePostLogout } from '@/api/domain/signup/hook/usePostLogout';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/route';
 
 interface UserModalProps {
   onClose: () => void;
@@ -11,7 +13,11 @@ interface UserModalProps {
 
 const UserModal = ({ onClose }: UserModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { data: user, isLoading, isError } = useGetUser();
+  const navigate = useNavigate();
+
+  const user = useAuthStore((state) => state.user);
+  const resetUser = useAuthStore((state) => state.resetUser);
+
   const { mutate: logoutMutate } = usePostLogout();
 
   const handleClickOutside = useCallback(
@@ -26,9 +32,9 @@ const UserModal = ({ onClose }: UserModalProps) => {
   const handleLogout = () => {
     logoutMutate(undefined, {
       onSuccess: () => {
-        localStorage.removeItem('accessToken');
+        resetUser();
         onClose();
-        window.location.reload();
+        navigate(PATH.ROOT);
       },
       onError: (error) => {
         console.error('로그아웃 실패:', error);
@@ -44,7 +50,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
     };
   }, [handleClickOutside]);
 
-  if (isLoading || isError || !user) {
+  if (!user) {
     return null;
   }
 

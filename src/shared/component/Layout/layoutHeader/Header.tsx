@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 
 import * as styles from './Header.css';
 
@@ -9,6 +10,7 @@ import LoginModal from '@/common/component/LoginModal/LoginModal';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 import UserModal from '@/common/component/UserModal/UserModal';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const MENUS = [
   { label: '나의 할 일', path: PATH.TODO },
@@ -20,7 +22,16 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: user, isLoading } = useGetUser();
+  const { data: userData, isLoading } = useGetUser();
+
+  const { user, isLoggedIn, setUser, resetUser } = useAuthStore(
+    useShallow((s) => ({
+      user: s.user,
+      isLoggedIn: s.isLoggedIn,
+      setUser: s.setUser,
+      resetUser: s.resetUser,
+    })),
+  );
 
   const findActiveMenu = MENUS.find((menu) => location.pathname.startsWith(menu.path));
   const initialMenu = findActiveMenu ? findActiveMenu.label : '';
@@ -29,6 +40,18 @@ const Header = () => {
   const [openProfile, setOpenProfile] = useState<boolean>(false);
 
   const { openModal, closeModal } = useOverlayModal();
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    if (userData) {
+      setUser(userData);
+    } else {
+      resetUser();
+    }
+  }, [isLoading, userData, setUser, resetUser]);
 
   const handleLogin = () => {
     openModal(<LoginModal onClose={closeModal} />);
@@ -62,17 +85,14 @@ const Header = () => {
           );
         })}
       </nav>
-      {!isLoading && user && (
-        <>
-          <img
-            src={user.profileImageUrl}
-            alt="유저 프로필 이미지"
-            className={styles.profilePlaceholder}
-            onClick={handleProfile}
-          />
-          {openProfile && <UserModal onClose={handleProfile} />}
-        </>
-      )}
+      <button onClick={handleProfile}>
+        <img
+          src={user.profileImageUrl}
+          alt="유저 프로필 이미지"
+          className={styles.profilePlaceholder}
+        />
+      </button>
+      {openProfile && <UserModal onClose={handleProfile} />}
     </>
   );
 
@@ -83,7 +103,7 @@ const Header = () => {
           <IcLogo className={styles.logoImage} />
         </Link>
 
-        {!isLoading && user ? (
+        {isLoggedIn ? (
           renderNavMenu()
         ) : (
           <button className={styles.loginButton} onClick={handleLogin} type="button">

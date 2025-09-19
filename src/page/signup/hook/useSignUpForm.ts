@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { validateField } from '@/common/component/SignupTextField/validation';
+import { validateSignupField as validateField } from '@/common/component/TextField/signup/validation';
 import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 
 const PLACE_HOLDER = '직업을 선택하세요';

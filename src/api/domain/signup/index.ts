@@ -3,7 +3,7 @@ import { END_POINT } from '@/api/constant/endPoint';
 import type { JobResponse } from '@/api/domain/signup/type/JobResponse';
 import type { PersonaResponse } from '@/api/domain/signup/type/PersonaResponse';
 import type { SignupResponse } from '@/api/domain/signup/type/SignupResponse';
-import type { UserInfoResponse } from '@/api/domain/signup/type/UserInfoResponse';
+import type { UserType } from '@/store/types/authTypes';
 import type { BaseResponse } from '@/type/api';
 
 export const getJobList = async () => {
@@ -21,7 +21,7 @@ export const postSignUp = async (payload: SignupResponse) => {
 };
 
 export const getUser = async () => {
-  const { data } = await axiosInstance.get<BaseResponse<UserInfoResponse>>('/users/info');
+  const { data } = await axiosInstance.get<BaseResponse<UserType>>('/users/info');
   return data.data;
 };
 

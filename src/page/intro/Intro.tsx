@@ -1,6 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import * as styles from '@/page/intro/Intro.css';
+import { PATH } from '@/route';
+
+type PageStateType = 'MANDALART' | 'CORE_GOAL' | 'SUB_GOALS';
+
+const ROUTE_BY_STATE: Record<PageStateType, string> = {
+  MANDALART: PATH.TODO,
+  CORE_GOAL: PATH.TODO_UPPER,
+  SUB_GOALS: PATH.TODO_LOWER,
+};
 
 const MESSAGE = {
   START: {
@@ -16,13 +25,19 @@ const MESSAGE = {
 const Intro = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isWritten = location.state?.isWritten ?? false; // 기본값 false
 
-  const handleNavigateToTodo = () => {
-    navigate('/todo');
+  const pageState = (location.state as { pageState?: PageStateType })?.pageState;
+  const isStart = pageState === 'MANDALART';
+
+  const content = isStart ? MESSAGE.START : MESSAGE.CONTINUE;
+
+  const handleGoTodo = () => {
+    if (!pageState) {
+      navigate(PATH.TODO);
+      return;
+    }
+    navigate(ROUTE_BY_STATE[pageState]);
   };
-
-  const content = isWritten ? MESSAGE.CONTINUE : MESSAGE.START;
 
   const renderTitle = content.title.split('<br/>').map((line, index) => (
     <span key={index}>
@@ -34,7 +49,7 @@ const Intro = () => {
   return (
     <main className={styles.introContainer}>
       <h1 className={styles.introText}>{renderTitle}</h1>
-      <button className={styles.buttonContainer} onClick={handleNavigateToTodo}>
+      <button className={styles.buttonContainer} onClick={handleGoTodo}>
         {content.button}
       </button>
     </main>
