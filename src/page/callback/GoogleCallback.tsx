@@ -13,16 +13,19 @@ const GoogleCallback = () => {
       return;
     }
 
-    const isExistingUser = userData.exists;
+    const { exists, onboardingPage } = userData;
 
-    if (isExistingUser) {
-      navigate(PATH.INTRO, {
-        state: { isWritten: userData.onboardingCompleted },
-      });
-    } else {
+    if (!exists) {
       navigate(PATH.SIGNUP, {
         state: { userData },
       });
+      return;
+    }
+
+    if (onboardingPage === 'ONBOARDING_COMPLETED') {
+      navigate(PATH.MANDAL);
+    } else {
+      navigate(PATH.INTRO, { state: { pageState: onboardingPage } });
     }
   }, [userData, navigate]);
 
