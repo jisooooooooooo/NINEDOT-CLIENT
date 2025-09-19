@@ -51,7 +51,7 @@ const Header = () => {
     } else {
       resetUser();
     }
-  }, [userData, setUser, resetUser]);
+  }, [isLoading, userData, setUser, resetUser]);
 
   const handleLogin = () => {
     openModal(<LoginModal onClose={closeModal} />);
