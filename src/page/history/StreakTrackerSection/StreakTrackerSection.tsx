@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import StreakDetail from '@/page/history/component/StreakDetail/StreakDetail';
-import StreakGrid from '@/page/history/component/StreakGrid/StreakGrid';
+import { StreakDetail, StreakGrid } from '@/page/history/component';
 import * as styles from '@/page/history/StreakTrackerSection/StreakTrackerSection.css';
 import { useGetStreak } from '@/api/domain/history/hook/useGetStreak';
 import { useMandalartId } from '@/common/hook/useMandalartId';
