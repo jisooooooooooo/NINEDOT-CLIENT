@@ -208,6 +208,7 @@ export const emptyTodoBox = style({
   flexShrink: 0,
   borderRadius: '0.8px',
   background: colors.grey4,
+  boxSizing: 'border-box',
 });
 
 export const emptyTodoText = style({

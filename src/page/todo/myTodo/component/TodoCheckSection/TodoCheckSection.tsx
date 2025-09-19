@@ -35,6 +35,7 @@ const TodoCheckSection = ({
   selectedCycle,
   mandalartData,
   onCycleClick,
+  onTodoClick,
   onMandalartClick,
   selectedParentId,
 }: TodoCheckSectionProps) => {
@@ -49,37 +50,37 @@ const TodoCheckSection = ({
   const [localSubGoals, setLocalSubGoals] = useState<TodoItemTypes[]>([]);
 
   useEffect(() => {
-    const subGoals: TodoItemTypes[] = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
+    const apiSubGoals = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
       id: goal.id,
-      title: goal.title,
+      content: goal.title,
       cycle: goal.cycle,
       isCompleted: goal.isCompleted,
-      content: goal.title,
     }));
-    setLocalSubGoals(subGoals);
+
+    setLocalSubGoals(apiSubGoals);
   }, [subGoalResponse]);
+
+  const updateLocalSubGoalCompletion = (id: TodoItemTypes['id'], nextValue: boolean) => {
+    setLocalSubGoals((prev) =>
+      prev.map((goal) => (goal.id === id ? { ...goal, isCompleted: nextValue } : goal)),
+    );
+  };
 
   const checkSubGoalMutation = useCheckSubGoal();
   const uncheckSubGoalMutation = useUncheckSubGoal();
 
   const handleTodoClick = (item: TodoItemTypes) => {
     const today = new Date().toISOString().split('T')[0];
-    const originalCompleted = item.isCompleted;
+    const originalCompleted = Boolean(item.isCompleted);
+    const nextCompleted = !originalCompleted;
 
-    setLocalSubGoals((prev) =>
-      prev.map((goal) =>
-        goal.id === item.id ? { ...goal, isCompleted: !goal.isCompleted } : goal,
-      ),
-    );
+    updateLocalSubGoalCompletion(item.id, nextCompleted);
+    onTodoClick({ ...item, isCompleted: nextCompleted });
 
-    if (originalCompleted === true) {
+    if (originalCompleted) {
       uncheckSubGoalMutation.mutate(Number(item.id), {
         onError: () => {
-          setLocalSubGoals((prev) =>
-            prev.map((goal) =>
-              goal.id === item.id ? { ...goal, isCompleted: originalCompleted } : goal,
-            ),
-          );
+          updateLocalSubGoalCompletion(item.id, originalCompleted);
         },
       });
     } else {
@@ -90,16 +91,31 @@ const TodoCheckSection = ({
         },
         {
           onError: () => {
-            setLocalSubGoals((prev) =>
-              prev.map((goal) =>
-                goal.id === item.id ? { ...goal, isCompleted: originalCompleted } : goal,
-              ),
-            );
+            updateLocalSubGoalCompletion(item.id, originalCompleted);
           },
         },
       );
     }
   };
+
+  const hasTodos = localSubGoals.length > 0;
+  const todoContainerClass = hasTodos
+    ? styles.todoCheckContainer
+    : styles.noScrollTodoCheckContainer;
+
+  const renderEmptyState = () => (
+    <div className={styles.emptyTodoBox}>
+      <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
+    </div>
+  );
+
+  const renderTodoItems = () =>
+    localSubGoals.map((todo) => (
+      <div key={todo.id} className={styles.todoCheckLine}>
+        <CycleChip type="display" value={todo.cycle as CycleType} />
+        <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
+      </div>
+    ));
 
   return (
     <section className={styles.checkSection}>
@@ -151,25 +167,8 @@ const TodoCheckSection = ({
               ))}
             </div>
 
-            <div
-              className={
-                localSubGoals.length === 0
-                  ? styles.noScrollTodoCheckContainer
-                  : styles.todoCheckContainer
-              }
-            >
-              {localSubGoals.length === 0 ? (
-                <div className={styles.emptyTodoBox}>
-                  <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
-                </div>
-              ) : (
-                localSubGoals.map((todo) => (
-                  <div key={todo.id} className={styles.todoCheckLine}>
-                    <CycleChip type="display" value={todo.cycle as CycleType} />
-                    <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
-                  </div>
-                ))
-              )}
+            <div className={todoContainerClass}>
+              {hasTodos ? renderTodoItems() : renderEmptyState()}
             </div>
           </div>
         </div>
