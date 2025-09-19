@@ -104,69 +104,67 @@ const TodoCheckSection = ({
       </header>
 
       <section className={styles.checkMainContainer}>
-        <div className={styles.mainContentSection}>
-          <div className={styles.mandalartWithTodoSection}>
-            <Mandalart
-              type="TODO_MAIN"
-              data={{
-                id: 0,
-                position: 4,
-                title: mandalartData.title || mandalartData.mainGoal,
-                subGoals: Array.isArray(coreGoalsData?.data?.coreGoals)
-                  ? coreGoalsData.data.coreGoals.map(
-                      (
-                        goal: { title: string; position: number; subGoals?: unknown[] },
-                        idx: number,
-                      ) => ({
-                        id: idx < 4 ? idx : idx + 1,
-                        title: goal.title,
-                        position: goal.position,
-                        subGoals: goal.subGoals ?? [],
-                      }),
-                    )
-                  : [],
-              }}
-              onGoalClick={(position) => {
-                const coreGoal = coreGoalsData?.data?.coreGoals.find(
-                  (goal) => goal.position === position,
-                );
-                const parentId = coreGoal?.id;
-                onMandalartClick(selectedParentId === parentId ? undefined : parentId);
-              }}
-            />
-            <div className={styles.todoCheckArea}>
-              <div className={styles.selectorChipsContainer}>
-                {CYCLE_LIST.map((cycle) => (
-                  <CycleChip
-                    key={cycle}
-                    type="selector"
-                    value={cycle}
-                    selected={selectedCycle === cycle}
-                    onClick={onCycleClick}
-                  />
-                ))}
-              </div>
+        <div className={styles.mandalartWithTodoSection}>
+          <Mandalart
+            type="TODO_MAIN"
+            data={{
+              id: 0,
+              position: 4,
+              title: mandalartData.title || mandalartData.mainGoal,
+              subGoals: Array.isArray(coreGoalsData?.data?.coreGoals)
+                ? coreGoalsData.data.coreGoals.map(
+                    (
+                      goal: { title: string; position: number; subGoals?: unknown[] },
+                      idx: number,
+                    ) => ({
+                      id: idx < 4 ? idx : idx + 1,
+                      title: goal.title,
+                      position: goal.position,
+                      subGoals: goal.subGoals ?? [],
+                    }),
+                  )
+                : [],
+            }}
+            onGoalClick={(position) => {
+              const coreGoal = coreGoalsData?.data?.coreGoals.find(
+                (goal) => goal.position === position,
+              );
+              const parentId = coreGoal?.id;
+              onMandalartClick(selectedParentId === parentId ? undefined : parentId);
+            }}
+          />
+          <div className={styles.todoCheckArea}>
+            <div className={styles.selectorChipsContainer}>
+              {CYCLE_LIST.map((cycle) => (
+                <CycleChip
+                  key={cycle}
+                  type="selector"
+                  value={cycle}
+                  selected={selectedCycle === cycle}
+                  onClick={onCycleClick}
+                />
+              ))}
+            </div>
 
-              <div
-                className={
-                  localSubGoals.length === 0
-                    ? styles.noScrollTodoCheckContainer
-                    : styles.todoCheckContainer
-                }
-              >
-                {localSubGoals.length === 0 ? (
-                  <div className={styles.emptyTodoBox}>
-                    <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
+            <div
+              className={
+                localSubGoals.length === 0
+                  ? styles.noScrollTodoCheckContainer
+                  : styles.todoCheckContainer
+              }
+            >
+              {localSubGoals.length === 0 ? (
+                <div className={styles.emptyTodoBox}>
+                  <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
+                </div>
+              ) : (
+                localSubGoals.map((todo) => (
+                  <div key={todo.id} className={styles.todoCheckLine}>
+                    <CycleChip type="display" value={todo.cycle as CycleType} />
+                    <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
                   </div>
-                ) : (
-                  localSubGoals.map((todo) => (
-                    <div key={todo.id} className={styles.todoCheckLine}>
-                      <CycleChip type="display" value={todo.cycle as CycleType} />
-                      <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
-                    </div>
-                  ))
-                )}
-              </div>
+                ))
+              )}
             </div>
           </div>
         </div>

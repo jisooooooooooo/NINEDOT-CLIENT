@@ -32,7 +32,7 @@ export const contentWrapper = style({
   alignItems: 'flex-start',
   width: '100%',
   maxWidth: '128rem',
-  gap: '8.6rem', // 헤더-데이트피커 간격 86px
+  gap: '8.6rem',
 });
 
 export const datePickerSection = style({
@@ -124,17 +124,8 @@ export const checkMainContainer = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   height: '67.2rem',
-  padding: '2.6rem 5rem 2.6rem',
-  gap: '1rem',
+  padding: '2.6rem',
   alignSelf: 'stretch',
-});
-
-export const mainContentSection = style({
-  display: 'flex',
-  alignItems: 'flex-start',
-  gap: '1.9rem',
-  width: '100%',
-  height: '100%',
 });
 
 export const todoCheckArea = style({
@@ -147,6 +138,7 @@ export const todoCheckArea = style({
   height: '100%',
   flexShrink: 0,
   paddingRight: '1.9rem',
+  boxSizing: 'border-box',
 });
 
 export const selectorChipsContainer = style({
@@ -161,22 +153,25 @@ export const todoCheckContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: '57.1rem',
+  width: '100%',
   height: '53.8rem',
   gap: '2.4rem',
   alignSelf: 'stretch',
   overflowY: 'auto',
+  boxSizing: 'border-box',
 });
 
 export const noScrollTodoCheckContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  width: '100%',
   height: '53.8rem',
   gap: '2.4rem',
   alignSelf: 'stretch',
-  overflowY: 'hidden',
+  overflow: 'hidden',
   paddingRight: '1.9rem',
+  boxSizing: 'border-box',
 });
 
 export const todoCheckLine = style({
@@ -204,7 +199,7 @@ export const todoText = styleVariants({
 
 export const emptyTodoBox = style({
   display: 'flex',
-  width: '55.2rem',
+  width: '100%',
   height: '53.8rem',
   padding: '25.1rem 9.1rem',
   justifyContent: 'center',
@@ -223,8 +218,11 @@ export const emptyTodoText = style({
 
 export const mandalartWithTodoSection = style({
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+  gap: '3.7rem',
+  width: '100%',
+  height: '100%',
   flex: 1,
 });
 
