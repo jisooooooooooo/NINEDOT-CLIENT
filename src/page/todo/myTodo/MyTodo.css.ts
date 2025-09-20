@@ -1,6 +1,6 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
-import { colors, fonts } from '@/style/token';
+import { colors, fonts, layout } from '@/style/token';
 
 export const myTodoBg = style({
   position: 'fixed',
@@ -49,20 +49,22 @@ export const mainContentWrapper = style({
   gap: '11.8rem',
 });
 
-export const recommendSection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  gap: '2.8rem',
-});
+export const recommendSection = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    width: '100%',
+    gap: '2.8rem',
+  },
+]);
 
-export const recommendTextWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: '0.4rem',
-});
+export const recommendTextWrapper = style([
+  layout.flexColumn,
+  {
+    alignItems: 'flex-start',
+    gap: '0.4rem',
+  },
+]);
 
 export const recommendTitle = style({
   ...fonts.title01,
@@ -77,17 +79,17 @@ export const recommendSubtitle = style({
   alignSelf: 'stretch',
 });
 
-export const recommendBoxWrapper = style({
-  background: colors.grey05_32,
-  borderRadius: '12px',
-  display: 'flex',
-  padding: '1.5rem',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '1.6rem',
-  alignSelf: 'stretch',
-});
+export const recommendBoxWrapper = style([
+  layout.rowCenter,
+  {
+    background: colors.grey05_32,
+    borderRadius: '12px',
+    display: 'flex',
+    padding: '1.5rem',
+    gap: '1.6rem',
+    alignSelf: 'stretch',
+  },
+]);
 
 export const checkSection = style({
   display: 'flex',
