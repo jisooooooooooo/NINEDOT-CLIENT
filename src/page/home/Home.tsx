@@ -1,5 +1,5 @@
 import { HomeContainer } from '@/page/home/Home.css';
-import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
+import { INTRO_MESSAGE } from '@/page/home/constant/messageConstants';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
 import { StartSection, ScrollSection, EndSection } from '@/page/home';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';

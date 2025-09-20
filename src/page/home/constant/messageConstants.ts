@@ -1,3 +1,7 @@
+export const TITLE_MESSAGE = '목표를 세운 순간부터\n시작된 변화';
+export const CONTENT_MESSAGE =
+  '계획만으로 끝나지 않도록,\n실천까지 함께하는 만다라트 루틴을 경험해보세요.';
+
 export const INTRO_MESSAGE = {
   mandalart: {
     title: `목표 달성을 위해\n할 일을 세분화하여,`,
@@ -12,3 +16,5 @@ export const INTRO_MESSAGE = {
     content: `무엇을 해야 할지 헷갈릴 필요 없이,\n오늘 실천할 한 가지에 집중해보세요.`,
   },
 } as const;
+
+export const END_MESSAGE = `지금 바로\nNiNEDOT와 함께 하세요!`;
