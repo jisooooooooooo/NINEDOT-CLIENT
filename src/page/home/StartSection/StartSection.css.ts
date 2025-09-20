@@ -31,11 +31,7 @@ export const gradientGreen = style({
 });
 
 export const vectorLine = style({
-  position: 'absolute',
-  top: '3rem',
-  right: '-12rem',
-  width: '100%',
-  height: '100%',
+  backgroundImage: `url(/src/assets/image/vector-line.svg)`,
   pointerEvents: 'none',
 });
 

@@ -10,7 +10,7 @@ const StartSection = ({ onClick }: buttonHandlerType) => {
     <section className={styles.startContainer}>
       <div className={styles.gradientBlue} />
       <div className={styles.gradientGreen} />
-      <img src={VectorLine} alt="벡터 라인" className={styles.vectorLine} />
+      <div className={styles.vectorLine} aria-hidden />
       <div className={styles.layoutContainer}>
         <h1 className={styles.titleText} dangerouslySetInnerHTML={{ __html: TITLE_MESSAGE }} />
         <p className={styles.contentText} dangerouslySetInnerHTML={{ __html: CONTENT_MESSAGE }} />
