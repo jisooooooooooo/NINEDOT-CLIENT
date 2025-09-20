@@ -19,6 +19,11 @@ const SignUp = () => {
   const location = useLocation();
   const userData = location.state?.userData;
 
+  if (!userData) {
+    navigate(PATH.ROOT);
+    return;
+  }
+
   const [answers, setAnswers] = useState<Record<number, number>>({});
 
   const { formState, actions, computed } = useSignUpForm(userData);
@@ -62,53 +67,55 @@ const SignUp = () => {
           <p className={styles.descriptionText}>{SIGNUP_MESSAGE}</p>
         </header>
 
-        <section>
-          <div className={styles.basicInfoContainer}>
-            <h2 className={styles.infoText}>기본 정보</h2>
-            <span>
-              <IcEssentialDot className={styles.essentialIcon} />
-              <span className={styles.essentialText}>필수 입력 항목</span>
-            </span>
-          </div>
-          <div className={styles.basicInfoSection}>
-            <BasicInfoSection
-              name={name}
-              email={email}
-              birth={birth}
-              setName={setName}
-              setEmail={setEmail}
-              setBirth={setBirth}
-              selectedJob={selectedJob}
-              setSelectedJob={setSelectedJob}
-              inputJob={inputJob}
-              setInputJob={setInputJob}
-            />
-          </div>
-        </section>
+        <form onSubmit={handleSignUp}>
+          <section>
+            <div className={styles.basicInfoContainer}>
+              <h2 className={styles.infoText}>기본 정보</h2>
+              <span>
+                <IcEssentialDot className={styles.essentialIcon} />
+                <span className={styles.essentialText}>필수 입력 항목</span>
+              </span>
+            </div>
+            <div className={styles.basicInfoSection}>
+              <BasicInfoSection
+                name={name}
+                email={email}
+                birth={birth}
+                setName={setName}
+                setEmail={setEmail}
+                setBirth={setBirth}
+                selectedJob={selectedJob}
+                setSelectedJob={setSelectedJob}
+                inputJob={inputJob}
+                setInputJob={setInputJob}
+              />
+            </div>
+          </section>
 
-        <section>
-          <div className={styles.fitInfoContainer}>
-            <span className={styles.infoText}>맞춤 정보</span>
-            <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
-          </div>
-          <div className={styles.surveySection}>
-            <SurveySection answers={answers} setAnswers={setAnswers} />
-          </div>
-        </section>
+          <section>
+            <div className={styles.fitInfoContainer}>
+              <span className={styles.infoText}>맞춤 정보</span>
+              <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
+            </div>
+            <div className={styles.surveySection}>
+              <SurveySection answers={answers} setAnswers={setAnswers} />
+            </div>
+          </section>
 
-        <div className={styles.agreementContainer}>
-          <button onClick={() => setIsChecked(!isChecked)}>
-            <CheckIcon className={styles.checkboxIcon} />
-          </button>
-          <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
-          <button className={styles.seeText}>보기</button>
-        </div>
+          <div className={styles.agreementContainer}>
+            <button onClick={() => setIsChecked(!isChecked)}>
+              <CheckIcon className={styles.checkboxIcon} />
+            </button>
+            <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
+            <button className={styles.seeText}>보기</button>
+          </div>
 
-        <div className={styles.buttonContainer}>
-          <SignUpButton onClick={handleSignUp} disabled={!isValid}>
-            가입하기
-          </SignUpButton>
-        </div>
+          <div className={styles.buttonContainer}>
+            <SignUpButton onClick={handleSignUp} disabled={!isValid || !userData}>
+              가입하기
+            </SignUpButton>
+          </div>
+        </form>
       </div>
     </main>
   );
