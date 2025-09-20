@@ -23,13 +23,18 @@ const ScrollSection = ({ title, content, visible, direction, animationImporter }
 
     if (visible && !data) {
       animationImporter().then((mod) => {
-        if (!mounted) return;
+        if (!mounted) {
+          return;
+        }
         setData(resolveAnimation(mod));
       });
     }
 
-    if (!visible) lottieRef.current?.pause();
-    else lottieRef.current?.play();
+    if (!visible) {
+      lottieRef.current?.pause();
+    } else {
+      lottieRef.current?.play();
+    }
 
     return () => {
       mounted = false;
