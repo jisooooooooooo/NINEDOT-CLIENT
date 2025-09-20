@@ -9,11 +9,11 @@ import LoginModal from '@/common/component/LoginModal/LoginModal';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import type { AnimationImporter } from '@/page/home/type/lottieType';
 
-const animationImporters: Readonly<AnimationImporter[]> = [
+const animationImporters = [
   () => import('@/assets/lottie/mandalart.json'),
   () => import('@/assets/lottie/ai.json'),
   () => import('@/assets/lottie/todo.json'),
-] as const;
+] as const satisfies readonly AnimationImporter[];
 
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
@@ -30,13 +30,15 @@ const Home = () => {
 
       {sectionKeys.map((key, index) => {
         const { ref, visible } = scrolls[index];
+        const direction = index % 2 === 1 ? 'right' : ('left' as const);
+
         return (
           <div key={key} ref={ref} className={fadeSlide({ state: visible ? 'in' : 'out' })}>
             <ScrollSection
               title={INTRO_MESSAGE[key].title}
               content={INTRO_MESSAGE[key].content}
-              index={index}
               visible={visible}
+              direction={direction}
               animationImporter={animationImporters[index]}
             />
           </div>
