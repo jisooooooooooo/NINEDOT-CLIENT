@@ -53,12 +53,14 @@ export const titleText = style({
   marginBottom: '2.6rem',
   color: colors.grey10,
   ...fonts.display04,
+  whiteSpace: 'pre-line',
 });
 
 export const contentText = style({
   marginBottom: '6.8rem',
   color: colors.grey10,
   ...fonts.title02,
+  whiteSpace: 'pre-line',
 });
 
 const scrollBounce = keyframes({
