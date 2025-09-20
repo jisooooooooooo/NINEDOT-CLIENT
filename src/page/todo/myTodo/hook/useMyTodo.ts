@@ -34,7 +34,7 @@ interface UseMyTodoProps {
 const MIN_DATE = createDate(2025, 1, 1);
 const MAX_DATE = createDate(2025, 1, 31);
 
-export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoProps = {}) => {
+export const useMyTodo = ({ initialDate = createDate(2025, 9, 21) }: UseMyTodoProps = {}) => {
   const MANDALART_ID = useMandalartId();
   const [currentDate, setCurrentDate] = useState(initialDate);
   const [selectedCycle, setSelectedCycle] = useState<CycleType>();
@@ -53,6 +53,7 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
         id: goal.id.toString(),
         content: goal.title,
         isCompleted: goal.isCompleted,
+        completed: goal.isCompleted,
         cycle: goal.cycle as CycleType,
         parentId: 0,
         order: index,
@@ -77,13 +78,20 @@ export const useMyTodo = ({ initialDate = createDate(2025, 7, 18) }: UseMyTodoPr
   };
 
   const handleRecommendTodoClick = (item: TodoItemTypes) => {
-    const isCompleted = item.completed;
+    const isChecked = item.isCompleted;
 
     setRecommendTodos((prev) =>
-      prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
+      prev.map((todo) =>
+        todo.id === item.id
+          ? {
+              ...todo,
+              isCompleted: !todo.isCompleted,
+              completed: !todo.isCompleted,
+            }
+          : todo,
+      ),
     );
-
-    if (isCompleted) {
+    if (isChecked) {
       deleteTodo(Number(item.id), {
         onSuccess: () => {
           refetch();
