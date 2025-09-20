@@ -6,7 +6,14 @@ import Loading from '@/common/component/Loading/Loading';
 
 function App() {
   return (
-    <Suspense fallback={<Loading type="goal" />}>
+    <Suspense
+      fallback={
+        <Loading
+          type="goal"
+          // type="default"
+        />
+      }
+    >
       <RouterProvider router={router} />
     </Suspense>
   );
