@@ -1,27 +1,28 @@
 import { HomeContainer } from '@/page/home/Home.css';
 import { INTRO_MESSAGE } from '@/page/home/constant/messageConstants';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
-import { StartSection, ScrollSection, EndSection } from '@/page/home';
+import { StartSection, EndSection } from '@/page/home';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
-import mandalAnimation from '@/assets/lottie/mandalart.json';
-import aiAnimation from '@/assets/lottie/ai.json';
-import todoAnimation from '@/assets/lottie/todo.json';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
+import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
+import type { AnimationImporter } from '@/page/home/type/lottieType';
 
-const animationDataArray = [mandalAnimation, aiAnimation, todoAnimation];
+const animationImporters: Readonly<AnimationImporter[]> = [
+  () => import('@/assets/lottie/mandalart.json'),
+  () => import('@/assets/lottie/ai.json'),
+  () => import('@/assets/lottie/todo.json'),
+] as const;
+
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
-
   const { openModal, closeModal } = useOverlayModal();
 
-  const handleOpenLogin = () => {
-    openModal(<LoginModal onClose={closeModal} />);
-  };
+  const handleOpenLogin = () => openModal(<LoginModal onClose={closeModal} />);
 
   return (
     <div className={HomeContainer}>
@@ -35,7 +36,8 @@ const Home = () => {
               title={INTRO_MESSAGE[key].title}
               content={INTRO_MESSAGE[key].content}
               index={index}
-              animationData={animationDataArray[index]}
+              visible={visible}
+              animationImporter={animationImporters[index]}
             />
           </div>
         );
@@ -45,4 +47,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;

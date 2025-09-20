@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { colors, fonts } from '@/style/token';
+import { colors, fonts, layout } from '@/style/token';
 
 export const scrollContainer = style({
   height: 'calc(100vh - 8rem)',
@@ -46,12 +46,23 @@ export const contentText = style({
   whiteSpace: 'pre-line',
 });
 
-export const LottieContainer = style({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '90rem',
-  height: '52.6rem',
-  borderRadius: '30px',
-  overflow: 'hidden',
-});
+export const LottieContainer = style([
+  layout.flexCenter,
+  {
+    width: '90rem',
+    height: '52.6rem',
+    borderRadius: '30px',
+    overflow: 'hidden',
+  },
+]);
+
+export const lottieSkeleton = style([
+  layout.flexCenter,
+  {
+    backgroundColor: colors.grey3,
+    width: '90rem',
+    height: '52.6rem',
+    borderRadius: '30px',
+    overflow: 'hidden',
+  },
+]);
