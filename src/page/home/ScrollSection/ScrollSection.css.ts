@@ -37,11 +37,13 @@ export const titleText = style({
   marginBottom: '1.6rem',
   color: colors.grey10,
   ...fonts.display01,
+  whiteSpace: 'pre-line',
 });
 
 export const contentText = style({
   color: colors.grey10,
   ...fonts.subtitle04,
+  whiteSpace: 'pre-line',
 });
 
 export const LottieContainer = style({

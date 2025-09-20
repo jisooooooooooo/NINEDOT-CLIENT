@@ -17,8 +17,8 @@ const ScrollSection = ({ title, content, index, animationData }: ScrollProps) =>
     <section className={styles.scrollContainer}>
       <div className={styles.layoutContainer({ direction })}>
         <div>
-          <h1 className={styles.titleText} dangerouslySetInnerHTML={{ __html: title }} />
-          <p className={styles.contentText} dangerouslySetInnerHTML={{ __html: content }} />
+          <h1 className={styles.titleText}>{title}</h1>
+          <p className={styles.contentText}>{content}</p>
         </div>
         <Lottie className={styles.LottieContainer} animationData={animationData} loop={true} />
       </div>
