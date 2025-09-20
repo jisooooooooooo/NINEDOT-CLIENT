@@ -48,7 +48,8 @@ const SignUp = () => {
 
     signUp(payload, {
       onSuccess: () => {
-        navigate(PATH.INTRO);
+        console.log(userData.onboardingPage);
+        navigate(PATH.INTRO, { state: { pageState: userData.onboardingPage } });
       },
       onError: () => {},
     });
@@ -62,57 +63,55 @@ const SignUp = () => {
           <p className={styles.descriptionText}>{SIGNUP_MESSAGE}</p>
         </header>
 
-        <form onSubmit={handleSignUp}>
-          <section>
-            <div className={styles.basicInfoContainer}>
-              <h2 className={styles.infoText}>기본 정보</h2>
-              <span>
-                <IcEssentialDot className={styles.essentialIcon} />
-                <span className={styles.essentialText}>필수 입력 항목</span>
-              </span>
-            </div>
-            <div className={styles.basicInfoSection}>
-              <BasicInfoSection
-                name={name}
-                email={email}
-                birth={birth}
-                setName={setName}
-                setEmail={setEmail}
-                setBirth={setBirth}
-                selectedJob={selectedJob}
-                setSelectedJob={setSelectedJob}
-                inputJob={inputJob}
-                setInputJob={setInputJob}
-              />
-            </div>
-          </section>
-
-          <section>
-            <div className={styles.fitInfoContainer}>
-              <span className={styles.infoText}>맞춤 정보</span>
-              <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
-            </div>
-            <div className={styles.surveySection}>
-              <SurveySection answers={answers} setAnswers={setAnswers} />
-            </div>
-          </section>
-
-          <div className={styles.agreementContainer}>
-            <button onClick={() => setIsChecked(!isChecked)}>
-              <CheckIcon className={styles.checkboxIcon} />
-            </button>
-            <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
-            <Link to={import.meta.env.VITE_TOS_LINK} className={styles.seeText}>
-              보기
-            </Link>
+        <section>
+          <div className={styles.basicInfoContainer}>
+            <h2 className={styles.infoText}>기본 정보</h2>
+            <span>
+              <IcEssentialDot className={styles.essentialIcon} />
+              <span className={styles.essentialText}>필수 입력 항목</span>
+            </span>
           </div>
-
-          <div className={styles.buttonContainer}>
-            <SignUpButton onClick={handleSignUp} disabled={!isValid || !userData}>
-              가입하기
-            </SignUpButton>
+          <div className={styles.basicInfoSection}>
+            <BasicInfoSection
+              name={name}
+              email={email}
+              birth={birth}
+              setName={setName}
+              setEmail={setEmail}
+              setBirth={setBirth}
+              selectedJob={selectedJob}
+              setSelectedJob={setSelectedJob}
+              inputJob={inputJob}
+              setInputJob={setInputJob}
+            />
           </div>
-        </form>
+        </section>
+
+        <section>
+          <div className={styles.fitInfoContainer}>
+            <span className={styles.infoText}>맞춤 정보</span>
+            <p className={styles.fitInfoText}>{FIT_INFO_MESSAGE}</p>
+          </div>
+          <div className={styles.surveySection}>
+            <SurveySection answers={answers} setAnswers={setAnswers} />
+          </div>
+        </section>
+
+        <div className={styles.agreementContainer}>
+          <button onClick={() => setIsChecked(!isChecked)}>
+            <CheckIcon className={styles.checkboxIcon} />
+          </button>
+          <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
+          <Link to={import.meta.env.VITE_TOS_LINK} className={styles.seeText}>
+            보기
+          </Link>
+        </div>
+
+        <div className={styles.buttonContainer}>
+          <SignUpButton onClick={handleSignUp} disabled={!isValid || !userData}>
+            가입하기
+          </SignUpButton>
+        </div>
       </div>
     </main>
   );
