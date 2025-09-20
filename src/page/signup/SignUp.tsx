@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
-import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
-import SurveySection from '@/page/signup/SurveySection/SurveySection';
-import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
+import { BasicInfoSection, SurveySection } from '@/page/signup';
+import { SignUpButton } from '@/page/signup/component';
 import * as styles from '@/page/signup/SignUp.css';
 import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 import { PATH } from '@/route';
