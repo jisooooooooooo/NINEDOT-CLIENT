@@ -17,6 +17,7 @@ export const gradientBlue = style({
   height: '105.7rem',
   borderRadius: '105.7px',
   background: createRadialGradient('50, 95, 236', 0.3),
+  pointerEvents: 'none',
 });
 
 export const gradientGreen = style({
@@ -28,12 +29,14 @@ export const gradientGreen = style({
   borderRadius: '71.1px',
   background: createRadialGradient('59, 255, 160', 0.7),
   opacity: 0.2,
+  pointerEvents: 'none',
 });
 
 export const vectorLine = style({
   backgroundImage: `url(/src/assets/image/vector-line.svg)`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
+  backgroundPosition: 'center',
   position: 'absolute',
   inset: 0,
   pointerEvents: 'none',
