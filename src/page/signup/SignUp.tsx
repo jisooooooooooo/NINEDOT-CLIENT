@@ -19,11 +19,6 @@ const SignUp = () => {
   const location = useLocation();
   const userData = location.state?.userData;
 
-  if (!userData) {
-    navigate(PATH.ROOT);
-    return;
-  }
-
   const [answers, setAnswers] = useState<Record<number, number>>({});
 
   const { formState, actions, computed } = useSignUpForm(userData);
