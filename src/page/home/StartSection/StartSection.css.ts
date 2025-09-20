@@ -32,6 +32,10 @@ export const gradientGreen = style({
 
 export const vectorLine = style({
   backgroundImage: `url(/src/assets/image/vector-line.svg)`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  position: 'absolute',
+  inset: 0,
   pointerEvents: 'none',
 });
 

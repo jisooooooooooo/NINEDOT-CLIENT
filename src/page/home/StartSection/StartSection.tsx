@@ -1,7 +1,6 @@
 import * as styles from '@/page/home/StartSection/StartSection.css';
 import { CONTENT_MESSAGE, TITLE_MESSAGE } from '@/page/home/constant/startSection';
 import StartButton from '@/page/home/StartButton/StartButton';
-import VectorLine from '@/assets/image/vector-line.svg';
 import { IcUnder } from '@/assets/svg';
 import type { buttonHandlerType } from '@/page/home/type/buttonHandlerType';
 
