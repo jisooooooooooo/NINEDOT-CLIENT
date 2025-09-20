@@ -47,6 +47,12 @@ export const layoutContainer = style({
   margin: '0 auto',
   paddingTop: '21.8rem',
   paddingBottom: '30rem',
+
+  '@media': {
+    '(max-width: 1450px)': {
+      paddingInline: '4rem',
+    },
+  },
 });
 
 export const titleText = style({

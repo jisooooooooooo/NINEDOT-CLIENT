@@ -14,6 +14,12 @@ export const layoutContainer = recipe({
     maxWidth: '141.5rem',
     margin: '0 auto',
     paddingTop: '26.2rem',
+
+    '@media': {
+      '(max-width: 1450px)': {
+        paddingInline: '4rem',
+      },
+    },
   },
   variants: {
     direction: {
