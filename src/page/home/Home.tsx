@@ -1,9 +1,7 @@
 import { HomeContainer } from '@/page/home/Home.css';
 import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
-import StartSection from '@/page/home/StartSection/StartSection';
-import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
-import EndSection from '@/page/home/EndSection/EndSection';
+import { StartSection, ScrollSection, EndSection } from '@/page/home';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
 import mandalAnimation from '@/assets/lottie/mandalart.json';
