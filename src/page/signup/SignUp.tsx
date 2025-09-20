@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
 import { BasicInfoSection, SurveySection } from '@/page/signup';
@@ -107,7 +107,9 @@ const SignUp = () => {
               <CheckIcon className={styles.checkboxIcon} />
             </button>
             <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
-            <button className={styles.seeText}>보기</button>
+            <Link to={import.meta.env.VITE_TOS_LINK} className={styles.seeText}>
+              보기
+            </Link>
           </div>
 
           <div className={styles.buttonContainer}>
