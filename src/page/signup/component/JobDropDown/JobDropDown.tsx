@@ -7,6 +7,7 @@ import { SignupTextField } from '@/common/component/TextField/signup';
 import type { JobItem } from '@/page/signup/component/JobDropDown/type/JobItem';
 import type { JobValue } from '@/page/signup/component/JobDropDown/type/JobValue';
 import { useGetJobList } from '@/api/domain/signup/hook/useGetJobList';
+import Loading from '@/common/component/Loading/Loading';
 
 type JobDropDownProps = {
   id: string;
@@ -56,7 +57,7 @@ const JobDropDown = ({
   }, [isOpen]);
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading type="default" />;
   }
 
   return (
