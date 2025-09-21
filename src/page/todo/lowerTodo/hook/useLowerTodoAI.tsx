@@ -1,6 +1,7 @@
 import { isAxiosError } from 'axios';
 
 import { ALERT, GOAL_COUNT } from '../constants';
+import { extractTitles, formatAiRecommendTitles } from '../utils/goal';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
@@ -121,9 +122,9 @@ export const useLowerTodoAI = ({
     setIsTooltipOpen(false);
 
     try {
-      const currentSubGoals = currentTodos
-        .filter((todo) => todo.title.trim() !== '')
-        .map((todo) => ({ title: todo.title }));
+      const currentSubGoals = extractTitles(
+        currentTodos.filter((todo) => todo.title.trim() !== ''),
+      ).map((title) => ({ title }));
 
       const response = await postAiRecommendNew.mutateAsync({
         coreGoalId: selectedCoreGoalId,
@@ -132,10 +133,7 @@ export const useLowerTodoAI = ({
       });
 
       const recommendList = response.aiRecommendedList || [];
-      const titles = recommendList.map((item) => {
-        const cycleText = item.cycle.replace('한 번만', '한 번');
-        return `${cycleText}/${item.title}`;
-      });
+      const titles = formatAiRecommendTitles(recommendList);
 
       const aiModalContent = (
         <AiRecommendModal
