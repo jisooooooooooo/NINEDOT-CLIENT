@@ -43,10 +43,9 @@ export const vectorLine = style({
 });
 
 export const layoutContainer = style({
-  maxWidth: '141.5rem',
+  maxWidth: '141.6rem',
   margin: '0 auto',
   paddingTop: '21.8rem',
-  paddingBottom: '30rem',
 
   '@media': {
     '(max-width: 1450px)': {
