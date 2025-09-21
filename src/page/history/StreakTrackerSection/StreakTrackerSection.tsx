@@ -31,7 +31,7 @@ const StreakTracker = ({ selectedDay, setSelectedDay }: StreakTrackerProps) => {
 
   return (
     <div className={styles.streakTrackerContainer}>
-      <div onClick={(e) => e.stopPropagation()}>
+      <div onClick={(e) => e.stopPropagation()} className={styles.streakGridContainer}>
         <StreakGrid streaks={data.streaks} onHover={setHoveredDay} onSelect={setSelectedDay} />
       </div>
       <StreakDetail detailData={detailData} />
