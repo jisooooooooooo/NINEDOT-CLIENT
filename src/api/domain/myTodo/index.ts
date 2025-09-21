@@ -1,6 +1,6 @@
 import type { RecommendationResponse } from './type/recommendation';
 import type { CoreGoal } from './type/myTodo';
-import type { SubGoal } from '../lowerTodo/type/subGoals';
+import type { SubGoal } from '../edit';
 
 import type { CycleType } from '@/page/todo/myTodo/component/CycleChip';
 import { END_POINT } from '@/api/constant/endPoint';
