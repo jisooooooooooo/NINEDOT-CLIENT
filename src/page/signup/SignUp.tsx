@@ -115,7 +115,7 @@ const SignUp = () => {
             <CheckIcon className={styles.checkboxIcon} />
           </button>
           <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
-          <Link to={import.meta.env.VITE_TOS_LINK} className={styles.seeText}>
+          <Link to={import.meta.env.VITE_TOS_LINK} target="_blank" className={styles.seeText}>
             보기
           </Link>
         </div>
