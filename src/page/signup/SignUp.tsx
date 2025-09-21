@@ -9,6 +9,7 @@ import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 import { PATH } from '@/route';
 import { usePostSignUp } from '@/api/domain/signup/hook/usePostSignup';
 import type { SignupRequest } from '@/api/domain/signup/type/SignupRequest';
+import { useGoogleAuth } from '@/common/hook/useGoogleAuth';
 
 const SIGNUP_MESSAGE = '회원가입 후 NiNE DOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
@@ -48,8 +49,8 @@ const SignUp = () => {
 
     signUp(payload, {
       onSuccess: () => {
-        console.log(userData.onboardingPage);
-        navigate(PATH.INTRO, { state: { pageState: userData.onboardingPage } });
+        useGoogleAuth();
+        navigate(PATH.INTRO, { state: { pageState: 'MANDALART' } });
       },
       onError: () => {},
     });
