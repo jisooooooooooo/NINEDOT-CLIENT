@@ -66,7 +66,9 @@ export const useLowerTodoAI = ({
   const postAiRecommendNew = usePostAiRecommendNewSubGoal();
 
   const handleAiSubmit = (goals: { title: string }[]) => {
-    if (!selectedCoreGoalId) return;
+    if (!selectedCoreGoalId) {
+      return;
+    }
 
     const emptyIndices = currentTodos
       .map((todo, index) => (todo.title.trim() === '' ? index : -1))

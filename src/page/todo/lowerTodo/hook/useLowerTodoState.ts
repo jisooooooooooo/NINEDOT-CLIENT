@@ -112,8 +112,10 @@ export const useLowerTodoState = (mandalartId: number) => {
     });
   };
 
-  const handleSubGoalClick = (position: number, _goalId?: number) => {
-    if (position === 5) return;
+  const handleSubGoalClick = (position: number) => {
+    if (position === 5) {
+      return;
+    }
 
     const actualPosition = position > 5 ? position - 1 : position;
 
