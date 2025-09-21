@@ -4,7 +4,7 @@ export function formatBirthDate(value: string): string {
     return digits;
   }
   if (digits.length < 7) {
-    return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+    return `${digits.slice(0, 4)}.${digits.slice(4)}`;
   }
-  return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6)}`;
+  return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6)}`;
 }
