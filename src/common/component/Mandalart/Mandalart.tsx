@@ -22,6 +22,7 @@ interface MandalartProps {
   isCenter?: boolean;
   mainGoal?: string;
   subGoals?: SubGoal[];
+  selectedGoalIndex?: number;
 }
 
 const CENTER_INDEX = 4;
@@ -37,8 +38,10 @@ const Mandalart = ({
   isCenter = false,
   mainGoal,
   subGoals,
+  selectedGoalIndex,
 }: MandalartProps) => {
-  const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
+  const initialSelectedGoal = selectedGoalIndex !== undefined ? selectedGoalIndex + 1 : null;
+  const [selectedGoal, setSelectedGoal] = useState<number | null>(initialSelectedGoal);
 
   const handleGoalClick = (index: number, subGoal: SubGoal) => {
     const position = indexToPosition(index);

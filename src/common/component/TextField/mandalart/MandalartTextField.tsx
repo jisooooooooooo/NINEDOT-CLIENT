@@ -2,15 +2,16 @@ import { useState } from 'react';
 
 import IcTextdelete from '@/assets/svg/IcTextdelete';
 
-import { type MandalartVariant, BIG_GOAL_MAX_LENGTH, DEFAULT_PLACEHOLDER } from './constants';
+import { type MandalartVariant, MANDALART_TEXT_MAX_LENGTH, DEFAULT_PLACEHOLDER } from './constants';
 import * as s from './MandalartTextField.css';
 
 import BaseTextField from '../BaseTextField';
 
 type FieldState = 'default' | 'clicked' | 'typing' | 'filled' | 'hover';
 
-const pickMaxLength = (variant: MandalartVariant, maxLength?: number) =>
-  variant === 'bigGoal' ? (maxLength ?? BIG_GOAL_MAX_LENGTH) : (maxLength ?? undefined);
+const pickMaxLength = (maxLength?: number) => {
+  return maxLength ?? MANDALART_TEXT_MAX_LENGTH;
+};
 
 const pickPlaceholder = (variant: MandalartVariant, placeholder?: string) =>
   placeholder ?? DEFAULT_PLACEHOLDER[variant];
@@ -51,7 +52,7 @@ const MandalartTextField = ({
 }: MandalartTextFieldProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const effectiveMaxLength = pickMaxLength(variant, maxLength);
+  const effectiveMaxLength = pickMaxLength(maxLength);
   const effectivePlaceholder = pickPlaceholder(variant, placeholder);
 
   const wrapperVariants =
