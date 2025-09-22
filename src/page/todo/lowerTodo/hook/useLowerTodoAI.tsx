@@ -1,6 +1,6 @@
 import { isAxiosError } from 'axios';
 
-import { ALERT, GOAL_COUNT } from '../constants';
+import { ALERT, GOAL_COUNT } from '@/common/constants/todo';
 import { extractTitles, formatAiRecommendTitles } from '../utils/goal';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';

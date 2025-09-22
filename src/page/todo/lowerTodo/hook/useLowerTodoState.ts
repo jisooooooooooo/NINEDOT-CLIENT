@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 
-import { GOAL_COUNT } from '../constants';
+import { GOAL_COUNT } from '@/common/constants/todo';
 
 import {
   useGetMandalAll,

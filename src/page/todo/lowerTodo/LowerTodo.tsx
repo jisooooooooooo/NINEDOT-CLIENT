@@ -5,7 +5,7 @@ import * as styles from './LowerTodo.css';
 import { LowerTodoHeader, MandalCompleteButton, TodoFields } from './component';
 import { useLowerTodoState, useLowerTodoAI } from './hook';
 import { toMainSubGoals } from './utils/goal';
-import { DEFAULT_TEXT, ALERT } from './constants';
+import { DEFAULT_TEXT, ALERT } from '@/common/constants/todo';
 
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import { PATH } from '@/route';

@@ -1,5 +1,5 @@
 import * as styles from '../LowerTodo.css';
-import { ORDER_LABELS } from '../constants';
+import { ORDER_LABELS } from '@/common/constants/todo';
 
 import { DEFAULT_PLACEHOLDER } from '@/common/component/TextField/mandalart/constants';
 import { MandalartTextField } from '@/common/component/TextField/mandalart';
