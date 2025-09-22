@@ -54,6 +54,7 @@ export const useMyTodo = ({ initialDate }: UseMyTodoProps = {}) => {
         id: goal.id.toString(),
         content: goal.title,
         isCompleted: goal.isCompleted,
+        completed: goal.isCompleted,
         cycle: goal.cycle as CycleType,
         parentId: 0,
         order: index,
@@ -81,13 +82,20 @@ export const useMyTodo = ({ initialDate }: UseMyTodoProps = {}) => {
   };
 
   const handleRecommendTodoClick = (item: TodoItemTypes) => {
-    const isCompleted = item.completed;
+    const isChecked = item.isCompleted;
 
     setRecommendTodos((prev) =>
-      prev.map((todo) => (todo.id === item.id ? { ...todo, completed: !todo.completed } : todo)),
+      prev.map((todo) =>
+        todo.id === item.id
+          ? {
+              ...todo,
+              isCompleted: !todo.isCompleted,
+              completed: !todo.isCompleted,
+            }
+          : todo,
+      ),
     );
-
-    if (isCompleted) {
+    if (isChecked) {
       deleteTodo(Number(item.id), {
         onSuccess: () => {
           refetch();

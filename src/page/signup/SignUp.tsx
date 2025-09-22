@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { IcCheckboxChecked, IcCheckboxDefault, IcEssentialDot } from '@/assets/svg';
-import BasicInfoSection from '@/page/signup/BasicInfoSection/BasicInfoSection';
-import SurveySection from '@/page/signup/SurveySection/SurveySection';
-import SignUpButton from '@/page/signup/component/SignUpButton/SignUpButton';
+import { BasicInfoSection, SurveySection } from '@/page/signup';
+import { SignUpButton } from '@/page/signup/component';
 import * as styles from '@/page/signup/SignUp.css';
 import { useSignUpForm } from '@/page/signup/hook/useSignUpForm';
 import { PATH } from '@/route';
 import { usePostSignUp } from '@/api/domain/signup/hook/usePostSignup';
-import type { SignupResponse } from '@/api/domain/signup/type/SignupResponse';
+import type { SignupRequest } from '@/api/domain/signup/type/SignupRequest';
+import getGoogleAuthCode from '@/api/auth/googleLogin/util/getGoogleAuthCode';
+import getAccessToken from '@/api/auth/googleLogin/util/getAccessToken';
 
 const SIGNUP_MESSAGE = '회원가입 후 NiNE DOT를 만나보세요!';
 const FIT_INFO_MESSAGE = '내 성향을 선택하고 맞춤형 목표 추천을 받아보세요';
@@ -33,8 +34,8 @@ const SignUp = () => {
   const { mutate: signUp } = usePostSignUp();
 
   const handleSignUp = () => {
-    const payload: SignupResponse = {
-      socialProvider: 'GOOGLE',
+    const payload: SignupRequest = {
+      socialProvider: userData.socialProvider,
       socialToken: userData.socialToken,
       name,
       email,
@@ -48,8 +49,20 @@ const SignUp = () => {
     };
 
     signUp(payload, {
-      onSuccess: () => {
-        navigate(PATH.INTRO);
+      onSuccess: async () => {
+        try {
+          const code = getGoogleAuthCode();
+          if (code) {
+            const data = await getAccessToken(code);
+            if (data.accessToken) {
+              localStorage.setItem('accessToken', data.accessToken);
+            }
+          }
+        } catch (e) {
+          console.error('토큰 교환 실패:', e);
+        }
+
+        navigate(PATH.INTRO, { state: { pageState: 'MANDALART' } });
       },
       onError: () => {},
     });
@@ -102,11 +115,13 @@ const SignUp = () => {
             <CheckIcon className={styles.checkboxIcon} />
           </button>
           <p className={styles.agreeText}>{PERSONAL_INFO_AGREEMENT}</p>
-          <button className={styles.seeText}>보기</button>
+          <Link to={import.meta.env.VITE_TOS_LINK} target="_blank" className={styles.seeText}>
+            보기
+          </Link>
         </div>
 
         <div className={styles.buttonContainer}>
-          <SignUpButton onClick={handleSignUp} disabled={!isValid}>
+          <SignUpButton onClick={handleSignUp} disabled={!isValid || !userData}>
             가입하기
           </SignUpButton>
         </div>

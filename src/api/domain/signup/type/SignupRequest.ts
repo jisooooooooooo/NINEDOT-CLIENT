@@ -1,4 +1,4 @@
-export interface SignupResponse {
+export interface SignupRequest {
   socialProvider: string;
   socialToken: string;
   name: string;

@@ -11,7 +11,6 @@ import { useGetMandalAll } from '@/api/domain/myTodo/hook/useMyMandal';
 import { useMandalartId } from '@/common/hook/useMandalartId';
 
 interface MyTodoProps {
-  userName?: string;
   mandalartData?: MandalartData;
   selectedDate?: Date;
   initialRecommendTodos?: TodoItemTypes[];
@@ -19,7 +18,6 @@ interface MyTodoProps {
 }
 
 const MyTodo = ({
-  userName = '김도트',
   mandalartData,
   selectedDate,
   initialRecommendTodos,
@@ -45,7 +43,6 @@ const MyTodo = ({
 
   const mandalartId = useMandalartId();
   const { data } = useGetMandalAll(mandalartId);
-
   return (
     <>
       <div className={styles.myTodoBg} />
@@ -61,7 +58,6 @@ const MyTodo = ({
           </section>
           <section className={styles.mainContentWrapper}>
             <RecommendSection
-              userName={userName}
               recommendTodos={recommendTodos}
               onTodoClick={handleRecommendTodoClick}
             />

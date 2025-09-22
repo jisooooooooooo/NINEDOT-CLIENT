@@ -1,29 +1,28 @@
 import { HomeContainer } from '@/page/home/Home.css';
-import { INTRO_MESSAGE } from '@/page/home/constant/scrollSection';
+import { INTRO_MESSAGE } from '@/page/home/constant/messageConstants';
 import { useFadeInOnView } from '@/page/home/hook/useFadeInOnView';
-import StartSection from '@/page/home/StartSection/StartSection';
-import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
-import EndSection from '@/page/home/EndSection/EndSection';
+import { StartSection, EndSection } from '@/page/home';
 import { fadeSlide } from '@/page/home/style/fadeTransition.css';
 import { useMultipleFadeInOnView } from '@/page/home/hook/useMultipleFadeInOnView';
-import mandalAnimation from '@/assets/lottie/mandalart.json';
-import aiAnimation from '@/assets/lottie/ai.json';
-import todoAnimation from '@/assets/lottie/todo.json';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
+import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
+import type { AnimationImporter } from '@/page/home/type/lottieType';
 
-const animationDataArray = [mandalAnimation, aiAnimation, todoAnimation];
+const animationImporters = [
+  () => import('@/assets/lottie/mandalart.json'),
+  () => import('@/assets/lottie/ai.json'),
+  () => import('@/assets/lottie/todo.json'),
+] as const satisfies readonly AnimationImporter[];
+
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
-
   const { openModal, closeModal } = useOverlayModal();
 
-  const handleOpenLogin = () => {
-    openModal(<LoginModal onClose={closeModal} />);
-  };
+  const handleOpenLogin = () => openModal(<LoginModal onClose={closeModal} />);
 
   return (
     <div className={HomeContainer}>
@@ -31,13 +30,16 @@ const Home = () => {
 
       {sectionKeys.map((key, index) => {
         const { ref, visible } = scrolls[index];
+        const direction = index % 2 === 1 ? 'right' : ('left' as const);
+
         return (
           <div key={key} ref={ref} className={fadeSlide({ state: visible ? 'in' : 'out' })}>
             <ScrollSection
               title={INTRO_MESSAGE[key].title}
               content={INTRO_MESSAGE[key].content}
-              index={index}
-              animationData={animationDataArray[index]}
+              visible={visible}
+              direction={direction}
+              animationImporter={animationImporters[index]}
             />
           </div>
         );
@@ -47,4 +49,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;

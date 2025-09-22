@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { postSignUp } from '@/api/domain/signup';
-import type { SignupResponse } from '@/api/domain/signup/type/SignupResponse';
+import type { SignupRequest } from '@/api/domain/signup/type/SignupRequest';
 
 export const usePostSignUp = () => {
   return useMutation({
-    mutationFn: (payload: SignupResponse) => postSignUp(payload),
+    mutationFn: (payload: SignupRequest) => postSignUp(payload),
   });
 };
