@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 
@@ -41,7 +42,9 @@ const UpperTodo = () => {
     navigate(PATH.TODO_LOWER);
   };
 
-  const { isAiUsed, handleOpenAiModal } = useUpperTodoAI({
+  const [hasAiRecommendUsed, setHasAiRecommendUsed] = useState(false);
+
+  const { isLoading: isUpperAiLoading, handleOpenAiModal } = useUpperTodoAI({
     mandalartId,
     mainGoal,
     subGoals,
@@ -49,7 +52,11 @@ const UpperTodo = () => {
     refetch,
     refetchCoreGoalIds,
     setIsTooltipOpen,
+    hasAiBeenUsed: hasAiRecommendUsed,
+    markAiUsed: () => setHasAiRecommendUsed(true),
   });
+
+  const isAiUsed = hasAiRecommendUsed || isUpperAiLoading;
 
   const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
 

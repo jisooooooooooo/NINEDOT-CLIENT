@@ -19,6 +19,8 @@ interface UseUpperTodoAIParams {
   refetch: () => void;
   refetchCoreGoalIds: () => void;
   setIsTooltipOpen: (open: boolean) => void;
+  hasAiBeenUsed: boolean;
+  markAiUsed: () => void;
 }
 
 interface CoreGoalResponse {
@@ -35,13 +37,14 @@ export const useUpperTodoAI = ({
   refetch,
   refetchCoreGoalIds,
   setIsTooltipOpen,
+  hasAiBeenUsed,
+  markAiUsed,
 }: UseUpperTodoAIParams) => {
   const { openModal, closeModal } = useOverlayModal();
   const postAiRecommend = usePostAiRecommendCoreGoal();
   const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
-  const [isAiUsed, setIsAiUsed] = useState(false);
-  const [hasAiUsed, setHasAiUsed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const lastSubmitTitlesRef = useRef<string[] | null>(null);
 
   const runSubmitMutation = (titles: string[]) => {
@@ -49,7 +52,7 @@ export const useUpperTodoAI = ({
       return;
     }
 
-    setIsAiUsed(true);
+    setIsLoading(true);
     postRecommendToCore.mutate(
       { mandalartId, goals: titles },
       {
@@ -58,9 +61,9 @@ export const useUpperTodoAI = ({
           setSubGoals((prev) => updateSubGoalsWithAiResponse(prev, responseData));
           refetchCoreGoalIds();
           refetch();
-          setHasAiUsed(true);
+          markAiUsed();
           lastSubmitTitlesRef.current = null;
-          setIsAiUsed(false);
+          setIsLoading(false);
         },
         onError: () => {
           openModal(
@@ -74,7 +77,7 @@ export const useUpperTodoAI = ({
               }}
             />,
           );
-          setIsAiUsed(false);
+          setIsLoading(false);
         },
       },
     );
@@ -95,11 +98,11 @@ export const useUpperTodoAI = ({
       return;
     }
 
-    if (hasAiUsed || isAiUsed) {
+    if (hasAiBeenUsed || isLoading) {
       return;
     }
 
-    setIsAiUsed(true);
+    setIsLoading(true);
     setIsTooltipOpen(false);
 
     try {
@@ -123,12 +126,13 @@ export const useUpperTodoAI = ({
       );
 
       openModal(aiModalContent);
+      markAiUsed();
     } catch {
       openModal(<AiFailModal onClose={closeModal} onRetry={handleOpenAiModal} />);
     } finally {
-      setIsAiUsed(false);
+      setIsLoading(false);
     }
   };
 
-  return { isAiUsed: hasAiUsed || isAiUsed, handleOpenAiModal } as const;
+  return { isLoading, handleOpenAiModal } as const;
 };
