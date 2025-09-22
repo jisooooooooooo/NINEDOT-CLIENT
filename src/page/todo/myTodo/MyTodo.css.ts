@@ -1,11 +1,6 @@
 import { keyframes, style, styleVariants } from '@vanilla-extract/css';
 
-<<<<<<< HEAD
 import { colors, fonts, layout } from '@/style/token';
-=======
-import { colors, fonts } from '@/style/token';
-import { layout } from '@/style/token/layout.css.ts';
->>>>>>> develop
 
 export const myTodoBg = style({
   position: 'fixed',

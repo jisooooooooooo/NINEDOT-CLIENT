@@ -1,5 +1,4 @@
 import * as styles from '@/page/todo/myTodo/MyTodo.css';
-
 import { TodoBox } from '@/page/todo/myTodo/component/TodoBox';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { useAuthStore } from '@/store/useAuthStore';
