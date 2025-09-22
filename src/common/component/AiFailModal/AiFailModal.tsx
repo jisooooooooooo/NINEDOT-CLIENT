@@ -5,6 +5,7 @@ import Button from '@/common/component/Button/Button';
 interface AiFailModalProps {
   onClose: () => void;
   message?: string;
+  onRetry?: () => void;
 }
 
 const TEXT = {
@@ -13,15 +14,24 @@ const TEXT = {
   retryButton: '다시 시도',
 } as const;
 
-const AiFailModal = ({ onClose, message = TEXT.defaultMessage }: AiFailModalProps) => (
-  <AiModalBase
-    onClose={onClose}
-    title={TEXT.title}
-    description={message}
-    descriptionClassName={modalStyles.failDescription}
-    titleId="ai-fail-title"
-    footer={<Button text={TEXT.retryButton} onClick={onClose} />}
-  />
-);
+const AiFailModal = ({ onClose, message = TEXT.defaultMessage, onRetry }: AiFailModalProps) => {
+  const handleRetry = () => {
+    onClose();
+    if (onRetry) {
+      setTimeout(onRetry, 0);
+    }
+  };
+
+  return (
+    <AiModalBase
+      onClose={onClose}
+      title={TEXT.title}
+      description={message}
+      descriptionClassName={modalStyles.failDescription}
+      titleId="ai-fail-title"
+      footer={<Button text={TEXT.retryButton} onClick={handleRetry} />}
+    />
+  );
+};
 
 export default AiFailModal;

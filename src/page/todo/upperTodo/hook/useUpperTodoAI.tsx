@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { extractTitles, updateSubGoalsWithAiResponse } from '../utils/goal';
 import { GOAL_COUNT } from '../constants';
@@ -42,11 +42,16 @@ export const useUpperTodoAI = ({
 
   const [isAiProcessing, setIsAiProcessing] = useState(false);
   const [hasAiUsed, setHasAiUsed] = useState(false);
+  const lastSubmitTitlesRef = useRef<string[] | null>(null);
 
-  const handleAiSubmit = (goals: { title: string }[]) => {
+  const runSubmitMutation = (titles: string[]) => {
+    if (titles.length === 0) {
+      return;
+    }
+
     setIsAiProcessing(true);
     postRecommendToCore.mutate(
-      { mandalartId, goals: goals.map((g) => g.title) },
+      { mandalartId, goals: titles },
       {
         onSuccess: (response) => {
           const responseData: CoreGoalResponse[] = response.coreGoals;
@@ -54,14 +59,31 @@ export const useUpperTodoAI = ({
           refetchCoreGoalIds();
           refetch();
           setHasAiUsed(true);
+          lastSubmitTitlesRef.current = null;
           setIsAiProcessing(false);
         },
         onError: () => {
-          openModal(<AiFailModal onClose={closeModal} />);
+          openModal(
+            <AiFailModal
+              onClose={closeModal}
+              onRetry={() => {
+                const submitTitles = lastSubmitTitlesRef.current;
+                if (submitTitles) {
+                  runSubmitMutation(submitTitles);
+                }
+              }}
+            />,
+          );
           setIsAiProcessing(false);
         },
       },
     );
+  };
+
+  const handleAiSubmit = (goals: { title: string }[]) => {
+    const titles = goals.map((goal) => goal.title);
+    lastSubmitTitlesRef.current = titles;
+    runSubmitMutation(titles);
   };
 
   const handleOpenAiModal = async () => {
@@ -102,7 +124,7 @@ export const useUpperTodoAI = ({
 
       openModal(aiModalContent);
     } catch {
-      openModal(<AiFailModal onClose={closeModal} />);
+      openModal(<AiFailModal onClose={closeModal} onRetry={handleOpenAiModal} />);
     } finally {
       setIsAiProcessing(false);
     }
