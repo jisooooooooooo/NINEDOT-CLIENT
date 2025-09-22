@@ -5,3 +5,4 @@ export { default as History } from './history/History';
 export { default as SignUp } from './signup/SignUp';
 export { default as Edit } from './edit/Edit';
 export { default as GoogleCallback } from './callback/GoogleCallback';
+export { default as NotFound } from './notFound/NotFound';

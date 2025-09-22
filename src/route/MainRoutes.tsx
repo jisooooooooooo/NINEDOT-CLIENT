@@ -2,7 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
-import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback } from '@/page';
+import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback, NotFound } from '@/page';
 import { UpperTodo, LowerTodo, MyTodo } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
 import Intro from '@/page/intro/Intro';
@@ -54,6 +54,10 @@ export const mainRoutes: RouteObject[] = [
       {
         path: PATH.SIGNUP,
         element: <SignUp />,
+      },
+      {
+        path: PATH.NOT_FOUND,
+        element: <NotFound />,
       },
     ],
   },
