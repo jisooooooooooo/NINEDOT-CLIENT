@@ -4,13 +4,16 @@ import loadingAnimation from '@/assets/lottie/loading.json';
 import * as styles from '@/common/component/Loading/Loading.css';
 
 type LoadingProps = {
-  type: 'goal' | 'todo' | 'history' | 'entireTodo';
+  type: 'default' | 'goal' | 'todo' | 'history' | 'entireTodo';
 };
 
 const Loading = ({ type }: LoadingProps) => {
   let message = '';
 
   switch (type) {
+    case 'default':
+      message = '데이터를 불러오는 중이에요';
+      break;
     case 'goal':
       message = 'AI가 목표를 추천해주고 있어요';
       break;

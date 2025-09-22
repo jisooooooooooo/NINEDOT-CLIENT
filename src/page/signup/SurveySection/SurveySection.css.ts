@@ -1,18 +1,20 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors, fonts } from '@/style/token';
+import { colors, fonts, layout } from '@/style/token';
 
-export const surveyWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '5.4rem',
-});
+export const surveyWrapper = style([
+  layout.flexColumn,
+  {
+    gap: '5.4rem',
+  },
+]);
 
-export const surveyContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1.6rem',
-});
+export const surveyContainer = style([
+  layout.flexColumn,
+  {
+    gap: '1.6rem',
+  },
+]);
 
 export const surveyTitle = style({
   marginBottom: '0.8rem',

@@ -4,13 +4,13 @@ import { IcEssentialDot } from '@/assets/svg';
 import * as styles from '@/page/signup/component/LabelField/LabelField.css';
 import { essentialIcon } from '@/page/signup/SignUp.css';
 
-type LabeledFieldProps = {
+type LabelFieldProps = {
   id: string;
   label: string;
   children: ReactNode;
 };
 
-const LabeledField = ({ id, label, children }: LabeledFieldProps) => (
+const LabelField = ({ id, label, children }: LabelFieldProps) => (
   <div className={styles.inputContainer}>
     <label htmlFor={id} className={styles.labelContainer}>
       {label}
@@ -20,4 +20,4 @@ const LabeledField = ({ id, label, children }: LabeledFieldProps) => (
   </div>
 );
 
-export default LabeledField;
+export default LabelField;
