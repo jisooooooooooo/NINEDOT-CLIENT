@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import { GOAL_COUNT } from '../constants';
 
@@ -31,10 +31,15 @@ export const useLowerTodoState = (mandalartId: number) => {
   const patchMutation = usePatchOnboardingSubGoal();
   const deleteMutation = useDeleteOnboardingSubGoal();
 
+  const createEmptyTodos = (): TodoItem[] =>
+    Array(GOAL_COUNT)
+      .fill(null)
+      .map(() => ({ title: '', cycle: 'DAILY' as const }));
+
   const [allTodos, setAllTodos] = useState<TodoItem[][]>(
     Array(8)
       .fill(null)
-      .map(() => Array(GOAL_COUNT).fill({ title: '', cycle: 'DAILY' })),
+      .map(() => createEmptyTodos()),
   );
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const [isAiUsed, setIsAiUsed] = useState<boolean[]>(() => Array(8).fill(false));
@@ -47,17 +52,23 @@ export const useLowerTodoState = (mandalartId: number) => {
       }
     });
   }
+  const sortedCoreGoals = useMemo(() => {
+    if (!coreGoalsData?.coreGoals) {
+      return [];
+    }
+    return [...coreGoalsData.coreGoals].sort((a, b) => a.position - b.position);
+  }, [coreGoalsData?.coreGoals]);
+
   useEffect(() => {
-    if (coreGoalsData?.coreGoals && coreGoalsData.coreGoals.length > 0) {
-      const sortedGoals = [...coreGoalsData.coreGoals].sort((a, b) => a.position - b.position);
-      const firstGoal = sortedGoals[0];
+    if (sortedCoreGoals.length > 0) {
+      const firstGoal = sortedCoreGoals[0];
       if (firstGoal) {
         setSelectedGoalIndex(
           coreGoalsData?.coreGoals?.findIndex((goal) => goal.id === firstGoal.id) || 0,
         );
       }
     }
-  }, [coreGoalsData]);
+  }, [sortedCoreGoals, coreGoalsData?.coreGoals]);
 
   useEffect(() => {
     const currentTodos = allTodos[selectedGoalIndex] || [];
@@ -78,12 +89,8 @@ export const useLowerTodoState = (mandalartId: number) => {
       if (todo.title.trim() === '') {
         if (subGoalId) {
           await deleteMutation.mutateAsync(subGoalId);
-          await refetchSubGoals();
         }
-        return;
-      }
-
-      if (subGoalId) {
+      } else if (subGoalId) {
         await patchMutation.mutateAsync({
           subGoalId,
           title: todo.title,
@@ -97,10 +104,10 @@ export const useLowerTodoState = (mandalartId: number) => {
           cycle: todo.cycle,
         });
       }
-
-      await refetchSubGoals();
     } catch {
-      /* empty */
+      // API 요청 실패 시 무시 (finally에서 refetchSubGoals로 데이터 동기화)
+    } finally {
+      await refetchSubGoals();
     }
   };
 

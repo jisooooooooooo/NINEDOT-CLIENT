@@ -28,18 +28,13 @@ interface UseLowerTodoAIParams {
 interface ApiErrorResponse {
   message?: string;
 }
-const convertCycleToEnglish = (koreanCycle: string): 'DAILY' | 'WEEKLY' | 'ONCE' => {
-  switch (koreanCycle) {
-    case '매일':
-      return 'DAILY';
-    case '매주':
-      return 'WEEKLY';
-    case '한 번':
-      return 'ONCE';
-    default:
-      return 'DAILY';
-  }
+const CYCLE_MAP: Record<string, 'DAILY' | 'WEEKLY' | 'ONCE'> = {
+  매일: 'DAILY',
+  매주: 'WEEKLY',
+  '한 번': 'ONCE',
 };
+
+const convertCycleToEnglish = (koreanCycle: string) => CYCLE_MAP[koreanCycle] ?? 'DAILY';
 
 const getServerMessage = (error: unknown, fallback: string) => {
   if (isAxiosError<ApiErrorResponse>(error)) {
@@ -66,7 +61,7 @@ export const useLowerTodoAI = ({
   const { openModal, closeModal } = useOverlayModal();
   const postAiRecommendNew = usePostAiRecommendNewSubGoal();
 
-  const handleAiSubmit = (goals: { title: string }[]) => {
+  const handleAiSubmit = async (goals: { title: string }[]) => {
     if (!selectedCoreGoalId) {
       return;
     }
@@ -76,6 +71,8 @@ export const useLowerTodoAI = ({
       .filter((index) => index !== -1);
 
     const updatedTodos = [...currentTodos];
+    const todoPromises: Promise<void>[] = [];
+
     goals.forEach((goal, goalIndex) => {
       if (goalIndex < emptyIndices.length) {
         const targetIndex = emptyIndices[goalIndex];
@@ -87,10 +84,11 @@ export const useLowerTodoAI = ({
         };
 
         updatedTodos[targetIndex] = newTodo;
-        handleTodoEnter(targetIndex, newTodo);
+        todoPromises.push(Promise.resolve(handleTodoEnter(targetIndex, newTodo)));
       }
     });
 
+    await Promise.all(todoPromises);
     setCurrentTodos(updatedTodos);
     setIsAiUsed((prev) => {
       const newState = [...prev];
@@ -121,7 +119,6 @@ export const useLowerTodoAI = ({
       });
     };
 
-    updateAiUsed();
     setIsTooltipOpen(false);
 
     try {
@@ -140,10 +137,7 @@ export const useLowerTodoAI = ({
 
       const aiModalContent = (
         <AiRecommendModal
-          onClose={() => {
-            closeModal();
-            updateAiUsed();
-          }}
+          onClose={closeModal}
           onSubmit={handleAiSubmit}
           values={currentTodos.map((todo) => todo.title)}
           options={titles}
