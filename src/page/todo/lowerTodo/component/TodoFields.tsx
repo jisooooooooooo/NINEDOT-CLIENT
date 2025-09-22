@@ -56,12 +56,13 @@ const TodoFields = ({ values, onChange, onEnter, selectedCoreGoalTitle }: TodoFi
                 />
               );
             }
+            const valueIndex = index > 4 ? index - 1 : index;
             return (
               <Square.Sub
                 key={index}
-                content={values[index]?.title || ''}
+                content={values[valueIndex]?.title || ''}
                 type="TODO_SUB"
-                isCompleted={!!values[index]?.title}
+                isCompleted={!!values[valueIndex]?.title}
                 onClick={() => {}}
               />
             );
