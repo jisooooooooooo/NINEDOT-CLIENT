@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors, fonts } from '@/style/token';
+import { colors, fonts, layout } from '@/style/token';
 
 export const mainContainer = style({
   backgroundColor: colors.bg_black01,
@@ -11,14 +11,15 @@ export const layoutContainer = style({
   margin: '0 auto',
 });
 
-export const headerContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-  padding: '8.6rem 0 7.2rem 0',
-  color: colors.grey11,
-  textAlign: 'center',
-});
+export const headerContainer = style([
+  layout.flexColumn,
+  {
+    gap: '1rem',
+    padding: '8.6rem 0 7.2rem 0',
+    color: colors.grey11,
+    textAlign: 'center',
+  },
+]);
 
 export const headerText = style({
   ...fonts.display02,
@@ -28,14 +29,14 @@ export const descriptionText = style({
   ...fonts.body03,
 });
 
-export const basicInfoContainer = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  paddingBottom: '2rem',
-  borderBottom: `2px solid ${colors.grey3}`,
-  color: colors.grey11,
-});
+export const basicInfoContainer = style([
+  layout.rowBetween,
+  {
+    paddingBottom: '2rem',
+    borderBottom: `2px solid ${colors.grey3}`,
+    color: colors.grey11,
+  },
+]);
 
 export const infoText = style({
   ...fonts.subtitle01,
@@ -73,12 +74,12 @@ export const surveySection = style({
   padding: '3.2rem 0 11.4rem 0',
 });
 
-export const agreementContainer = style({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '0.8rem',
-});
+export const agreementContainer = style([
+  layout.rowCenter,
+  {
+    gap: '0.8rem',
+  },
+]);
 
 export const checkboxIcon = style({
   height: '2.4rem',

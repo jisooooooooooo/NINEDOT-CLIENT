@@ -5,6 +5,7 @@ import StreakTracker from '@/page/history/StreakTrackerSection/StreakTrackerSect
 import { useGetHistory } from '@/api/domain/history/hook/useGetHistory';
 import { useMandalartId } from '@/common/hook/useMandalartId';
 import Loading from '@/common/component/Loading/Loading';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const STREAK_BANNER_MESSAGE = '작은 실천을 66일 이어가면 나의 목표에 도달합니다';
 const STREAK_DESCRIPTION_MESSAGE = '하루에 하나라도 실천하면 오늘의 점이 찍혀요!';
@@ -14,6 +15,7 @@ const History = () => {
   const mandalartId = useMandalartId();
 
   const { data, isLoading } = useGetHistory(mandalartId);
+  const user = useAuthStore((state) => state.user);
 
   const handleOutsideClick = () => {
     setSelectedDay(null);
@@ -28,7 +30,7 @@ const History = () => {
       <div className={styles.layoutContainer}>
         <h1 className={styles.titleContainer}>{data.title}</h1>
         <p className={styles.descriptionContainer}>
-          김도트님, 목표를 향해 <br />
+          {user.name}님, 목표를 향해 <br />
           <strong className={styles.progressText}>{data.progressDays}</strong>일째 달려가고 있어요
         </p>
         <section className={styles.streakTrackerWrapper}>

@@ -2,7 +2,7 @@ import { ERROR_MESSAGES } from './constants';
 
 export const NAME_REGEX = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ\s]{1,10}$/;
 export const JOB_REGEX = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ\s]{1,15}$/;
-export const BIRTH_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+export const BIRTH_REGEX = /^\d{4}.\d{2}.\d{2}$/;
 
 export function validateName(value: string): string | undefined {
   const v = (value ?? '').trim();
@@ -24,7 +24,7 @@ export function validateBirth(value: string): string | undefined {
     return ERROR_MESSAGES.birth;
   }
 
-  const [yy, mm, dd] = v.split('-');
+  const [yy, mm, dd] = v.split('.');
   const yearNum = parseInt(yy, 10);
   const monthNum = parseInt(mm, 10);
   const dayNum = parseInt(dd, 10);

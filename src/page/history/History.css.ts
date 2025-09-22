@@ -24,8 +24,8 @@ export const titleContainer = style({
 });
 
 export const descriptionContainer = style({
-  marginTop: '2rem',
-  padding: '7.6rem 5rem',
+  marginTop: '2.3rem',
+  padding: '6.7rem 8.6rem',
   backgroundColor: colors.grey2,
   borderRadius: '12px',
   color: colors.grey11,
@@ -37,7 +37,7 @@ export const descriptionContainer = style({
 });
 
 export const streakTrackerWrapper = style({
-  paddingTop: '8rem',
+  paddingTop: '7.7rem',
   paddingBottom: '9.8rem',
 });
 

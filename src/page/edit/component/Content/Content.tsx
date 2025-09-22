@@ -8,6 +8,7 @@ import { useMandalartHover } from '../../hook/useMandalartHover';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
 import { useSubGoals, useUpdateSubGoal } from '@/api/domain/edit/hook';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 import type { CoreGoal, SubGoal } from '@/page/mandal/types/mandal';
 
 interface ContentProps {
@@ -15,10 +16,9 @@ interface ContentProps {
   setIsEditing: (value: boolean) => void;
 }
 
-const MANDAL_ID = 1;
-
 const Content = ({ isEditing, setIsEditing }: ContentProps) => {
-  const { data: mandalartData, isLoading: isMandalLoading } = useMandalAll(MANDAL_ID);
+  const mandalartId = useMandalartId();
+  const { data: mandalartData, isLoading: isMandalLoading } = useMandalAll(mandalartId);
   const {
     isHovered,
     hoveredGoal,
@@ -31,21 +31,22 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
     mandalartData,
   });
 
-  const { isLoading: isSubGoalsLoading } = useSubGoals(MANDAL_ID, hoveredGoal?.id, undefined, {
-    enabled: !!hoveredGoal,
+  const activeCoreGoalId = hoveredGoal?.id && hoveredGoal.id > 0 ? hoveredGoal.id : undefined;
+  const { isLoading: isSubGoalsLoading } = useSubGoals(mandalartId, activeCoreGoalId, undefined, {
+    enabled: !!activeCoreGoalId,
   });
-  const { mutate: updateGoal } = useUpdateSubGoal(MANDAL_ID);
+  const { mutate: updateGoal } = useUpdateSubGoal(mandalartId);
 
-  const isLoading = isMandalLoading || (hoveredGoal && isSubGoalsLoading);
+  const isLoading = !mandalartId || isMandalLoading || (hoveredGoal && isSubGoalsLoading);
 
   const handleSave = useCallback(() => {
-    if (!hoveredGoal) {
+    if (!hoveredGoal || !mandalartId) {
       return;
     }
 
     const validSubGoals = hoveredGoal.subGoals.filter((subGoal) => subGoal.title);
 
-    if (validSubGoals.length > 0) {
+    if (validSubGoals.length > 0 && hoveredGoal.id > 0) {
       updateGoal({
         coreGoal: {
           position: hoveredGoal.position,
@@ -61,7 +62,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
 
     setIsEditing(false);
     setIsHovered(true);
-  }, [hoveredGoal, updateGoal, setIsEditing, setIsHovered]);
+  }, [hoveredGoal, updateGoal, setIsEditing, setIsHovered, mandalartId]);
 
   useEffect(() => {
     if (!isEditing && hoveredGoal) {
@@ -87,17 +88,19 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         const validSubGoals = hoveredGoal.subGoals.filter((subGoal) => subGoal.title);
 
         if (validSubGoals.length > 0) {
-          updateGoal({
-            coreGoal: {
-              position: hoveredGoal.position,
-              title: hoveredGoal.title,
-            },
-            subGoals: validSubGoals.map((subGoal) => ({
-              position: subGoal.position,
-              title: subGoal.title,
-              cycle: subGoal.cycle || 'DAILY',
-            })),
-          });
+          if (mandalartId && hoveredGoal.id > 0) {
+            updateGoal({
+              coreGoal: {
+                position: hoveredGoal.position,
+                title: hoveredGoal.title,
+              },
+              subGoals: validSubGoals.map((subGoal) => ({
+                position: subGoal.position,
+                title: subGoal.title,
+                cycle: subGoal.cycle || 'DAILY',
+              })),
+            });
+          }
         }
 
         setHoveredGoal(goal);
@@ -110,7 +113,16 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
       setIsHovered(true);
       setIsEditing(true);
     },
-    [mandalartData, isEditing, hoveredGoal, updateGoal, setHoveredGoal, setIsHovered, setIsEditing],
+    [
+      mandalartData,
+      isEditing,
+      hoveredGoal,
+      updateGoal,
+      setHoveredGoal,
+      setIsHovered,
+      setIsEditing,
+      mandalartId,
+    ],
   );
 
   const handleTitleChange = useCallback(
@@ -215,10 +227,10 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         position={hoveredGoal.position}
         id={hoveredGoal.id}
         onSubGoalsChange={handleSubGoalsChange}
-        mandalartId={MANDAL_ID}
+        mandalartId={mandalartId}
       />
     );
-  }, [isLoading, hoveredGoal, handleTitleChange, handleSubGoalsChange]);
+  }, [isLoading, hoveredGoal, handleTitleChange, handleSubGoalsChange, mandalartId]);
 
   const renderSubGoals = useCallback(() => {
     if (isLoading) {
@@ -274,7 +286,7 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         onMouseLeave={handleMouseLeave}
         onClick={handleMandalartClick}
       >
-        {isMandalLoading ? (
+        {!mandalartId || isMandalLoading ? (
           <div className={styles.loadingContainer}>로딩중...</div>
         ) : (
           <Mandalart type="TODO_EDIT" data={mainGoalData} onGoalClick={handleGoalClick} />

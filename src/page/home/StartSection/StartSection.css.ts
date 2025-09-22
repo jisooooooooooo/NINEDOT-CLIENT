@@ -17,6 +17,7 @@ export const gradientBlue = style({
   height: '105.7rem',
   borderRadius: '105.7px',
   background: createRadialGradient('50, 95, 236', 0.3),
+  pointerEvents: 'none',
 });
 
 export const gradientGreen = style({
@@ -28,34 +29,43 @@ export const gradientGreen = style({
   borderRadius: '71.1px',
   background: createRadialGradient('59, 255, 160', 0.7),
   opacity: 0.2,
+  pointerEvents: 'none',
 });
 
 export const vectorLine = style({
+  backgroundImage: `url(/src/assets/image/vector-line.svg)`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
   position: 'absolute',
-  top: '3rem',
-  right: '-12rem',
-  width: '100%',
-  height: '100%',
+  inset: 0,
   pointerEvents: 'none',
 });
 
 export const layoutContainer = style({
-  maxWidth: '141.5rem',
+  maxWidth: '141.6rem',
   margin: '0 auto',
   paddingTop: '21.8rem',
-  paddingBottom: '30rem',
+
+  '@media': {
+    '(max-width: 1450px)': {
+      paddingInline: '4rem',
+    },
+  },
 });
 
 export const titleText = style({
   marginBottom: '2.6rem',
   color: colors.grey10,
   ...fonts.display04,
+  whiteSpace: 'pre-line',
 });
 
 export const contentText = style({
   marginBottom: '6.8rem',
   color: colors.grey10,
   ...fonts.title02,
+  whiteSpace: 'pre-line',
 });
 
 const scrollBounce = keyframes({
