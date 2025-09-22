@@ -21,9 +21,13 @@ export const todoBoxContainer = styleVariants({
     alignItems: 'center',
     background: colors.grey4,
     borderRadius: '8px',
+    boxSizing: 'border-box',
     width: '43.6rem',
+    flex: '0 0 43.6rem',
+    selectors: {
+      '&&': { width: '43.6rem' },
+    },
     padding: '1.4rem 2rem',
-    marginRight: '1.9rem',
   },
 });
 

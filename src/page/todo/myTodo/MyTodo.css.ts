@@ -141,8 +141,6 @@ export const checkMainContainer = style([
     alignItems: 'flex-start',
     height: '67.2rem',
     padding: '2.6rem',
-    width: '106rem',
-    minWidth: '106rem',
     alignSelf: 'center',
   },
 ]);
@@ -151,12 +149,11 @@ export const todoCheckArea = style([
   layout.flexColumn,
   {
     alignItems: 'flex-start',
-    width: '55.2rem',
-    minWidth: '55.2rem',
+    width: '57.1rem',
+    minWidth: '57.1rem',
     gap: '2.6rem',
     height: '100%',
     flexShrink: 0,
-    paddingRight: '1.9rem',
     boxSizing: 'border-box',
   },
 ]);
@@ -164,8 +161,8 @@ export const todoCheckArea = style([
 export const selectorChipsContainer = style([
   layout.rowBetween,
   {
+    width: '55.2rem',
     alignSelf: 'stretch',
-    gap: '2.6rem',
   },
 ]);
 
@@ -173,11 +170,13 @@ export const todoCheckContainer = style([
   layout.flexColumn,
   {
     alignItems: 'flex-start',
-    width: '100%',
+    width: '57.1rem',
     height: '53.8rem',
     gap: '2.4rem',
     alignSelf: 'stretch',
     overflowY: 'auto',
+    overflowX: 'hidden',
+    paddingRight: '1.9rem',
     boxSizing: 'border-box',
   },
 ]);
@@ -186,11 +185,10 @@ export const noScrollTodoCheckContainer = style([
   layout.flexColumn,
   {
     alignItems: 'flex-start',
-    width: '100%',
+    width: '57.1rem',
     height: '53.8rem',
     gap: '2.4rem',
     alignSelf: 'stretch',
-    overflow: 'hidden',
     paddingRight: '1.9rem',
     boxSizing: 'border-box',
   },
