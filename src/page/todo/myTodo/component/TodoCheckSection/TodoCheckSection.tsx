@@ -138,25 +138,30 @@ const TodoCheckSection = ({
               position: 4,
               title: mandalartData.title || mandalartData.mainGoal,
               subGoals: Array.isArray(coreGoalsData?.data?.coreGoals)
-                ? coreGoalsData.data.coreGoals.map(
-                    (
-                      goal: { title: string; position: number; subGoals?: unknown[] },
-                      idx: number,
-                    ) => ({
-                      id: idx < 4 ? idx : idx + 1,
+                ? [...coreGoalsData.data.coreGoals]
+                    .sort((a, b) => a.position - b.position)
+                    .map((goal) => ({
+                      id: goal.id,
                       title: goal.title,
                       position: goal.position,
-                      subGoals: goal.subGoals ?? [],
-                    }),
-                  )
+                      subGoals: [],
+                    }))
                 : [],
             }}
-            onGoalClick={(position) => {
+            onGoalClick={(position, goalId) => {
               const coreGoal = coreGoalsData?.data?.coreGoals.find(
                 (goal) => goal.position === position,
               );
-              const parentId = coreGoal?.id;
-              onMandalartClick(selectedParentId === parentId ? undefined : parentId);
+              const resolvedParentId = goalId && goalId > 0 ? goalId : coreGoal?.id;
+
+              if (!resolvedParentId) {
+                onMandalartClick(undefined);
+                return;
+              }
+
+              onMandalartClick(
+                selectedParentId === resolvedParentId ? undefined : resolvedParentId,
+              );
             }}
           />
           <div className={styles.todoCheckArea}>
