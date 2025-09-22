@@ -2,10 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
-import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback, NotFound } from '@/page';
-import { UpperTodo, LowerTodo, MyTodo } from '@/page/todo';
+import { Home, NotFound } from '@/page';
 import { Layout } from '@/shared/component/Layout';
-import Home from '@/page/home/Home';
 import Intro from '@/page/intro/Intro';
 
 export const mainRoutes: RouteObject[] = [
