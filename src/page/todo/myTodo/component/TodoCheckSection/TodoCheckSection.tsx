@@ -41,16 +41,20 @@ const TodoCheckSection = ({
 }: TodoCheckSectionProps) => {
   const mandalartId = useMandalartId();
   const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
-  const { data: subGoalResponse } = useGetMandalartSubGoals(
-    mandalartId,
-    selectedParentId,
-    selectedCycle,
-  );
+  const {
+    data: subGoalResponse,
+    isLoading: isSubGoalsLoading,
+    isFetching: isSubGoalsFetching,
+  } = useGetMandalartSubGoals(mandalartId, selectedParentId, selectedCycle);
 
   const [localSubGoals, setLocalSubGoals] = useState<TodoItemTypes[]>([]);
 
   useEffect(() => {
-    const apiSubGoals = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
+    if (!subGoalResponse?.data) {
+      return;
+    }
+
+    const apiSubGoals = (subGoalResponse.data.subGoals ?? []).map((goal) => ({
       id: goal.id,
       content: goal.title,
       cycle: goal.cycle,
@@ -98,10 +102,11 @@ const TodoCheckSection = ({
     }
   };
 
+  const isLoadingSubGoals = isSubGoalsLoading || isSubGoalsFetching;
   const hasTodos = localSubGoals.length > 0;
-  const todoContainerClass = hasTodos
-    ? styles.todoCheckContainer
-    : styles.noScrollTodoCheckContainer;
+  const showSpinner = isLoadingSubGoals;
+  const todoContainerClass =
+    showSpinner || hasTodos ? styles.todoCheckContainer : styles.noScrollTodoCheckContainer;
 
   const renderEmptyState = () => (
     <div className={styles.emptyTodoBox}>
@@ -168,7 +173,12 @@ const TodoCheckSection = ({
             </div>
 
             <div className={todoContainerClass}>
-              {hasTodos ? renderTodoItems() : renderEmptyState()}
+              {showSpinner && (
+                <div className={styles.todoLoadingOverlay}>
+                  <div className={styles.todoLoadingSpinner} />
+                </div>
+              )}
+              {hasTodos ? renderTodoItems() : !showSpinner && renderEmptyState()}
             </div>
           </div>
         </div>

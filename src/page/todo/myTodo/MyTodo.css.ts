@@ -1,4 +1,4 @@
-import { style, styleVariants } from '@vanilla-extract/css';
+import { keyframes, style, styleVariants } from '@vanilla-extract/css';
 
 import { colors, fonts } from '@/style/token';
 import { layout } from '@/style/token/layout.css.ts';
@@ -174,6 +174,7 @@ export const todoCheckContainer = style([
     height: '53.8rem',
     gap: '2.4rem',
     alignSelf: 'stretch',
+    position: 'relative',
     overflowY: 'auto',
     overflowX: 'hidden',
     paddingRight: '1.9rem',
@@ -199,6 +200,31 @@ export const todoCheckLine = style({
   alignItems: 'center',
   gap: '1rem',
   width: '100%',
+});
+
+const spin = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
+});
+
+export const todoLoadingOverlay = style({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'rgba(18, 18, 18, 0.60)',
+  backdropFilter: 'blur(1px)',
+  zIndex: 1,
+});
+
+export const todoLoadingSpinner = style({
+  width: '4rem',
+  height: '4rem',
+  borderRadius: '50%',
+  border: `0.4rem solid ${colors.grey3}`,
+  borderTopColor: colors.grey10,
+  animation: `${spin} 0.8s linear infinite`,
 });
 
 export const todoText = styleVariants({
