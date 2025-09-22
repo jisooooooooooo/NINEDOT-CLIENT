@@ -36,8 +36,13 @@ export const selectorChip = styleVariants({
 });
 
 export const displayChip = style({
+  boxSizing: 'border-box',
   width: '10.6rem',
   padding: '1.4rem 2rem',
   background: colors.grey4,
   color: colors.grey10,
+  flex: '0 0 10.6rem',
+  selectors: {
+    '&&': { width: '10.6rem' },
+  },
 });
