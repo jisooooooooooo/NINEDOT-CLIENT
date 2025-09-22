@@ -2,9 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
-import { Home, Todo, Mandal, History, SignUp, Edit, GoogleCallback } from '@/page';
-import { UpperTodo, LowerTodo, MyTodo } from '@/page/todo';
 import { Layout } from '@/shared/component/Layout';
+import Home from '@/page/home/Home';
 import Intro from '@/page/intro/Intro';
 
 export const mainRoutes: RouteObject[] = [
@@ -21,39 +20,66 @@ export const mainRoutes: RouteObject[] = [
       },
       {
         path: PATH.REDIRECT,
-        element: <GoogleCallback />,
+        async lazy() {
+          const { GoogleCallback } = await import('@/page');
+          return { Component: GoogleCallback };
+        },
       },
       {
         path: PATH.TODO,
-        element: <Todo />,
+        async lazy() {
+          const { Todo } = await import('@/page');
+          return { Component: Todo };
+        },
       },
       {
         path: PATH.TODO_UPPER,
-        element: <UpperTodo />,
+        async lazy() {
+          const { UpperTodo } = await import('@/page/todo');
+          return { Component: UpperTodo };
+        },
       },
       {
         path: PATH.TODO_LOWER,
-        element: <LowerTodo />,
+        async lazy() {
+          const { LowerTodo } = await import('@/page/todo');
+          return { Component: LowerTodo };
+        },
       },
       {
         path: PATH.TODO_MY,
-        element: <MyTodo />,
+        async lazy() {
+          const { MyTodo } = await import('@/page/todo');
+          return { Component: MyTodo };
+        },
       },
       {
         path: PATH.MANDAL,
-        element: <Mandal />,
+        async lazy() {
+          const { Mandal } = await import('@/page');
+          return { Component: Mandal };
+        },
       },
       {
         path: PATH.HISTORY,
-        element: <History />,
+        async lazy() {
+          const { History } = await import('@/page');
+          return { Component: History };
+        },
       },
       {
         path: PATH.EDIT,
-        element: <Edit />,
+        async lazy() {
+          const { Edit } = await import('@/page');
+          return { Component: Edit };
+        },
       },
       {
         path: PATH.SIGNUP,
-        element: <SignUp />,
+        async lazy() {
+          const { SignUp } = await import('@/page');
+          return { Component: SignUp };
+        },
       },
     ],
   },

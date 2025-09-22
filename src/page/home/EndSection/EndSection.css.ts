@@ -39,4 +39,5 @@ export const endText = style({
   color: colors.white01,
   ...fonts.display01,
   textAlign: 'center',
+  whiteSpace: 'pre-line',
 });
