@@ -40,7 +40,7 @@ export const useUpperTodoAI = ({
   const postAiRecommend = usePostAiRecommendCoreGoal();
   const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
-  const [isAiProcessing, setIsAiProcessing] = useState(false);
+  const [isAiUsed, setIsAiUsed] = useState(false);
   const [hasAiUsed, setHasAiUsed] = useState(false);
   const lastSubmitTitlesRef = useRef<string[] | null>(null);
 
@@ -49,7 +49,7 @@ export const useUpperTodoAI = ({
       return;
     }
 
-    setIsAiProcessing(true);
+    setIsAiUsed(true);
     postRecommendToCore.mutate(
       { mandalartId, goals: titles },
       {
@@ -60,7 +60,7 @@ export const useUpperTodoAI = ({
           refetch();
           setHasAiUsed(true);
           lastSubmitTitlesRef.current = null;
-          setIsAiProcessing(false);
+          setIsAiUsed(false);
         },
         onError: () => {
           openModal(
@@ -74,7 +74,7 @@ export const useUpperTodoAI = ({
               }}
             />,
           );
-          setIsAiProcessing(false);
+          setIsAiUsed(false);
         },
       },
     );
@@ -95,11 +95,11 @@ export const useUpperTodoAI = ({
       return;
     }
 
-    if (hasAiUsed || isAiProcessing) {
+    if (hasAiUsed || isAiUsed) {
       return;
     }
 
-    setIsAiProcessing(true);
+    setIsAiUsed(true);
     setIsTooltipOpen(false);
 
     try {
@@ -126,9 +126,9 @@ export const useUpperTodoAI = ({
     } catch {
       openModal(<AiFailModal onClose={closeModal} onRetry={handleOpenAiModal} />);
     } finally {
-      setIsAiProcessing(false);
+      setIsAiUsed(false);
     }
   };
 
-  return { isAiUsed: hasAiUsed || isAiProcessing, handleOpenAiModal } as const;
+  return { isAiUsed: hasAiUsed || isAiUsed, handleOpenAiModal } as const;
 };
