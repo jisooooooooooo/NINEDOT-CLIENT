@@ -5,6 +5,7 @@ import { DEFAULT_PLACEHOLDER } from '@/common/component/TextField/mandalart/cons
 import { MandalartTextField } from '@/common/component/TextField/mandalart';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
 import { Square } from '@/common/component/Mandalart/Square/Square';
+import { truncateText } from '@/common/util/format';
 
 interface TodoItem {
   title: string;
@@ -51,7 +52,7 @@ const TodoFields = ({ values, onChange, onEnter, selectedCoreGoalTitle }: TodoFi
               return (
                 <Square.Main
                   key={index}
-                  content={selectedCoreGoalTitle || '상위목표'}
+                  content={truncateText(selectedCoreGoalTitle || '상위목표', 23)}
                   type="TODO_SUB"
                 />
               );
@@ -60,7 +61,7 @@ const TodoFields = ({ values, onChange, onEnter, selectedCoreGoalTitle }: TodoFi
             return (
               <Square.Sub
                 key={index}
-                content={values[valueIndex]?.title || ''}
+                content={truncateText(values[valueIndex]?.title || '', 23)}
                 type="TODO_SUB"
                 isCompleted={!!values[valueIndex]?.title}
                 onClick={() => {}}
@@ -85,7 +86,6 @@ const TodoFields = ({ values, onChange, onEnter, selectedCoreGoalTitle }: TodoFi
               onChange={(val) => handleTitleChange(index, val)}
               onCommit={getHandleFieldCommit(index)}
               placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.todo}`}
-              maxLength={30}
             />
           </div>
         ))}

@@ -6,6 +6,7 @@ import { LowerTodoHeader, MandalCompleteButton, TodoFields } from './component';
 import { useLowerTodoState, useLowerTodoAI } from './hook';
 import { toMainSubGoals } from './utils/goal';
 import { DEFAULT_TEXT, ALERT } from '@/common/constants/todo';
+import { truncateText } from '@/common/util/format';
 
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import { PATH } from '@/route';
@@ -88,8 +89,11 @@ const LowerTodo = () => {
         <div className={styles.lowerTodoBox}>
           <Mandalart
             type="TODO_MAIN"
-            mainGoal={mainGoal}
-            subGoals={toMainSubGoals(coreGoalsData?.coreGoals || [])}
+            mainGoal={truncateText(mainGoal, 23)}
+            subGoals={toMainSubGoals(coreGoalsData?.coreGoals || []).map((goal) => ({
+              ...goal,
+              title: truncateText(goal.title, 23),
+            }))}
             onGoalClick={handleSubGoalClick}
             selectedGoalIndex={selectedGoalIndex}
           />
