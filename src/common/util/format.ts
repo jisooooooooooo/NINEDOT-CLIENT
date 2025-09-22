@@ -20,3 +20,10 @@ export function getTomorrow(date: Date): Date {
   tomorrow.setDate(tomorrow.getDate() + 1);
   return tomorrow;
 }
+
+export function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength) + '…';
+}

@@ -1,100 +1,75 @@
-import type { GetCoreGoalsResponse } from './type/coreGoals';
-import type { GetSubGoalsRequest, GetSubGoalsResponse } from './type/subGoals';
-import type { GetSubGoalIdsRequest, GetSubGoalIdsResponse } from './type/subGoalIds';
-import type { CreateSubGoalRequest, CreateSubGoalResponse } from './type/createSubGoal';
-import type {
-  AiRecommendSubGoalRequest,
-  AiRecommendSubGoalResponse,
-} from './type/aiRecommendSubGoal';
-import type { UpdateSubGoalRequest } from './type/updateSubGoal.request';
-
-import { get, post, api } from '@/api';
+import axiosInstance from '@/api/axiosInstance';
 import { END_POINT } from '@/api/constant/endPoint';
 import type { BaseResponse } from '@/type/api';
-import axiosInstance from '@/api/axiosInstance';
+
+export type SubGoalIdPosition = {
+  id: number;
+  position: number;
+};
+
+export const getMandalAll = async (mandalartId: number) => {
+  const response = await axiosInstance.get<BaseResponse<{ title: string }>>(
+    `/${END_POINT.MANDALART}/${mandalartId}`,
+  );
+  return response.data.data;
+};
 
 export const getCoreGoals = async (mandalartId: number) => {
-  const { data } = await get<BaseResponse<GetCoreGoalsResponse>>(
-    `${END_POINT.ONBOARDING}/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}`,
+  const response = await axiosInstance.get<
+    BaseResponse<{
+      coreGoals: { id: number; title: string; position: number; aiGeneratable: boolean }[];
+    }>
+  >(`/${END_POINT.ONBOARDING}/${END_POINT.MANDALART}/${mandalartId}/${END_POINT.CORE_GOAL}`);
+  return response.data.data;
+};
+
+export const getSubGoalIds = async (coreGoalId: number) => {
+  const response = await axiosInstance.get<BaseResponse<{ subGoalIds: SubGoalIdPosition[] }>>(
+    `/${END_POINT.CORE_GOAL}/${coreGoalId}/${END_POINT.SUB_GOAL}`,
   );
-  return data;
+  return response.data.data;
 };
 
-export const getSubGoals = async ({ mandalartId, coreGoalId, cycle }: GetSubGoalsRequest) => {
-  const queryParams = new URLSearchParams();
-  if (coreGoalId !== undefined) {
-    queryParams.append('coreGoalId', coreGoalId.toString());
-  }
-  if (cycle) {
-    queryParams.append('cycle', cycle);
-  }
-
-  const queryString = queryParams.toString();
-  const url = `${END_POINT.MANDALART}/${mandalartId}/${END_POINT.SUB_GOAL}${queryString ? `?${queryString}` : ''}`;
-
-  const { data } = await get<BaseResponse<GetSubGoalsResponse>>(url);
-  return data;
-};
-
-export const getSubGoalIds = async ({ coreGoalId }: GetSubGoalIdsRequest) => {
-  const { data } = await get<BaseResponse<GetSubGoalIdsResponse>>(
-    `${END_POINT.CORE_GOAL}/${coreGoalId}/${END_POINT.SUB_GOAL}`,
-  );
-  return data;
-};
-
-export const createSubGoal = async (coreGoalId: number, request: CreateSubGoalRequest) => {
-  const { data } = await post<CreateSubGoalResponse>(
-    `/core-goals/${coreGoalId}/sub-goals`,
-    request,
-  );
-  return data;
-};
-
-export const postAiRecommendSubGoal = async (
-  coreGoalSnapshotId: number,
-  body: AiRecommendSubGoalRequest,
+export const postOnboardingSubGoal = async (
+  coreGoalId: number,
+  { title, position, cycle }: { title: string; position: number; cycle: string },
 ) => {
-  console.log('[2] postAiRecommendSubGoal 호출', { coreGoalSnapshotId, body });
-  const { data } = await post<AiRecommendSubGoalResponse>(
-    `/core-goals/${coreGoalSnapshotId}/ai`,
-    body,
+  const response = await axiosInstance.post<BaseResponse<{ id: number }>>(
+    `/${END_POINT.CORE_GOAL}/${coreGoalId}/${END_POINT.SUB_GOAL}`,
+    { title, position, cycle },
   );
-  return data;
+  return response.data.data;
 };
 
-export const postSubGoal = async (mandalartId: number, request: CreateSubGoalRequest) => {
-  const { data } = await post<CreateSubGoalResponse>(
-    `/mandalarts/${mandalartId}/onboarding/recommendation`,
-    request,
+export const patchOnboardingSubGoal = async ({
+  subGoalId,
+  title,
+  cycle,
+}: {
+  subGoalId: number;
+  title: string;
+  cycle: string;
+}) => {
+  const response = await axiosInstance.patch<BaseResponse<null>>(
+    `/${END_POINT.SUB_GOAL}/${subGoalId}`,
+    { title, cycle },
   );
-  return data;
+  return response.data;
 };
 
-export const completeMandalart = async (mandalartId: number) => {
-  const { data } = await post<BaseResponse<void>>(
-    `/mandalarts/${mandalartId}/onboarding/recommendation`,
+export const deleteOnboardingSubGoal = async (subGoalId: number) => {
+  const response = await axiosInstance.delete<BaseResponse<null>>(
+    `/${END_POINT.SUB_GOAL}/${subGoalId}`,
   );
-  return data;
+  return response.data;
 };
 
-export const postAiRecommendSubGoals = async (
-  coreGoalSnapshotId: number,
-  goals: { title: string; cycle: string }[],
+export const postAiRecommendNewSubGoal = async (
+  coreGoalId: number,
+  body: { coreGoal: string; subGoal: { title: string }[] },
 ) => {
-  const { data } = await post(`/core-goals/${coreGoalSnapshotId}/sub-goals/ai`, { goals });
-  return data;
-};
-
-export const updateSubGoal = async (subGoalId: number, payload: UpdateSubGoalRequest) => {
-  return (await api.patch(`/sub-goals/${subGoalId}`, payload)).data;
-};
-
-export const deleteSubGoal = async (subGoalId: number) => {
-  return (await api.delete(`/sub-goals/${subGoalId}`)).data;
-};
-
-export const getOverallGoal = async (mandalartId: number): Promise<{ title: string }> => {
-  const response = await axiosInstance.get(`/mandalarts/${mandalartId}`);
+  const response = await axiosInstance.post<
+    BaseResponse<{ aiRecommendedList: { title: string; cycle: string }[] }>
+  >(`/${END_POINT.CORE_GOAL}/${coreGoalId}/ai`, body);
   return response.data.data;
 };

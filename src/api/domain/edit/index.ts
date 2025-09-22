@@ -24,7 +24,7 @@ interface CoreGoalsResponse {
 
 type CycleType = 'DAILY' | 'WEEKLY' | 'ONCE';
 
-interface SubGoal {
+export interface SubGoal {
   [x: string]: any;
   id: number;
   title: string;
