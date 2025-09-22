@@ -6,4 +6,4 @@ export const DEFAULT_PLACEHOLDER = {
   todo: '할 일을 입력해주세요',
 } as const;
 
-export const BIG_GOAL_MAX_LENGTH = 30;
+export const MANDALART_TEXT_MAX_LENGTH = 30;

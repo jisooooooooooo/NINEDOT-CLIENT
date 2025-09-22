@@ -1,9 +1,11 @@
-import { useRef, forwardRef, useImperativeHandle } from 'react';
-
 import * as styles from '../LowerTodo.css';
+import { ORDER_LABELS } from '@/common/constants/todo';
 
+import { DEFAULT_PLACEHOLDER } from '@/common/component/TextField/mandalart/constants';
 import { MandalartTextField } from '@/common/component/TextField/mandalart';
 import CycleDropDown from '@/common/component/CycleDropDown/CycleDropDown';
+import { Square } from '@/common/component/Mandalart/Square/Square';
+import { truncateText } from '@/common/util/format';
 
 interface TodoItem {
   title: string;
@@ -13,98 +15,83 @@ interface TodoItem {
 interface TodoFieldsProps {
   values: TodoItem[];
   onChange: (values: TodoItem[]) => void;
-  onSave: (todo: TodoItem, index: number) => void;
-  lastSavedTodos: TodoItem[];
-  selectedGoalIndex: number;
-  disabled?: boolean;
+  onEnter?: (index: number, todo: TodoItem) => void;
+  selectedCoreGoalTitle?: string;
 }
-
-const LABEL_TO_CYCLE: Record<'매일' | '매주' | '한 번', TodoItem['cycle']> = {
-  매일: 'DAILY',
-  매주: 'WEEKLY',
-  '한 번': 'ONCE',
-};
-
-type CycleLabel = '매일' | '매주' | '한 번';
-
-const TodoFields = forwardRef(function TodoFields(
-  {
-    values,
-    onChange,
-    onSave,
-    disabled = false,
-  }: Omit<TodoFieldsProps, 'lastSavedTodos' | 'selectedGoalIndex'>,
-  ref,
-) {
-  const saveFlags = useRef<boolean[]>(Array(values.length).fill(false));
-  const isComposingArr = useRef<boolean[]>(Array(values.length).fill(false));
-
-  useImperativeHandle(ref, () => ({
-    isComposing: isComposingArr.current,
-  }));
-
-  const handleSave = (todo: TodoItem, index: number) => {
-    if (isComposingArr.current[index]) {
-      return;
-    }
-    if (saveFlags.current[index]) {
-      return;
-    }
-    if (!todo.title.trim()) {
-      return;
-    }
-    saveFlags.current[index] = true;
-    onSave(todo, index);
-    setTimeout(() => {
-      saveFlags.current[index] = false;
-    }, 100);
-  };
+const TodoFields = ({ values, onChange, onEnter, selectedCoreGoalTitle }: TodoFieldsProps) => {
+  const updatedValues = (index: number, newTodo: TodoItem) =>
+    values.map((v, i) => (i === index ? newTodo : v));
 
   const handleTitleChange = (index: number, newTitle: string) => {
-    if (disabled) {
-      return;
-    }
-    const newValues = values.map((v, i) => (i === index ? { ...v, title: newTitle } : v));
-    onChange(newValues);
+    const newTodo = { ...values[index], title: newTitle };
+    onChange(updatedValues(index, newTodo));
   };
 
-  const handleCycleChange = (index: number, newLabel: CycleLabel) => {
-    if (disabled) {
-      return;
+  const handleCycleChange = (index: number, newCycle: TodoItem['cycle']) => {
+    const newTodo = { ...values[index], cycle: newCycle };
+    onChange(updatedValues(index, newTodo));
+
+    if (onEnter) {
+      onEnter(index, newTodo);
     }
-    const newCycle = LABEL_TO_CYCLE[newLabel] || 'DAILY';
-    const newValues = values.map((v, i) => (i === index ? { ...v, cycle: newCycle } : v));
-    onChange(newValues);
   };
 
-  const getHandleFieldCommit = (index: number) => (_value: string, reason: 'enter' | 'blur') => {
-    if (reason === 'enter') {
-      handleSave(values[index], index);
+  const getHandleFieldCommit = (index: number) => (value: string, reason: 'enter' | 'blur') => {
+    if (reason === 'enter' && onEnter) {
+      const currentTodo = { ...values[index], title: value };
+      onEnter(index, currentTodo);
     }
   };
 
   return (
     <div className={styles.todoWritingSection}>
-      {values.map((item, index) => (
-        <div key={index} className={styles.todoFieldWrapper}>
-          <div className={styles.dropdownWrapper}>
-            <CycleDropDown
-              initialType={item.cycle}
-              onChange={(label) => handleCycleChange(index, label as CycleLabel)}
+      <div className={styles.smallMandalartContainer}>
+        <div className={styles.smallMandalartGrid}>
+          {Array.from({ length: 9 }, (_, index) => {
+            if (index === 4) {
+              return (
+                <Square.Main
+                  key={index}
+                  content={truncateText(selectedCoreGoalTitle || '상위목표', 23)}
+                  type="TODO_SUB"
+                />
+              );
+            }
+            const valueIndex = index > 4 ? index - 1 : index;
+            return (
+              <Square.Sub
+                key={index}
+                content={truncateText(values[valueIndex]?.title || '', 23)}
+                type="TODO_SUB"
+                isCompleted={!!values[valueIndex]?.title}
+                onClick={() => {}}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <div className={styles.todoInputFields}>
+        {values.map((todo, index) => (
+          <div key={index} className={styles.todoFieldWrapper}>
+            <div className={styles.dropdownWrapper}>
+              <CycleDropDown
+                initialType={todo.cycle}
+                onChange={(cycle) => handleCycleChange(index, cycle)}
+              />
+            </div>
+            <MandalartTextField
+              variant="todo"
+              value={todo.title}
+              onChange={(val) => handleTitleChange(index, val)}
+              onCommit={getHandleFieldCommit(index)}
+              placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.todo}`}
             />
           </div>
-          <MandalartTextField
-            variant="todo"
-            value={item.title}
-            onChange={(newValue) => handleTitleChange(index, newValue)}
-            onCommit={getHandleFieldCommit(index)}
-            disabled={disabled}
-            maxLength={30}
-          />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
-});
+};
 
 export default TodoFields;
