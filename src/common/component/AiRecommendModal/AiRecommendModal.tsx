@@ -8,6 +8,7 @@ import AiModalBase from '@/common/component/AiModalBase/AiModalBase';
 
 interface AiRecommendModalProps {
   onClose: () => void;
+  onBeforeClose?: () => void;
   onSubmit: (goals: { title: string }[]) => void;
   values: readonly string[];
   options?: readonly string[];
@@ -20,7 +21,13 @@ const TEXT = {
   confirmButton: '내 만다라트에 넣기',
 } as const;
 
-const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendModalProps) => {
+const AiRecommendModal = ({
+  onClose,
+  onBeforeClose,
+  onSubmit,
+  values,
+  options,
+}: AiRecommendModalProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const emptyCount = values.filter((v) => v.trim() === '').length;
@@ -34,16 +41,21 @@ const AiRecommendModal = ({ onClose, onSubmit, values, options }: AiRecommendMod
     );
   };
 
+  const handleClose = () => {
+    onBeforeClose?.();
+    onClose();
+  };
+
   const handleClick = () => {
     const titles = selectedOptions.slice(0, emptyCount);
     const goals = titles.map((title) => ({ title }));
     onSubmit(goals);
-    onClose();
+    handleClose();
   };
 
   return (
     <AiModalBase
-      onClose={onClose}
+      onClose={handleClose}
       title={TEXT.title}
       description={
         <>

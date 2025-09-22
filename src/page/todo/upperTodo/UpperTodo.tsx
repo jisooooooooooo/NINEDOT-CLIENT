@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Mandalart from '@common/component/Mandalart/Mandalart';
 
@@ -5,7 +6,7 @@ import * as styles from './UpperTodo.css';
 import { SubGoalFields, UpperTodoHeader, MandalCompleteButton } from './component';
 import { useUpperTodoState, useUpperTodoAI } from './hook';
 import { toMainSubGoals } from './utils/goal';
-import { DEFAULT_TEXT, ALERT } from './constants';
+import { DEFAULT_TEXT, ALERT, GOAL_COUNT } from './constants';
 
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import { PATH } from '@/route';
@@ -41,7 +42,9 @@ const UpperTodo = () => {
     navigate(PATH.TODO_LOWER);
   };
 
-  const { isAiUsed, handleOpenAiModal } = useUpperTodoAI({
+  const [hasAiRecommendUsed, setHasAiRecommendUsed] = useState(false);
+
+  const { isLoading: isUpperAiLoading, handleOpenAiModal } = useUpperTodoAI({
     mandalartId,
     mainGoal,
     subGoals,
@@ -49,9 +52,15 @@ const UpperTodo = () => {
     refetch,
     refetchCoreGoalIds,
     setIsTooltipOpen,
+    hasAiBeenUsed: hasAiRecommendUsed,
+    markAiUsed: () => setHasAiRecommendUsed(true),
   });
 
-  const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
+  const filledSubGoalCount = subGoals.filter((v) => v.trim() !== '').length;
+  const hasFilledSubGoals = filledSubGoalCount > 0;
+  const isAllSubGoalsFilled = filledSubGoalCount >= GOAL_COUNT;
+
+  const isAiUsed = hasAiRecommendUsed || isUpperAiLoading || isAllSubGoalsFilled;
 
   const handleEnter = (index: number, value: string) => {
     handleSubGoalEnter(index, value);

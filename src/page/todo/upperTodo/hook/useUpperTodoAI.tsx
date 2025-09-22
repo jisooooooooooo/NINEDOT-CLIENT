@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { isAxiosError } from 'axios';
 
 import { extractTitles, updateSubGoalsWithAiResponse } from '../utils/goal';
-import { ALERT, GOAL_COUNT } from '../constants';
+import { GOAL_COUNT } from '../constants';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import AiFailModal from '@/common/component/AiFailModal/AiFailModal';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import {
   usePostAiRecommendCoreGoal,
@@ -19,6 +19,8 @@ interface UseUpperTodoAIParams {
   refetch: () => void;
   refetchCoreGoalIds: () => void;
   setIsTooltipOpen: (open: boolean) => void;
+  hasAiBeenUsed: boolean;
+  markAiUsed: () => void;
 }
 
 interface CoreGoalResponse {
@@ -26,22 +28,6 @@ interface CoreGoalResponse {
   position: number;
   title: string;
 }
-
-interface ApiErrorResponse {
-  message?: string;
-}
-
-const getServerMessage = (error: unknown, fallback: string) => {
-  if (isAxiosError<ApiErrorResponse>(error)) {
-    return error.response?.data?.message ?? fallback;
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return fallback;
-};
 
 export const useUpperTodoAI = ({
   mandalartId,
@@ -51,29 +37,48 @@ export const useUpperTodoAI = ({
   refetch,
   refetchCoreGoalIds,
   setIsTooltipOpen,
+  hasAiBeenUsed,
+  markAiUsed,
 }: UseUpperTodoAIParams) => {
   const { openModal, closeModal } = useOverlayModal();
   const postAiRecommend = usePostAiRecommendCoreGoal();
   const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
-  const [isAiUsed, setIsAiUsed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAiSubmit = (goals: { title: string }[]) => {
+  const openFailModal = (retry?: () => void) => {
+    openModal(<AiFailModal onClose={closeModal} onRetry={retry} />);
+  };
+
+  const runSubmitMutation = (titles: string[]) => {
+    if (titles.length === 0) {
+      return;
+    }
+
+    setIsLoading(true);
     postRecommendToCore.mutate(
-      { mandalartId, goals: goals.map((g) => g.title) },
+      { mandalartId, goals: titles },
       {
         onSuccess: (response) => {
           const responseData: CoreGoalResponse[] = response.coreGoals;
           setSubGoals((prev) => updateSubGoalsWithAiResponse(prev, responseData));
           refetchCoreGoalIds();
           refetch();
+          setIsLoading(false);
         },
-        onError: (error) => {
-          const message = getServerMessage(error, ALERT.aiSaveFail);
-          alert(message);
+        onError: () => {
+          openFailModal(() => {
+            runSubmitMutation(titles);
+          });
+          setIsLoading(false);
         },
       },
     );
+  };
+
+  const handleAiSubmit = (goals: { title: string }[]) => {
+    const titles = goals.map((goal) => goal.title);
+    runSubmitMutation(titles);
   };
 
   const handleOpenAiModal = async () => {
@@ -81,11 +86,15 @@ export const useUpperTodoAI = ({
     const maxGoals = GOAL_COUNT;
 
     if (currentFilledCount >= maxGoals) {
-      alert(ALERT.goalsAlreadyFilled);
+      openFailModal();
       return;
     }
 
-    setIsAiUsed(true);
+    if (hasAiBeenUsed || isLoading) {
+      return;
+    }
+
+    setIsLoading(true);
     setIsTooltipOpen(false);
 
     try {
@@ -102,6 +111,7 @@ export const useUpperTodoAI = ({
       const aiModalContent = (
         <AiRecommendModal
           onClose={closeModal}
+          onBeforeClose={markAiUsed}
           onSubmit={handleAiSubmit}
           values={subGoals}
           options={titles}
@@ -109,13 +119,12 @@ export const useUpperTodoAI = ({
       );
 
       openModal(aiModalContent);
-    } catch (error) {
-      const message = getServerMessage(error, ALERT.aiFetchFail);
-      alert(message);
+    } catch {
+      openFailModal(handleOpenAiModal);
     } finally {
-      setIsAiUsed(false);
+      setIsLoading(false);
     }
   };
 
-  return { isAiUsed, handleOpenAiModal } as const;
+  return { isLoading, handleOpenAiModal } as const;
 };

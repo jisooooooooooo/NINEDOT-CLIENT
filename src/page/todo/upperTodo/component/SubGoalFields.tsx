@@ -37,6 +37,7 @@ const SubGoalFields = ({ values, onChange, idPositions, onEnter }: SubGoalFields
           onChange={(val) => handleChange(index, val)}
           onCommit={getHandleFieldCommit(index, idPositions?.[index]?.id)}
           placeholder={`${ORDER_LABELS[index]} ${DEFAULT_PLACEHOLDER.subGoal}`}
+          maxLength={30}
         />
       ))}
     </div>

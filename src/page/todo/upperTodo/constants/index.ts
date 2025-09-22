@@ -6,9 +6,6 @@ export const DEFAULT_TEXT = {
 
 export const ALERT = {
   noMandalartId: '전체 목표가 설정되지 않았습니다.',
-  goalsAlreadyFilled: '이미 모든 목표가 채워져 있습니다.',
-  aiSaveFail: 'AI 추천 목표 저장 실패',
-  aiFetchFail: 'AI 추천을 불러오지 못했어요. 잠시 후 다시 시도해주세요.',
 } as const;
 
 export const ORDER_LABELS = [

@@ -62,6 +62,9 @@ const createBaseCell = (type: keyof typeof SQUARE_TYPES) =>
     height: SQUARE_TYPES[type].height,
     padding: SQUARE_TYPES[type].padding,
     boxSizing: 'border-box',
+    wordBreak: 'break-word',
+    overflowWrap: 'anywhere',
+    whiteSpace: 'pre-wrap',
     cursor:
       type === 'MY_MANDAL' || type === 'MY_MANDAL_CENTER' || type === 'TODO_SUB_COLORED'
         ? 'default'
@@ -145,9 +148,6 @@ export const subCell = {
     {
       color: colors.grey8,
       background: colors.grey3,
-      ':hover': {
-        background: colors.grey2,
-      },
       selectors: {
         '&[data-completed="true"]': {
           border: `4px solid ${colors.blue08}`,
