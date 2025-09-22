@@ -4,6 +4,7 @@ import { ALERT, GOAL_COUNT } from '../constants';
 import { extractTitles, formatAiRecommendTitles } from '../utils/goal';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import AiFailModal from '@/common/component/AiFailModal/AiFailModal';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import { usePostAiRecommendNewSubGoal } from '@/api/domain/lowerTodo/hook';
 
@@ -152,7 +153,8 @@ export const useLowerTodoAI = ({
       openModal(aiModalContent);
     } catch (error) {
       const message = getServerMessage(error, ALERT.aiFetchFail);
-      alert(message);
+      const failModalContent = <AiFailModal onClose={closeModal} message={message} />;
+      openModal(failModalContent);
     } finally {
       updateAiUsed();
     }
