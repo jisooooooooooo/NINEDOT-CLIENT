@@ -5,6 +5,7 @@ import {
   surveyTitle,
 } from '@/page/signup/SurveySection/SurveySection.css';
 import { useGetPersona } from '@/api/domain/signup/hook/useGetPersona';
+import Loading from '@/common/component/Loading/Loading';
 
 type AnswerMap = Record<number, number>;
 
@@ -24,7 +25,7 @@ const SurveySection = ({ answers, setAnswers }: SurveySectionProps) => {
   };
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading type="default" />;
   }
   if (isError || !data) {
     return <p>질문을 불러오는 데 실패했어요.</p>;
