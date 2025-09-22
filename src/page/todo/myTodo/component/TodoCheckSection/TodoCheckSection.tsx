@@ -35,51 +35,56 @@ const TodoCheckSection = ({
   selectedCycle,
   mandalartData,
   onCycleClick,
+  onTodoClick,
   onMandalartClick,
   selectedParentId,
 }: TodoCheckSectionProps) => {
   const mandalartId = useMandalartId();
   const { data: coreGoalsData } = useGetMandalCoreGoals(mandalartId);
-  const { data: subGoalResponse } = useGetMandalartSubGoals(
-    mandalartId,
-    selectedParentId,
-    selectedCycle,
-  );
+  const {
+    data: subGoalResponse,
+    isLoading: isSubGoalsLoading,
+    isFetching: isSubGoalsFetching,
+  } = useGetMandalartSubGoals(mandalartId, selectedParentId, selectedCycle);
 
   const [localSubGoals, setLocalSubGoals] = useState<TodoItemTypes[]>([]);
 
   useEffect(() => {
-    const subGoals: TodoItemTypes[] = (subGoalResponse?.data?.subGoals ?? []).map((goal) => ({
+    if (!subGoalResponse?.data) {
+      return;
+    }
+
+    const apiSubGoals = (subGoalResponse.data.subGoals ?? []).map((goal) => ({
       id: goal.id,
-      title: goal.title,
+      content: goal.title,
       cycle: goal.cycle,
       isCompleted: goal.isCompleted,
-      content: goal.title,
     }));
-    setLocalSubGoals(subGoals);
+
+    setLocalSubGoals(apiSubGoals);
   }, [subGoalResponse]);
+
+  const updateLocalSubGoalCompletion = (id: TodoItemTypes['id'], nextValue: boolean) => {
+    setLocalSubGoals((prev) =>
+      prev.map((goal) => (goal.id === id ? { ...goal, isCompleted: nextValue } : goal)),
+    );
+  };
 
   const checkSubGoalMutation = useCheckSubGoal();
   const uncheckSubGoalMutation = useUncheckSubGoal();
 
   const handleTodoClick = (item: TodoItemTypes) => {
     const today = new Date().toISOString().split('T')[0];
-    const originalCompleted = item.isCompleted;
+    const originalCompleted = Boolean(item.isCompleted);
+    const nextCompleted = !originalCompleted;
 
-    setLocalSubGoals((prev) =>
-      prev.map((goal) =>
-        goal.id === item.id ? { ...goal, isCompleted: !goal.isCompleted } : goal,
-      ),
-    );
+    updateLocalSubGoalCompletion(item.id, nextCompleted);
+    onTodoClick({ ...item, isCompleted: nextCompleted });
 
-    if (originalCompleted === true) {
+    if (originalCompleted) {
       uncheckSubGoalMutation.mutate(Number(item.id), {
         onError: () => {
-          setLocalSubGoals((prev) =>
-            prev.map((goal) =>
-              goal.id === item.id ? { ...goal, isCompleted: originalCompleted } : goal,
-            ),
-          );
+          updateLocalSubGoalCompletion(item.id, originalCompleted);
         },
       });
     } else {
@@ -90,16 +95,32 @@ const TodoCheckSection = ({
         },
         {
           onError: () => {
-            setLocalSubGoals((prev) =>
-              prev.map((goal) =>
-                goal.id === item.id ? { ...goal, isCompleted: originalCompleted } : goal,
-              ),
-            );
+            updateLocalSubGoalCompletion(item.id, originalCompleted);
           },
         },
       );
     }
   };
+
+  const isLoadingSubGoals = isSubGoalsLoading || isSubGoalsFetching;
+  const hasTodos = localSubGoals.length > 0;
+  const showSpinner = isLoadingSubGoals;
+  const todoContainerClass =
+    showSpinner || hasTodos ? styles.todoCheckContainer : styles.noScrollTodoCheckContainer;
+
+  const renderEmptyState = () => (
+    <div className={styles.emptyTodoBox}>
+      <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
+    </div>
+  );
+
+  const renderTodoItems = () =>
+    localSubGoals.map((todo) => (
+      <div key={todo.id} className={styles.todoCheckLine}>
+        <CycleChip type="display" value={todo.cycle as CycleType} />
+        <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
+      </div>
+    ));
 
   return (
     <section className={styles.checkSection}>
@@ -109,69 +130,60 @@ const TodoCheckSection = ({
       </header>
 
       <section className={styles.checkMainContainer}>
-        <div className={styles.mainContentSection}>
-          <div className={styles.mandalartWithTodoSection}>
-            <Mandalart
-              type="TODO_MAIN"
-              data={{
-                id: 0,
-                position: 4,
-                title: mandalartData.title || mandalartData.mainGoal,
-                subGoals: Array.isArray(coreGoalsData?.data?.coreGoals)
-                  ? coreGoalsData.data.coreGoals.map(
-                      (
-                        goal: { title: string; position: number; subGoals?: unknown[] },
-                        idx: number,
-                      ) => ({
-                        id: idx < 4 ? idx : idx + 1,
-                        title: goal.title,
-                        position: goal.position,
-                        subGoals: goal.subGoals ?? [],
-                      }),
-                    )
-                  : [],
-              }}
-              onGoalClick={(position) => {
-                const coreGoal = coreGoalsData?.data?.coreGoals.find(
-                  (goal) => goal.position === position,
-                );
-                const parentId = coreGoal?.id;
-                onMandalartClick(selectedParentId === parentId ? undefined : parentId);
-              }}
-            />
-            <div className={styles.todoCheckArea}>
-              <div className={styles.selectorChipsContainer}>
-                {CYCLE_LIST.map((cycle) => (
-                  <CycleChip
-                    key={cycle}
-                    type="selector"
-                    value={cycle}
-                    selected={selectedCycle === cycle}
-                    onClick={onCycleClick}
-                  />
-                ))}
-              </div>
+        <div className={styles.mandalartWithTodoSection}>
+          <Mandalart
+            type="TODO_MAIN"
+            data={{
+              id: 0,
+              position: 4,
+              title: mandalartData.title || mandalartData.mainGoal,
+              subGoals: Array.isArray(coreGoalsData?.data?.coreGoals)
+                ? [...coreGoalsData.data.coreGoals]
+                    .sort((a, b) => a.position - b.position)
+                    .map((goal) => ({
+                      id: goal.id,
+                      title: goal.title,
+                      position: goal.position,
+                      subGoals: [],
+                    }))
+                : [],
+            }}
+            onGoalClick={(position, goalId) => {
+              const coreGoal = coreGoalsData?.data?.coreGoals.find(
+                (goal) => goal.position === position,
+              );
+              const resolvedParentId = goalId && goalId > 0 ? goalId : coreGoal?.id;
 
-              <div
-                className={
-                  localSubGoals.length === 0
-                    ? styles.noScrollTodoCheckContainer
-                    : styles.todoCheckContainer
-                }
-              >
-                {localSubGoals.length === 0 ? (
-                  <div className={styles.emptyTodoBox}>
-                    <span className={styles.emptyTodoText}>해당하는 할 일이 없어요</span>
-                  </div>
-                ) : (
-                  localSubGoals.map((todo) => (
-                    <div key={todo.id} className={styles.todoCheckLine}>
-                      <CycleChip type="display" value={todo.cycle as CycleType} />
-                      <TodoBox type="todo" items={[todo]} onItemClick={handleTodoClick} />
-                    </div>
-                  ))
-                )}
-              </div>
+              if (!resolvedParentId) {
+                onMandalartClick(undefined);
+                return;
+              }
+
+              onMandalartClick(
+                selectedParentId === resolvedParentId ? undefined : resolvedParentId,
+              );
+            }}
+          />
+          <div className={styles.todoCheckArea}>
+            <div className={styles.selectorChipsContainer}>
+              {CYCLE_LIST.map((cycle) => (
+                <CycleChip
+                  key={cycle}
+                  type="selector"
+                  value={cycle}
+                  selected={selectedCycle === cycle}
+                  onClick={onCycleClick}
+                />
+              ))}
+            </div>
+
+            <div className={todoContainerClass}>
+              {showSpinner && (
+                <div className={styles.todoLoadingOverlay}>
+                  <div className={styles.todoLoadingSpinner} />
+                </div>
+              )}
+              {hasTodos ? renderTodoItems() : !showSpinner && renderEmptyState()}
             </div>
           </div>
         </div>
