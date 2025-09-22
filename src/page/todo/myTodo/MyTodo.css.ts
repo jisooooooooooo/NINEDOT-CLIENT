@@ -33,7 +33,7 @@ export const contentWrapper = style([
     alignItems: 'flex-start',
     width: '100%',
     maxWidth: '128rem',
-    gap: '8.6rem',
+    gap: '8rem',
   },
 ]);
 
