@@ -2,8 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 
 import { PATH } from './path';
 
+import { Home, NotFound } from '@/page';
 import { Layout } from '@/shared/component/Layout';
-import Home from '@/page/home/Home';
 import Intro from '@/page/intro/Intro';
 
 export const mainRoutes: RouteObject[] = [
@@ -80,6 +80,10 @@ export const mainRoutes: RouteObject[] = [
           const { SignUp } = await import('@/page');
           return { Component: SignUp };
         },
+      },
+      {
+        path: PATH.NOT_FOUND,
+        element: <NotFound />,
       },
     ],
   },
