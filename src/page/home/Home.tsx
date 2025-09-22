@@ -23,8 +23,9 @@ const Home = () => {
   const end = useFadeInOnView<HTMLDivElement>();
   const { openModal, closeModal } = useOverlayModal();
 
+  const user = useAuthStore((state) => state.user);
+
   const handleOpenLogin = () => {
-    const user = useAuthStore((state) => state.user);
     if (user) {
       return;
     }
