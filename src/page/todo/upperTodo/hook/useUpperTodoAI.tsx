@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { extractTitles, updateSubGoalsWithAiResponse } from '../utils/goal';
 import { GOAL_COUNT } from '../constants';
@@ -45,7 +45,10 @@ export const useUpperTodoAI = ({
   const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
   const [isLoading, setIsLoading] = useState(false);
-  const lastSubmitTitlesRef = useRef<string[] | null>(null);
+
+  const openFailModal = (retry?: () => void) => {
+    openModal(<AiFailModal onClose={closeModal} onRetry={retry} />);
+  };
 
   const runSubmitMutation = (titles: string[]) => {
     if (titles.length === 0) {
@@ -61,22 +64,12 @@ export const useUpperTodoAI = ({
           setSubGoals((prev) => updateSubGoalsWithAiResponse(prev, responseData));
           refetchCoreGoalIds();
           refetch();
-          markAiUsed();
-          lastSubmitTitlesRef.current = null;
           setIsLoading(false);
         },
         onError: () => {
-          openModal(
-            <AiFailModal
-              onClose={closeModal}
-              onRetry={() => {
-                const submitTitles = lastSubmitTitlesRef.current;
-                if (submitTitles) {
-                  runSubmitMutation(submitTitles);
-                }
-              }}
-            />,
-          );
+          openFailModal(() => {
+            runSubmitMutation(titles);
+          });
           setIsLoading(false);
         },
       },
@@ -85,7 +78,6 @@ export const useUpperTodoAI = ({
 
   const handleAiSubmit = (goals: { title: string }[]) => {
     const titles = goals.map((goal) => goal.title);
-    lastSubmitTitlesRef.current = titles;
     runSubmitMutation(titles);
   };
 
@@ -94,7 +86,7 @@ export const useUpperTodoAI = ({
     const maxGoals = GOAL_COUNT;
 
     if (currentFilledCount >= maxGoals) {
-      openModal(<AiFailModal onClose={closeModal} />);
+      openFailModal();
       return;
     }
 
@@ -119,6 +111,7 @@ export const useUpperTodoAI = ({
       const aiModalContent = (
         <AiRecommendModal
           onClose={closeModal}
+          onBeforeClose={markAiUsed}
           onSubmit={handleAiSubmit}
           values={subGoals}
           options={titles}
@@ -126,9 +119,8 @@ export const useUpperTodoAI = ({
       );
 
       openModal(aiModalContent);
-      markAiUsed();
     } catch {
-      openModal(<AiFailModal onClose={closeModal} onRetry={handleOpenAiModal} />);
+      openFailModal(handleOpenAiModal);
     } finally {
       setIsLoading(false);
     }

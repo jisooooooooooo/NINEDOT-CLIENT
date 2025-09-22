@@ -6,7 +6,7 @@ import * as styles from './UpperTodo.css';
 import { SubGoalFields, UpperTodoHeader, MandalCompleteButton } from './component';
 import { useUpperTodoState, useUpperTodoAI } from './hook';
 import { toMainSubGoals } from './utils/goal';
-import { DEFAULT_TEXT, ALERT } from './constants';
+import { DEFAULT_TEXT, ALERT, GOAL_COUNT } from './constants';
 
 import GradientBackground from '@/common/component/Background/GradientBackground';
 import { PATH } from '@/route';
@@ -56,9 +56,11 @@ const UpperTodo = () => {
     markAiUsed: () => setHasAiRecommendUsed(true),
   });
 
-  const isAiUsed = hasAiRecommendUsed || isUpperAiLoading;
+  const filledSubGoalCount = subGoals.filter((v) => v.trim() !== '').length;
+  const hasFilledSubGoals = filledSubGoalCount > 0;
+  const isAllSubGoalsFilled = filledSubGoalCount >= GOAL_COUNT;
 
-  const hasFilledSubGoals = subGoals.filter((v) => v.trim() !== '').length > 0;
+  const isAiUsed = hasAiRecommendUsed || isUpperAiLoading || isAllSubGoalsFilled;
 
   const handleEnter = (index: number, value: string) => {
     handleSubGoalEnter(index, value);
