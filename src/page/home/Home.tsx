@@ -8,6 +8,7 @@ import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import LoginModal from '@/common/component/LoginModal/LoginModal';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import type { AnimationImporter } from '@/page/home/type/lottieType';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const animationImporters = [
   () => import('@/assets/lottie/mandalart.json'),
@@ -22,7 +23,13 @@ const Home = () => {
   const end = useFadeInOnView<HTMLDivElement>();
   const { openModal, closeModal } = useOverlayModal();
 
-  const handleOpenLogin = () => openModal(<LoginModal onClose={closeModal} />);
+  const handleOpenLogin = () => {
+    const user = useAuthStore((state) => state.user);
+    if (user) {
+      return;
+    }
+    openModal(<LoginModal onClose={closeModal} />);
+  };
 
   return (
     <div className={HomeContainer}>
