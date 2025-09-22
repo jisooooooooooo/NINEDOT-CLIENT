@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as styles from '@/page/intro/Intro.css';
 import { PATH } from '@/route';
 
-type PageStateType = 'MANDALART' | 'CORE_GOAL' | 'SUB_GOALS';
+type PageStateType = 'MANDALART' | 'CORE_GOAL' | 'SUB_GOAL';
 
 const ROUTE_BY_STATE: Record<PageStateType, string> = {
   MANDALART: PATH.TODO,
   CORE_GOAL: PATH.TODO_UPPER,
-  SUB_GOALS: PATH.TODO_LOWER,
+  SUB_GOAL: PATH.TODO_LOWER,
 };
 
 const MESSAGE = {
@@ -33,7 +33,6 @@ const Intro = () => {
 
   const handleGoTodo = () => {
     if (!pageState) {
-      navigate(PATH.TODO);
       return;
     }
     navigate(ROUTE_BY_STATE[pageState]);
