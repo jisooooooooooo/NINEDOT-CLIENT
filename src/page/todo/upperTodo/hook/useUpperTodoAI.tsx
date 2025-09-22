@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { isAxiosError } from 'axios';
 
 import { extractTitles, updateSubGoalsWithAiResponse } from '../utils/goal';
-import { ALERT, GOAL_COUNT } from '../constants';
+import { GOAL_COUNT } from '../constants';
 
 import AiRecommendModal from '@/common/component/AiRecommendModal/AiRecommendModal';
+import AiFailModal from '@/common/component/AiFailModal/AiFailModal';
 import { useOverlayModal } from '@/common/hook/useOverlayModal';
 import {
   usePostAiRecommendCoreGoal,
@@ -27,22 +27,6 @@ interface CoreGoalResponse {
   title: string;
 }
 
-interface ApiErrorResponse {
-  message?: string;
-}
-
-const getServerMessage = (error: unknown, fallback: string) => {
-  if (isAxiosError<ApiErrorResponse>(error)) {
-    return error.response?.data?.message ?? fallback;
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return fallback;
-};
-
 export const useUpperTodoAI = ({
   mandalartId,
   mainGoal,
@@ -56,9 +40,11 @@ export const useUpperTodoAI = ({
   const postAiRecommend = usePostAiRecommendCoreGoal();
   const postRecommendToCore = usePostAiRecommendToCoreGoals();
 
-  const [isAiUsed, setIsAiUsed] = useState(false);
+  const [isAiProcessing, setIsAiProcessing] = useState(false);
+  const [hasAiUsed, setHasAiUsed] = useState(false);
 
   const handleAiSubmit = (goals: { title: string }[]) => {
+    setIsAiProcessing(true);
     postRecommendToCore.mutate(
       { mandalartId, goals: goals.map((g) => g.title) },
       {
@@ -67,10 +53,12 @@ export const useUpperTodoAI = ({
           setSubGoals((prev) => updateSubGoalsWithAiResponse(prev, responseData));
           refetchCoreGoalIds();
           refetch();
+          setHasAiUsed(true);
+          setIsAiProcessing(false);
         },
-        onError: (error) => {
-          const message = getServerMessage(error, ALERT.aiSaveFail);
-          alert(message);
+        onError: () => {
+          openModal(<AiFailModal onClose={closeModal} />);
+          setIsAiProcessing(false);
         },
       },
     );
@@ -81,11 +69,15 @@ export const useUpperTodoAI = ({
     const maxGoals = GOAL_COUNT;
 
     if (currentFilledCount >= maxGoals) {
-      alert(ALERT.goalsAlreadyFilled);
+      openModal(<AiFailModal onClose={closeModal} />);
       return;
     }
 
-    setIsAiUsed(true);
+    if (hasAiUsed || isAiProcessing) {
+      return;
+    }
+
+    setIsAiProcessing(true);
     setIsTooltipOpen(false);
 
     try {
@@ -109,13 +101,12 @@ export const useUpperTodoAI = ({
       );
 
       openModal(aiModalContent);
-    } catch (error) {
-      const message = getServerMessage(error, ALERT.aiFetchFail);
-      alert(message);
+    } catch {
+      openModal(<AiFailModal onClose={closeModal} />);
     } finally {
-      setIsAiUsed(false);
+      setIsAiProcessing(false);
     }
   };
 
-  return { isAiUsed, handleOpenAiModal } as const;
+  return { isAiUsed: hasAiUsed || isAiProcessing, handleOpenAiModal } as const;
 };
