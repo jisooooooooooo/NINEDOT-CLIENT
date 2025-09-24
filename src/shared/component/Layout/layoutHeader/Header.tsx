@@ -92,9 +92,10 @@ const Header = () => {
           src={user.profileImageUrl}
           alt="유저 프로필 이미지"
           className={styles.profilePlaceholder}
+          onMouseDown={(e) => e.stopPropagation()}
         />
       </button>
-      {openProfile && <UserModal onClose={handleProfile} />}
+      {openProfile && <UserModal onClose={() => setOpenProfile(false)} />}
     </>
   );
 
