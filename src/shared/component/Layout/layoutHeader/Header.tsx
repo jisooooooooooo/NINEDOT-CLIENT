@@ -22,6 +22,8 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isSignUpPage = location.pathname === PATH.SIGNUP;
+
   const { data: userData, isLoading } = useGetUser();
 
   const { user, isLoggedIn, setUser, resetUser } = useAuthStore(
@@ -103,13 +105,13 @@ const Header = () => {
           <IcLogo className={styles.logoImage} />
         </Link>
 
-        {isLoggedIn ? (
-          renderNavMenu()
-        ) : (
-          <button className={styles.loginButton} onClick={handleLogin} type="button">
-            로그인
-          </button>
-        )}
+        {isLoggedIn
+          ? renderNavMenu()
+          : !isSignUpPage && (
+              <button className={styles.loginButton} onClick={handleLogin} type="button">
+                로그인
+              </button>
+            )}
       </div>
     </header>
   );
