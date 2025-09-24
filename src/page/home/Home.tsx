@@ -9,6 +9,9 @@ import LoginModal from '@/common/component/LoginModal/LoginModal';
 import ScrollSection from '@/page/home/ScrollSection/ScrollSection';
 import type { AnimationImporter } from '@/page/home/type/lottieType';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/route';
+import { useMandalartId } from '@/common/hook/useMandalartId';
 
 const animationImporters = [
   () => import('@/assets/lottie/mandalart.json'),
@@ -19,6 +22,9 @@ const animationImporters = [
 const sectionKeys = ['mandalart', 'ai', 'todo'] as const;
 
 const Home = () => {
+  const navigate = useNavigate();
+  const mandalartId = useMandalartId();
+
   const scrolls = useMultipleFadeInOnView();
   const end = useFadeInOnView<HTMLDivElement>();
   const { openModal, closeModal } = useOverlayModal();
@@ -26,10 +32,15 @@ const Home = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const handleOpenLogin = () => {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
+      openModal(<LoginModal onClose={closeModal} />);
       return;
     }
-    openModal(<LoginModal onClose={closeModal} />);
+    if (!mandalartId) {
+      navigate(PATH.INTRO, { state: { pageState: 'MANDALART' } });
+    } else {
+      navigate(PATH.MANDAL);
+    }
   };
 
   return (
