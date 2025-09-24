@@ -4,9 +4,12 @@ import { colors } from '@/style/token';
 
 export const layoutContainer = style({
   height: '100vh',
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'auto',
+  overflowY: 'auto',
+  overflowX: 'hidden',
+
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
   backgroundColor: colors.black01,
