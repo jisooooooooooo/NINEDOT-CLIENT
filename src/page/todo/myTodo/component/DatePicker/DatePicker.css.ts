@@ -55,7 +55,7 @@ export const iconActive = style({
 });
 
 export const iconInactive = style({
-  stroke: colors.grey5,
+  stroke: colors.grey6,
   strokeWidth: '2px',
   strokeLinecap: 'round',
   strokeLinejoin: 'round',

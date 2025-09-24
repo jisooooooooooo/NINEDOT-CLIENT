@@ -68,10 +68,16 @@ export const useMyTodo = ({ initialDate }: UseMyTodoProps = {}) => {
   }, []);
 
   const hasPreviousDate = currentDate > startOfMonth;
-  const hasNextDate = currentDate < endOfMonth;
+
+  const today = new Date();
+  const isToday = currentDate.toDateString() === today.toDateString();
+  const hasNextDate = currentDate < endOfMonth && !isToday;
 
   const handleDateChange = (newDate: Date) => {
-    if (newDate < startOfMonth || newDate > endOfMonth) {
+    const today = new Date();
+    const isFutureDate = newDate.toDateString() > today.toDateString();
+
+    if (newDate < startOfMonth || newDate > endOfMonth || isFutureDate) {
       return;
     }
     setCurrentDate(newDate);
