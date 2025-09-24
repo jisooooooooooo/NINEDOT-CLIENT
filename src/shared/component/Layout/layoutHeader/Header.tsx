@@ -13,7 +13,7 @@ import UserModal from '@/common/component/UserModal/UserModal';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const MENUS = [
-  { label: '나의 할 일', path: PATH.TODO },
+  { label: '나의 할 일', path: PATH.TODO_MY },
   { label: '나의 만다라트', path: PATH.MANDAL },
   { label: '나의 히스토리', path: PATH.HISTORY },
 ];
