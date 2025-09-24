@@ -19,11 +19,10 @@ export const myTodoContainer = style([
     zIndex: 1,
     maxWidth: '128rem',
     margin: '0 auto',
-    minHeight: '100vh',
     alignItems: 'center',
     width: '100%',
-    marginTop: '8.6rem',
-    marginBottom: '10rem',
+    paddingTop: '8.6rem',
+    paddingBottom: '10rem',
   },
 ]);
 
