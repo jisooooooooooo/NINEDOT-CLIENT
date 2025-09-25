@@ -11,8 +11,10 @@ import { MandalartTextField } from '@/common/component/TextField/mandalart';
 import useTypingEffect from '@/common/hook/useTypingEffect';
 import { useCreateEntireTodo } from '@/api/domain/entireTodo/hook';
 import { PATH } from '@/route';
+import { useLoginModal } from '@/common/hook/useLoginModal';
 
 const Todo = () => {
+  useLoginModal();
   const [inputText, setInputText] = useState('');
   const trimmed = inputText.trim();
   const isValid = trimmed.length > 0;

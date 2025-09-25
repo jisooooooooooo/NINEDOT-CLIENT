@@ -9,6 +9,7 @@ import { DatePicker } from '@/page/todo/myTodo/component/DatePicker';
 import type { TodoItemTypes } from '@/page/todo/myTodo/component/TodoBox/TodoBox.types';
 import { useGetMandalAll } from '@/api/domain/myTodo/hook/useMyMandal';
 import { useMandalartId } from '@/common/hook/useMandalartId';
+import { useLoginModal } from '@/common/hook/useLoginModal';
 
 interface MyTodoProps {
   mandalartData?: MandalartData;
@@ -40,6 +41,8 @@ const MyTodo = ({
     initialRecommendTodos,
     initialMyTodos,
   });
+
+  useLoginModal();
 
   const mandalartId = useMandalartId();
   const { data } = useGetMandalAll(mandalartId);

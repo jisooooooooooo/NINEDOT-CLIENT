@@ -7,8 +7,11 @@ import EditBtn from './component/EditBtn/EditBtn';
 import { useMandalAll } from '@/api/domain/mandalAll/hook';
 import { useMandalartId } from '@/common/hook/useMandalartId';
 import Mandalart from '@/common/component/Mandalart/Mandalart';
+import { useLoginModal } from '@/common/hook/useLoginModal';
 
 const Mandal = () => {
+  useLoginModal();
+
   const { viewType, handleViewChange } = useMandalView();
   const mandalartId = useMandalartId();
   const { data: mandalartData } = useMandalAll(mandalartId);
