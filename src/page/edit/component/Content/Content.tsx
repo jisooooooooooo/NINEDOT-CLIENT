@@ -35,33 +35,36 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
   const { isLoading: isSubGoalsLoading } = useSubGoals(mandalartId, activeCoreGoalId, undefined, {
     enabled: !!activeCoreGoalId,
   });
-  const { mutate: updateGoal } = useUpdateSubGoal(mandalartId);
+  const { mutateAsync: updateGoal } = useUpdateSubGoal(mandalartId);
 
   const isLoading = !mandalartId || isMandalLoading || (hoveredGoal && isSubGoalsLoading);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (!hoveredGoal || !mandalartId) {
       return;
     }
 
     const validSubGoals = hoveredGoal.subGoals.filter((subGoal) => subGoal.title);
 
-    if (validSubGoals.length > 0 && hoveredGoal.id > 0) {
-      updateGoal({
-        coreGoal: {
-          position: hoveredGoal.position,
-          title: hoveredGoal.title,
-        },
-        subGoals: validSubGoals.map((subGoal) => ({
-          position: subGoal.position,
-          title: subGoal.title,
-          cycle: subGoal.cycle || 'DAILY',
-        })),
-      });
+    try {
+      if (validSubGoals.length > 0 && hoveredGoal.id > 0) {
+        await updateGoal({
+          coreGoal: {
+            position: hoveredGoal.position,
+            title: hoveredGoal.title,
+          },
+          subGoals: validSubGoals.map((subGoal) => ({
+            position: subGoal.position,
+            title: subGoal.title,
+            cycle: subGoal.cycle || 'DAILY',
+          })),
+        });
+      }
+      setIsEditing(false);
+      setIsHovered(true);
+    } catch (error) {
+      console.error('Failed to save changes:', error);
     }
-
-    setIsEditing(false);
-    setIsHovered(true);
   }, [hoveredGoal, updateGoal, setIsEditing, setIsHovered, mandalartId]);
 
   useEffect(() => {

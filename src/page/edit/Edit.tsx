@@ -21,7 +21,13 @@ const Edit = () => {
           <UxWriting />
           <Content isEditing={isEditing} setIsEditing={setIsEditing} />
           <div className={styles.editBtnWrapper}>
-            <EditBtn onClick={() => navigate(PATH.MANDAL)} />
+            <EditBtn
+              onClick={async () => {
+                setIsEditing(false);
+                await new Promise((resolve) => setTimeout(resolve, 100));
+                navigate(PATH.MANDAL);
+              }}
+            />
           </div>
         </div>
       </div>
