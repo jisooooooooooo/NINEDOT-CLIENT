@@ -11,6 +11,7 @@ import { PATH } from '@/route/path';
 
 const Edit = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [hasUpperGoals, setHasUpperGoals] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -19,9 +20,14 @@ const Edit = () => {
       <div className={styles.editContainer}>
         <div className={styles.contentWrapper}>
           <UxWriting />
-          <Content isEditing={isEditing} setIsEditing={setIsEditing} />
+          <Content
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            onHasUpperGoalsChange={setHasUpperGoals}
+          />
           <div className={styles.editBtnWrapper}>
             <EditBtn
+              disabled={!hasUpperGoals}
               onClick={async () => {
                 setIsEditing(false);
                 await new Promise((resolve) => setTimeout(resolve, 100));

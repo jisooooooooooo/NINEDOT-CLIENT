@@ -14,9 +14,10 @@ import type { CoreGoal, SubGoal } from '@/page/mandal/types/mandal';
 interface ContentProps {
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
+  onHasUpperGoalsChange?: (hasUpperGoals: boolean) => void;
 }
 
-const Content = ({ isEditing, setIsEditing }: ContentProps) => {
+const Content = ({ isEditing, setIsEditing, onHasUpperGoalsChange }: ContentProps) => {
   const mandalartId = useMandalartId();
   const { data: mandalartData, isLoading: isMandalLoading } = useMandalAll(mandalartId);
   const {
@@ -231,9 +232,17 @@ const Content = ({ isEditing, setIsEditing }: ContentProps) => {
         id={hoveredGoal.id}
         onSubGoalsChange={handleSubGoalsChange}
         mandalartId={mandalartId}
+        onContentValidChange={onHasUpperGoalsChange}
       />
     );
-  }, [isLoading, hoveredGoal, handleTitleChange, handleSubGoalsChange, mandalartId]);
+  }, [
+    isLoading,
+    hoveredGoal,
+    handleTitleChange,
+    handleSubGoalsChange,
+    mandalartId,
+    onHasUpperGoalsChange,
+  ]);
 
   const renderSubGoals = useCallback(() => {
     if (isLoading) {
