@@ -1,12 +1,14 @@
 import { useCallback, useState } from 'react';
 
-import IcTextdelete from '@/assets/svg/IcTextdelete';
-
 import BaseTextField from '../BaseTextField';
 import { type ModifyVariant, DEFAULT_PLACEHOLDER } from './constants.ts';
 import * as s from './ModifyTextField.css.ts';
 
+import IcTextdelete from '@/assets/svg/IcTextdelete';
+
 type FieldState = 'default' | 'hover' | 'clicked' | 'typing' | 'filled';
+
+const MAX_TEXT_LENGTH = 30;
 
 const pickPlaceholder = (variant: ModifyVariant, placeholder?: string) =>
   placeholder ?? DEFAULT_PLACEHOLDER[variant];
@@ -51,7 +53,12 @@ const ModifyTextField = ({
   const isTodo = variant === 'todo';
 
   return (
-    <BaseTextField value={value} onChange={onChange} disabled={disabled}>
+    <BaseTextField
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+      maxLength={MAX_TEXT_LENGTH}
+    >
       {({ inputProps, hasValue, isFocused, clear }) => {
         const state = computeFieldState({ hasValue, isFocused, isHovered });
         const wrapperClass = variant === 'subGoal' ? s.subGoalBox : s.todoBox[state];
