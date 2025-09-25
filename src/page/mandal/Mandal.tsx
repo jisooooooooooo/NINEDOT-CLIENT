@@ -45,7 +45,7 @@ const Mandal = () => {
 
   return (
     <div className={styles.viewContainer}>
-      <Toggle defaultValue="onlygoal" onChange={handleViewChange} />
+      <Toggle defaultValue="whole" onChange={handleViewChange} />
       {viewType === 'onlygoal' ? (
         <Mandalart type="MY_MANDAL" data={mainGoalData} />
       ) : (
