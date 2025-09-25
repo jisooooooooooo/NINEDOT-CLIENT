@@ -23,5 +23,4 @@ export const editBtnWrapper = style({
   position: 'absolute',
   top: 'calc(100% + 2.3rem)',
   right: 0,
-  marginBottom: '7.4rem',
 });
