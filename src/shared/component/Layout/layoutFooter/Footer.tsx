@@ -1,19 +1,17 @@
-import { Link } from 'react-router-dom';
-
 import * as styles from './Footer.css';
 
-import { PATH } from '@/route';
-
 const Footer = () => {
+  const link = import.meta.env.VITE_TOS_LINK;
+
   return (
     <footer className={styles.footerContainer}>
       <nav className={styles.linkWrapper}>
-        <Link to={PATH.TERMS} className={styles.linkText}>
+        <a href={link} target="_blank" rel="noopener noreferrer" className={styles.linkText}>
           이용약관
-        </Link>
-        <Link to={PATH.PRIVACY} className={styles.linkText}>
+        </a>
+        <a href={link} target="_blank" rel="noopener noreferrer" className={styles.linkText}>
           개인정보처리방침
-        </Link>
+        </a>
       </nav>
       <address className={styles.infoWrapper}>
         <p className={styles.infoText}>대표: 이현준</p>
