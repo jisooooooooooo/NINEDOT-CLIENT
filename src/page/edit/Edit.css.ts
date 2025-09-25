@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 export const editContainer = style({
   width: '100%',
+  minHeight: 'calc(100vh - 2.8rem)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
