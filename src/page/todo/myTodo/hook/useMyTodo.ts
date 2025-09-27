@@ -75,7 +75,7 @@ export const useMyTodo = ({ initialDate }: UseMyTodoProps = {}) => {
 
   const handleDateChange = (newDate: Date) => {
     const today = new Date();
-    const isFutureDate = newDate.toDateString() > today.toDateString();
+    const isFutureDate = newDate.getTime() > today.getTime();
 
     if (newDate < startOfMonth || newDate > endOfMonth || isFutureDate) {
       return;
