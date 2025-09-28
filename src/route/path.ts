@@ -8,8 +8,6 @@ export const PATH = {
   MANDAL: '/mandal',
   EDIT: '/edit',
   HISTORY: '/history',
-  TERMS: '/terms',
-  PRIVACY: '/privacy',
   SIGNUP: '/signup',
   REDIRECT: '/auth/google/callback',
   NOT_FOUND: '*',
