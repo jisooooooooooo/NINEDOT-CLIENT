@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import * as styles from '@/page/intro/Intro.css';
 import { PATH } from '@/route';
-import { useLoginModal } from '@/common/hook/useLoginModal';
 
 type PageStateType = 'MANDALART' | 'CORE_GOAL' | 'SUB_GOAL';
 
@@ -24,8 +23,6 @@ const MESSAGE = {
 };
 
 const Intro = () => {
-  useLoginModal();
-
   const navigate = useNavigate();
   const location = useLocation();
 

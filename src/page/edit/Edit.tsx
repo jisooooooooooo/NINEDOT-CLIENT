@@ -6,11 +6,8 @@ import Content from './component/Content/Content';
 import EditBtn from './component/EditBtn/EditBtn';
 
 import GradientBackground from '@/common/component/Background/GradientBackground';
-import { useLoginModal } from '@/common/hook/useLoginModal';
 
 const Edit = () => {
-  useLoginModal();
-
   const [isEditing, setIsEditing] = useState(false);
 
   return (

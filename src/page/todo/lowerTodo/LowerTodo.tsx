@@ -12,11 +12,8 @@ import GradientBackground from '@/common/component/Background/GradientBackground
 import { PATH } from '@/route';
 import { useGetUser } from '@/api/domain/signup/hook/useGetUser';
 import { useMandalartId } from '@/common/hook/useMandalartId';
-import { useLoginModal } from '@/common/hook/useLoginModal';
 
 const LowerTodo = () => {
-  useLoginModal();
-
   const mandalartId = useMandalartId();
   const navigate = useNavigate();
 

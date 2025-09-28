@@ -6,14 +6,11 @@ import { useGetHistory } from '@/api/domain/history/hook/useGetHistory';
 import { useMandalartId } from '@/common/hook/useMandalartId';
 import Loading from '@/common/component/Loading/Loading';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useLoginModal } from '@/common/hook/useLoginModal';
 
 const STREAK_BANNER_MESSAGE = '작은 실천을 66일 이어가면 나의 목표에 도달합니다';
 const STREAK_DESCRIPTION_MESSAGE = '하루에 하나라도 실천하면 오늘의 점이 찍혀요!';
 
 const History = () => {
-  useLoginModal();
-
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const mandalartId = useMandalartId();
 
