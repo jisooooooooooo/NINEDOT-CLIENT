@@ -5,14 +5,15 @@ import { colors } from '@/style/token';
 
 interface EditBtnProps {
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const EditBtn = ({ onClick }: EditBtnProps) => {
+const EditBtn = ({ onClick, disabled }: EditBtnProps) => {
   return (
-    <button className={styles.editBtnContainer} onClick={onClick}>
+    <button className={styles.editBtnContainer} onClick={onClick} disabled={disabled}>
       <p className={styles.editBtnText}>수정 완료했어요</p>
       <div className={styles.iconWrapper}>
-        <IcSmallNext color={colors.grey11} />
+        <IcSmallNext color={disabled ? colors.grey05_32 : colors.grey11} />
       </div>
     </button>
   );

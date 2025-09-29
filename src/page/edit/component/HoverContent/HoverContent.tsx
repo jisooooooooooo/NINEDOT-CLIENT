@@ -24,6 +24,7 @@ interface HoverContentProps {
   id: number;
   onSubGoalsChange: (subGoals: SubGoal[]) => void;
   mandalartId: number;
+  onContentValidChange?: (isValid: boolean) => void;
 }
 
 const HoverContent = ({
@@ -34,6 +35,7 @@ const HoverContent = ({
   id,
   onSubGoalsChange,
   mandalartId,
+  onContentValidChange,
 }: HoverContentProps) => {
   const [subGoals, setSubGoals] = useState<SubGoalWithCycle[]>(() => {
     const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
@@ -53,6 +55,11 @@ const HoverContent = ({
   });
 
   const { mutate: updateGoal } = useUpdateSubGoal(mandalartId);
+
+  useEffect(() => {
+    const isValid = content.trim() !== '';
+    onContentValidChange?.(isValid);
+  }, [content, onContentValidChange]);
 
   useEffect(() => {
     const defaultSubGoals = Array.from({ length: 8 }, (_, index) => ({
