@@ -18,14 +18,21 @@ export interface SubCellProps extends CellProps {
   goalId?: number;
 }
 
+const MAX_CONTENT_LENGTH = 23;
+
+const getTruncatedContent = (text: string) =>
+  text.length > MAX_CONTENT_LENGTH ? `${text.slice(0, MAX_CONTENT_LENGTH)}...` : text;
+
 export const Root = ({ children }: SquareProps) => {
   return <div className={styles.squareContainer}>{children}</div>;
 };
 
 export const Main = ({ content, type }: CellProps) => {
+  const displayContent = getTruncatedContent(content);
+
   return (
     <div className={styles.squareContainer}>
-      <div className={styles.mainCell[type]}>{content}</div>
+      <div className={styles.mainCell[type]}>{displayContent}</div>
     </div>
   );
 };
@@ -39,6 +46,8 @@ export const Sub = ({
   position,
   goalId,
 }: SubCellProps) => {
+  const displayContent = getTruncatedContent(content);
+
   return (
     <div className={styles.squareContainer}>
       <div
@@ -49,7 +58,7 @@ export const Sub = ({
         data-goal-id={goalId}
         onClick={!disableInteraction ? onClick : undefined}
       >
-        {content}
+        {displayContent}
       </div>
     </div>
   );
