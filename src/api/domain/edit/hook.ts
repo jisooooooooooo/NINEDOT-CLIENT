@@ -49,13 +49,15 @@ export const useUpdateSubGoal = (mandalartId: number) => {
     mutationFn: (data: UpdateSubGoalRequest) => updateSubGoal(mandalartId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [...QUERY_KEY.MANDAL_ALL, mandalartId],
-        exact: true,
+        queryKey: QUERY_KEY.MANDAL_ALL,
       });
 
       queryClient.invalidateQueries({
-        queryKey: EDIT_QUERY_KEY.subGoals(mandalartId),
-        exact: true,
+        queryKey: EDIT_QUERY_KEY.all,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEY.CORE_GOALS,
       });
     },
   });

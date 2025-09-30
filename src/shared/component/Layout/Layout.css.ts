@@ -9,15 +9,9 @@ export const layoutContainer = style({
   flexDirection: 'column',
   overflowY: 'auto',
   overflowX: 'hidden',
+  minHeight: '100vh',
 
-  scrollbarWidth: 'none',
-  msOverflowStyle: 'none',
   backgroundColor: colors.black01,
-  selectors: {
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
 });
 
 export const layoutMain = style({

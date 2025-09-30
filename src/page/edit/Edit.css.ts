@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 export const editContainer = style({
   width: '100%',
+  minHeight: 'calc(100vh - 2.8rem)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -23,5 +24,4 @@ export const editBtnWrapper = style({
   position: 'absolute',
   top: 'calc(100% + 2.3rem)',
   right: 0,
-  marginBottom: '7.4rem',
 });
