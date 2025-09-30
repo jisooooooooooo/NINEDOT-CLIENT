@@ -68,6 +68,9 @@ const LowerTodo = () => {
     todos.some((todo) => todo.title.trim() !== ''),
   );
 
+  const currentTodosFilled = currentTodos.every((todo) => todo.title.trim() !== '');
+  const isAiDisabled = isAiUsed[selectedGoalIndex] || currentTodosFilled;
+
   const handleEnter = (index: number, todo: any) => {
     handleTodoEnter(index, todo);
   };
@@ -82,7 +85,7 @@ const LowerTodo = () => {
           title={selectedGoalTitle}
           isTooltipOpen={isTooltipOpen}
           setIsTooltipOpen={setIsTooltipOpen}
-          isAiDisabled={isAiUsed[selectedGoalIndex]}
+          isAiDisabled={isAiDisabled}
           handleOpenAiModal={handleOpenAiModal}
         />
 

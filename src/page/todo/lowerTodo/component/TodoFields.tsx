@@ -31,7 +31,7 @@ const TodoFields = ({ values, onChange, onEnter, selectedCoreGoalTitle }: TodoFi
     const newTodo = { ...values[index], cycle: newCycle };
     onChange(updatedValues(index, newTodo));
 
-    if (onEnter) {
+    if (newTodo.title.trim() !== '' && onEnter) {
       onEnter(index, newTodo);
     }
   };
