@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - npm install -g pnpm
+      - pnpm install --frozen-lockfile
+  build:
+    commands:
+      - pnpm build
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dist
