@@ -1,0 +1,53 @@
+import SurveyItem from '@/page/signup/component/SurveyItem/SurveyItem';
+import {
+  surveyWrapper,
+  surveyContainer,
+  surveyTitle,
+} from '@/page/signup/SurveySection/SurveySection.css';
+import { useGetPersona } from '@/api/domain/signup/hook/useGetPersona';
+import Loading from '@/common/component/Loading/Loading';
+
+type AnswerMap = Record<number, number>;
+
+type SurveySectionProps = {
+  answers: AnswerMap;
+  setAnswers: (answers: AnswerMap | ((prev: AnswerMap) => AnswerMap)) => void;
+};
+
+const SurveySection = ({ answers, setAnswers }: SurveySectionProps) => {
+  const { data, isLoading, isError } = useGetPersona();
+
+  const handleSelect = (questionId: number, optionId: number) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionId]: optionId,
+    }));
+  };
+
+  if (isLoading) {
+    return <Loading type="default" />;
+  }
+  if (isError || !data) {
+    return <p>질문을 불러오는 데 실패했어요.</p>;
+  }
+
+  return (
+    <div className={surveyWrapper}>
+      {data.questionList.map((question) => (
+        <div key={question.id} className={surveyContainer}>
+          <h3 className={surveyTitle}>{question.content}</h3>
+          {question.optionList.map((option) => (
+            <SurveyItem
+              key={option.id}
+              item={option}
+              isChecked={answers[question.id] === option.id}
+              onClick={() => handleSelect(question.id, option.id)}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default SurveySection;
